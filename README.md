@@ -198,8 +198,10 @@ Gothic Wide, and Open Gorton.
 
 ### Detailed notes on keycap fonts
 
-CTRL, SHIFT, etc. are all Routed Gothic, except for ESCAPE which is
-Routed Gothic Narrow.
+These notes refer to the [beeb.svg](wasd/beeb.svg) WASD design file.
+
+CTRL, SHIFT, etc. are all Routed Gothic, except for ESCAPE and right
+CTRL which are Routed Gothic Narrow.
 
 Most of the letters and digits are Routed Gothic Wide. A few letters
 are Routed Gothic (non-wide): R S B
@@ -214,19 +216,19 @@ Routed Gothic's private use character codes.
 3 is problematic. Again, Open Gorton has a more authentic shape
 (rounded top instead of angular), but its numerals are too narrow.
 
-For punctuation, #$%&@*^~,.;:<> come from Open Gorton; "(){}[]
-from Routed Gothic Wide, and -=`'/|\?! from Routed Gothic.
+For punctuation, `#$%&@*^~,.;:<>` come from Open Gorton; `"(){}[]`
+from Routed Gothic Wide, and `-=‵′/|\?!` from Routed Gothic.
 
-For symmetry I used reversed prime and prime for `' and rotated them
+For symmetry I used reversed prime and prime for `‵′` and rotated them
 slightly to make them more distinct. | is a broken bar, _ is an
 em-dash, and - is an en-dash.
 
-I upped the font size a lot for ,.;:^~*
+I upped the font size a lot for `,.;:^~*`
 
-The * on the BBC micro has 6 points; Open Gorton has 8 points, a bit
-like the * on the BBC Master's numeric keypad (though I think Open
+The `*` on the BBC micro has 6 points; Open Gorton has 8 points, a bit
+like the `*` on the BBC Master's numeric keypad (though I think Open
 Gorton has shorter points). Gorton Digital has a fairly nice 5-point
-asterisk which is a plausible alternative.
+asterisk which might be a plausible alternative.
 
 
 
