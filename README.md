@@ -19,7 +19,10 @@ Contents
   * [Owl logo](#owl-logo)
   * [WASD keyboard layout](#wasd-keyboard-layout)
   * [Fonts](#fonts)
+      * [Detailed notes on keycap fonts](#detailed-notes-on-keycap-fonts)
   * [Sandwich case](#sandwich-case)
+      * [Surround](#surround)
+      * [Fixings](#fixings)
 
 The BBC Micro keyboard
 ----------------------
