@@ -137,6 +137,29 @@ for manufacturing. The [beeb.svg](wasd/beeb.svg) file has the keycap
 legends as black text for editing; the [paths.svg](wasd/paths.svg)
 file has legends as white paths for printing.
 
+This layout has the number row in a more common order, to reduce the
+risk of misunderstandings by the WASD staff. I also had to edit the
+[WASD template][] so that it has a split backspace and split right
+shift, to match the HHKB layout.
+
+[WASD template]: https://support.wasdkeyboards.com/hc/en-us/articles/115007847008-Download-Template-Files
+
+The modifiers on the bottom row do not match the HHKB exactly. The
+original HHKB has a 6u spacebar with two modifiers either side. I
+intend to get an [HS60 HHKB PCB][] which has a [Tsangan][] bottom row:
+a 7u spacebar with three modifiers (1.5u, 1u, 1.5u) each side; WASD do
+not have a 7u spacebar or 1.5u row 1 modifiers.
+
+I'm going to get a 7u spacebar elsewhere; the 3x 1.25u modifier keys
+from WASD will fit the Tsangan layout, except for a 0.125u gap on each
+side (i.e. 3/32 inch or 2.4mm) which I think is tolerable.
+
+I think I would prefer ctrl/delete/return/shift/tab to be brown, but
+WASD do not have brown 1.75u shift keys, so it's better to leave them
+all black.
+
+[HS60 HHKB PCB]: https://mechboards.co.uk/shop/parts/hs60-hotswap-pcb/
+[Tsangan]: https://old.reddit.com/r/MechanicalKeyboards/comments/euvl59/eli5_tsangan_layout_etymology_origins_and/
 
 Fonts
 -----
