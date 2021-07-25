@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="bbc-owl.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500&display=swap" rel="stylesheet">
+    <style type="text/css">
+      html {
+	  background: black;
+	  fill: gold;
+	  font-family: 'Zilla Slab', serif;
+      }
+    </style>
+    <title>BBC micro owl</title>
+  </head>
+  <body onload="owl();">
+    <svg id="svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <filter id="gooey">
+	<feGaussianBlur id="blur" stdDeviation="1" />
+	<feColorMatrix mode="matrix"
+		       values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 6 -3" />
+      </filter>
+      <g id="balls" filter="url(#gooey)" />
+      <g id="legend" />
+    </svg>
+  </body>
+</html>
