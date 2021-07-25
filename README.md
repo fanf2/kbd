@@ -110,12 +110,19 @@ Custom UV printed keyboards are available from [Max Keyboard][] and
 [WASD Keyboards][]; both of them will only print on to ABS plastic
 with the OEM profile.
 
-I don't know what profile the BBC Micro used.
+The BBC Micro keycap profile is uniform (all rows the same, not
+sculptured like the OEM profile) with shallow spherical keytops (not
+cylindrical like OEM), and all keytops angled backwards to produce a
+stairstep effect (not flat like DSA). It was probably the [Comptec /
+Signature Plastics][SP origins] old SA profile, before it was changed
+from uniform to sculptured. A modern version might be to use SA or DSS
+(both are spherical and sculptured) but adapted to a uniform set by
+making all keys with a shape from the same row.
 
 [keycap profile]: https://old.reddit.com/r/MechanicalKeyboards/comments/j484j5/keycap_profiles_i_compiled_a_direct_comparison/
 [Max Keyboard]: https://www.maxkeyboard.com/shop/cherry-mx-keycaps/custom-color-printed-keycaps/
 [WASD Keyboards]: https://www.wasdkeyboards.com/products/keycaps/keycap-set.html
-
+[SP origins]: https://pimpmykeyboard.zendesk.com/hc/en-us/articles/204415935-The-Origin-of-SP-Keycap-Families
 
 Owl logo
 --------
@@ -259,7 +266,7 @@ of a key unit.
 
   * below space: 0.5u black, 0.75u cream
 
-  * function key strip holder: 1.5u
+  * function key strip holder: 1.75u
 
   * left of lock keys: 2.0u black, 1.0u cream
 
