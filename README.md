@@ -172,9 +172,9 @@ shift, to match the HHKB layout.
 
 The modifiers on the bottom row do not match the HHKB exactly. The
 original HHKB has a 6u spacebar with two modifiers either side. I
-intend to get an [HS60 HHKB PCB][] which has a [Tsangan][] bottom row:
-a 7u spacebar with three modifiers (1.5u, 1u, 1.5u) each side; WASD do
-not have a 7u spacebar or 1.5u row 1 modifiers.
+intend to get an [HS60 HHKB PCB][HS60] which has a [Tsangan][] bottom
+row: a 7u spacebar with three modifiers (1.5u, 1u, 1.5u) each side;
+WASD do not have a 7u spacebar or 1.5u row 1 modifiers.
 
 I'm going to get a 7u spacebar elsewhere; the 3x 1.25u modifier keys
 from WASD will fit the Tsangan layout, except for a 0.125u gap on each
@@ -189,7 +189,7 @@ closest to the BBC Micro arrow keys (RAL 8014, #4A3526). The function
 key colour (RAL 2005 #FF4d06 or RAL 2009 #de5307) is somewhere between
 WASD red (#C9282D) and orange (#F67F00).
 
-[HS60 HHKB PCB]: https://mechboards.co.uk/shop/parts/hs60-hotswap-pcb/
+[HS60]: https://mechboards.co.uk/shop/parts/hs60-hotswap-pcb/
 [Tsangan]: https://old.reddit.com/r/MechanicalKeyboards/comments/euvl59/eli5_tsangan_layout_etymology_origins_and/
 
 ![WASD design file](wasd/beeb.svg)
@@ -273,9 +273,16 @@ is with sandwiched acrylic, like the [Pibow][]. There's even an online
 [plate and case builder][] that takes [KLE][] JSON and produces CAD
 files for laser cutters.
 
+I am not yet sure what will work best. I have a couple of possible
+designs which are compared in [sandwich.svg](case/sandwich.svg). I am
+going to try them out using a [Keybow 2040][], which in some ways is a
+miniaturized [HS60][].
+
+![Sandwich case draft designs](case/sandwich.svg)
+
 [Pibow]: https://www.raspberrypi.org/blog/pibow/
 [plate and case builder]: http://builder.swillkb.com/
-
+[Keybow 2040]: https://learn.pimoroni.com/tutorial/hel/assembling-keybow-2040
 
 ### Surround
 
