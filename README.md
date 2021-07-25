@@ -301,6 +301,67 @@ of a key unit.
 [BBC Micro photo]: https://en.wikipedia.org/wiki/File:BBC_Micro_Front_Restored.jpg
 
 
+### Layers
+
+The constraints on the height of the keyboard come from:
+
+  * the keyswitches;
+  * the PCB;
+  * the controller components.
+
+The layers above the PCB are determined by the keyswitches, as
+documented in a [Cherry MX data sheet][].
+
+#### plate
+
+The most important layer is the plate, which ensures that the keys are
+straight and correctly spaced. It also contributes a lot to the feel
+and sound of the keyboard. The top of the plate must be 5mm above the
+PCB. For the keys to clip in properly, the plate must be 1.5mm thick.
+
+Acrylic is problematic for keyboard plates, because thin sheets can be
+too brittle, and they are hard to obtain. So some designs use a 5mm
+acrylic plate, into which the keys fit by friction instead of being
+clipped in.
+
+A "high profile" case has a surround above the plate which hides the
+keyswitches. The [Cherry MX data sheet][] suggests that the surround
+should be something like 4.5mm or 6mm above the plate to match the
+bottom of the keycaps. Keycaps are about 8mm high (depending on their
+profile) and have 4mm travel.
+
+### components
+
+Apart from the switches, the keyboard electronics are below the PCB.
+To save on soldering, I'm using hot-swap PCBs; the [Kailh socket data
+sheet][] says these are 2mm thick.
+
+The other big component is the USB-C socket. According to the [USB-C
+connector specification][], the socket is about 3.5mm x 8.5mm.
+
+USB plugs need further clearance: they are up to 6.5mm x 12.5mm.
+
+Plug clearance above the PCB: 3.5mm/2 - 6.5mm/2 = -1.5mm, same as the
+thickness of the PCB.
+
+Below the PCB: 3.5mm/2 + 6.5mm/2 = 5mm.
+
+The plug only needs space in the case surround so it does not
+necessarily need to clear the base plate: it can plug into a recess in
+the plate. This means the bottom of the keyboard as a whole is set by
+the USB plug.
+
+In my design that uses 5mm sheets for the outer sandwich, there might
+not be enough clearance above the USB socket, so the recess may need
+to be larger.
+
+[Cherry MX data sheet]: https://raw.githubusercontent.com/keyboardio/keyswitch_documentation/master/datasheets/Cherry/mx_series.pdf
+
+[Kailh socket data sheet]: https://raw.githubusercontent.com/keyboardio/keyswitch_documentation/master/datasheets/Kailh/CPG151101S11_MX_Socket.pdf
+
+[USB-C connector specification]: https://www.usb.org/document-library/usb-type-cr-cable-and-connector-specification-revision-21
+
+
 ### Fixings
 
 I would like to avoid sticking-out nuts and screw heads. (The Pibow
