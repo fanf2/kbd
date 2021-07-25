@@ -2,9 +2,9 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="80mm"
-   height="36mm"
-   viewBox="0 0 80 36"
+   width="152.11646mm"
+   height="68.236649mm"
+   viewBox="0 0 76.05823 34.118323"
    version="1.1"
    id="svg5"
    inkscape:version="1.1 (c4e8f9e, 2021-05-24)"
@@ -24,9 +24,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:document-units="mm"
      showgrid="true"
-     inkscape:zoom="5"
-     inkscape:cx="121.5"
-     inkscape:cy="72.1"
+     inkscape:zoom="1"
+     inkscape:cx="212"
+     inkscape:cy="32.5"
      inkscape:window-width="1200"
      inkscape:window-height="1875"
      inkscape:window-x="1200"
@@ -36,7 +36,13 @@
      objecttolerance="11.4"
      inkscape:snap-global="true"
      inkscape:object-paths="true"
-     height="36mm">
+     height="36mm"
+     scale-x="0.25"
+     units="mm"
+     fit-margin-left="4"
+     fit-margin-top="0"
+     fit-margin-right="4"
+     fit-margin-bottom="0">
     <inkscape:grid
        type="xygrid"
        id="grid9"
@@ -45,7 +51,9 @@
        spacingx="0.5"
        spacingy="0.5"
        empspacing="2"
-       visible="false" />
+       visible="false"
+       originx="-4.9433055"
+       originy="-1.8816749" />
   </sodipodi:namedview>
   <defs
      id="defs2">
@@ -105,7 +113,8 @@
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(-1.9716526,-0.94083744)">
     <rect
        style="fill:#ffffff;stroke:#000000;stroke-width:0.0499999;stroke-miterlimit:4;stroke-dasharray:none"
        id="rect84823-4"
