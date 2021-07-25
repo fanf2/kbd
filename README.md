@@ -161,6 +161,9 @@ all black.
 [HS60 HHKB PCB]: https://mechboards.co.uk/shop/parts/hs60-hotswap-pcb/
 [Tsangan]: https://old.reddit.com/r/MechanicalKeyboards/comments/euvl59/eli5_tsangan_layout_etymology_origins_and/
 
+![WASD design file](wasd/beeb.svg)
+
+
 Fonts
 -----
 
