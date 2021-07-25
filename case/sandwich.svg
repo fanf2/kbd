@@ -23,10 +23,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pagecheckerboard="0"
      inkscape:document-units="mm"
-     showgrid="true"
-     inkscape:zoom="1"
-     inkscape:cx="212"
-     inkscape:cy="32.5"
+     showgrid="false"
+     inkscape:zoom="5"
+     inkscape:cx="308.7"
+     inkscape:cy="197.7"
      inkscape:window-width="1200"
      inkscape:window-height="1875"
      inkscape:window-x="1200"
@@ -51,7 +51,7 @@
        spacingx="0.5"
        spacingy="0.5"
        empspacing="2"
-       visible="false"
+       visible="true"
        originx="-4.9433055"
        originy="-1.8816749" />
   </sodipodi:namedview>
@@ -94,7 +94,7 @@
        xlink:href="#linearGradient14835"
        id="linearGradient60277"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(4.4962053,0,0,0.65450174,26.511383,25.091239)"
+       gradientTransform="matrix(4.4962053,0,0,1.0272769,26.511383,22.854591)"
        x1="3.0000002"
        y1="6.7360568"
        x2="11.006752"
@@ -104,7 +104,7 @@
        xlink:href="#linearGradient14835"
        id="linearGradient69314"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.99620533,0,0,0.65450174,53.041742,14.091239)"
+       gradientTransform="matrix(0.99620533,0,0,0.96055847,53.041742,11.795815)"
        x1="3.0000002"
        y1="6.7360568"
        x2="10.999999"
@@ -404,7 +404,7 @@
          id="tspan38934"
          style="stroke-width:0.264583"
          x="17.5"
-         y="17"></tspan></text>
+         y="17" /></text>
     <text
        xml:space="preserve"
        style="font-size:0.499999px;line-height:0;font-family:Arial;-inkscape-font-specification:Arial;fill:#ffffff;stroke-width:0.264583"
@@ -422,18 +422,18 @@
        id="rect19766-8"
        width="8"
        height="3"
-       x="56"
-       y="15" />
+       x="56.028347"
+       y="14.559162" />
     <text
        xml:space="preserve"
        style="font-size:0.499999px;line-height:0;font-family:Arial;-inkscape-font-specification:Arial;fill:#ffffff;stroke-width:0.264583"
-       x="15.35863"
+       x="14.935297"
        y="-62.853104"
        id="text51798-0"
        transform="rotate(90)"><tspan
          sodipodi:role="line"
          style="fill:#ffffff;stroke-width:0.264583"
-         x="15.35863"
+         x="14.935297"
          y="-62.853104"
          id="tspan65819">3mm dark</tspan></text>
     <path
@@ -447,51 +447,51 @@
        d="m 18.5,14 h -1 c 0,-2 5,-2 5,0 h -1 v 10 h -3 z"
        sodipodi:nodetypes="ccccccc" />
     <rect
-       style="fill:url(#linearGradient60277);fill-opacity:1;stroke:#000000;stroke-width:0.0286903;stroke-miterlimit:4;stroke-dasharray:none"
+       style="fill:url(#linearGradient60277);fill-opacity:1;stroke:#000000;stroke-width:0.0359438;stroke-miterlimit:4;stroke-dasharray:none"
        id="rect14719-0-0"
        width="35.969643"
-       height="0.98175257"
+       height="1.5409153"
        x="40"
        y="29.018248" />
     <path
        id="rect55709-0"
        style="fill:#ffffff;stroke:#000000;stroke-width:0.0499999"
-       d="m 57.5,21 h 5 v 9 h 1 v 1 h -7 v -1 h 1 z"
+       d="m 57.528347,21.559163 h 5 v 9 h 1 v 1 h -7 v -1 h 1 z"
        sodipodi:nodetypes="ccccccccc" />
     <rect
-       style="fill:url(#linearGradient69314);fill-opacity:1;stroke:#000000;stroke-width:0.0135048;stroke-miterlimit:4;stroke-dasharray:none"
+       style="fill:url(#linearGradient69314);fill-opacity:1;stroke:#000000;stroke-width:0.0163604;stroke-miterlimit:4;stroke-dasharray:none"
        id="rect14719-0-0-8"
        width="7.9696426"
-       height="0.98175257"
+       height="1.4408376"
        x="56.030357"
-       y="18.018248" />
+       y="17.559162" />
     <text
        xml:space="preserve"
        style="font-size:0.499999px;line-height:0;font-family:Arial;-inkscape-font-specification:Arial;stroke-width:0.264583"
-       x="70.522293"
-       y="29.685207"
+       x="70.098961"
+       y="29.896873"
        id="text62464"><tspan
          sodipodi:role="line"
          id="tspan62462"
          style="stroke-width:0.264583"
-         x="70.522293"
-         y="29.685207">base 1mm transparent</tspan></text>
+         x="70.098961"
+         y="29.896873">base 1.5mm transparent</tspan></text>
     <path
        id="rect56594-9"
        style="stroke:#000000;stroke-width:0.0360374"
-       d="m 58.5,15 h -1 c 0,-2 5,-2 5,0 h -1 v 10 h -3 z"
+       d="m 58.528347,14.559163 h -1 c 0,-2 5,-2 5,0 h -1 v 10 h -3 z"
        sodipodi:nodetypes="ccccccc" />
     <text
        xml:space="preserve"
        style="font-size:0.499999px;line-height:0;font-family:Arial;-inkscape-font-specification:Arial;stroke-width:0.264583"
-       x="61.626877"
-       y="18.658751"
+       x="56.493961"
+       y="18.447084"
        id="text73299"><tspan
          sodipodi:role="line"
          id="tspan73297"
          style="stroke-width:0.264583"
-         x="61.626877"
-         y="18.658751">1mm shim</tspan></text>
+         x="56.493961"
+         y="18.447084">1.5mm                             shim</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:0.499999px;line-height:0;font-family:Arial;-inkscape-font-specification:Arial;fill:#ffffff;stroke-width:0.264583"
@@ -587,5 +587,41 @@
          style="stroke-width:0.264583"
          x="52.982552"
          y="13.542708">keycap</tspan></text>
+    <ellipse
+       style="fill:#000000;stroke:#000000;stroke-width:0.025"
+       id="path163"
+       cx="32.028347"
+       cy="27.309164"
+       rx="4"
+       ry="3.25" />
+    <text
+       xml:space="preserve"
+       style="font-size:0.5px;line-height:0;font-family:Arial;-inkscape-font-specification:Arial;fill:#ffffff;stroke-width:0.132292"
+       x="31.007931"
+       y="27.443954"
+       id="text2697"><tspan
+         sodipodi:role="line"
+         id="tspan2695"
+         style="font-size:0.5px;fill:#ffffff;stroke-width:0.132292"
+         x="31.007931"
+         y="27.443954">USB plug</tspan></text>
+    <ellipse
+       style="fill:#000000;stroke:#000000;stroke-width:0.025"
+       id="path163-4"
+       cx="47.991055"
+       cy="27.227079"
+       rx="4"
+       ry="3.25" />
+    <text
+       xml:space="preserve"
+       style="font-size:0.5px;line-height:0;font-family:Arial;-inkscape-font-specification:Arial;fill:#ffffff;stroke-width:0.132292"
+       x="46.997097"
+       y="27.441246"
+       id="text2697-1"><tspan
+         sodipodi:role="line"
+         id="tspan2695-6"
+         style="font-size:0.5px;fill:#ffffff;stroke-width:0.132292"
+         x="46.997097"
+         y="27.441246">USB plug</tspan></text>
   </g>
 </svg>
