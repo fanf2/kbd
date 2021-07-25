@@ -78,7 +78,7 @@ I like small keyboards, so I have made a [Beeb 60% HHKB][] layout.
 This has a jokey number row that goes 0-9 (like the BBC Micro function
 keys) and is shifted towards the centre.
 
-![Beeb HHKB layout](kle/beeb-60%-hhkb.png)
+![Beeb HHKB layout](kle/beeb-60%25-hhkb.png)
 
 
 Keycaps
