@@ -9,6 +9,17 @@ There's a very lively community of mechanical keyboard makers and
 customizers, who have made it fairly easy to get a long way with
 off-the-shelf parts.
 
+Contents
+--------
+
+  * [The BBC Micro keyboard](#the-bbc-micro-keyboard)
+  * [Modern keyboard sizes](#modern-keyboard-sizes)
+  * [Adjusting the BBC Micro layout](#adjusting-the-bbc-micro-layout)
+  * [Keycaps](#keycaps)
+  * [Owl logo](#owl-logo)
+  * [WASD keyboard layout](#wasd-keyboard-layout)
+  * [Fonts](#fonts)
+  * [Sandwich case](#sandwich-case)
 
 The BBC Micro keyboard
 ----------------------
