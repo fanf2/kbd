@@ -16,15 +16,16 @@ Contents
   * [Modern keyboard sizes](#modern-keyboard-sizes)
   * [Adjusting the BBC Micro layout](#adjusting-the-bbc-micro-layout)
   * [Keycaps](#keycaps)
+      * [BBC Micro profile](#bbc-micro-profile)
   * [Owl logo](#owl-logo)
   * [WASD keyboard layout](#wasd-keyboard-layout)
-  * [Fonts](#fonts)
-      * [Detailed notes on keycap fonts](#detailed-notes-on-keycap-fonts)
+  * [Gorton-like fonts](#gorton-like-fonts)
+      * [Detailed notes on legends](#detailed-notes-on-legends)
   * [Sandwich case](#sandwich-case)
       * [Surround](#surround)
       * [Layers](#layers)
       * [Plate](#plate)
-      * [Components](#components)
+      * [PCB and omponents](#pcb-and-omponents)
       * [Fixings](#fixings)
 
 The BBC Micro keyboard
@@ -41,7 +42,8 @@ colourful extras: red function keys and greenish brown arrow keys.
 [bit-paired]: https://en.wikipedia.org/wiki/Bit-paired_keyboard
 
 I have drawn the [BBC Model B][] and [BBC Master][] keyboard using the
-online [Keyboard Layout Editor][KLE] (KLE).
+online [Keyboard Layout Editor][KLE] (KLE). The Model B has 74 keys,
+and the Master has 93 keys.
 
 [KLE]: http://www.keyboard-layout-editor.com/
 
@@ -53,7 +55,7 @@ Modern keyboard sizes
 Key sizes are usually quoted as so many "u", as in units, which are
 the size of one standard key. 1u is 0.75 inches.
 
-There are a number of common form-factors:
+There are a number of common form-factors, including:
 
   * Tenkeyless, aka TKL: Like a full-size keyboard without the number
     pad (which has more than 10 keys, shrug)
@@ -74,7 +76,7 @@ authenticity.
 Adjusting the BBC Micro layout
 ------------------------------
 
-The Beeb keyboard is slightly wider than a 75% board: CAPS LOCK and
+The Model B keyboard is slightly wider than a 75% board: CAPS LOCK and
 SHIFT LOCK stick out 0.25u on the left, and DOWN sticks out 0.5u on
 the right. It can be made to fit in a 75% case by using a BBC Master
 arrow cluster, and by displacing the LOCK keys. To be usable with a
@@ -94,9 +96,13 @@ some replacement keycaps, like my [Beeb 75% ISO][] layout.
 I like small keyboards, so I have made a [Beeb 60% HHKB][] layout.
 This has a jokey number row that goes 0-9 (like the BBC Micro function
 keys) and is shifted towards the centre. I have labelled the modifier
-keys in Space Cadet style: meta is an alias for alt; super is a common
-legend for what the USB HID spec calls the GUI key; and hyper is for
-programmable keymap layers.
+keys in [Space Cadet][] style: meta is sometimes an alias for alt;
+[super is a common legend][super] for what the [USB HID][] spec calls
+the GUI key; and hyper is for programmable keymap layers.
+
+[Space Cadet]: https://en.wikipedia.org/wiki/Space-cadet_keyboard
+[super]: https://pimpmykeyboard.com/dsa-black-white-keyset-two-shot/
+[USB HID]: https://wiki.osdev.org/USB_Human_Interface_Devices
 
 ![Beeb HHKB layout](kle/beeb-60%25-hhkb.png)
 
@@ -111,30 +117,37 @@ This is difficult. The manufacturing options are, basically:
   * double-shot injection moulding, which would need custom metal
     legends to be fabricated;
 
-  * dye sublimation printing, which is a skilled manual process, and
-    in most cases cannot do white-on-black;
+  * dye sublimation printing, which is a skilled manual process (so
+	one-off keycaps can cost $5 each), and cannot normally do
+	white-on-black;
 
   * pad printing; laser etching; neither of which appear to be a
     popular option for custom keysets;
 
   * UV cured, used by print-on-demand suppliers.
 
-Double-shot and dye-sub sets have a lot of choice in the [keycap
-profile][] and the type of plastic, but a large minimum order
-quantity.
+Double-shot and dye-sub sets give you a lot of choice in [keycap
+profile][] and type of plastic, but have a large minimum order
+quantity. Custom set manufacturing is usually organized with a "group
+buy" process, like a DIY kickstarter.
 
 Custom UV printed keyboards are available from [Max Keyboard][] and
 [WASD Keyboards][]; both of them will only print on to ABS plastic
 with the OEM profile.
 
+### BBC Micro profile
+
 The BBC Micro keycap profile is uniform (all rows the same, not
 sculptured like the OEM profile) with shallow spherical keytops (not
-cylindrical like OEM), and all keytops angled backwards to produce a
-stairstep effect (not flat like DSA). It was probably the [Comptec /
-Signature Plastics][SP origins] old SA profile, before it was changed
-from uniform to sculptured. A modern version might be to use SA or DSS
-(both are spherical and sculptured) but adapted to a uniform set by
-making all keys with a shape from the same row.
+cylindrical like OEM), and all keytops angled backwards (not flat like
+DSA) to produce a stairstep effect when the whole board is angled
+forwards.
+
+It was probably the [Comptec / Signature Plastics][SP origins] old SA
+profile, before SA was changed from uniform to sculptured. A modern
+version might be to use SA or DSS (both are spherical and sculptured)
+but made into a uniform set by manufacturing all keys with a shape
+from the same row.
 
 [keycap profile]: https://old.reddit.com/r/MechanicalKeyboards/comments/j484j5/keycap_profiles_i_compiled_a_direct_comparison/
 [Max Keyboard]: https://www.maxkeyboard.com/shop/cherry-mx-keycaps/custom-color-printed-keycaps/
@@ -179,15 +192,15 @@ intend to get an [HS60 HHKB PCB][HS60] which has a [Tsangan][] bottom
 row: a 7u spacebar with three modifiers (1.5u, 1u, 1.5u) each side;
 WASD do not have a 7u spacebar or 1.5u row 1 modifiers.
 
-I'm going to get a 7u spacebar elsewhere; the 3x 1.25u modifier keys
+I'm going to get a 7u spacebar elsewhere; the 3 x 1.25u modifier keys
 from WASD will fit the Tsangan layout, except for a 0.125u gap on each
-side (i.e. 3/32 inch or 2.4mm) which I think is tolerable.
+side (i.e. 1/8 * 3/4 inch or 2.4mm) which I think is tolerable.
 
-I think I would prefer ctrl/delete/return/shift/tab to be brown, but
+I would probably prefer ctrl/delete/return/shift/tab to be brown, but
 WASD do not have brown 1.75u shift keys, so it's better to leave them
 all black.
 
-Culour matching is somewhat problematic. WASD brown (#6F4C23) is the
+Colour matching is somewhat problematic. WASD brown (#6F4C23) is the
 closest to the BBC Micro arrow keys (RAL 8014, #4A3526). The function
 key colour (RAL 2005 #FF4d06 or RAL 2009 #de5307) is somewhere between
 WASD red (#C9282D) and orange (#F67F00).
@@ -198,23 +211,25 @@ WASD red (#C9282D) and orange (#F67F00).
 ![WASD design file](wasd/beeb.svg)
 
 
-Fonts
------
+Gorton-like fonts
+-----------------
 
 The BBC Micro keycaps were made by Comptec, who are now known as
 [Signature Plastics][]. Their main style of legends is called "Gorton
-Modified", named after Gorton engraving machines.
+Modified", named after [Gorton engraving machines][Gorton Machine].
 
 [Signature Plastics]: https://pimpmykeyboard.com/
+[Gorton Machine]: http://gorton-machine.org/
 
-There are a number of fonts made in the style of engraving machines.
+There are a number of fonts made in the style of engraving machine
+lettering.
 
 The best I have found so far is [Routed Gothic][], which has a large
 repertoir of characters, though some of them are not good matches for
 Gorton Modified.
 
 [Open Gorton][] has better matches for some character shapes; it
-covers ASCII only.
+covers ASCII only, and its weights are a bit inconsistent.
 
 There is another font called [Gorton Digital][], which is available as a
 FontForge script not as built font files. Unfortunately the script
@@ -233,7 +248,7 @@ What I have found works best is a combination of Routed Gothic, Routed
 Gothic Wide, and Open Gorton.
 
 
-### Detailed notes on keycap fonts
+### Detailed notes on legends
 
 These notes refer to the [beeb.svg](wasd/beeb.svg) WASD design file.
 
@@ -243,22 +258,22 @@ CTRL which are Routed Gothic Narrow.
 Most of the letters and digits are Routed Gothic Wide. A few letters
 are Routed Gothic (non-wide): `R` `S` `B`
 
-`J` is problematic: Open Gorton has a more authentic glyph shape, but
-its weights dont match Routed Gothic (regular is too loght; bold is
-too heavy).
+`J` is problematic: Open Gorton has a more authentically wide glyph
+shape, but its weights don't match Routed Gothic (regular is too light;
+bold is too heavy).
 
 Zero is a Scandinavian capital slashed O and the correct 1 is found in
 Routed Gothic's private use character codes.
 
-3 is problematic. Again, Open Gorton has a more authentic shape
+`3` is problematic. Again, Open Gorton has a more authentic shape
 (rounded top instead of angular), but its numerals are too narrow.
 
 For punctuation, `#$%&@*^~,.;:<>` come from Open Gorton; `"(){}[]`
 from Routed Gothic Wide, and `-=‵′/|\?!` from Routed Gothic.
 
 For symmetry I used reversed prime and prime for `‵′` and rotated them
-slightly to make them more distinct. `|` is a broken bar, `_` is an
-em-dash, and `-` is an en-dash.
+slightly to make them more distinct. `|` is a Beebish broken bar, `_`
+is drawn using an em-dash, and `-` uses an en-dash.
 
 I upped the font size a lot for `,.;:^~*`
 
@@ -297,7 +312,7 @@ of a key unit.
 
   * below space: 0.5u black, 0.75u cream
 
-  * function key strip holder: 1.75u
+  * function key strip holder: 1.5u
 
   * left of lock keys: 2.0u black, 1.0u cream
 
@@ -333,13 +348,15 @@ should be something like 4.5mm or 6mm above the plate to match the
 bottom of the keycaps. Keycaps are about 8mm high (depending on their
 profile) and have 4mm travel.
 
-### Components
+### PCB and omponents
 
-Apart from the switches, the keyboard electronics are below the PCB.
+Apart from the switches, the keyboard electronics are below the PCB,
+which itself is about 1.5mm thick.
+
 To save on soldering, I'm using hot-swap PCBs; the [Kailh socket data
 sheet][] says these are 2mm thick.
 
-The other big component is the USB-C socket. According to the [USB-C
+The thickest component is the USB-C socket. According to the [USB-C
 connector specification][], the socket is about 3.5mm x 8.5mm.
 
 USB plugs need further clearance: they are up to 6.5mm x 12.5mm.
@@ -369,8 +386,8 @@ to be larger.
 
 I would like to avoid sticking-out nuts and screw heads. (The Pibow
 uses M2.5 nylon screws which stick out about 2mm.) Unfortunately, it's
-not a good idea to use countersunk heads with acrylic because it can
-cause cracking.
+not a good idea to use countersunk heads with acrylic because
+tightening the screws can cause cracking.
 
 One possibility is to use M2 or M2.5 female-female standoffs inside
 the case sandwich, so that only screw heads protrude on the top and
@@ -378,8 +395,8 @@ bottom; then choose the flattest heads available.
 
 There is more variety of fixings for M3 screws. I'm going to try using
 [rivet nuts][] on the bottom because they only protrude 0.8mm. Rivet
-nuts are designed to be inserted into a metal panel; a tool is
-inserted into the nut to stretch and expand it so that it wedges in
+nuts are designed to be inserted into a metal panel; a riveting tool
+is inserted into the nut to stretch and expand it so that it wedges in
 the panel. But I don't need this rivet action, just the flange and the
 internal thread.
 
@@ -391,9 +408,8 @@ keyboard surround, so they should be fairly unobtrusive.
 To fix the outer cream surround (where I want to avoid visible screw
 heads) I will try acrylic cement, or superglue, or silicone sealant. I
 believe silicone sealant can be removed with a knife and re-done, and
-it can fill gaps, so it should be more forgiving.
-
-
+it can fill gaps if the fit of the acrylic isn't perfect, so it should
+be more forgiving.
 
 
 [BBC Model B]: http://www.keyboard-layout-editor.com/##@_backcolor=#333333&name=BBC%20Model%20B&author=Tony%20Finch%20(dot/@dotat.at);&@_x:2.5&c=#ff0000&t=#ffffff&a:7&f:5;&=%F0%9D%91%93%C3%B8&=%F0%9D%91%931&=%F0%9D%91%932&=%F0%9D%91%933&=%F0%9D%91%934&=%F0%9D%91%935&=%F0%9D%91%936&=%F0%9D%91%937&=%F0%9D%91%938&=%F0%9D%91%939&_c=#222222&f:2;&=BREAK;&@_x:0.25;&=ESCAPE&_a:5&f:6;&=!%0A1&_f:9&f2:6;&=%22%0A2&_f:6;&=#%0A3&=$%0A4&=%25%0A5&=/&%0A6&_f:9&f2:6;&=%E2%80%B2%0A7&_f:5&f2:6;&=(%0A8&=)%0A9&_a:7&f:9;&=%C3%98&_a:5&f:7;&=/=%0A%E2%80%93&_f:6;&=%E2%81%93%0A%E2%8C%83&_f:5;&=%7C%0A%5C&_c=#554422&a:7&f:9;&=%E2%86%90&=%E2%86%92;&@_x:0.25&c=#222222&f:3&w:1.5;&=TAB&_f:9;&=Q&=W&=E&=R&=T&=Y&=U&=I&=O&=P&=/@&_a:5&f:5;&=%7B%0A%5B&_f:7;&=%C2%A3%0A%E2%80%94&_c=#554422&a:7&f:9;&=%E2%86%91&=%E2%86%93;&@_c=#222222&a:5&f:3;&=CAPS%0ALOCK&_a:7;&=CTRL&_f:9;&=A&=S&=D&=F&=G&=H&=J&=K&=L&_a:5&f:8;&=+%0A/;&_fa@:6;;&=%E2%9C%BB%0A/:&_f:5;&=%7D%0A%5D&_a:7&f:3&w:2;&=RETURN;&@_a:5;&=SHIFT%0ALOCK&_a:7&w:1.5;&=SHIFT&_f:9;&=Z&=X&=C&=V&=B&=N&=M&_a:5&f:8&f2:9;&=%3C%0A,&=%3E%0A.&_f:6;&=?%0A//&_a:7&f:3&w:1.5;&=SHIFT&_f:2;&=DELETE&_c=#554422&f:3;&=COPY;&@_x:3.5&c=#222222&w:8;&=
