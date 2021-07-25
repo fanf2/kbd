@@ -24,9 +24,9 @@ colourful extras: red function keys and greenish brown arrow keys.
 [bit-paired]: https://en.wikipedia.org/wiki/Bit-paired_keyboard
 
 I have drawn the [BBC Model B][] and [BBC Master][] keyboard using the
-online [Keyboard Layout Editor][] (KLE).
+online [Keyboard Layout Editor][KLE] (KLE).
 
-[Keyboard Layout Editor]: http://www.keyboard-layout-editor.com/
+[KLE]: http://www.keyboard-layout-editor.com/
 
 ![BBC Micro keyboard layout](kle/bbc-model-b.png)
 
@@ -110,6 +110,8 @@ Custom UV printed keyboards are available from [Max Keyboard][] and
 [WASD Keyboards][]; both of them will only print on to ABS plastic
 with the OEM profile.
 
+I don't know what profile the BBC Micro used.
+
 [keycap profile]: https://old.reddit.com/r/MechanicalKeyboards/comments/j484j5/keycap_profiles_i_compiled_a_direct_comparison/
 [Max Keyboard]: https://www.maxkeyboard.com/shop/cherry-mx-keycaps/custom-color-printed-keycaps/
 [WASD Keyboards]: https://www.wasdkeyboards.com/products/keycaps/keycap-set.html
@@ -132,10 +134,11 @@ be a super owl.
 WASD keyboard layout
 --------------------
 
-I have turned my KLE HHKB design into a layout for submission to WASD
-for manufacturing. The [beeb.svg](wasd/beeb.svg) file has the keycap
-legends as black text for editing; the [paths.svg](wasd/paths.svg)
-file has legends as white paths for printing.
+I have turned [my KLE HHKB design][Beeb 60% HHKB] into a layout for
+submission to WASD for manufacturing. The [beeb.svg](wasd/beeb.svg)
+file has the keycap legends as black text for editing; the
+[paths.svg](wasd/paths.svg) file has legends as white paths for
+printing.
 
 This layout has the number row in a more common order, to reduce the
 risk of misunderstandings by the WASD staff. I also had to edit the
@@ -232,6 +235,65 @@ The `*` on the BBC micro has 6 points; Open Gorton has 8 points, a bit
 like the `*` on the BBC Master's numeric keypad (though I think Open
 Gorton has shorter points). Gorton Digital has a fairly nice 5-point
 asterisk which might be a plausible alternative.
+
+
+Sandwich case
+-------------
+
+A fairly common and straightforward way to make a custom keyboard case
+is with sandwiched acrylic, like the [Pibow][]. There's even an online
+[plate and case builder][] that takes [KLE][] JSON and produces CAD
+files for laser cutters.
+
+[Pibow]: https://www.raspberrypi.org/blog/pibow/
+[plate and case builder]: http://builder.swillkb.com/
+
+
+### Surround
+
+From measuring [Wikipedia's picture of a BBC Micro][BBC Micro photo],
+the sizes of the top of the case around the keys are round multiples
+of a key unit.
+
+  * right of arrows: 0.5u black, 1.0u cream
+
+  * below space: 0.5u black, 0.75u cream
+
+  * function key strip holder: 1.5u
+
+  * left of lock keys: 2.0u black, 1.0u cream
+
+[BBC Micro photo]: https://en.wikipedia.org/wiki/File:BBC_Micro_Front_Restored.jpg
+
+
+### Fixings
+
+I would like to avoid sticking-out nuts and screw heads. (The Pibow
+uses M2.5 nylon screws which stick out about 2mm.) Unfortunately, it's
+not a good idea to use countersunk heads with acrylic because it can
+cause cracking.
+
+One possibility is to use M2 or M2.5 female-female standoffs inside
+the case sandwich, so that only screw heads protrude on the top and
+bottom; then choose the flattest heads available.
+
+There is more variety of fixings for M3 screws. I'm going to try using
+[rivet nuts][] on the bottom because they only protrude 0.8mm. Rivet
+nuts are designed to be inserted into a metal panel; a tool is
+inserted into the nut to stretch and expand it so that it wedges in
+the panel. But I don't need this rivet action, just the flange and the
+internal thread.
+
+[rivet nuts]: https://en.wikipedia.org/wiki/Rivet_nut
+
+On the top, I will use black screws that go through the recessed black
+keyboard surround, so they should be fairly unobtrusive.
+
+To fix the outer cream surround (where I want to avoid visible screw
+heads) I will try acrylic cement, or superglue, or silicone sealant. I
+believe silicone sealant can be removed with a knife and re-done, and
+it can fill gaps, so it should be more forgiving.
+
 
 
 
