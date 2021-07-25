@@ -22,6 +22,9 @@ Contents
       * [Detailed notes on keycap fonts](#detailed-notes-on-keycap-fonts)
   * [Sandwich case](#sandwich-case)
       * [Surround](#surround)
+      * [Layers](#layers)
+      * [Plate](#plate)
+      * [Components](#components)
       * [Fixings](#fixings)
 
 The BBC Micro keyboard
