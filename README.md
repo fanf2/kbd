@@ -312,7 +312,7 @@ The constraints on the height of the keyboard come from:
 The layers above the PCB are determined by the keyswitches, as
 documented in a [Cherry MX data sheet][].
 
-#### plate
+### Plate
 
 The most important layer is the plate, which ensures that the keys are
 straight and correctly spaced. It also contributes a lot to the feel
@@ -330,7 +330,7 @@ should be something like 4.5mm or 6mm above the plate to match the
 bottom of the keycaps. Keycaps are about 8mm high (depending on their
 profile) and have 4mm travel.
 
-### components
+### Components
 
 Apart from the switches, the keyboard electronics are below the PCB.
 To save on soldering, I'm using hot-swap PCBs; the [Kailh socket data
