@@ -204,9 +204,9 @@ CTRL, SHIFT, etc. are all Routed Gothic, except for ESCAPE and right
 CTRL which are Routed Gothic Narrow.
 
 Most of the letters and digits are Routed Gothic Wide. A few letters
-are Routed Gothic (non-wide): R S B
+are Routed Gothic (non-wide): `R` `S` `B`
 
-J is problematic: Open Gorton has a more authentic glyph shape, but
+`J` is problematic: Open Gorton has a more authentic glyph shape, but
 its weights dont match Routed Gothic (regular is too loght; bold is
 too heavy).
 
@@ -220,8 +220,8 @@ For punctuation, `#$%&@*^~,.;:<>` come from Open Gorton; `"(){}[]`
 from Routed Gothic Wide, and `-=‵′/|\?!` from Routed Gothic.
 
 For symmetry I used reversed prime and prime for `‵′` and rotated them
-slightly to make them more distinct. | is a broken bar, _ is an
-em-dash, and - is an en-dash.
+slightly to make them more distinct. `|` is a broken bar, `_` is an
+em-dash, and `-` is an en-dash.
 
 I upped the font size a lot for `,.;:^~*`
 
