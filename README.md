@@ -76,13 +76,43 @@ some replacement keycaps, like my [Beeb 75% ISO][] layout.
 
 I like small keyboards, so I have made a [Beeb 60% HHKB][] layout.
 This has a jokey number row that goes 0-9 (like the BBC Micro function
-keys) and is shifted towards the centre.
+keys) and is shifted towards the centre. I have labelled the modifier
+keys in Space Cadet style: meta is an alias for alt; super is a common
+legend for what the USB HID spec calls the GUI key; and hyper is for
+programmable keymap layers.
 
 ![Beeb HHKB layout](kle/beeb-60%25-hhkb.png)
 
 
 Keycaps
 -------
+
+Most current keyboard layouts are not ECMA-23 (the main exceptions are
+Japanese keyboards), so a Beebish keyboard needs several custom keycaps.
+This is difficult. The manufacturing options are, basically:
+
+  * double-shot injection moulding, which would need custom metal
+    legends to be fabricated;
+
+  * dye sublimation printing, which is a skilled manual process, and
+    in most cases cannot do white-on-black;
+
+  * pad printing; laser etching; neither of which appear to be a
+    popular option for custom keysets;
+
+  * UV cured, used by print-on-demand suppliers.
+
+Double-shot and dye-sub sets have a lot of choice in the [keycap
+profile][] and the type of plastic, but a large minimum order
+quantity.
+
+Custom UV printed keyboards are available from [Max Keyboard][] and
+[WASD Keyboards][]; both of them will only print on to ABS plastic
+with the OEM profile.
+
+[keycap profile]: https://old.reddit.com/r/MechanicalKeyboards/comments/j484j5/keycap_profiles_i_compiled_a_direct_comparison/
+[Max Keyboard]: https://www.maxkeyboard.com/shop/cherry-mx-keycaps/custom-color-printed-keycaps/
+[WASD Keyboards]: https://www.wasdkeyboards.com/products/keycaps/keycap-set.html
 
 
 Fonts
@@ -162,4 +192,4 @@ asterisk which is a plausible alternative.
 
 [Beeb 75% ISO]: http://www.keyboard-layout-editor.com/##@_backcolor=#333333&name=beeb%2075%25%20ISO&author=Tony%20Finch%20(dot/@dotat.at)&css=*%20%7B%20font-family/:%20%22Arial%22/;%20%7D;&@_x:2&c=#ff0000&t=#ffffff&a:7&f:4;&=%F0%9D%91%93%C3%B8&=%F0%9D%91%931&=%F0%9D%91%932&=%F0%9D%91%933&=%F0%9D%91%934&=%F0%9D%91%935&=%F0%9D%91%936&=%F0%9D%91%937&=%F0%9D%91%938&=%F0%9D%91%939&_x:1&c=#222222&f:2;&=BREAK;&@=ESCAPE&_a:5&f:6;&=!%0A1&_fa@:9;;&=%22%0A2&_f:6;&=#%0A3&_f:6;&=$%0A4&_f:6;&=%25%0A5&_f:6;&=/&%0A6&_f:9&f2:6;&=%E2%80%B2%0A7&_f:5&f2:6;&=(%0A8&=)%0A9&_f:6;&=%E2%80%94%0A%C3%98&_f:7;&=%E2%80%93%0A/=&_f:6;&=%E2%81%93%0A%E2%8C%83&_a:7&f:3&w:2;&=DELETE&_c=#554422&f:9;&=%E2%A4%92;&@_c=#222222&f:3&w:1.5;&=TAB&_f:9;&=Q&=W&=E&=R&=T&=Y&=U&=I&=O&=P&_a:5&f:7;&=%E2%80%B5%0A/@&_f:5;&=%7B%0A%5B&_x:0.25&t=#000000&a:7&f:3&w:1.25&h:2&w2:1.5&h2:1&x2:-0.25;&=&_c=#554422&t=#ffffff&f:9;&=%E2%86%9F;&@_c=#222222&f:3&w:1.75;&=CTRL&_f:9;&=A&=S&=D&=F&=G&=H&=J&=K&=L&_a:5&f:8;&=+%0A/;&_fa@:6;;&=%E2%9C%BB%0A/:&_f:5;&=%7D%0A%5D&_x:1.25&c=#554422&a:7&f:9;&=%E2%86%A1;&@_c=#222222&f:3&w:1.25;&=SHIFT&_a:5&f:5;&=%7C%0A%5C&_a:7&f:9;&=Z&=X&=C&=V&=B&=N&=M&_a:5&f:8&f2:9;&=%3C%0A,&=%3E%0A.&_f:6;&=?%0A//&_a:7&f:3&w:1.75;&=SHIFT&_c=#554422&f:9;&=%E2%86%91&=%E2%A4%93;&@_f:3&w:1.25;&=FN&_w:1.25;&=OWL&_w:1.25;&=ALT&_c=#222222&w:6.25;&=&_c=#554422;&=ALT&=OWL&=MENU&_f:9;&=%E2%86%90&=%E2%86%93&=%E2%86%92
 
-[Beeb 60% HHKB]: http://www.keyboard-layout-editor.com/##@_backcolor=#333333&name=beeb%2060%25%20hhkb&author=Tony%20Finch%20(dot/@dotat.at)&css=*%20%7B%20font-family/:%20%22Arial%22/;%20%7D;&@_c=#222222&t=#ffffff&a:7&f:2;&=ESCAPE&_a:5&f:7;&=%E2%80%B5%0A/@&_c=#cc0000&f:6;&=%E2%80%94%0A%C3%98&=!%0A1&_f:9&f2:6;&=%22%0A2&_f:6;&=#%0A3&=$%0A4&=%25%0A5&=/&%0A6&_f:9&f2:6;&=%E2%80%B2%0A7&_f:5&f2:6;&=(%0A8&=)%0A9&_c=#222222&f:7;&=%E2%80%93%0A/=&_f:6;&=%E2%81%93%0A%E2%8C%83&_f:5;&=%7C%0A%5C;&@_a:7&f:3&w:1.5;&=TAB&_f:9;&=Q&=W&=E&=R&=T&=Y&=U&=I&=O&=P&_a:5&f:5;&=%7B%0A%5B&=%7D%0A%5D&_a:7&f:3&w:1.5;&=DEL;&@_w:1.75;&=CTRL&_f:9;&=A&=S&=D&=F&=G&=H&=J&=K&=L&_a:5&f:8;&=+%0A/;&_fa@:6;;&=%E2%9C%BB%0A/:&_a:7&f:3&w:2.25;&=RETURN;&@_w:2.25;&=SHIFT&_f:9;&=Z&=X&=C&=V&=B&=N&=M&_a:5&f:8&f2:9;&=%3C%0A,&=%3E%0A.&_f:6;&=?%0A//&_a:7&f:3&w:1.75;&=SHIFT&=FN;&@_x:0.25&c=#554422&w:1.25;&=HYPER&_w:1.25;&=SUPER&_w:1.25;&=META&_c=#222222&w:7;&=&_c=#554422&w:1.25;&=META&_w:1.25;&=SUPER&_w:1.25;&=HYPER
+[Beeb 60% HHKB]: http://www.keyboard-layout-editor.com/##@_backcolor=#333333&name=beeb%2060%25%20hhkb&author=Tony%20Finch%20(dot/@dotat.at)&css=*%20%7B%20font-family/:%20%22Arial%22/;%20%7D;&@_c=#222222&t=#ffffff&a:7&f:2;&=ESCAPE&_a:5&f:7;&=%E2%80%B5%0A/@&_c=#cc0000&f:6;&=%E2%80%94%0A%C3%98&=!%0A1&_f:9&f2:6;&=%22%0A2&_f:6;&=#%0A3&=$%0A4&=%25%0A5&=/&%0A6&_f:9&f2:6;&=%E2%80%B2%0A7&_f:5&f2:6;&=(%0A8&=)%0A9&_c=#222222&f:7;&=%E2%80%93%0A/=&_f:6;&=%E2%81%93%0A%E2%8C%83&_f:5;&=%7C%0A%5C;&@_a:7&f:3&w:1.5;&=TAB&_f:9;&=Q&=W&=E&=R&=T&=Y&=U&=I&=O&=P&_a:5&f:5;&=%7B%0A%5B&=%7D%0A%5D&_a:7&f:3&w:1.5;&=DEL;&@_w:1.75;&=CTRL&_f:9;&=A&=S&=D&=F&=G&=H&=J&=K&=L&_a:5&f:8;&=+%0A/;&_fa@:6;;&=%E2%9C%BB%0A/:&_a:7&f:3&w:2.25;&=RETURN;&@_w:2.25;&=SHIFT&_f:9;&=Z&=X&=C&=V&=B&=N&=M&_a:5&f:8&f2:9;&=%3C%0A,&=%3E%0A.&_f:6;&=?%0A//&_a:7&f:3&w:1.75;&=SHIFT&=CTRL;&@_x:0.25&c=#554422&w:1.25;&=HYPER&_w:1.25;&=SUPER&_w:1.25;&=META&_c=#222222&w:7;&=&_c=#554422&w:1.25;&=META&_w:1.25;&=SUPER&_w:1.25;&=HYPER
