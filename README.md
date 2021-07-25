@@ -121,7 +121,21 @@ Owl logo
 The BBC Micro was part of the BBC's computer literacy project, whose
 logo was a dot-matrix owl. I have previously made my own version of
 [the BBC owl in SVG](http://dotat.at/random/bbc-owl.html), which I am
-going to re-use as an [owl keycap legend](owl/bbc-owl.svg).
+going to re-use as an [owl keycap legend](owl/bbc-owl.svg). I have
+removed the blobby effect from the keycap version, because printing
+will take care of that for me.
+
+The owl will appear on the GUI / OS / Win / command keys, so it will
+be a super owl.
+
+
+WASD keyboard layout
+--------------------
+
+I have turned my KLE HHKB design into a layout for submission to WASD
+for manufacturing. The [beeb.svg](wasd/beeb.svg) file has the keycap
+legends as black text for editing; the [paths.svg](wasd/paths.svg)
+file has legends as white paths for printing.
 
 
 Fonts
