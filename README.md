@@ -123,6 +123,8 @@ making all keys with a shape from the same row.
 [Max Keyboard]: https://www.maxkeyboard.com/shop/cherry-mx-keycaps/custom-color-printed-keycaps/
 [WASD Keyboards]: https://www.wasdkeyboards.com/products/keycaps/keycap-set.html
 [SP origins]: https://pimpmykeyboard.zendesk.com/hc/en-us/articles/204415935-The-Origin-of-SP-Keycap-Families
+[keycap closeups]: https://geekhack.org/index.php?topic=28630.0
+
 
 Owl logo
 --------
@@ -167,6 +169,11 @@ side (i.e. 3/32 inch or 2.4mm) which I think is tolerable.
 I think I would prefer ctrl/delete/return/shift/tab to be brown, but
 WASD do not have brown 1.75u shift keys, so it's better to leave them
 all black.
+
+Culour matching is somewhat problematic. WASD brown (#6F4C23) is the
+closest to the BBC Micro arrow keys (RAL 8014, #4A3526). The function
+key colour (RAL 2005 #FF4d06 or RAL 2009 #de5307) is somewhere between
+WASD red (#C9282D) and orange (#F67F00).
 
 [HS60 HHKB PCB]: https://mechboards.co.uk/shop/parts/hs60-hotswap-pcb/
 [Tsangan]: https://old.reddit.com/r/MechanicalKeyboards/comments/euvl59/eli5_tsangan_layout_etymology_origins_and/
