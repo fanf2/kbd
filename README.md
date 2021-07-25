@@ -115,6 +115,15 @@ with the OEM profile.
 [WASD Keyboards]: https://www.wasdkeyboards.com/products/keycaps/keycap-set.html
 
 
+Owl logo
+--------
+
+The BBC Micro was part of the BBC's computer literacy project, whose
+logo was a dot-matrix owl. I have previously made my own version of
+[the BBC owl in SVG](http://dotat.at/random/bbc-owl.html), which I am
+going to re-use as an [owl keycap legend](owl/bbc-owl.svg).
+
+
 Fonts
 -----
 
