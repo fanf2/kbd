@@ -25,7 +25,7 @@ Contents
       * [Surround](#surround)
       * [Layers](#layers)
       * [Plate](#plate)
-      * [PCB and omponents](#pcb-and-omponents)
+      * [PCB and components](#pcb-and-components)
       * [Fixings](#fixings)
 
 The BBC Micro keyboard
@@ -350,7 +350,7 @@ should be something like 4.5mm or 6mm above the plate to match the
 bottom of the keycaps. Keycaps are about 8mm high (depending on their
 profile) and have 4mm travel.
 
-### PCB and omponents
+### PCB and components
 
 Apart from the switches, the keyboard electronics are below the PCB,
 which itself is about 1.5mm thick.
