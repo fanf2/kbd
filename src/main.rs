@@ -15,6 +15,7 @@ const OUT_SIDE: f64 = 1.0 * SWU;
 const OUT_FAR: f64 = 1.25 * SWU;
 
 const CORNER: f64 = 0.25 * SWU;
+const BLUNT: f64 = (1.0 / 16.0) * SWU;
 
 const RECESS_LEFT: f64 = 0.75 * SWU;
 const RECESS_RIGHT: f64 = 0.75 * SWU;
@@ -26,29 +27,37 @@ const SCREW_HOLE: f64 = 3.0 / MM_IN;
 // for switches the kerf is larger than the tolerance
 const SWITCH_HOLE: f64 = 14.0 / MM_IN - KERF;
 
-const SW_WIDTH: u8 = 4;
-const SW_DEPTH: u8 = 4;
+const COUNT_WIDTH: u8 = 4;
+const COUNT_DEPTH: u8 = 4;
 
-const SWIN_WIDTH: f64 = (SW_WIDTH as f64) * SWU;
-const SWIN_DEPTH: f64 = (SW_DEPTH as f64) * SWU;
+const PCB_WIDTH: f64 = (COUNT_WIDTH as f64) * SWU;
+const PCB_DEPTH: f64 = (COUNT_DEPTH as f64) * SWU;
 
-const WIDTH: f64 = (OUT_SIDE + INNER) * 2.0 + SWIN_WIDTH;
-const DEPTH: f64 = OUT_FAR + OUT_NEAR + INNER * 2.0 + SWIN_DEPTH;
+const PCB_LEFT: f64 = OUT_SIDE + INNER;
+const PCB_FAR: f64 = OUT_FAR + INNER;
+
+const PCB_GAP: f64 = BLUNT;
+
+const IN_RIGHT: f64 = OUT_SIDE + PCB_WIDTH + 2.0 * INNER;
+const IN_NEAR: f64 = OUT_FAR + PCB_DEPTH + 2.0 * INNER;
+
+const WIDTH: f64 = (OUT_SIDE + INNER) * 2.0 + PCB_WIDTH;
+const DEPTH: f64 = OUT_FAR + OUT_NEAR + INNER * 2.0 + PCB_DEPTH;
 
 struct Path {
     data: svg::node::element::path::Data,
 }
 
 impl Path {
-    fn new() -> Self {
+    fn new() -> Path {
         Path { data: svg::node::element::path::Data::new() }
     }
 
-    fn close(self) -> Self {
+    fn close(self) -> Path {
         Path { data: self.data.close() }
     }
 
-    fn outer(self) -> Self {
+    fn outer(self) -> Path {
         Path {
             data: self
                 .data
@@ -63,9 +72,49 @@ impl Path {
         }
     }
 
+    fn surround_inner(self) -> Path {
+        Path {
+            data: self
+                .data
+                .move_to((OUT_SIDE + BLUNT, OUT_FAR))
+                .elliptical_arc_by((BLUNT, BLUNT, 0, 0, 0, -BLUNT, BLUNT))
+                .line_to((OUT_SIDE, IN_NEAR - BLUNT))
+                .elliptical_arc_by((BLUNT, BLUNT, 0, 0, 0, BLUNT, BLUNT))
+                .line_to((IN_RIGHT - BLUNT, IN_NEAR))
+                .elliptical_arc_by((BLUNT, BLUNT, 0, 0, 0, BLUNT, -BLUNT))
+                .line_to((IN_RIGHT, OUT_FAR + BLUNT))
+                .elliptical_arc_by((BLUNT, BLUNT, 0, 0, 0, -BLUNT, -BLUNT))
+                .close(),
+        }
+    }
+
+    fn surround_outer(self) -> Path {
+        Path {
+            data: self
+                .data
+                .move_to((OUT_SIDE, OUT_FAR))
+                .line_to((OUT_SIDE, IN_NEAR))
+                .line_to((IN_RIGHT, IN_NEAR))
+                .line_to((IN_RIGHT, OUT_FAR))
+                .close(),
+        }
+    }
+
+    fn inner(self) -> Path {
+        Path {
+            data: self
+                .data
+                .move_to((PCB_LEFT, PCB_FAR))
+                .line_to((PCB_LEFT, PCB_FAR + PCB_DEPTH))
+                .line_to((PCB_LEFT + PCB_WIDTH, PCB_FAR + PCB_DEPTH))
+                .line_to((PCB_LEFT + PCB_WIDTH, PCB_FAR))
+                .close(),
+        }
+    }
+
     fn switch_hole(self, x: f64, y: f64, w: f64) -> Path {
-        let left = OUT_SIDE + INNER + (x + w / 2.0) * SWU - SWITCH_HOLE / 2.0;
-        let far = OUT_FAR + INNER + (y + 0.5) * SWU - SWITCH_HOLE / 2.0;
+        let left = PCB_LEFT + (x + w / 2.0) * SWU - SWITCH_HOLE / 2.0;
+        let far = PCB_FAR + (y + 0.5) * SWU - SWITCH_HOLE / 2.0;
         let right = left + SWITCH_HOLE;
         let near = far + SWITCH_HOLE;
         Path {
@@ -90,12 +139,12 @@ impl Path {
 
 fn main() -> Result<()> {
     let mut path = Path::new();
-    for x in 0..SW_WIDTH {
-        for y in 0..SW_DEPTH {
+    for x in 0..COUNT_WIDTH {
+        for y in 0..COUNT_DEPTH {
             path = path.switch_hole(x as f64, y as f64, 1.0);
         }
     }
-    path = path.outer().close();
+    path = path.inner().surround_outer().outer().close();
 
     let size = (-SWU, -SWU, WIDTH + SWU * 2.0, DEPTH + SWU * 2.0);
 
