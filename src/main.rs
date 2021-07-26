@@ -174,7 +174,7 @@ fn inner(style: Style) -> Cut {
     drill(path, style, SCREW_HOLE)
 }
 
-fn plate(style: Style) -> Cut {
+fn plate(style: Style, hole: f64) -> Cut {
     let mut path = Path::new();
     for x in 0..COUNT_WIDTH {
         for y in 0..COUNT_DEPTH {
@@ -182,7 +182,7 @@ fn plate(style: Style) -> Cut {
         }
     }
     let plate = path.outer().close().cut(style);
-    drill(plate, style, SCREW_HOLE)
+    drill(plate, style, hole)
 }
 
 fn closed_box(style: Style) -> Cut {
@@ -242,14 +242,16 @@ fn main() -> Result<()> {
 
     let o = outer(style);
     let i = inner(style);
-    let p = plate(style);
+    let pn = plate(style, NUT_HOLE);
+    let ps = plate(style, SCREW_HOLE);
     let c = closed_box(style);
     let r = open_box(style);
     let b = base(style);
 
     save("keybow/outer.svg", o.clone())?;
     save("keybow/inner.svg", i.clone())?;
-    save("keybow/plate.svg", p.clone())?;
+    save("keybow/plate_nut.svg", pn.clone())?;
+    save("keybow/plate_screw.svg", ps.clone())?;
     save("keybow/closed_box.svg", c.clone())?;
     save("keybow/open_box.svg", r.clone())?;
     save("keybow/base.svg", b.clone())?;
@@ -257,7 +259,7 @@ fn main() -> Result<()> {
     let all = svg::node::element::Group::new()
         .add(o)
         .add(i)
-        .add(p)
+        .add(ps)
         .add(c)
         .add(r)
         .add(b)
