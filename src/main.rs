@@ -17,8 +17,11 @@ const OUT_FAR: f64 = 1.25 * SWU;
 const CORNER: f64 = 0.25 * SWU;
 const BLUNT: f64 = (1.0 / 16.0) * SWU;
 
-const RECESS_LEFT: f64 = 0.75 * SWU;
-const RECESS_RIGHT: f64 = 0.75 * SWU;
+// clearance inside box
+const PCB_GAP: f64 = BLUNT;
+
+const RECESS_PCB_LEFT: f64 = 0.75 * SWU;
+const RECESS_PCB_RIGHT: f64 = 0.75 * SWU;
 
 // use the kerf to provide the right fit
 const NUT_HOLE: f64 = 5.0 / MM_IN;
@@ -35,12 +38,14 @@ const PCB_FAR: f64 = OUT_FAR + INNER;
 const PCB_WIDTH: f64 = (COUNT_WIDTH as f64) * SWU;
 const PCB_DEPTH: f64 = (COUNT_DEPTH as f64) * SWU;
 
-const PCB_GAP: f64 = BLUNT;
+const RECESS_LEFT: f64 = PCB_LEFT + RECESS_PCB_LEFT;
+const RECESS_RIGHT: f64 = PCB_LEFT + PCB_WIDTH - RECESS_PCB_RIGHT;
 
 const BOX_LEFT: f64 = PCB_LEFT - PCB_GAP;
 const BOX_FAR: f64 = PCB_FAR - PCB_GAP;
 const BOX_WIDTH: f64 = PCB_WIDTH + PCB_GAP * 2.0;
 const BOX_DEPTH: f64 = PCB_DEPTH + PCB_GAP * 2.0;
+const BOX_RIGHT: f64 = BOX_LEFT + BOX_WIDTH;
 
 const IN_WIDTH: f64 = PCB_WIDTH + 2.0 * INNER;
 const IN_DEPTH: f64 = PCB_DEPTH + 2.0 * INNER;
@@ -51,6 +56,8 @@ const DEPTH: f64 = OUT_FAR + OUT_NEAR + INNER * 2.0 + PCB_DEPTH;
 struct Path {
     data: svg::node::element::path::Data,
 }
+
+type Cut = svg::node::element::Path;
 
 impl Path {
     fn new() -> Path {
@@ -63,6 +70,10 @@ impl Path {
 
     fn move_to(self, x: f64, y: f64) -> Path {
         Path { data: self.data.move_to((x, y)) }
+    }
+
+    fn line_to(self, x: f64, y: f64) -> Path {
+        Path { data: self.data.line_to((x, y)) }
     }
 
     fn open_rect(self, width: f64, depth: f64) -> Path {
@@ -94,24 +105,6 @@ impl Path {
         self.move_to(0.0, 0.0).rounded_rect(WIDTH, DEPTH, CORNER)
     }
 
-    fn surround_holder(self) -> Path {
-        self.move_to(OUT_SIDE, OUT_FAR).open_rect(IN_WIDTH, IN_DEPTH).close()
-    }
-
-    fn surround_outer(self) -> Path {
-        self.move_to(OUT_SIDE, OUT_FAR)
-            .rounded_rect(IN_WIDTH, IN_DEPTH, BLUNT)
-            .close()
-    }
-
-    fn surround_inner(self) -> Path {
-        self.move_to(PCB_LEFT, PCB_FAR).open_rect(PCB_WIDTH, PCB_DEPTH).close()
-    }
-
-    fn pcb_box(self) -> Path {
-        self.open_rect(BOX_WIDTH, BOX_DEPTH)
-    }
-
     fn switch_hole(self, x: f64, y: f64, w: f64) -> Path {
         self.move_to(
             PCB_LEFT + (x + w / 2.0) * SWU - SWITCH_HOLE / 2.0,
@@ -121,7 +114,7 @@ impl Path {
         .close()
     }
 
-    fn cut(self) -> svg::node::element::Path {
+    fn cut(self) -> Cut {
         svg::node::element::Path::new()
             .set("fill", "none")
             .set("stroke", "black")
@@ -130,22 +123,83 @@ impl Path {
     }
 }
 
-fn main() -> Result<()> {
+fn outer() -> Cut {
+    Path::new()
+        .outer()
+        .move_to(OUT_SIDE, OUT_FAR)
+        .open_rect(IN_WIDTH, IN_DEPTH)
+        .close()
+        .cut()
+}
+
+fn inner() -> Cut {
+    Path::new()
+        .move_to(OUT_SIDE, OUT_FAR)
+        .rounded_rect(IN_WIDTH, IN_DEPTH, BLUNT)
+        .close()
+        .move_to(PCB_LEFT, PCB_FAR)
+        .open_rect(PCB_WIDTH, PCB_DEPTH)
+        .close()
+        .cut()
+}
+
+fn plate() -> Cut {
     let mut path = Path::new();
     for x in 0..COUNT_WIDTH {
         for y in 0..COUNT_DEPTH {
             path = path.switch_hole(x as f64, y as f64, 1.0);
         }
     }
-    path = path.surround_inner().surround_outer().outer().close();
+    path.outer().close().cut()
+}
 
+fn closed_box() -> Cut {
+    Path::new()
+        .outer()
+        .close()
+        .move_to(BOX_LEFT, BOX_FAR)
+        .open_rect(BOX_WIDTH, BOX_DEPTH)
+        .close()
+        .cut()
+}
+
+fn open_box() -> Cut {
+    Path::new()
+        .outer()
+        .line_to(RECESS_RIGHT, 0.0)
+        .line_to(RECESS_RIGHT, BOX_FAR)
+        .line_to(BOX_RIGHT, BOX_FAR)
+        .open_rect(-BOX_WIDTH, BOX_DEPTH) // reverse
+        .line_to(RECESS_LEFT, BOX_FAR)
+        .line_to(RECESS_LEFT, 0.0)
+        .close()
+        .cut()
+}
+
+fn base() -> Cut {
+    Path::new()
+        .outer()
+        .line_to(RECESS_RIGHT, 0.0)
+        .line_to(RECESS_RIGHT, PCB_FAR)
+        .line_to(RECESS_LEFT, PCB_FAR)
+        .line_to(RECESS_LEFT, 0.0)
+        .close()
+        .cut()
+}
+
+fn main() -> Result<()> {
     let size = (-SWU, -SWU, WIDTH + SWU * 2.0, DEPTH + SWU * 2.0);
 
     let document = svg::Document::new()
         .set("width", format!("{}in", size.2))
         .set("height", format!("{}in", size.3))
         .set("viewBox", size)
-        .add(path.cut());
+        .add(outer())
+        .add(inner())
+        .add(plate())
+        .add(closed_box())
+        .add(open_box())
+        .add(base());
 
     svg::save("keybow/keybow.svg", &document)?;
 
