@@ -1,0 +1,9 @@
+[package]
+name = "kbd"
+version = "0.0.0"
+authors = ["Tony Finch <dot@dotat.at>"]
+edition = "2018"
+
+[dependencies]
+anyhow = "*"
+svg = "*"
