@@ -169,7 +169,7 @@ will take care of that for me.
 The owl will appear on the GUI / OS / Win / command keys, so it will
 be a super owl.
 
-![WASD design file](wasd/beeb.svg)
+![owl logo](owl/bbc-owl.svg)
 
 
 WASD keyboard layout
