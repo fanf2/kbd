@@ -26,6 +26,7 @@ const RECESS_PCB_RIGHT: f64 = 0.75 * SWU;
 // use the kerf to provide the right fit
 const NUT_HOLE: f64 = 5.0 / MM_IN;
 const SCREW_HOLE: f64 = 3.0 / MM_IN;
+const SCREW_HEAD: f64 = 6.0 / MM_IN;
 
 // for switches the kerf is larger than the tolerance
 const SWITCH_HOLE: f64 = 14.0 / MM_IN - KERF;
@@ -46,9 +47,15 @@ const BOX_FAR: f64 = PCB_FAR - PCB_GAP;
 const BOX_WIDTH: f64 = PCB_WIDTH + PCB_GAP * 2.0;
 const BOX_DEPTH: f64 = PCB_DEPTH + PCB_GAP * 2.0;
 const BOX_RIGHT: f64 = BOX_LEFT + BOX_WIDTH;
+const BOX_NEAR: f64 = BOX_FAR + BOX_DEPTH;
 
 const IN_WIDTH: f64 = PCB_WIDTH + 2.0 * INNER;
 const IN_DEPTH: f64 = PCB_DEPTH + 2.0 * INNER;
+
+const DRILL_FAR: f64 = (BOX_FAR + OUT_FAR) / 2.0;
+const DRILL_NEAR: f64 = (BOX_NEAR + OUT_FAR + IN_DEPTH) / 2.0;
+const DRILL_LEFT: f64 = (BOX_LEFT + OUT_SIDE) / 2.0;
+const DRILL_RIGHT: f64 = (BOX_RIGHT + OUT_SIDE + IN_WIDTH) / 2.0;
 
 const WIDTH: f64 = (OUT_SIDE + INNER) * 2.0 + PCB_WIDTH;
 const DEPTH: f64 = OUT_FAR + OUT_NEAR + INNER * 2.0 + PCB_DEPTH;
@@ -57,7 +64,9 @@ struct Path {
     data: svg::node::element::path::Data,
 }
 
-type Cut = svg::node::element::Path;
+type Cut = svg::node::element::Element;
+
+type Style<'a> = &'a [(&'a str, svg::node::Value)];
 
 impl Path {
     fn new() -> Path {
@@ -114,57 +123,81 @@ impl Path {
         .close()
     }
 
-    fn cut(self) -> Cut {
-        svg::node::element::Path::new()
-            .set("fill", "none")
-            .set("stroke", "black")
-            .set("stroke-width", KERF)
-            .set("d", self.data)
+    fn cut(self, style: Style) -> Cut {
+        let mut path = svg::node::element::Path::new();
+        for attr in style {
+            path = path.set(attr.0, attr.1.clone());
+        }
+        path.set("d", self.data).into()
     }
 }
 
-fn outer() -> Cut {
+fn hole(style: Style, cx: f64, cy: f64, d: f64) -> Cut {
+    let mut hole = svg::node::element::Circle::new()
+        .set("cx", cx)
+        .set("cy", cy)
+        .set("r", d / 2.0);
+    for attr in style {
+        hole = hole.set(attr.0, attr.1.clone());
+    }
+    hole.into()
+}
+
+fn drill(cut: Cut, style: Style, diameter: f64) -> Cut {
+    svg::node::element::Group::new()
+        .add(cut)
+        .add(hole(style, DRILL_LEFT, DRILL_FAR, diameter))
+        .add(hole(style, DRILL_LEFT, DRILL_NEAR, diameter))
+        .add(hole(style, DRILL_RIGHT, DRILL_NEAR, diameter))
+        .add(hole(style, DRILL_RIGHT, DRILL_FAR, diameter))
+        .into()
+}
+
+fn outer(style: Style) -> Cut {
     Path::new()
         .outer()
         .move_to(OUT_SIDE, OUT_FAR)
         .open_rect(IN_WIDTH, IN_DEPTH)
         .close()
-        .cut()
+        .cut(style)
 }
 
-fn inner() -> Cut {
-    Path::new()
+fn inner(style: Style) -> Cut {
+    let path = Path::new()
         .move_to(OUT_SIDE, OUT_FAR)
         .rounded_rect(IN_WIDTH, IN_DEPTH, BLUNT)
         .close()
         .move_to(PCB_LEFT, PCB_FAR)
         .open_rect(PCB_WIDTH, PCB_DEPTH)
         .close()
-        .cut()
+        .cut(style);
+    drill(path, style, SCREW_HEAD)
 }
 
-fn plate() -> Cut {
+fn plate(style: Style) -> Cut {
     let mut path = Path::new();
     for x in 0..COUNT_WIDTH {
         for y in 0..COUNT_DEPTH {
             path = path.switch_hole(x as f64, y as f64, 1.0);
         }
     }
-    path.outer().close().cut()
+    let plate = path.outer().close().cut(style);
+    drill(plate, style, SCREW_HOLE)
 }
 
-fn closed_box() -> Cut {
-    Path::new()
+fn closed_box(style: Style) -> Cut {
+    let path = Path::new()
         .outer()
         .close()
         .move_to(BOX_LEFT, BOX_FAR)
         .open_rect(BOX_WIDTH, BOX_DEPTH)
         .close()
-        .cut()
+        .cut(style);
+    drill(path, style, NUT_HOLE)
 }
 
-fn open_box() -> Cut {
-    Path::new()
+fn open_box(style: Style) -> Cut {
+    let path = Path::new()
         .outer()
         .line_to(RECESS_RIGHT, 0.0)
         .line_to(RECESS_RIGHT, BOX_FAR)
@@ -173,33 +206,41 @@ fn open_box() -> Cut {
         .line_to(RECESS_LEFT, BOX_FAR)
         .line_to(RECESS_LEFT, 0.0)
         .close()
-        .cut()
+        .cut(style);
+    drill(path, style, NUT_HOLE)
 }
 
-fn base() -> Cut {
-    Path::new()
+fn base(style: Style) -> Cut {
+    let path = Path::new()
         .outer()
         .line_to(RECESS_RIGHT, 0.0)
         .line_to(RECESS_RIGHT, PCB_FAR)
         .line_to(RECESS_LEFT, PCB_FAR)
         .line_to(RECESS_LEFT, 0.0)
         .close()
-        .cut()
+        .cut(style);
+    drill(path, style, NUT_HOLE)
 }
 
 fn main() -> Result<()> {
     let size = (-SWU, -SWU, WIDTH + SWU * 2.0, DEPTH + SWU * 2.0);
 
+    let style = &[
+        ("fill", "none".into()),
+        ("stroke", "black".into()),
+        ("stroke-width", KERF.into()),
+    ];
+
     let document = svg::Document::new()
         .set("width", format!("{}in", size.2))
         .set("height", format!("{}in", size.3))
         .set("viewBox", size)
-        .add(outer())
-        .add(inner())
-        .add(plate())
-        .add(closed_box())
-        .add(open_box())
-        .add(base());
+        .add(outer(style))
+        .add(inner(style))
+        .add(plate(style))
+        .add(closed_box(style))
+        .add(open_box(style))
+        .add(base(style));
 
     svg::save("keybow/keybow.svg", &document)?;
 
