@@ -32,8 +32,8 @@ const SW_DEPTH: u8 = 4;
 const SWIN_WIDTH: f64 = (SW_WIDTH as f64) * SWU;
 const SWIN_DEPTH: f64 = (SW_DEPTH as f64) * SWU;
 
-const IN_WIDTH: f64 = (OUT_SIDE + INNER) * 2.0 + SWIN_WIDTH;
-const IN_DEPTH: f64 = OUT_FAR + OUT_NEAR + INNER * 2.0 + SWIN_DEPTH;
+const WIDTH: f64 = (OUT_SIDE + INNER) * 2.0 + SWIN_WIDTH;
+const DEPTH: f64 = OUT_FAR + OUT_NEAR + INNER * 2.0 + SWIN_DEPTH;
 
 struct Path {
     data: svg::node::element::path::Data,
@@ -44,8 +44,23 @@ impl Path {
         Path { data: svg::node::element::path::Data::new() }
     }
 
+    fn close(self) -> Self {
+        Path { data: self.data.close() }
+    }
+
     fn outer(self) -> Self {
-        unimplemented!()
+        Path {
+            data: self
+                .data
+                .move_to((CORNER, 0.0))
+                .elliptical_arc_by((CORNER, CORNER, 0, 0, 0, -CORNER, CORNER))
+                .line_to((0.0, DEPTH - CORNER))
+                .elliptical_arc_by((CORNER, CORNER, 0, 0, 0, CORNER, CORNER))
+                .line_to((WIDTH - CORNER, DEPTH))
+                .elliptical_arc_by((CORNER, CORNER, 0, 0, 0, CORNER, -CORNER))
+                .line_to((WIDTH, CORNER))
+                .elliptical_arc_by((CORNER, CORNER, 0, 0, 0, -CORNER, -CORNER)),
+        }
     }
 
     fn switch_hole(self, x: f64, y: f64, w: f64) -> Path {
@@ -80,12 +95,13 @@ fn main() -> Result<()> {
             path = path.switch_hole(x as f64, y as f64, 1.0);
         }
     }
+    path = path.outer().close();
 
-    let size = (-KERF, -KERF, IN_WIDTH + KERF, IN_DEPTH + KERF);
+    let size = (-SWU, -SWU, WIDTH + SWU * 2.0, DEPTH + SWU * 2.0);
 
     let document = svg::Document::new()
-        .set("width", format!("{}in", IN_WIDTH + KERF * 2.0))
-        .set("height", format!("{}in", IN_DEPTH + KERF * 2.0))
+        .set("width", format!("{}in", size.2))
+        .set("height", format!("{}in", size.3))
         .set("viewBox", size)
         .add(path.cut());
 
