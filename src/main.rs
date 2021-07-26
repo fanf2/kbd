@@ -236,7 +236,7 @@ fn save(name: &str, cut: Cut) -> Result<()> {
 fn main() -> Result<()> {
     let style = &[
         ("fill", "none".into()),
-        ("stroke", "black".into()),
+        ("stroke", "olive".into()),
         ("stroke-width", KERF.into()),
     ];
 

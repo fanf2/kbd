@@ -1,9 +1,9 @@
 <svg height="6.75in" viewBox="-0.75 -0.75 6.75 6.75" width="6.75in" xmlns="http://www.w3.org/2000/svg">
 <g>
-<path d="M0,0 m0.1875,0 a0.1875,0.1875,0,0,0,-0.1875,0.1875 l0,4.875 a0.1875,0.1875,0,0,0,0.1875,0.1875 l4.875,0 a0.1875,0.1875,0,0,0,0.1875,-0.1875 l0,-4.875 a0.1875,0.1875,0,0,0,-0.1875,-0.1875 L3.5625,0 L3.5625,1.3125 L1.6875,1.3125 L1.6875,0 z" fill="none" stroke="black" stroke-width="0.01"/>
-<circle cx="0.9140625" cy="1.1015625" fill="none" r="0.0984251968503937" stroke="black" stroke-width="0.01"/>
-<circle cx="0.9140625" cy="4.5234375" fill="none" r="0.0984251968503937" stroke="black" stroke-width="0.01"/>
-<circle cx="4.3359375" cy="4.5234375" fill="none" r="0.0984251968503937" stroke="black" stroke-width="0.01"/>
-<circle cx="4.3359375" cy="1.1015625" fill="none" r="0.0984251968503937" stroke="black" stroke-width="0.01"/>
+<path d="M0,0 m0.1875,0 a0.1875,0.1875,0,0,0,-0.1875,0.1875 l0,4.875 a0.1875,0.1875,0,0,0,0.1875,0.1875 l4.875,0 a0.1875,0.1875,0,0,0,0.1875,-0.1875 l0,-4.875 a0.1875,0.1875,0,0,0,-0.1875,-0.1875 L3.5625,0 L3.5625,1.3125 L1.6875,1.3125 L1.6875,0 z" fill="none" stroke="olive" stroke-width="0.01"/>
+<circle cx="0.9140625" cy="1.1015625" fill="none" r="0.0984251968503937" stroke="olive" stroke-width="0.01"/>
+<circle cx="0.9140625" cy="4.5234375" fill="none" r="0.0984251968503937" stroke="olive" stroke-width="0.01"/>
+<circle cx="4.3359375" cy="4.5234375" fill="none" r="0.0984251968503937" stroke="olive" stroke-width="0.01"/>
+<circle cx="4.3359375" cy="1.1015625" fill="none" r="0.0984251968503937" stroke="olive" stroke-width="0.01"/>
 </g>
 </svg>
