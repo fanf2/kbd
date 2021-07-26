@@ -167,7 +167,7 @@ removed the blobby effect from the keycap version, because printing
 will take care of that for me.
 
 The owl will appear on the GUI / OS / Win / command keys, so it will
-be a super owl.
+be a super beeb owl.
 
 ![owl logo](owl/bbc-owl.svg)
 
@@ -383,6 +383,8 @@ to be larger.
 
 [USB-C connector specification]: https://www.usb.org/document-library/usb-type-cr-cable-and-connector-specification-revision-21
 
+![laser cut outlines for small prototype case](keybow/all.svg)
+
 
 ### Fixings
 
@@ -412,6 +414,7 @@ heads) I will try acrylic cement, or superglue, or silicone sealant. I
 believe silicone sealant can be removed with a knife and re-done, and
 it can fill gaps if the fit of the acrylic isn't perfect, so it should
 be more forgiving.
+
 
 ### Illumination
 

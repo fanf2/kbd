@@ -26,7 +26,6 @@ const RECESS_PCB_RIGHT: f64 = 0.75 * SWU;
 // use the kerf to provide the right fit
 const NUT_HOLE: f64 = 5.0 / MM_IN;
 const SCREW_HOLE: f64 = 3.0 / MM_IN;
-const SCREW_HEAD: f64 = 6.0 / MM_IN;
 
 // for switches the kerf is larger than the tolerance
 const SWITCH_HOLE: f64 = 14.0 / MM_IN - KERF;
@@ -60,6 +59,7 @@ const DRILL_RIGHT: f64 = (BOX_RIGHT + OUT_SIDE + IN_WIDTH) / 2.0;
 const WIDTH: f64 = (OUT_SIDE + INNER) * 2.0 + PCB_WIDTH;
 const DEPTH: f64 = OUT_FAR + OUT_NEAR + INNER * 2.0 + PCB_DEPTH;
 
+#[derive(Clone)]
 struct Path {
     data: svg::node::element::path::Data,
 }
@@ -171,7 +171,7 @@ fn inner(style: Style) -> Cut {
         .open_rect(PCB_WIDTH, PCB_DEPTH)
         .close()
         .cut(style);
-    drill(path, style, SCREW_HEAD)
+    drill(path, style, SCREW_HOLE)
 }
 
 fn plate(style: Style) -> Cut {
@@ -222,27 +222,47 @@ fn base(style: Style) -> Cut {
     drill(path, style, NUT_HOLE)
 }
 
-fn main() -> Result<()> {
+fn save(name: &str, cut: Cut) -> Result<()> {
     let size = (-SWU, -SWU, WIDTH + SWU * 2.0, DEPTH + SWU * 2.0);
+    let document = svg::Document::new()
+        .set("width", format!("{}in", size.2))
+        .set("height", format!("{}in", size.3))
+        .set("viewBox", size)
+        .add(cut);
+    svg::save(name, &document)?;
+    Ok(())
+}
 
+fn main() -> Result<()> {
     let style = &[
         ("fill", "none".into()),
         ("stroke", "black".into()),
         ("stroke-width", KERF.into()),
     ];
 
-    let document = svg::Document::new()
-        .set("width", format!("{}in", size.2))
-        .set("height", format!("{}in", size.3))
-        .set("viewBox", size)
-        .add(outer(style))
-        .add(inner(style))
-        .add(plate(style))
-        .add(closed_box(style))
-        .add(open_box(style))
-        .add(base(style));
+    let o = outer(style);
+    let i = inner(style);
+    let p = plate(style);
+    let c = closed_box(style);
+    let r = open_box(style);
+    let b = base(style);
 
-    svg::save("keybow/keybow.svg", &document)?;
+    save("keybow/outer.svg", o.clone())?;
+    save("keybow/inner.svg", i.clone())?;
+    save("keybow/plate.svg", p.clone())?;
+    save("keybow/closed_box.svg", c.clone())?;
+    save("keybow/open_box.svg", r.clone())?;
+    save("keybow/base.svg", b.clone())?;
+
+    let all = svg::node::element::Group::new()
+        .add(o)
+        .add(i)
+        .add(p)
+        .add(c)
+        .add(r)
+        .add(b)
+        .into();
+    save("keybow/all.svg", all)?;
 
     Ok(())
 }
