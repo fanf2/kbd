@@ -238,12 +238,16 @@ FontForge script not as built font files. Unfortunately the script
 produced mangled output when I tried it, though some of the characters
 are usable.
 
-Also worth noting is [National Park][], whose repertoir is roughly
-ISO 8859-1.
+Also worth noting are [National Park][] (whose repertoir is roughly
+ISO 8859-1); [DSKY Gorton Normal][] which aims to match the
+lettering on the Apollo display and keyboard (it has just uppercase
+and digits); [Quarkwell][], which is a recently created commercial Gorton-alike
 
+[DSKY Gorton Normal]: https://github.com/ehdorrii/dsky-fonts
 [Gorton Digital]: https://github.com/drdnar/GortonDigital
 [National Park]: https://nationalparktypeface.com/
 [Open Gorton]:  https://github.com/dakotafelder/open-gorton
+[Quarkwell]: https://www.myfonts.com/fonts/thetypeworks-com/quarkwell/
 [Routed Gothic]: https://webonastick.com/fonts/routed-gothic/
 
 What I have found works best is a combination of Routed Gothic, Routed
