@@ -29,25 +29,13 @@ keyboard = Keyboard(usb_hid.devices)
 layout = KeyboardLayoutUS(keyboard)
 
 # A map of keycodes that will be mapped sequentially to each of the keys, 0-15
-keymap =    [Keycode.ZERO,
-             Keycode.ONE,
-             Keycode.TWO,
-             Keycode.THREE,
-             Keycode.FOUR,
-             Keycode.FIVE,
-             Keycode.SIX,
-             Keycode.SEVEN,
-             Keycode.EIGHT,
-             Keycode.NINE,
-             Keycode.A,
-             Keycode.B,
-             Keycode.C,
-             Keycode.D,
-             Keycode.E,
-             Keycode.F]
+keymap =    [Keycode.LEFT_ARROW,  Keycode.HOME,     108, 104,
+             Keycode.DOWN_ARROW,  Keycode.UP_ARROW, 109, 105,
+             Keycode.RIGHT_ARROW, Keycode.END,      110, 106,
+             Keycode.PAGE_DOWN,   Keycode.PAGE_UP,  111, 107]
 
 # The colour to set the keys when pressed, yellow.
-rgb = (255, 255, 0)
+rgb = (31, 0, 95)
 
 # Attach handler functions to all of the keys
 for key in keys:
@@ -55,12 +43,14 @@ for key in keys:
     @keybow.on_press(key)
     def press_handler(key):
         keycode = keymap[key.number]
-        keyboard.send(keycode)
+        keyboard.press(keycode)
         key.set_led(*rgb)
 
     # A release handler that turns off the LED
     @keybow.on_release(key)
     def release_handler(key):
+        keycode = keymap[key.number]
+        keyboard.release(keycode)
         key.led_off()
 
 while True:
