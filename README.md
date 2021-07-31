@@ -316,14 +316,24 @@ of a key unit.
 
   * right of arrows: 0.5u black, 1.0u cream
 
+  * left of lock keys: 2.0u black, 1.0u cream (expansion socket)
+
   * below space: 0.5u black, 0.75u cream
 
   * function key strip holder: 1.5u
 
-  * left of lock keys: 2.0u black, 1.0u cream
-
 [BBC Micro photo]: https://en.wikipedia.org/wiki/File:BBC_Micro_Front_Restored.jpg
 
+The Acorn Atom had a similar design for the keyboard surround. Its
+dimensions were less clearly multiples of a key size, roughly:
+
+  * right of break: 1.5u black, 1.0u cream (speaker)
+
+  * left of arrows: 0.5u black, 1.0u cream
+
+  * below space: 0.25u black, 0.5u cream
+
+  * above numbers: 0.75u black
 
 ### Layers
 
