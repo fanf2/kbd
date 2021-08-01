@@ -322,9 +322,7 @@ of a key unit.
 
   * function key strip holder: 1.5u
 
-[BBC Micro photo]: https://en.wikipedia.org/wiki/File:BBC_Micro_Front_Restored.jpg
-
-The Acorn Atom had a similar design for the keyboard surround. Its
+The [Acorn Atom][] had a similar design for the keyboard surround. Its
 dimensions were less clearly multiples of a key size, roughly:
 
   * right of break: 1.5u black, 1.0u cream (speaker)
@@ -334,6 +332,16 @@ dimensions were less clearly multiples of a key size, roughly:
   * below space: 0.25u black, 0.5u cream
 
   * above numbers: 0.75u black
+
+So that there's enough space for screw heads (see below), I'll use
+0.5u black around the keys, including on the far side where the
+function key strip would be. And the outer cream will be 1u either
+side (like both computers), 0.75u in front of the space bar (like the
+Beeb) and 1.25u on the far side, so it adds up to 2u in both
+directions.
+
+[BBC Micro photo]: https://en.wikipedia.org/wiki/File:BBC_Micro_Front_Restored.jpg
+[Acorn Atom]: https://en.wikipedia.org/wiki/File:Acorn_atom_zx1.jpg
 
 ### Layers
 
