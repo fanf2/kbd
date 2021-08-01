@@ -289,6 +289,18 @@ Gorton has shorter points). Gorton Digital has a fairly nice 5-point
 asterisk which might be a plausible alternative.
 
 
+### legend sizes
+
+The legends on the BBC Micro keycaps are centred; the two-story
+legends occupy almost all of the vertical space on the keycaps.
+
+  * letters, arrows: 0.5 keytop height
+
+  * modifiers, actions: 0.25 keytop height
+
+  * digits, punctuation, function keys: 3/8 keytop height
+
+
 Sandwich case
 -------------
 
