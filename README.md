@@ -333,6 +333,16 @@ dimensions were less clearly multiples of a key size, roughly:
 
   * above numbers: 0.75u black
 
+The [Acorn Electron][] lacked the black part of the keyboard surround:
+instead, the corresponding part of the case was textured beige, and
+the sides were smooth.
+
+  * sides: 1/3u textured, 1u smooth
+
+  * below space: 0.75u textured (no smooth part)
+
+  * above numbers: 0.125u textured, 1.5u green grid with logo
+
 So that there's enough space for screw heads (see below), I'll use
 0.5u black around the keys, including on the far side where the
 function key strip would be. And the outer cream will be 1u either
@@ -342,6 +352,7 @@ directions.
 
 [BBC Micro photo]: https://en.wikipedia.org/wiki/File:BBC_Micro_Front_Restored.jpg
 [Acorn Atom]: https://en.wikipedia.org/wiki/File:Acorn_atom_zx1.jpg
+[Acorn Electron]: https://en.wikipedia.org/wiki/File:Acorn_Electron_4x3.jpg
 
 ### Layers
 
