@@ -265,8 +265,10 @@ Most of the letters and digits are Routed Gothic Wide. A few letters
 are Routed Gothic (non-wide): `R` `S` `B`
 
 `J` is problematic: Open Gorton has a more authentically wide glyph
-shape, but its weights don't match Routed Gothic (regular is too light;
-bold is too heavy).
+shape, but its weights don't match Routed Gothic (regular is too
+light; bold is too heavy). To fix this, I converted the Open Gorton
+`J` to a path and gave it a wide stroke to embolden it to match the
+other letters.
 
 Zero is a Scandinavian capital slashed O and the correct 1 is found in
 Routed Gothic's private use character codes.
@@ -274,8 +276,12 @@ Routed Gothic's private use character codes.
 `3` is problematic. Again, Open Gorton has a more authentic shape
 (rounded top instead of angular), but its numerals are too narrow.
 
-For punctuation, `#$%&@*^~,.;:<>` come from Open Gorton; `"(){}[]`
-from Routed Gothic Wide, and `-=‵′/|\?!` from Routed Gothic.
+For punctuation, `#$%&*^~,.;:<>` come from Open Gorton; `"(){}[]`
+from Routed Gothic Wide, and `+-=‵′/|\?!` from Routed Gothic.
+
+The Routed Gothic `@` is too bold, but the Open Gorton version looks
+like it has been melted a bit. I traced an `@` from Quarkwell and
+emboldened it using the same trick as for `J`.
 
 For symmetry I used reversed prime and prime for `‵′` and rotated them
 slightly to make them more distinct. `|` is a Beebish broken bar, `_`
@@ -293,12 +299,15 @@ asterisk which might be a plausible alternative.
 
 The legends on the BBC Micro keycaps are centred; the two-story
 legends occupy almost all of the vertical space on the keycaps.
+Measurements are roughly:
 
   * letters, arrows: 0.5 keytop height
 
   * modifiers, actions: 0.25 keytop height
 
   * digits, punctuation, function keys: 3/8 keytop height
+
+On the WASD templates, the keycaps are 1/2 in by 5/9 in.
 
 
 Sandwich case
