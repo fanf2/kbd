@@ -31,19 +31,27 @@ enum Cut {
     Left(f64),
     Right(f64),
     Corner(f64, f64, f64),
+    Close(),
     Circle(f64),
 }
 use Cut::*;
 
+type SvgCircle = svg::node::element::Circle;
+type SvgGroup = svg::node::element::Group;
+type SvgPath = svg::node::element::Path;
+type PathData = svg::node::element::path::Data;
+type SvgStyle<'a> = &'a [(&'a str, svg::node::Value)];
+
 fn to_svg(cuts: &Vec<Cut>) {
-    let style: &[(&str, svg::node::Value)] = &[
+    let style: SvgStyle = &[
         ("fill", "none".into()),
         ("stroke", "goldenrod".into()),
         ("stroke-width", KERF.into()),
     ];
 
-    let mut g = svg::node::element::Group::new();
-    let mut p = svg::node::element::path::Data::new();
+    let mut g = SvgGroup::new();
+    let mut p = PathData::new();
+    let mut pr = 0.0;
 
     let mut it = cuts.iter().peekable();
     while let Some(&this) = it.next() {
@@ -54,7 +62,7 @@ fn to_svg(cuts: &Vec<Cut>) {
 
         match (this, next) {
             (Goto(cx, cy), Circle(d)) => {
-                let mut c = svg::node::element::Circle::new()
+                let mut c = SvgCircle::new()
                     .set("cx", cx)
                     .set("cy", cy)
                     .set("r", d / 2.0);
@@ -65,10 +73,37 @@ fn to_svg(cuts: &Vec<Cut>) {
             }
             (Circle(_), _) => (),
 
-            (Goto(x, y), Corner(r, dx, dy)) => {
-                p = p
-                    .move_to((x - dx, y))
-                    .elliptical_arc_by((r, r, 0, 0, 0, dx, dy));
+            (_, Close()) => {
+                let mut path = SvgPath::new().set("d", p.close());
+                for attr in style {
+                    path = path.set(attr.0, attr.1.clone());
+                }
+                g = g.add(path);
+                p = PathData::new();
+            }
+            (Close(), _) => (),
+
+            (Goto(x, y), Corner(r, _, _)) => p = p.move_to((x + r, y)),
+
+            (Back(depth), Corner(nr, _, _)) => {
+                p = p.line_by((0, -(depth - pr - nr)))
+            }
+
+            (Forth(depth), Corner(nr, _, _)) => {
+                p = p.line_by((0, depth - pr - nr))
+            }
+
+            (Left(depth), Corner(nr, _, _)) => {
+                p = p.line_by((-(depth - pr - nr), 0))
+            }
+
+            (Right(depth), Corner(nr, _, _)) => {
+                p = p.line_by((depth - pr - nr, 0))
+            }
+
+            (Corner(r, x, y), _) => {
+                p = p.elliptical_arc_by((r, r, 0, 0, 0, x, y));
+                pr = r;
             }
 
             _ => unimplemented!(),
@@ -77,19 +112,23 @@ fn to_svg(cuts: &Vec<Cut>) {
 }
 
 fn ensure_closed(cuts: &Vec<Cut>) {
-    let mut start_x = 0.0;
-    let mut start_y = 0.0;
+    let mut start_x = None;
+    let mut start_y = None;
     let mut x = 0.0;
     let mut y = 0.0;
     for cut in cuts {
         match *cut {
+            Close() => {
+                assert_eq!(start_x, Some(x));
+                assert_eq!(start_y, Some(y));
+                start_x = None;
+                start_y = None;
+            }
             Goto(new_x, new_y) => {
-                assert_eq!(start_x, x);
-                assert_eq!(start_y, y);
                 x = new_x;
                 y = new_y;
-                start_x = x;
-                start_y = y;
+                start_x = Some(x);
+                start_y = Some(y);
             }
             Back(depth) => y -= depth,
             Forth(depth) => y += depth,
@@ -130,7 +169,8 @@ macro_rules! path_fn {
 
 macro_rules! path_closed {
     () => {
-        fn close(self) -> Completed {
+        fn close(mut self) -> Completed {
+            self.cuts.push(Close());
             ensure_closed(&self.cuts);
             Completed { cuts: self.cuts }
         }
