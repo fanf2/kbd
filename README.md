@@ -410,7 +410,8 @@ Apart from the switches, the keyboard electronics are below the PCB,
 which itself is about 1.5mm thick.
 
 To save on soldering, I'm using hot-swap PCBs; the [Kailh socket data
-sheet][] says these are 2mm thick.
+sheet][] says these are 2mm thick. There is also a discrete component
+that's 2.5mm thick.
 
 The thickest component is the USB-C socket. According to the [USB-C
 connector specification][], the socket is about 3.5mm x 8.5mm.
@@ -468,6 +469,19 @@ heads) I will try acrylic cement, or superglue, or silicone sealant. I
 believe silicone sealant can be removed with a knife and re-done, and
 it can fill gaps if the fit of the acrylic isn't perfect, so it should
 be more forgiving.
+
+Rivet nut dimensions:
+
+  * diameter of flange: 7mm
+  * diameter of barrel: 4.9mm
+  * overall length: 9mm
+  * depth of flange: 0.8mm
+
+M3 screw dimensions:
+
+  * diameter of hole: 3.1mm
+  * diameter of head: 5.5mm - 6.0mm
+  * depth of head: 1.5mm - 2.0mm
 
 
 ### Illumination
