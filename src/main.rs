@@ -30,11 +30,51 @@ enum Cut {
     Forth(f64),
     Left(f64),
     Right(f64),
-    Clockwise(f64),
-    Widdershins(f64),
+    Corner(f64, f64, f64),
     Circle(f64),
 }
 use Cut::*;
+
+fn to_svg(cuts: &Vec<Cut>) {
+    let style: &[(&str, svg::node::Value)] = &[
+        ("fill", "none".into()),
+        ("stroke", "goldenrod".into()),
+        ("stroke-width", KERF.into()),
+    ];
+
+    let mut g = svg::node::element::Group::new();
+    let mut p = svg::node::element::path::Data::new();
+
+    let mut it = cuts.iter().peekable();
+    while let Some(&this) = it.next() {
+        let next = match it.peek() {
+            Some(&thing) => *thing,
+            None => break,
+        };
+
+        match (this, next) {
+            (Goto(cx, cy), Circle(d)) => {
+                let mut c = svg::node::element::Circle::new()
+                    .set("cx", cx)
+                    .set("cy", cy)
+                    .set("r", d / 2.0);
+                for attr in style {
+                    c = c.set(attr.0, attr.1.clone());
+                }
+                g = g.add(c);
+            }
+            (Circle(_), _) => (),
+
+            (Goto(x, y), Corner(r, dx, dy)) => {
+                p = p
+                    .move_to((x - dx, y))
+                    .elliptical_arc_by((r, r, 0, 0, 0, dx, dy));
+            }
+
+            _ => unimplemented!(),
+        }
+    }
+}
 
 fn ensure_closed(cuts: &Vec<Cut>) {
     let mut start_x = 0.0;
@@ -55,8 +95,7 @@ fn ensure_closed(cuts: &Vec<Cut>) {
             Forth(depth) => y += depth,
             Left(width) => x -= width,
             Right(width) => x += width,
-            Clockwise(_) => (),
-            Widdershins(_) => (),
+            Corner(_, _, _) => (),
             Circle(_) => (),
         }
     }
@@ -74,12 +113,18 @@ macro_rules! path_state {
     };
 }
 
-macro_rules! path_fn {
-    {$name:ident = $cons:ident($arg:ident) -> $state:ident} => {
+macro_rules! path_funky {
+    { $name:ident($arg:ident) -> $state:ident = $cons:ident $vals:tt } => {
         fn $name(mut self, $arg: f64) -> $state {
-            self.cuts.push($cons($arg));
+            self.cuts.push($cons $vals);
             $state { cuts: self.cuts }
         }
+    }
+}
+
+macro_rules! path_fn {
+    { $name:ident($arg:ident) -> $state:ident = $cons:ident } => {
+        path_funky!{ $name($arg) -> $state = $cons($arg) }
     }
 }
 
@@ -116,10 +161,10 @@ path_state! {
 path_state! {
     Moved:
 
-    path_fn! { hole = Circle(diameter) -> Completed }
+    path_fn! { hole(diameter) -> Completed = Circle }
 
     // first corner must be top left
-    path_fn! { ws = Widdershins(radius) -> Forthing }
+    path_funky! { ws(radius) -> Forthing = Corner(radius, -radius, radius) }
 
     // around the outside omitting the back
     fn frame(self, width: f64, depth: f64, radius: f64) -> Lefting {
@@ -139,12 +184,12 @@ path_state! {
     }
 }
 
-path_state! { Backing:  path_fn! { back =  Back(depth) ->  Backed } }
-path_state! { Forthing: path_fn! { forth = Forth(depth) -> Forthed } }
+path_state! { Backing:  path_fn! { back(depth)  -> Backed  = Back  } }
+path_state! { Forthing: path_fn! { forth(depth) -> Forthed = Forth } }
 
 path_state! {
     Lefting:
-    path_fn! { left =  Left(width) ->  Lefted }
+    path_fn! { left(width) -> Lefted = Left }
 
     // into the inside
     fn portal(self, long: f64, short: f64, depth: f64, radius: f64) -> Righted {
@@ -153,7 +198,7 @@ path_state! {
 }
 path_state! {
     Righting:
-    path_fn! { right = Right(width) -> Righted }
+    path_fn! { right(width) -> Righted = Right }
 
     // back to the outside
     fn portal(self, long: f64, short: f64, depth: f64, radius: f64) -> Lefted {
@@ -163,29 +208,29 @@ path_state! {
 
 path_state! {
     Backed:
-    path_fn! { cw = Clockwise(radius) -> Righting }
-    path_fn! { ws = Widdershins(radius) -> Lefting }
+    path_funky! { cw(radius) -> Righting = Corner(radius, radius, -radius) }
+    path_funky! { ws(radius) -> Lefting = Corner(radius, -radius, -radius) }
     path_closed!();
 }
 
 path_state! {
     Forthed:
-    path_fn! { cw = Clockwise(radius) -> Lefting }
-    path_fn! { ws = Widdershins(radius) -> Righting }
+    path_funky! { cw(radius) -> Lefting = Corner(radius, -radius, radius) }
+    path_funky! { ws(radius) -> Righting = Corner(radius, radius, radius) }
     path_closed!();
 }
 
 path_state! {
     Lefted:
-    path_fn! { cw = Clockwise(radius) -> Backing }
-    path_fn! { ws = Widdershins(radius) -> Forthing }
+    path_funky! { cw(radius) -> Backing = Corner(radius, -radius, -radius) }
+    path_funky! { ws(radius) -> Forthing = Corner(radius, -radius, radius) }
     path_closed!();
 }
 
 path_state! {
     Righted:
-    path_fn! { cw = Clockwise(radius) -> Forthing }
-    path_fn! { ws = Widdershins(radius) -> Backing }
+    path_funky! { cw(radius) -> Forthing = Corner(radius, radius, -radius) }
+    path_funky! { ws(radius) -> Backing = Corner(radius, radius, radius) }
     path_closed!();
 
     // inner cut, in opposite direction
