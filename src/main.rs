@@ -42,7 +42,7 @@ type SvgPath = svg::node::element::Path;
 type PathData = svg::node::element::path::Data;
 type SvgStyle<'a> = &'a [(&'a str, svg::node::Value)];
 
-fn to_svg(cuts: &Vec<Cut>) {
+fn to_svg(cuts: &Vec<Cut>) -> SvgGroup {
     let style: SvgStyle = &[
         ("fill", "none".into()),
         ("stroke", "goldenrod".into()),
@@ -57,7 +57,7 @@ fn to_svg(cuts: &Vec<Cut>) {
     while let Some(&this) = it.next() {
         let next = match it.peek() {
             Some(&thing) => *thing,
-            None => break,
+            None => return g,
         };
 
         match (this, next) {
@@ -109,6 +109,7 @@ fn to_svg(cuts: &Vec<Cut>) {
             _ => unimplemented!(),
         }
     }
+    unreachable!()
 }
 
 fn ensure_closed(cuts: &Vec<Cut>) {
@@ -201,7 +202,11 @@ path_state! {
 path_state! {
     Moved:
 
-    path_fn! { hole(diameter) -> Completed = Circle }
+    fn hole(mut self, diameter: f64) -> Completed {
+        self.cuts.push(Circle(diameter));
+        self.cuts.push(Close());
+        Completed { cuts: self.cuts }
+    }
 
     // first corner must be top left
     path_funky! { ws(radius) -> Forthing = Corner(radius, -radius, radius) }
