@@ -1,7 +1,7 @@
 .scene {
   width: 960px;
-  height: 240px;
-  perspective: 960px;
+  height: 160px;
+  perspective: 1600px;
 }
 
 .preserve {
@@ -14,12 +14,16 @@
 .layer {
   position: absolute;
   width: 960px;
-  height: 360px;
+  height: 960px;
 }
 
-.z1 { transform: translateZ(360px) rotateX(80deg) rotateZ(30deg) translateZ(-100px); }
-.z2 { transform: translateZ(360px) rotateX(80deg) rotateZ(30deg) translateZ(-200px); }
-.z3 { transform: translateZ(360px) rotateX(80deg) rotateZ(30deg) translateZ(-300px); }
-.z4 { transform: translateZ(360px) rotateX(80deg) rotateZ(30deg) translateZ(-400px); }
-.z5 { transform: translateZ(360px) rotateX(80deg) rotateZ(30deg) translateZ(-500px); }
-.z6 { transform: translateZ(360px) rotateX(80deg) rotateZ(30deg) translateZ(-600px); }
+.z0 { transform: rotateX(80deg) rotateZ(130deg) translateZ(-200px); }
+.z1 { transform: rotateX(80deg) rotateZ(130deg) translateZ(-180px); }
+.z2 { transform: rotateX(80deg) rotateZ(130deg) translateZ(-160px); }
+.z3 { transform: rotateX(80deg) rotateZ(130deg) translateZ(-140px); }
+.z4 { transform: rotateX(80deg) rotateZ(130deg) translateZ(-120px); }
+.z5 { transform: rotateX(80deg) rotateZ(130deg) translateZ(-100px); }
+.z6 { transform: rotateX(80deg) rotateZ(130deg) translateZ(-080px); }
+.z7 { transform: rotateX(80deg) rotateZ(130deg) translateZ(-060px); }
+.z8 { transform: rotateX(80deg) rotateZ(130deg) translateZ(-040px); }
+.z9 { transform: rotateX(80deg) rotateZ(130deg) translateZ(-020px); }

@@ -80,55 +80,73 @@ const STAB_WIDTH: f64 = 1.0 / 3.0;
 const STAB_OFFSET_2U: f64 = 1.0 / 2.0;
 const STAB_OFFSET_7U: f64 = 4.5 / 2.0;
 
-fn main() -> Result<()> {
-    let path =
-    // beige surround
-        Path::begin(BEIGE_X, BEIGE_Y)
-        .rect(BEIGE_W, BEIGE_D, SMOOTH)
-        .goto(BLACK_X, BLACK_Y)
-        .rect(BLACK_W, BLACK_D, SHARP)
-    // black surround
-        .goto(BLACK_X, BLACK_Y)
-        .rect(BLACK_W, BLACK_D, BLUNT)
-        .goto(KEYS_X, KEYS_Y)
-        .rect(KEYS_W, KEYS_D, SHARP)
-        .drill(SCREW_HOLE, SCREW_HOLE)
-    // shim
-        .goto(BEIGE_X, BEIGE_Y)
-        .rect(BEIGE_W, BEIGE_D, SMOOTH)
-        .goto(KEYS_X, KEYS_Y)
-        .rect(KEYS_W, KEYS_D, SHARP)
-        .drill(SCREW_HOLE, SCREW_HOLE)
-        .feet()
-    // plate
-        .goto(BEIGE_X, BEIGE_Y)
-        .rect(BEIGE_W, BEIGE_D, SMOOTH)
-        .drill(SCREW_HOLE, SCREW_HOLE)
-        .keys()
-    // closed box
-        .goto(BEIGE_X, BEIGE_Y)
-        .rect(BEIGE_W, BEIGE_D, SMOOTH)
-        .goto(BOX_X, BOX_Y)
-        .rect(BOX_W, BOX_D, BLUNT)
-        .drill(SCREW_HOLE, RIVET_HOLE)
-    // open box
-        .goto(BEIGE_X, BEIGE_Y)
+fn base() -> Path {
+    Path::begin(BEIGE_X, BEIGE_Y)
+        .frame(BEIGE_W, BEIGE_D, SMOOTH)
+        .recess((RECESS_RIGHT, RECESS_MID, RECESS_LEFT), RECESS_PCB, BLUNT)
+        .close()
+        .drill(RIVET_HOLE, RIVET_HOLE)
+}
+
+fn socket() -> Path {
+    Path::begin(BEIGE_X, BEIGE_Y)
         .frame(BEIGE_W, BEIGE_D, SMOOTH)
         .portal(RECESS_RIGHT, RECESS_R_IN, RECESS_BOX, BLUNT)
         .frame(BOX_W, BOX_D, BLUNT)
         .portal(RECESS_LEFT, RECESS_L_IN, RECESS_BOX, BLUNT)
         .close()
         .drill(RIVET_HOLE, RIVET_HOLE)
-    // base
-        .goto(BEIGE_X, BEIGE_Y)
-        .frame(BEIGE_W, BEIGE_D, SMOOTH)
-        .recess((RECESS_RIGHT, RECESS_MID, RECESS_LEFT),
-                 RECESS_PCB, BLUNT)
-        .close()
-        .drill(RIVET_HOLE, RIVET_HOLE)
-        ;
+}
 
-    save_svg("keybow/test.svg", &path, SWU)?;
+fn closed() -> Path {
+    Path::begin(BEIGE_X, BEIGE_Y)
+        .rect(BEIGE_W, BEIGE_D, SMOOTH)
+        .goto(BOX_X, BOX_Y)
+        .rect(BOX_W, BOX_D, BLUNT)
+        .drill(SCREW_HOLE, RIVET_HOLE)
+}
+
+fn plate() -> Path {
+    Path::begin(BEIGE_X, BEIGE_Y)
+        .rect(BEIGE_W, BEIGE_D, SMOOTH)
+        .drill(SCREW_HOLE, SCREW_HOLE)
+        .keys()
+}
+
+fn shim() -> Path {
+    Path::begin(BEIGE_X, BEIGE_Y)
+        .rect(BEIGE_W, BEIGE_D, SMOOTH)
+        .goto(KEYS_X, KEYS_Y)
+        .rect(KEYS_W, KEYS_D, SHARP)
+        .drill(SCREW_HOLE, SCREW_HOLE)
+        .feet()
+}
+
+fn beige_top() -> Path {
+    Path::begin(BEIGE_X, BEIGE_Y)
+        .rect(BEIGE_W, BEIGE_D, SMOOTH)
+        .goto(BLACK_X, BLACK_Y)
+        .rect(BLACK_W, BLACK_D, SHARP)
+}
+
+fn black_top() -> Path {
+    Path::begin(BLACK_X, BLACK_Y)
+        .rect(BLACK_W, BLACK_D, BLUNT)
+        .goto(KEYS_X, KEYS_Y)
+        .rect(KEYS_W, KEYS_D, SHARP)
+        .drill(SCREW_HOLE, SCREW_HOLE)
+}
+
+fn main() -> Result<()> {
+    let mut all = Path { cuts: vec![] };
+    all.concat(save_svg("keybow/L0_clear15.svg", base())?);
+    all.concat(save_svg("keybow/L12_beige30.svg", socket())?);
+    all.concat(save_svg("keybow/L3_beige30.svg", closed())?);
+    all.concat(save_svg("keybow/L4_clear15.svg", plate())?);
+    all.concat(save_svg("keybow/L5_clear15.svg", shim())?);
+    all.concat(save_svg("keybow/L67_beige30.svg", beige_top())?);
+    all.concat(save_svg("keybow/L8_black50.svg", black_top())?);
+    save_svg("keybow/all.svg", all)?;
     Ok(())
 }
 
@@ -306,8 +324,9 @@ enum Cut {
 }
 use Cut::*;
 
-fn save_svg(name: &str, path: &Path, margin: f64) -> Result<()> {
+fn save_svg(name: &str, path: Path) -> Result<Path> {
     let bbox = ensure_closed(&path.cuts);
+    let margin = 0.25;
     let width = bbox.max.x - bbox.min.x + margin * 2.0;
     let depth = bbox.max.y - bbox.min.y + margin * 2.0;
     let size = (bbox.min.x - margin, bbox.min.y - margin, width, depth);
@@ -317,7 +336,7 @@ fn save_svg(name: &str, path: &Path, margin: f64) -> Result<()> {
         .set("viewBox", size)
         .add(to_svg(&path.cuts));
     svg::save(name, &document)?;
-    Ok(())
+    Ok(path)
 }
 
 type SvgCircle = svg::node::element::Circle;
@@ -478,6 +497,10 @@ path_state! {
     fn goto(mut self, x: f64, y: f64) -> Moved {
         self.cuts.push(Goto(Pos{x,y}));
         Moved { cuts: self.cuts }
+    }
+
+    fn concat(&mut self, other: Path) {
+        self.cuts.extend_from_slice(&other.cuts);
     }
 }
 
