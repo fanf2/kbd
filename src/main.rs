@@ -5,6 +5,14 @@ use anyhow::*;
 const WIDTH: i8 = 4;
 const DEPTH: i8 = 4;
 
+const fn hhkb_ortho(hhkb: f64, ortho: f64) -> f64 {
+    if WIDTH > 10 {
+        hhkb
+    } else {
+        ortho
+    }
+}
+
 // we are mostly working in inches, except for the holes
 const MM_IN: f64 = 25.4;
 
@@ -42,10 +50,12 @@ const BOX_Y: f64 = -BOX_GAP;
 const BOX_W: f64 = KEYS_W + BOX_GAP * 2.0;
 const BOX_D: f64 = KEYS_D + BOX_GAP * 2.0;
 
-const PCB_SIDE: f64 = 0.5 * SWU;
-const BOX_SIDE: f64 = PCB_SIDE + BOX_GAP;
-const RECESS_SIDE: f64 = PCB_SIDE + BLACK + BEIGE_SIDE;
-const RECESS_MID: f64 = BEIGE_W - RECESS_SIDE * 2.0;
+const RECESS_LEFT: f64 = BEIGE_SIDE + BLACK + hhkb_ortho(SWU / 8.0, SWU / 2.0);
+const RECESS_MID: f64 = hhkb_ortho(SWU * 14.0 / 8.0, SWU * 3.0);
+const RECESS_RIGHT: f64 = BEIGE_W - RECESS_LEFT - RECESS_MID;
+const RECESS_INNER: f64 = BEIGE_SIDE + BLACK - BOX_GAP;
+const RECESS_L_IN: f64 = RECESS_LEFT - RECESS_INNER;
+const RECESS_R_IN: f64 = RECESS_RIGHT - RECESS_INNER;
 const RECESS_PCB: f64 = BEIGE_FAR + BLACK;
 const RECESS_BOX: f64 = RECESS_PCB - BOX_GAP;
 
@@ -57,6 +67,8 @@ const AROUND_HOLE: f64 = 4.0 / MM_IN; // radius
 
 const DRILL_LEFT: f64 = BLACK_X + AROUND_HOLE;
 const DRILL_RIGHT: f64 = BLACK_X + BLACK_W - AROUND_HOLE;
+const DRILL_LEFTISH: f64 = KEYS_X + KEYS_W * 1.0 / 3.0;
+const DRILL_RIGHTISH: f64 = KEYS_X + KEYS_W * 2.0 / 3.0;
 const DRILL_FAR: f64 = BLACK_Y + AROUND_HOLE;
 const DRILL_NEAR: f64 = BLACK_Y + BLACK_D - AROUND_HOLE;
 
@@ -70,12 +82,12 @@ const STAB_OFFSET_7U: f64 = 4.5 / 2.0;
 
 fn main() -> Result<()> {
     let path =
-    // outer surround
+    // beige surround
         Path::begin(BEIGE_X, BEIGE_Y)
         .rect(BEIGE_W, BEIGE_D, SMOOTH)
         .goto(BLACK_X, BLACK_Y)
         .rect(BLACK_W, BLACK_D, SHARP)
-    // inner surround
+    // black surround
         .goto(BLACK_X, BLACK_Y)
         .rect(BLACK_W, BLACK_D, BLUNT)
         .goto(KEYS_X, KEYS_Y)
@@ -87,11 +99,12 @@ fn main() -> Result<()> {
         .goto(KEYS_X, KEYS_Y)
         .rect(KEYS_W, KEYS_D, SHARP)
         .drill(SCREW_HOLE, SCREW_HOLE)
+        .feet()
     // plate
         .goto(BEIGE_X, BEIGE_Y)
         .rect(BEIGE_W, BEIGE_D, SMOOTH)
         .drill(SCREW_HOLE, SCREW_HOLE)
-        .ortho_keys()
+        .keys()
     // closed box
         .goto(BEIGE_X, BEIGE_Y)
         .rect(BEIGE_W, BEIGE_D, SMOOTH)
@@ -101,16 +114,15 @@ fn main() -> Result<()> {
     // open box
         .goto(BEIGE_X, BEIGE_Y)
         .frame(BEIGE_W, BEIGE_D, SMOOTH)
-        .portal(RECESS_SIDE, BOX_SIDE, RECESS_BOX, BLUNT)
+        .portal(RECESS_RIGHT, RECESS_R_IN, RECESS_BOX, BLUNT)
         .frame(BOX_W, BOX_D, BLUNT)
-        .portal(RECESS_SIDE, BOX_SIDE, RECESS_BOX, BLUNT)
+        .portal(RECESS_LEFT, RECESS_L_IN, RECESS_BOX, BLUNT)
         .close()
         .drill(RIVET_HOLE, RIVET_HOLE)
-        .ortho_feet()
     // base
         .goto(BEIGE_X, BEIGE_Y)
         .frame(BEIGE_W, BEIGE_D, SMOOTH)
-        .recess((RECESS_SIDE, RECESS_MID, RECESS_SIDE),
+        .recess((RECESS_RIGHT, RECESS_MID, RECESS_LEFT),
                  RECESS_PCB, BLUNT)
         .close()
         .drill(RIVET_HOLE, RIVET_HOLE)
@@ -121,15 +133,44 @@ fn main() -> Result<()> {
 }
 
 impl Path {
-    fn drill(self, d_far: f64, d_near: f64) -> Path {
-        self.goto(DRILL_LEFT, DRILL_FAR)
+    fn drill(mut self, d_far: f64, d_near: f64) -> Path {
+        self = self
+            .goto(DRILL_LEFT, DRILL_FAR)
             .hole(d_far)
             .goto(DRILL_RIGHT, DRILL_FAR)
             .hole(d_far)
             .goto(DRILL_LEFT, DRILL_NEAR)
             .hole(d_near)
             .goto(DRILL_RIGHT, DRILL_NEAR)
-            .hole(d_near)
+            .hole(d_near);
+        if WIDTH > DEPTH * 2 {
+            self = self
+                .goto(DRILL_LEFTISH, DRILL_FAR)
+                .hole(d_far)
+                .goto(DRILL_RIGHTISH, DRILL_FAR)
+                .hole(d_far)
+                .goto(DRILL_LEFTISH, DRILL_NEAR)
+                .hole(d_near)
+                .goto(DRILL_RIGHTISH, DRILL_NEAR)
+                .hole(d_near);
+        }
+        self
+    }
+
+    fn keys(self) -> Path {
+        if WIDTH > 10 {
+            self.hhkb_keys()
+        } else {
+            self.ortho_keys()
+        }
+    }
+
+    fn feet(self) -> Path {
+        if WIDTH > 10 {
+            self.hhkb_feet()
+        } else {
+            self.ortho_feet()
+        }
     }
 
     fn ortho_keys(mut self) -> Path {
@@ -183,6 +224,25 @@ impl Path {
             .switch(1.5, -4.0, 4.0)
             .switch(1.0, -2.5, 4.0)
             .switch(1.5, -1.5, 4.0)
+    }
+
+    fn hhkb_feet(mut self) -> Path {
+        for y in 1..DEPTH {
+            self = self.hhkb_foot(4.0, y as f64);
+            self = self.hhkb_foot(11.0, y as f64);
+        }
+        self
+    }
+
+    fn hhkb_foot(self, mid: f64, y: f64) -> Path {
+        let wid = (DRILL_LEFTISH - DRILL_LEFT) / 2.0;
+        let rad = AROUND_HOLE + y / MM_IN;
+        self.goto(mid - wid, y * SWU)
+            .hole(RIVET_HOLE)
+            .goto(mid + wid, y * SWU)
+            .hole(RIVET_HOLE)
+            .goto(mid - wid - rad, y * SWU - rad)
+            .rect(wid * 2.0 + rad * 2.0, rad * 2.0, AROUND_HOLE)
     }
 
     fn switch(mut self, w: f64, mut x: f64, mut y: f64) -> Path {
