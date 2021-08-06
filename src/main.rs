@@ -2,8 +2,8 @@
 
 use anyhow::*;
 
-const WIDTH: u8 = 15;
-const DEPTH: u8 = 5;
+const WIDTH: i8 = 4;
+const DEPTH: i8 = 4;
 
 // we are mostly working in inches, except for the holes
 const MM_IN: f64 = 25.4;
@@ -12,39 +12,127 @@ const KERF: f64 = 0.01; // inch
 
 const SWU: f64 = 0.75; // inch
 
-const WIDTH_IN: f64 = WIDTH as f64 * SWU;
-const DEPTH_IN: f64 = DEPTH as f64 * SWU;
+// standrad corner radii, based on layer thicknesses
+const SMOOTH: f64 = 1.0 / 8.0; // like 3mm acrylic
+const BLUNT: f64 = SMOOTH / 2.0; // like PCB or plate
+const SHARP: f64 = BLUNT / 2.0;
+
+const KEYS_X: f64 = 0.0;
+const KEYS_Y: f64 = 0.0;
+const KEYS_W: f64 = WIDTH as f64 * SWU;
+const KEYS_D: f64 = DEPTH as f64 * SWU;
 
 const BLACK: f64 = 0.5 * SWU;
+const BLACK_X: f64 = -BLACK;
+const BLACK_Y: f64 = -BLACK;
+const BLACK_W: f64 = KEYS_W + BLACK * 2.0;
+const BLACK_D: f64 = KEYS_D + BLACK * 2.0;
 
 const BEIGE_NEAR: f64 = 0.75 * SWU;
 const BEIGE_SIDE: f64 = 1.0 * SWU;
 const BEIGE_FAR: f64 = 1.25 * SWU;
+const BEIGE_X: f64 = BLACK_X - BEIGE_SIDE;
+const BEIGE_Y: f64 = BLACK_Y - BEIGE_FAR;
+const BEIGE_W: f64 = BLACK_W + BEIGE_SIDE * 2.0;
+const BEIGE_D: f64 = BLACK_D + BEIGE_FAR + BEIGE_NEAR;
+
+const BOX_GAP: f64 = BLUNT;
+const BOX_X: f64 = -BOX_GAP;
+const BOX_Y: f64 = -BOX_GAP;
+const BOX_W: f64 = KEYS_W + BOX_GAP * 2.0;
+const BOX_D: f64 = KEYS_D + BOX_GAP * 2.0;
+
+const PCB_SIDE: f64 = 0.5 * SWU;
+const BOX_SIDE: f64 = PCB_SIDE + BOX_GAP;
+const RECESS_SIDE: f64 = PCB_SIDE + BLACK + BEIGE_SIDE;
+const RECESS_MID: f64 = BEIGE_W - RECESS_SIDE * 2.0;
+const RECESS_PCB: f64 = BEIGE_FAR + BLACK;
+const RECESS_BOX: f64 = RECESS_PCB - BOX_GAP;
+
+// use the kerf to provide the right fit
+const SCREW_HOLE: f64 = 3.0 / MM_IN;
+const RIVET_HOLE: f64 = 5.0 / MM_IN;
+
+const AROUND_HOLE: f64 = 4.0 / MM_IN; // radius
+
+const DRILL_LEFT: f64 = BLACK_X + AROUND_HOLE;
+const DRILL_RIGHT: f64 = BLACK_X + BLACK_W - AROUND_HOLE;
+const DRILL_FAR: f64 = BLACK_Y + AROUND_HOLE;
+const DRILL_NEAR: f64 = BLACK_Y + BLACK_D - AROUND_HOLE;
 
 // for switches the kerf is larger than the tolerance
 const SWITCH_HOLE: f64 = 14.0 / MM_IN - KERF;
-const SWITCH_RADIUS: f64 = KERF;
-
-// use the kerf to provide the right fit
-const RIVET_HOLE: f64 = 5.0 / MM_IN;
-const SCREW_HOLE: f64 = 3.0 / MM_IN;
 
 const STAB_DEPTH: f64 = (0.26 - 0.484 + 0.53) * 2.0;
 const STAB_WIDTH: f64 = 1.0 / 3.0;
 const STAB_OFFSET_2U: f64 = 1.0 / 2.0;
 const STAB_OFFSET_7U: f64 = 4.5 / 2.0;
 
-const PCB_RADIUS: f64 = 0.06; // same as thickness
-
 fn main() -> Result<()> {
     let path =
-        Path::begin(0.0, 0.0).rect(WIDTH_IN, DEPTH_IN, PCB_RADIUS).hhkb();
+    // outer surround
+        Path::begin(BEIGE_X, BEIGE_Y)
+        .rect(BEIGE_W, BEIGE_D, SMOOTH)
+        .goto(BLACK_X, BLACK_Y)
+        .rect(BLACK_W, BLACK_D, SHARP)
+    // inner surround
+        .goto(BLACK_X, BLACK_Y)
+        .rect(BLACK_W, BLACK_D, BLUNT)
+        .goto(KEYS_X, KEYS_Y)
+        .rect(KEYS_W, KEYS_D, SHARP)
+        .drill(SCREW_HOLE)
+    // shim
+        .goto(BEIGE_X, BEIGE_Y)
+        .rect(BEIGE_W, BEIGE_D, SMOOTH)
+        .goto(KEYS_X, KEYS_Y)
+        .rect(KEYS_W, KEYS_D, SHARP)
+        .drill(SCREW_HOLE)
+    // plate
+        .goto(BEIGE_X, BEIGE_Y)
+        .rect(BEIGE_W, BEIGE_D, SMOOTH)
+        .drill(SCREW_HOLE)
+        .ortho()
+    // closed box
+        .goto(BEIGE_X, BEIGE_Y)
+        .rect(BEIGE_W, BEIGE_D, SMOOTH)
+        .goto(BOX_X, BOX_Y)
+        .rect(BOX_W, BOX_D, BLUNT)
+        .drill(RIVET_HOLE)
+        .ortho_feet()
+    // open box
+        .goto(BEIGE_X, BEIGE_Y)
+        .frame(BEIGE_W, BEIGE_D, SMOOTH)
+        .portal(RECESS_SIDE, BOX_SIDE, RECESS_BOX, BLUNT)
+        .frame(BOX_W, BOX_D, BLUNT)
+        .portal(RECESS_SIDE, BOX_SIDE, RECESS_BOX, BLUNT)
+        .close()
+        .drill(RIVET_HOLE)
+        .ortho_feet()
+    // base
+        .goto(BEIGE_X, BEIGE_Y)
+        .frame(BEIGE_W, BEIGE_D, SMOOTH)
+        .recess((RECESS_SIDE, RECESS_MID, RECESS_SIDE),
+                 RECESS_PCB, BLUNT)
+        .close()
+        .drill(RIVET_HOLE)
+        ;
 
     save_svg("keybow/test.svg", &path, SWU)?;
     Ok(())
 }
 
 impl Path {
+    fn drill(self, diameter: f64) -> Path {
+        self.goto(DRILL_LEFT, DRILL_FAR)
+            .hole(diameter)
+            .goto(DRILL_LEFT, DRILL_NEAR)
+            .hole(diameter)
+            .goto(DRILL_RIGHT, DRILL_FAR)
+            .hole(diameter)
+            .goto(DRILL_RIGHT, DRILL_NEAR)
+            .hole(diameter)
+    }
+
     fn ortho(mut self) -> Path {
         for x in 0..WIDTH {
             for y in 0..DEPTH {
@@ -52,6 +140,22 @@ impl Path {
             }
         }
         self
+    }
+
+    fn ortho_feet(mut self) -> Path {
+        for x in 1..=3 {
+            for y in 1..=3 {
+                self = self.ortho_foot(x as f64, y as f64)
+            }
+        }
+        self
+    }
+
+    fn ortho_foot(self, x: f64, y: f64) -> Path {
+        self.goto(x * SWU, y * SWU)
+            .hole(RIVET_HOLE)
+            .goto(x * SWU, y * SWU)
+            .hole((AROUND_HOLE + y / MM_IN) * 2.0)
     }
 
     fn hhkb(mut self) -> Path {
@@ -86,25 +190,25 @@ impl Path {
     fn switch(mut self, w: f64, mut x: f64, mut y: f64) -> Path {
         let width = w * SWU;
         let depth = 1.0 * SWU;
+        if x < 0.0 {
+            x += WIDTH as f64;
+        }
         x = x * SWU + width / 2.0;
         y = y * SWU + depth / 2.0;
-        if x < 0.0 {
-            x += WIDTH_IN;
-        }
         if 2.0 - KERF < w && w < 3.0 - KERF {
             self = self.stab(STAB_OFFSET_2U, x, y);
         }
         if 7.0 - KERF < w && w < 7.0 + KERF {
             self = self.stab(STAB_OFFSET_7U, x, y);
         }
-        self.goto(x, y).cutout(SWITCH_HOLE, SWITCH_HOLE, SWITCH_RADIUS)
+        self.goto(x, y).cutout(SWITCH_HOLE, SWITCH_HOLE, KERF)
     }
 
     fn stab(self, w: f64, x: f64, y: f64) -> Path {
         self.goto(x - w, y)
-            .cutout(STAB_WIDTH, STAB_DEPTH, SWITCH_RADIUS)
+            .cutout(STAB_WIDTH, STAB_DEPTH, KERF)
             .goto(x + w, y)
-            .cutout(STAB_WIDTH, STAB_DEPTH, SWITCH_RADIUS)
+            .cutout(STAB_WIDTH, STAB_DEPTH, KERF)
     }
 }
 
@@ -138,7 +242,7 @@ enum Cut {
     Forth(f64),
     Left(f64),
     Right(f64),
-    Corner(f64, f64, f64), // radius, dx, dy
+    Corner(f64, u8, f64, f64), // radius, sweep, dx, dy
     Close(),
     Circle(f64), // diameter
 }
@@ -206,28 +310,28 @@ fn to_svg(cuts: &[Cut]) -> SvgGroup {
             }
             (Close(), _) => (),
 
-            (Goto(Pos { x, y }), Corner(nr, _, _)) => {
+            (Goto(Pos { x, y }), Corner(nr, _, _, _)) => {
                 p = p.move_to((x + nr, y))
             }
 
-            (Back(depth), Corner(nr, _, _)) => {
+            (Back(depth), Corner(nr, _, _, _)) => {
                 p = p.line_by((0, -(depth - pr - nr)))
             }
 
-            (Forth(depth), Corner(nr, _, _)) => {
+            (Forth(depth), Corner(nr, _, _, _)) => {
                 p = p.line_by((0, depth - pr - nr))
             }
 
-            (Left(depth), Corner(nr, _, _)) => {
+            (Left(depth), Corner(nr, _, _, _)) => {
                 p = p.line_by((-(depth - pr - nr), 0))
             }
 
-            (Right(depth), Corner(nr, _, _)) => {
+            (Right(depth), Corner(nr, _, _, _)) => {
                 p = p.line_by((depth - pr - nr, 0))
             }
 
-            (Corner(r, dx, dy), _) => {
-                p = p.elliptical_arc_by((r, r, 0, 0, 0, dx, dy));
+            (Corner(r, sw, dx, dy), _) => {
+                p = p.elliptical_arc_by((r, r, 0, 0, sw, dx, dy));
                 pr = r;
             }
 
@@ -257,7 +361,7 @@ fn ensure_closed(cuts: &[Cut]) -> Bounds {
             Forth(depth) => cur.y += depth,
             Left(width) => cur.x -= width,
             Right(width) => cur.x += width,
-            Corner(_, _, _) => (),
+            Corner(_, _, _, _) => (),
             Circle(diameter) => {
                 let r = diameter / 2.0;
                 bbox = bounds(bbox, Pos { x: cur.x - r, y: cur.y - r });
@@ -329,7 +433,7 @@ path_state! {
     }
 
     // first corner must be top left
-    path_funky! { ws(radius) -> Forthing = Corner(radius, -radius, radius) }
+    path_funky! { ws(radius) -> Forthing = Corner(radius, 0, -radius, radius) }
 
     // around the outside omitting the back
     fn frame(self, width: f64, depth: f64, radius: f64) -> Lefting {
@@ -393,29 +497,29 @@ path_state! {
 
 path_state! {
     Backed:
-    path_funky! { cw(radius) -> Righting = Corner(radius, radius, -radius) }
-    path_funky! { ws(radius) -> Lefting = Corner(radius, -radius, -radius) }
+    path_funky! { cw(radius) -> Righting = Corner(radius, 1, radius, -radius) }
+    path_funky! { ws(radius) -> Lefting = Corner(radius, 0, -radius, -radius) }
     path_closed!();
 }
 
 path_state! {
     Forthed:
-    path_funky! { cw(radius) -> Lefting = Corner(radius, -radius, radius) }
-    path_funky! { ws(radius) -> Righting = Corner(radius, radius, radius) }
+    path_funky! { cw(radius) -> Lefting = Corner(radius, 1, -radius, radius) }
+    path_funky! { ws(radius) -> Righting = Corner(radius, 0, radius, radius) }
     path_closed!();
 }
 
 path_state! {
     Lefted:
-    path_funky! { cw(radius) -> Backing = Corner(radius, -radius, -radius) }
-    path_funky! { ws(radius) -> Forthing = Corner(radius, -radius, radius) }
+    path_funky! { cw(radius) -> Backing = Corner(radius, 1, -radius, -radius) }
+    path_funky! { ws(radius) -> Forthing = Corner(radius, 0, -radius, radius) }
     path_closed!();
 }
 
 path_state! {
     Righted:
-    path_funky! { cw(radius) -> Forthing = Corner(radius, radius, radius) }
-    path_funky! { ws(radius) -> Backing = Corner(radius, radius, -radius) }
+    path_funky! { cw(radius) -> Forthing = Corner(radius, 1, radius, radius) }
+    path_funky! { ws(radius) -> Backing = Corner(radius, 0, radius, -radius) }
     path_closed!();
 
     // inner cut, in opposite direction
