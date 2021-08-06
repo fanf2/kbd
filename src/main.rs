@@ -6,9 +6,9 @@ use svg;
 // we are mostly working in inches, except for the holes
 const MM_IN: f64 = 25.4;
 
-const KERF: f64 = 0.01;
+const KERF: f64 = 0.01; // inch
 
-const SWU: f64 = 0.75;
+const SWU: f64 = 0.75; // inch
 
 const BLACK: f64 = 0.5 * SWU;
 
@@ -24,8 +24,43 @@ const RIVET_HOLE: f64 = 5.0 / MM_IN;
 const SCREW_HOLE: f64 = 3.0 / MM_IN;
 
 #[derive(Clone, Copy, Debug, PartialEq)]
+struct Pos {
+    x: f64,
+    y: f64,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq)]
+struct Bounds {
+    min: Pos,
+    max: Pos,
+}
+
+fn min(a: f64, b: f64) -> f64 {
+    if a <= b {
+        a
+    } else {
+        b
+    }
+}
+
+fn max(a: f64, b: f64) -> f64 {
+    if a >= b {
+        a
+    } else {
+        b
+    }
+}
+
+fn bounds(bbox: Bounds, pos: Pos) -> Bounds {
+    Bounds {
+        min: Pos { x: min(bbox.min.x, pos.x), y: min(bbox.min.y, pos.y) },
+        max: Pos { x: max(bbox.max.x, pos.x), y: max(bbox.max.y, pos.y) },
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq)]
 enum Cut {
-    Goto(f64, f64),
+    Goto(Pos),
     Back(f64),
     Forth(f64),
     Left(f64),
@@ -40,6 +75,7 @@ type SvgCircle = svg::node::element::Circle;
 type SvgGroup = svg::node::element::Group;
 type SvgPath = svg::node::element::Path;
 type PathData = svg::node::element::path::Data;
+
 type SvgStyle<'a> = &'a [(&'a str, svg::node::Value)];
 
 fn to_svg(cuts: &Vec<Cut>) -> SvgGroup {
@@ -61,10 +97,10 @@ fn to_svg(cuts: &Vec<Cut>) -> SvgGroup {
         };
 
         match (this, next) {
-            (Goto(cx, cy), Circle(d)) => {
+            (Goto(Pos { x, y }), Circle(d)) => {
                 let mut c = SvgCircle::new()
-                    .set("cx", cx)
-                    .set("cy", cy)
+                    .set("cx", x)
+                    .set("cy", y)
                     .set("r", d / 2.0);
                 for attr in style {
                     c = c.set(attr.0, attr.1.clone());
@@ -83,7 +119,7 @@ fn to_svg(cuts: &Vec<Cut>) -> SvgGroup {
             }
             (Close(), _) => (),
 
-            (Goto(x, y), Corner(r, _, _)) => p = p.move_to((x + r, y)),
+            (Goto(Pos { x, y }), Corner(r, _, _)) => p = p.move_to((x + r, y)),
 
             (Back(depth), Corner(nr, _, _)) => {
                 p = p.line_by((0, -(depth - pr - nr)))
@@ -112,33 +148,48 @@ fn to_svg(cuts: &Vec<Cut>) -> SvgGroup {
     unreachable!()
 }
 
-fn ensure_closed(cuts: &Vec<Cut>) {
-    let mut start_x = None;
-    let mut start_y = None;
-    let mut x = 0.0;
-    let mut y = 0.0;
+fn save_svg(name: &str, path: &Path, margin: f64) -> Result<()> {
+    let bbox = ensure_closed(&path.cuts);
+    let width = bbox.max.x - bbox.min.x + margin * 2.0;
+    let depth = bbox.max.y - bbox.min.y + margin * 2.0;
+    let size = (bbox.min.x - margin, bbox.min.y - margin, width, depth);
+    let document = svg::Document::new()
+        .set("width", format!("{}in", width))
+        .set("height", format!("{}in", depth))
+        .set("viewBox", size)
+        .add(to_svg(&path.cuts));
+    svg::save(name, &document)?;
+    Ok(())
+}
+
+fn ensure_closed(cuts: &Vec<Cut>) -> Bounds {
+    let mut start = None;
+    let mut cur = Pos { x: 0.0, y: 0.0 };
+    let mut bbox = Bounds { min: cur, max: cur };
     for cut in cuts {
         match *cut {
             Close() => {
-                assert_eq!(start_x, Some(x));
-                assert_eq!(start_y, Some(y));
-                start_x = None;
-                start_y = None;
+                assert_eq!(start, Some(cur));
+                start = None;
             }
-            Goto(new_x, new_y) => {
-                x = new_x;
-                y = new_y;
-                start_x = Some(x);
-                start_y = Some(y);
+            Goto(pos) => {
+                cur = pos;
+                start = Some(pos);
             }
-            Back(depth) => y -= depth,
-            Forth(depth) => y += depth,
-            Left(width) => x -= width,
-            Right(width) => x += width,
+            Back(depth) => cur.y -= depth,
+            Forth(depth) => cur.y += depth,
+            Left(width) => cur.x -= width,
+            Right(width) => cur.x += width,
             Corner(_, _, _) => (),
-            Circle(_) => (),
+            Circle(diameter) => {
+                let r = diameter / 2.0;
+                bbox = bounds(bbox, Pos { x: cur.x - r, y: cur.y - r });
+                bbox = bounds(bbox, Pos { x: cur.x + r, y: cur.y + r });
+            }
         }
+        bbox = bounds(bbox, cur);
     }
+    bbox
 }
 
 macro_rules! path_state {
@@ -182,7 +233,7 @@ path_state! {
     Path:
 
     fn new(x: f64, y: f64) -> Moved {
-        Moved { cuts: vec![Goto(x, y)] }
+        Moved { cuts: vec![Goto(Pos{x, y})] }
     }
 }
 
@@ -190,7 +241,7 @@ path_state! {
     Completed:
 
     fn goto(mut self, x: f64, y: f64) -> Moved {
-        self.cuts.push(Goto(x,y));
+        self.cuts.push(Goto(Pos{x,y}));
         Moved { cuts: self.cuts }
     }
 
@@ -274,8 +325,8 @@ path_state! {
 
 path_state! {
     Righted:
-    path_funky! { cw(radius) -> Forthing = Corner(radius, radius, -radius) }
-    path_funky! { ws(radius) -> Backing = Corner(radius, radius, radius) }
+    path_funky! { cw(radius) -> Forthing = Corner(radius, radius, radius) }
+    path_funky! { ws(radius) -> Backing = Corner(radius, radius, -radius) }
     path_closed!();
 
     // inner cut, in opposite direction
@@ -290,7 +341,8 @@ path_state! {
     }
 }
 
-fn main() {
+fn main() -> Result<()> {
     let path = Path::new(1.0, 1.0).rect(1.0, 2.0, 0.1).done();
-    println!("{:#?}", path);
+    save_svg("keybow/test.svg", &path, SWU)?;
+    Ok(())
 }
