@@ -3,12 +3,18 @@
 use anyhow::*;
 use svg;
 
+const WIDTH: u8 = 15;
+const DEPTH: u8 = 5;
+
 // we are mostly working in inches, except for the holes
 const MM_IN: f64 = 25.4;
 
 const KERF: f64 = 0.01; // inch
 
 const SWU: f64 = 0.75; // inch
+
+const WIDTH_IN: f64 = WIDTH as f64 * SWU;
+const DEPTH_IN: f64 = DEPTH as f64 * SWU;
 
 const BLACK: f64 = 0.5 * SWU;
 
@@ -18,15 +24,39 @@ const BEIGE_FAR: f64 = 1.25 * SWU;
 
 // for switches the kerf is larger than the tolerance
 const SWITCH_HOLE: f64 = 14.0 / MM_IN - KERF;
+const SWITCH_RADIUS: f64 = KERF;
 
 // use the kerf to provide the right fit
 const RIVET_HOLE: f64 = 5.0 / MM_IN;
 const SCREW_HOLE: f64 = 3.0 / MM_IN;
 
+const PCB_RADIUS: f64 = 0.06; // same as thickness
+
 fn main() -> Result<()> {
-    let path = Path::new(1.0, 1.0).rect(1.0, 2.0, 0.1).done();
+    let path =
+        Path::new(0.0, 0.0).rect(WIDTH_IN, DEPTH_IN, PCB_RADIUS).layout();
+
     save_svg("keybow/test.svg", &path, SWU)?;
     Ok(())
+}
+
+impl Path {
+    fn layout(mut self) -> Path {
+        for x in 0..WIDTH {
+            for y in 0..DEPTH {
+                self = self.switch(1.0, x as f64, y as f64);
+            }
+        }
+        self
+    }
+
+    fn switch(self, w: f64, x: f64, y: f64) -> Path {
+        let width = w * SWU;
+        let depth = 1.0 * SWU;
+        let x = x * SWU + width / 2.0 - SWITCH_HOLE / 2.0;
+        let y = y * SWU + depth / 2.0 - SWITCH_HOLE / 2.0;
+        self.goto(x, y).rect(SWITCH_HOLE, SWITCH_HOLE, SWITCH_RADIUS)
+    }
 }
 
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -159,13 +189,15 @@ fn to_svg(cuts: &Vec<Cut>) -> SvgGroup {
 }
 
 fn ensure_closed(cuts: &Vec<Cut>) -> Bounds {
-    let mut start = None;
+    let mut start: Option<Pos> = None;
     let mut cur = NO_PLACE;
     let mut bbox = Bounds { min: cur, max: cur };
     for cut in cuts {
         match *cut {
             Close() => {
-                assert_eq!(start, Some(cur));
+                let dx = start.unwrap().x - cur.x;
+                let dy = start.unwrap().y - cur.y;
+                assert!(dx * dx + dy * dy < 0.0001 * 0.0001);
                 start = None;
             }
             Goto(pos) => {
@@ -217,10 +249,10 @@ macro_rules! path_fn {
 
 macro_rules! path_closed {
     () => {
-        fn close(mut self) -> Completed {
+        fn close(mut self) -> Path {
             self.cuts.push(Close());
             ensure_closed(&self.cuts);
-            Completed { cuts: self.cuts }
+            Path { cuts: self.cuts }
         }
     };
 }
@@ -231,28 +263,20 @@ path_state! {
     fn new(x: f64, y: f64) -> Moved {
         Moved { cuts: vec![Goto(Pos{x, y})] }
     }
-}
-
-path_state! {
-    Completed:
 
     fn goto(mut self, x: f64, y: f64) -> Moved {
         self.cuts.push(Goto(Pos{x,y}));
         Moved { cuts: self.cuts }
-    }
-
-    fn done(self) -> Path {
-        Path { cuts: self.cuts }
     }
 }
 
 path_state! {
     Moved:
 
-    fn hole(mut self, diameter: f64) -> Completed {
+    fn hole(mut self, diameter: f64) -> Path {
         self.cuts.push(Circle(diameter));
         self.cuts.push(Close());
-        Completed { cuts: self.cuts }
+        Path { cuts: self.cuts }
     }
 
     // first corner must be top left
@@ -266,7 +290,7 @@ path_state! {
             .ws(radius)
     }
 
-    fn rect(self, width: f64, depth: f64, radius: f64) -> Completed {
+    fn rect(self, width: f64, depth: f64, radius: f64) -> Path {
         self.frame(width, depth, radius)
             .left(width)
             .close()
