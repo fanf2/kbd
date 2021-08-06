@@ -23,11 +23,19 @@ const SWITCH_HOLE: f64 = 14.0 / MM_IN - KERF;
 const RIVET_HOLE: f64 = 5.0 / MM_IN;
 const SCREW_HOLE: f64 = 3.0 / MM_IN;
 
+fn main() -> Result<()> {
+    let path = Path::new(1.0, 1.0).rect(1.0, 2.0, 0.1).done();
+    save_svg("keybow/test.svg", &path, SWU)?;
+    Ok(())
+}
+
 #[derive(Clone, Copy, Debug, PartialEq)]
 struct Pos {
     x: f64,
     y: f64,
 }
+
+const NO_PLACE: Pos = Pos { x: 0.0 / 0.0, y: 0.0 / 0.0 };
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 struct Bounds {
@@ -35,23 +43,9 @@ struct Bounds {
     max: Pos,
 }
 
-fn min(a: f64, b: f64) -> f64 {
-    if a <= b {
-        a
-    } else {
-        b
-    }
-}
-
-fn max(a: f64, b: f64) -> f64 {
-    if a >= b {
-        a
-    } else {
-        b
-    }
-}
-
 fn bounds(bbox: Bounds, pos: Pos) -> Bounds {
+    let min = |a, b| if a <= b { a } else { b };
+    let max = |a, b| if a >= b { a } else { b };
     Bounds {
         min: Pos { x: min(bbox.min.x, pos.x), y: min(bbox.min.y, pos.y) },
         max: Pos { x: max(bbox.max.x, pos.x), y: max(bbox.max.y, pos.y) },
@@ -65,11 +59,25 @@ enum Cut {
     Forth(f64),
     Left(f64),
     Right(f64),
-    Corner(f64, f64, f64),
+    Corner(f64, f64, f64), // radius, dx, dy
     Close(),
-    Circle(f64),
+    Circle(f64), // diameter
 }
 use Cut::*;
+
+fn save_svg(name: &str, path: &Path, margin: f64) -> Result<()> {
+    let bbox = ensure_closed(&path.cuts);
+    let width = bbox.max.x - bbox.min.x + margin * 2.0;
+    let depth = bbox.max.y - bbox.min.y + margin * 2.0;
+    let size = (bbox.min.x - margin, bbox.min.y - margin, width, depth);
+    let document = svg::Document::new()
+        .set("width", format!("{}in", width))
+        .set("height", format!("{}in", depth))
+        .set("viewBox", size)
+        .add(to_svg(&path.cuts));
+    svg::save(name, &document)?;
+    Ok(())
+}
 
 type SvgCircle = svg::node::element::Circle;
 type SvgGroup = svg::node::element::Group;
@@ -119,7 +127,9 @@ fn to_svg(cuts: &Vec<Cut>) -> SvgGroup {
             }
             (Close(), _) => (),
 
-            (Goto(Pos { x, y }), Corner(r, _, _)) => p = p.move_to((x + r, y)),
+            (Goto(Pos { x, y }), Corner(nr, _, _)) => {
+                p = p.move_to((x + nr, y))
+            }
 
             (Back(depth), Corner(nr, _, _)) => {
                 p = p.line_by((0, -(depth - pr - nr)))
@@ -137,8 +147,8 @@ fn to_svg(cuts: &Vec<Cut>) -> SvgGroup {
                 p = p.line_by((depth - pr - nr, 0))
             }
 
-            (Corner(r, x, y), _) => {
-                p = p.elliptical_arc_by((r, r, 0, 0, 0, x, y));
+            (Corner(r, dx, dy), _) => {
+                p = p.elliptical_arc_by((r, r, 0, 0, 0, dx, dy));
                 pr = r;
             }
 
@@ -148,23 +158,9 @@ fn to_svg(cuts: &Vec<Cut>) -> SvgGroup {
     unreachable!()
 }
 
-fn save_svg(name: &str, path: &Path, margin: f64) -> Result<()> {
-    let bbox = ensure_closed(&path.cuts);
-    let width = bbox.max.x - bbox.min.x + margin * 2.0;
-    let depth = bbox.max.y - bbox.min.y + margin * 2.0;
-    let size = (bbox.min.x - margin, bbox.min.y - margin, width, depth);
-    let document = svg::Document::new()
-        .set("width", format!("{}in", width))
-        .set("height", format!("{}in", depth))
-        .set("viewBox", size)
-        .add(to_svg(&path.cuts));
-    svg::save(name, &document)?;
-    Ok(())
-}
-
 fn ensure_closed(cuts: &Vec<Cut>) -> Bounds {
     let mut start = None;
-    let mut cur = Pos { x: 0.0, y: 0.0 };
+    let mut cur = NO_PLACE;
     let mut bbox = Bounds { min: cur, max: cur };
     for cut in cuts {
         match *cut {
@@ -264,19 +260,16 @@ path_state! {
 
     // around the outside omitting the back
     fn frame(self, width: f64, depth: f64, radius: f64) -> Lefting {
-        self.ws(radius)
-        .forth(depth)
-        .ws(radius)
-        .right(width)
-        .ws(radius)
-        .back(depth)
-        .ws(radius)
+        self.ws(radius).forth(depth)
+            .ws(radius).right(width)
+            .ws(radius).back(depth)
+            .ws(radius)
     }
 
     fn rect(self, width: f64, depth: f64, radius: f64) -> Completed {
         self.frame(width, depth, radius)
-        .left(width)
-        .close()
+            .left(width)
+            .close()
     }
 }
 
@@ -287,9 +280,19 @@ path_state! {
     Lefting:
     path_fn! { left(width) -> Lefted = Left }
 
+    fn recess(self, (a,b,c): (f64,f64,f64), d: f64, radius: f64) -> Lefted {
+        self.left(a).ws(radius)
+            .forth(d).cw(radius)
+            .left(b).cw(radius)
+            .back(d).ws(radius)
+            .left(c)
+    }
+
     // into the inside
     fn portal(self, long: f64, short: f64, depth: f64, radius: f64) -> Righted {
-        self.left(long).ws(radius).forth(depth).ws(radius).right(short)
+        self.left(long).ws(radius)
+            .forth(depth).ws(radius)
+            .right(short)
     }
 }
 path_state! {
@@ -298,7 +301,9 @@ path_state! {
 
     // back to the outside
     fn portal(self, long: f64, short: f64, depth: f64, radius: f64) -> Lefted {
-        self.right(short).ws(radius).back(depth).ws(radius).left(long)
+        self.right(short).ws(radius)
+            .back(depth).ws(radius)
+            .left(long)
     }
 }
 
@@ -331,18 +336,9 @@ path_state! {
 
     // inner cut, in opposite direction
     fn frame(self, width: f64, depth: f64, radius: f64) -> Righting {
-        self.cw(radius)
-            .forth(depth)
-            .cw(radius)
-            .left(width)
-            .cw(radius)
-            .back(depth)
+        self.cw(radius).forth(depth)
+            .cw(radius).left(width)
+            .cw(radius).back(depth)
             .cw(radius)
     }
-}
-
-fn main() -> Result<()> {
-    let path = Path::new(1.0, 1.0).rect(1.0, 2.0, 0.1).done();
-    save_svg("keybow/test.svg", &path, SWU)?;
-    Ok(())
 }
