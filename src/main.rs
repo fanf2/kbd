@@ -1,7 +1,6 @@
 #![allow(dead_code)]
 
 use anyhow::*;
-use svg;
 
 const WIDTH: u8 = 15;
 const DEPTH: u8 = 5;
@@ -30,18 +29,23 @@ const SWITCH_RADIUS: f64 = KERF;
 const RIVET_HOLE: f64 = 5.0 / MM_IN;
 const SCREW_HOLE: f64 = 3.0 / MM_IN;
 
+const STAB_DEPTH: f64 = (0.26 - 0.484 + 0.53) * 2.0;
+const STAB_WIDTH: f64 = 1.0 / 3.0;
+const STAB_OFFSET_2U: f64 = 1.0 / 2.0;
+const STAB_OFFSET_7U: f64 = 4.5 / 2.0;
+
 const PCB_RADIUS: f64 = 0.06; // same as thickness
 
 fn main() -> Result<()> {
     let path =
-        Path::new(0.0, 0.0).rect(WIDTH_IN, DEPTH_IN, PCB_RADIUS).layout();
+        Path::begin(0.0, 0.0).rect(WIDTH_IN, DEPTH_IN, PCB_RADIUS).hhkb();
 
     save_svg("keybow/test.svg", &path, SWU)?;
     Ok(())
 }
 
 impl Path {
-    fn layout(mut self) -> Path {
+    fn ortho(mut self) -> Path {
         for x in 0..WIDTH {
             for y in 0..DEPTH {
                 self = self.switch(1.0, x as f64, y as f64);
@@ -50,12 +54,57 @@ impl Path {
         self
     }
 
-    fn switch(self, w: f64, x: f64, y: f64) -> Path {
+    fn hhkb(mut self) -> Path {
+        for x in 0..WIDTH {
+            self = self.switch(1.0, x as f64, 0.0);
+            if x < WIDTH - 3 {
+                self = self.switch(1.0, x as f64 + 1.5, 1.0);
+            }
+            if x < WIDTH - 4 {
+                self = self.switch(1.0, x as f64 + 1.75, 2.0);
+            }
+            if x < WIDTH - 5 {
+                self = self.switch(1.0, x as f64 + 2.25, 3.0);
+            }
+        }
+        self.switch(1.5, 0.0, 1.0)
+            .switch(1.5, -1.5, 1.0)
+            .switch(1.75, 0.0, 2.0)
+            .switch(2.25, -2.25, 2.0)
+            .switch(2.25, 0.0, 3.0)
+            .switch(1.75, -2.75, 3.0)
+            .switch(1.0, -1.0, 3.0)
+            .switch(1.5, 0.0, 4.0)
+            .switch(1.0, 1.5, 4.0)
+            .switch(1.5, 2.5, 4.0)
+            .switch(7.0, 4.0, 4.0)
+            .switch(1.5, -4.0, 4.0)
+            .switch(1.0, -2.5, 4.0)
+            .switch(1.5, -1.5, 4.0)
+    }
+
+    fn switch(mut self, w: f64, mut x: f64, mut y: f64) -> Path {
         let width = w * SWU;
         let depth = 1.0 * SWU;
-        let x = x * SWU + width / 2.0 - SWITCH_HOLE / 2.0;
-        let y = y * SWU + depth / 2.0 - SWITCH_HOLE / 2.0;
-        self.goto(x, y).rect(SWITCH_HOLE, SWITCH_HOLE, SWITCH_RADIUS)
+        x = x * SWU + width / 2.0;
+        y = y * SWU + depth / 2.0;
+        if x < 0.0 {
+            x += WIDTH_IN;
+        }
+        if 2.0 - KERF < w && w < 3.0 - KERF {
+            self = self.stab(STAB_OFFSET_2U, x, y);
+        }
+        if 7.0 - KERF < w && w < 7.0 + KERF {
+            self = self.stab(STAB_OFFSET_7U, x, y);
+        }
+        self.goto(x, y).cutout(SWITCH_HOLE, SWITCH_HOLE, SWITCH_RADIUS)
+    }
+
+    fn stab(self, w: f64, x: f64, y: f64) -> Path {
+        self.goto(x - w, y)
+            .cutout(STAB_WIDTH, STAB_DEPTH, SWITCH_RADIUS)
+            .goto(x + w, y)
+            .cutout(STAB_WIDTH, STAB_DEPTH, SWITCH_RADIUS)
     }
 }
 
@@ -65,7 +114,7 @@ struct Pos {
     y: f64,
 }
 
-const NO_PLACE: Pos = Pos { x: 0.0 / 0.0, y: 0.0 / 0.0 };
+const NO_PLACE: Pos = Pos { x: f64::NAN, y: f64::NAN };
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 struct Bounds {
@@ -116,7 +165,7 @@ type PathData = svg::node::element::path::Data;
 
 type SvgStyle<'a> = &'a [(&'a str, svg::node::Value)];
 
-fn to_svg(cuts: &Vec<Cut>) -> SvgGroup {
+fn to_svg(cuts: &[Cut]) -> SvgGroup {
     let style: SvgStyle = &[
         ("fill", "none".into()),
         ("stroke", "goldenrod".into()),
@@ -188,7 +237,7 @@ fn to_svg(cuts: &Vec<Cut>) -> SvgGroup {
     unreachable!()
 }
 
-fn ensure_closed(cuts: &Vec<Cut>) -> Bounds {
+fn ensure_closed(cuts: &[Cut]) -> Bounds {
     let mut start: Option<Pos> = None;
     let mut cur = NO_PLACE;
     let mut bbox = Bounds { min: cur, max: cur };
@@ -260,7 +309,7 @@ macro_rules! path_closed {
 path_state! {
     Path:
 
-    fn new(x: f64, y: f64) -> Moved {
+    fn begin(x: f64, y: f64) -> Moved {
         Moved { cuts: vec![Goto(Pos{x, y})] }
     }
 
@@ -294,6 +343,17 @@ path_state! {
         self.frame(width, depth, radius)
             .left(width)
             .close()
+    }
+
+    fn cutout(mut self, width: f64, depth: f64, radius: f64) -> Path {
+        match self.cuts.pop() {
+            Some(Goto(Pos{ x, y })) => {
+                self.cuts.push(Goto(Pos{ x: x - width / 2.0,
+                                         y: y - depth / 2.0 }));
+                self.rect(width, depth, radius)
+            }
+            _ => unreachable!(),
+        }
     }
 }
 
