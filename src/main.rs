@@ -80,25 +80,24 @@ fn main() -> Result<()> {
         .rect(BLACK_W, BLACK_D, BLUNT)
         .goto(KEYS_X, KEYS_Y)
         .rect(KEYS_W, KEYS_D, SHARP)
-        .drill(SCREW_HOLE)
+        .drill(SCREW_HOLE, SCREW_HOLE)
     // shim
         .goto(BEIGE_X, BEIGE_Y)
         .rect(BEIGE_W, BEIGE_D, SMOOTH)
         .goto(KEYS_X, KEYS_Y)
         .rect(KEYS_W, KEYS_D, SHARP)
-        .drill(SCREW_HOLE)
+        .drill(SCREW_HOLE, SCREW_HOLE)
     // plate
         .goto(BEIGE_X, BEIGE_Y)
         .rect(BEIGE_W, BEIGE_D, SMOOTH)
-        .drill(SCREW_HOLE)
-        .ortho()
+        .drill(SCREW_HOLE, SCREW_HOLE)
+        .ortho_keys()
     // closed box
         .goto(BEIGE_X, BEIGE_Y)
         .rect(BEIGE_W, BEIGE_D, SMOOTH)
         .goto(BOX_X, BOX_Y)
         .rect(BOX_W, BOX_D, BLUNT)
-        .drill(RIVET_HOLE)
-        .ortho_feet()
+        .drill(SCREW_HOLE, RIVET_HOLE)
     // open box
         .goto(BEIGE_X, BEIGE_Y)
         .frame(BEIGE_W, BEIGE_D, SMOOTH)
@@ -106,7 +105,7 @@ fn main() -> Result<()> {
         .frame(BOX_W, BOX_D, BLUNT)
         .portal(RECESS_SIDE, BOX_SIDE, RECESS_BOX, BLUNT)
         .close()
-        .drill(RIVET_HOLE)
+        .drill(RIVET_HOLE, RIVET_HOLE)
         .ortho_feet()
     // base
         .goto(BEIGE_X, BEIGE_Y)
@@ -114,7 +113,7 @@ fn main() -> Result<()> {
         .recess((RECESS_SIDE, RECESS_MID, RECESS_SIDE),
                  RECESS_PCB, BLUNT)
         .close()
-        .drill(RIVET_HOLE)
+        .drill(RIVET_HOLE, RIVET_HOLE)
         ;
 
     save_svg("keybow/test.svg", &path, SWU)?;
@@ -122,18 +121,18 @@ fn main() -> Result<()> {
 }
 
 impl Path {
-    fn drill(self, diameter: f64) -> Path {
+    fn drill(self, d_far: f64, d_near: f64) -> Path {
         self.goto(DRILL_LEFT, DRILL_FAR)
-            .hole(diameter)
-            .goto(DRILL_LEFT, DRILL_NEAR)
-            .hole(diameter)
+            .hole(d_far)
             .goto(DRILL_RIGHT, DRILL_FAR)
-            .hole(diameter)
+            .hole(d_far)
+            .goto(DRILL_LEFT, DRILL_NEAR)
+            .hole(d_near)
             .goto(DRILL_RIGHT, DRILL_NEAR)
-            .hole(diameter)
+            .hole(d_near)
     }
 
-    fn ortho(mut self) -> Path {
+    fn ortho_keys(mut self) -> Path {
         for x in 0..WIDTH {
             for y in 0..DEPTH {
                 self = self.switch(1.0, x as f64, y as f64);
@@ -143,10 +142,9 @@ impl Path {
     }
 
     fn ortho_feet(mut self) -> Path {
-        for x in 1..=3 {
-            for y in 1..=3 {
-                self = self.ortho_foot(x as f64, y as f64)
-            }
+        for y in 1..DEPTH {
+            self = self.ortho_foot(1.0, y as f64);
+            self = self.ortho_foot(3.0, y as f64);
         }
         self
     }
@@ -158,7 +156,7 @@ impl Path {
             .hole((AROUND_HOLE + y / MM_IN) * 2.0)
     }
 
-    fn hhkb(mut self) -> Path {
+    fn hhkb_keys(mut self) -> Path {
         for x in 0..WIDTH {
             self = self.switch(1.0, x as f64, 0.0);
             if x < WIDTH - 3 {
