@@ -1,0 +1,14 @@
+<svg height="6.5in" viewBox="-1.375 -1.5625 14 6.5" width="14in" xmlns="http://www.w3.org/2000/svg">
+<g>
+<path d="M-1,-1.3125 a0.125,0.125,0,0,0,-0.125,0.125 l0,5.75 a0.125,0.125,0,0,0,0.125,0.125 l13.25,0 a0.125,0.125,0,0,0,0.125,-0.125 l0,-5.75 a0.125,0.125,0,0,0,-0.125,-0.125 z" fill="none" stroke="goldenrod" stroke-width="0.01"/>
+<path d="M0,-0.0625 a0.0625,0.0625,0,0,0,-0.0625,0.0625 l0,3.75 a0.0625,0.0625,0,0,0,0.0625,0.0625 l11.25,0 a0.0625,0.0625,0,0,0,0.0625,-0.0625 l0,-3.75 a0.0625,0.0625,0,0,0,-0.0625,-0.0625 z" fill="none" stroke="goldenrod" stroke-width="0.01"/>
+<circle cx="-0.21751968503937008" cy="-0.21751968503937008" fill="none" r="0.05905511811023623" stroke="goldenrod" stroke-width="0.01"/>
+<circle cx="11.46751968503937" cy="-0.21751968503937008" fill="none" r="0.05905511811023623" stroke="goldenrod" stroke-width="0.01"/>
+<circle cx="-0.21751968503937008" cy="3.96751968503937" fill="none" r="0.0984251968503937" stroke="goldenrod" stroke-width="0.01"/>
+<circle cx="11.46751968503937" cy="3.96751968503937" fill="none" r="0.0984251968503937" stroke="goldenrod" stroke-width="0.01"/>
+<circle cx="3.75" cy="-0.21751968503937008" fill="none" r="0.05905511811023623" stroke="goldenrod" stroke-width="0.01"/>
+<circle cx="7.5" cy="-0.21751968503937008" fill="none" r="0.05905511811023623" stroke="goldenrod" stroke-width="0.01"/>
+<circle cx="3.75" cy="3.96751968503937" fill="none" r="0.0984251968503937" stroke="goldenrod" stroke-width="0.01"/>
+<circle cx="7.5" cy="3.96751968503937" fill="none" r="0.0984251968503937" stroke="goldenrod" stroke-width="0.01"/>
+</g>
+</svg>
