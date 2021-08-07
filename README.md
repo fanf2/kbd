@@ -439,7 +439,7 @@ so the recess may need to be larger.
 
 [USB-C connector specification]: https://www.usb.org/document-library/usb-type-cr-cable-and-connector-specification-revision-21
 
-![laser cut outlines for small prototype case](keybow/all.svg)
+![laser cut outlines for case](hhkb/all.svg)
 
 
 ### Fixings
