@@ -2,11 +2,13 @@
 
 use anyhow::*;
 
-const WIDTH: i8 = 4;
-const DEPTH: i8 = 4;
+const WIDTH: i8 = 15;
+const DEPTH: i8 = 5;
+
+const HHKB: bool = WIDTH > 10;
 
 const fn hhkb_ortho(hhkb: f64, ortho: f64) -> f64 {
-    if WIDTH > 10 {
+    if HHKB {
         hhkb
     } else {
         ortho
@@ -80,6 +82,9 @@ const STAB_WIDTH: f64 = 1.0 / 3.0;
 const STAB_OFFSET_2U: f64 = 1.0 / 2.0;
 const STAB_OFFSET_7U: f64 = 4.5 / 2.0;
 
+const STAB_GAP: f64 = STAB_OFFSET_2U - STAB_WIDTH / 2.0 - SWITCH_HOLE / 2.0;
+const STAB_JOIN: f64 = SWITCH_HOLE * 0.75;
+
 fn base() -> Path {
     Path::begin(BEIGE_X, BEIGE_Y)
         .frame(BEIGE_W, BEIGE_D, SMOOTH)
@@ -139,14 +144,15 @@ fn black_top() -> Path {
 
 fn main() -> Result<()> {
     let mut all = Path { cuts: vec![] };
-    all.concat(save_svg("keybow/L0_clear15.svg", base())?);
-    all.concat(save_svg("keybow/L12_beige30.svg", socket())?);
-    all.concat(save_svg("keybow/L3_beige30.svg", closed())?);
-    all.concat(save_svg("keybow/L4_clear15.svg", plate())?);
-    all.concat(save_svg("keybow/L5_clear15.svg", shim())?);
-    all.concat(save_svg("keybow/L67_beige30.svg", beige_top())?);
-    all.concat(save_svg("keybow/L8_black50.svg", black_top())?);
-    save_svg("keybow/all.svg", all)?;
+    std::env::set_current_dir(if HHKB { "hhkb" } else { "keybow" })?;
+    all.concat(save_svg("L0_clear15.svg", base())?);
+    all.concat(save_svg("L12_beige30.svg", socket())?);
+    all.concat(save_svg("L3_beige30.svg", closed())?);
+    all.concat(save_svg("L4_clear15.svg", plate())?);
+    all.concat(save_svg("L5_clear15.svg", shim())?);
+    all.concat(save_svg("L67_beige30.svg", beige_top())?);
+    all.concat(save_svg("L8_black50.svg", black_top())?);
+    save_svg("all.svg", all)?;
     Ok(())
 }
 
@@ -176,7 +182,7 @@ impl Path {
     }
 
     fn keys(self) -> Path {
-        if WIDTH > 10 {
+        if HHKB {
             self.hhkb_keys()
         } else {
             self.ortho_keys()
@@ -184,7 +190,7 @@ impl Path {
     }
 
     fn feet(self) -> Path {
-        if WIDTH > 10 {
+        if HHKB {
             self.hhkb_feet()
         } else {
             self.ortho_feet()
@@ -246,8 +252,8 @@ impl Path {
 
     fn hhkb_feet(mut self) -> Path {
         for y in 1..DEPTH {
-            self = self.hhkb_foot(4.0, y as f64);
-            self = self.hhkb_foot(11.0, y as f64);
+            self = self.hhkb_foot(4.0 * SWU, y as f64);
+            self = self.hhkb_foot(11.0 * SWU, y as f64);
         }
         self
     }
@@ -263,7 +269,7 @@ impl Path {
             .rect(wid * 2.0 + rad * 2.0, rad * 2.0, AROUND_HOLE)
     }
 
-    fn switch(mut self, w: f64, mut x: f64, mut y: f64) -> Path {
+    fn switch(self, w: f64, mut x: f64, mut y: f64) -> Path {
         let width = w * SWU;
         let depth = 1.0 * SWU;
         if x < 0.0 {
@@ -271,20 +277,67 @@ impl Path {
         }
         x = x * SWU + width / 2.0;
         y = y * SWU + depth / 2.0;
+        if 1.0 - KERF < w && w < 2.0 - KERF {
+            return self.goto(x, y).cutout(SWITCH_HOLE, SWITCH_HOLE, KERF);
+        }
         if 2.0 - KERF < w && w < 3.0 - KERF {
-            self = self.stab(STAB_OFFSET_2U, x, y);
+            return self.switch_stab(x, y);
         }
         if 7.0 - KERF < w && w < 7.0 + KERF {
-            self = self.stab(STAB_OFFSET_7U, x, y);
+            return self
+                .goto(x - STAB_OFFSET_7U, y)
+                .cutout(STAB_WIDTH, STAB_DEPTH, KERF)
+                .goto(x + STAB_OFFSET_7U, y)
+                .cutout(STAB_WIDTH, STAB_DEPTH, KERF)
+                .goto(x, y)
+                .cutout(SWITCH_HOLE, SWITCH_HOLE, KERF);
         }
-        self.goto(x, y).cutout(SWITCH_HOLE, SWITCH_HOLE, KERF)
+        unreachable!("unsupported key size {}", w)
     }
 
-    fn stab(self, w: f64, x: f64, y: f64) -> Path {
-        self.goto(x - w, y)
-            .cutout(STAB_WIDTH, STAB_DEPTH, KERF)
-            .goto(x + w, y)
-            .cutout(STAB_WIDTH, STAB_DEPTH, KERF)
+    fn switch_stab(self, x: f64, y: f64) -> Path {
+        self.goto(x - SWITCH_HOLE / 2.0, y - SWITCH_HOLE / 2.0)
+            .ws(KERF)
+            .forth((SWITCH_HOLE - STAB_JOIN) / 2.0)
+            .cw(KERF)
+            .left(STAB_GAP)
+            .cw(KERF)
+            .back((STAB_DEPTH - STAB_JOIN) / 2.0)
+            .ws(KERF)
+            .left(STAB_WIDTH)
+            .ws(KERF)
+            .forth(STAB_DEPTH)
+            .ws(KERF)
+            .right(STAB_WIDTH)
+            .ws(KERF)
+            .back((STAB_DEPTH - STAB_JOIN) / 2.0)
+            .cw(KERF)
+            .right(STAB_GAP)
+            .cw(KERF)
+            .forth((SWITCH_HOLE - STAB_JOIN) / 2.0)
+            .ws(KERF)
+            .right(SWITCH_HOLE)
+            .ws(KERF)
+            .back((SWITCH_HOLE - STAB_JOIN) / 2.0)
+            .cw(KERF)
+            .right(STAB_GAP)
+            .cw(KERF)
+            .forth((STAB_DEPTH - STAB_JOIN) / 2.0)
+            .ws(KERF)
+            .right(STAB_WIDTH)
+            .ws(KERF)
+            .back(STAB_DEPTH)
+            .ws(KERF)
+            .left(STAB_WIDTH)
+            .ws(KERF)
+            .forth((STAB_DEPTH - STAB_JOIN) / 2.0)
+            .cw(KERF)
+            .left(STAB_GAP)
+            .cw(KERF)
+            .back((SWITCH_HOLE - STAB_JOIN) / 2.0)
+            .ws(KERF)
+            .left(SWITCH_HOLE)
+            .close()
     }
 }
 
