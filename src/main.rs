@@ -96,9 +96,9 @@ fn base() -> Path {
 fn socket() -> Path {
     Path::begin(BEIGE_X, BEIGE_Y)
         .frame(BEIGE_W, BEIGE_D, SMOOTH)
-        .portal(RECESS_RIGHT, RECESS_R_IN, RECESS_BOX, BLUNT)
+        .uws(RECESS_RIGHT, RECESS_BOX, RECESS_R_IN, BLUNT)
         .frame(BOX_W, BOX_D, BLUNT)
-        .portal(RECESS_LEFT, RECESS_L_IN, RECESS_BOX, BLUNT)
+        .uws(RECESS_L_IN, RECESS_BOX, RECESS_LEFT, BLUNT)
         .close()
         .drill(RIVET_HOLE, RIVET_HOLE)
 }
@@ -298,43 +298,35 @@ impl Path {
     fn switch_stab(self, x: f64, y: f64) -> Path {
         self.goto(x - SWITCH_HOLE / 2.0, y - SWITCH_HOLE / 2.0)
             .ws(KERF)
-            .forth((SWITCH_HOLE - STAB_JOIN) / 2.0)
-            .cw(KERF)
-            .left(STAB_GAP)
-            .cw(KERF)
-            .back((STAB_DEPTH - STAB_JOIN) / 2.0)
-            .ws(KERF)
-            .left(STAB_WIDTH)
-            .ws(KERF)
-            .forth(STAB_DEPTH)
-            .ws(KERF)
-            .right(STAB_WIDTH)
-            .ws(KERF)
-            .back((STAB_DEPTH - STAB_JOIN) / 2.0)
-            .cw(KERF)
-            .right(STAB_GAP)
-            .cw(KERF)
-            .forth((SWITCH_HOLE - STAB_JOIN) / 2.0)
+            .ucw(
+                (SWITCH_HOLE - STAB_JOIN) / 2.0,
+                STAB_GAP,
+                (STAB_DEPTH - STAB_JOIN) / 2.0,
+                KERF,
+            )
+            .frame(STAB_WIDTH, STAB_DEPTH, KERF)
+            .ucw(
+                (STAB_DEPTH - STAB_JOIN) / 2.0,
+                STAB_GAP,
+                (SWITCH_HOLE - STAB_JOIN) / 2.0,
+                KERF,
+            )
             .ws(KERF)
             .right(SWITCH_HOLE)
             .ws(KERF)
-            .back((SWITCH_HOLE - STAB_JOIN) / 2.0)
-            .cw(KERF)
-            .right(STAB_GAP)
-            .cw(KERF)
-            .forth((STAB_DEPTH - STAB_JOIN) / 2.0)
-            .ws(KERF)
-            .right(STAB_WIDTH)
-            .ws(KERF)
-            .back(STAB_DEPTH)
-            .ws(KERF)
-            .left(STAB_WIDTH)
-            .ws(KERF)
-            .forth((STAB_DEPTH - STAB_JOIN) / 2.0)
-            .cw(KERF)
-            .left(STAB_GAP)
-            .cw(KERF)
-            .back((SWITCH_HOLE - STAB_JOIN) / 2.0)
+            .ucw(
+                (SWITCH_HOLE - STAB_JOIN) / 2.0,
+                STAB_GAP,
+                (STAB_DEPTH - STAB_JOIN) / 2.0,
+                KERF,
+            )
+            .frame(STAB_WIDTH, STAB_DEPTH, KERF)
+            .ucw(
+                (STAB_DEPTH - STAB_JOIN) / 2.0,
+                STAB_GAP,
+                (SWITCH_HOLE - STAB_JOIN) / 2.0,
+                KERF,
+            )
             .ws(KERF)
             .left(SWITCH_HOLE)
             .close()
@@ -530,16 +522,6 @@ macro_rules! path_fn {
     }
 }
 
-macro_rules! path_closed {
-    () => {
-        fn close(mut self) -> Path {
-            self.cuts.push(Close());
-            ensure_closed(&self.cuts);
-            Path { cuts: self.cuts }
-        }
-    };
-}
-
 path_state! {
     Path:
 
@@ -595,8 +577,27 @@ path_state! {
     }
 }
 
-path_state! { Backing:  path_fn! { back(depth)  -> Backed  = Back  } }
-path_state! { Forthing: path_fn! { forth(depth) -> Forthed = Forth } }
+path_state! {
+    Backing:
+    path_fn! { back(depth) -> Backed = Back }
+
+    fn ucw(self, back: f64, right: f64, forth: f64, radius: f64) -> Forthed {
+        self.back(back).cw(radius)
+            .right(right).cw(radius)
+            .forth(forth)
+    }
+}
+
+path_state! {
+    Forthing:
+    path_fn! { forth(depth) -> Forthed = Forth }
+
+    fn ucw(self, forth: f64, left: f64, back: f64, radius: f64) -> Backed {
+        self.forth(forth).cw(radius)
+            .left(left).cw(radius)
+            .back(back)
+    }
+}
 
 path_state! {
     Lefting:
@@ -604,28 +605,24 @@ path_state! {
 
     fn recess(self, (a,b,c): (f64,f64,f64), d: f64, radius: f64) -> Lefted {
         self.left(a).ws(radius)
-            .forth(d).cw(radius)
-            .left(b).cw(radius)
-            .back(d).ws(radius)
-            .left(c)
+            .ucw(d, b, d, radius)
+            .ws(radius).left(c)
     }
 
-    // into the inside
-    fn portal(self, long: f64, short: f64, depth: f64, radius: f64) -> Righted {
-        self.left(long).ws(radius)
-            .forth(depth).ws(radius)
-            .right(short)
+    fn uws(self, left: f64, forth: f64, right: f64, radius: f64) -> Righted {
+        self.left(left).ws(radius)
+            .forth(forth).ws(radius)
+            .right(right)
     }
 }
 path_state! {
     Righting:
     path_fn! { right(width) -> Righted = Right }
 
-    // back to the outside
-    fn portal(self, long: f64, short: f64, depth: f64, radius: f64) -> Lefted {
-        self.right(short).ws(radius)
-            .back(depth).ws(radius)
-            .left(long)
+    fn uws(self, right: f64, back: f64, left: f64, radius: f64) -> Lefted {
+        self.right(right).ws(radius)
+            .back(back).ws(radius)
+            .left(left)
     }
 }
 
@@ -633,28 +630,44 @@ path_state! {
     Backed:
     path_funky! { cw(radius) -> Righting = Corner(radius, 1, radius, -radius) }
     path_funky! { ws(radius) -> Lefting = Corner(radius, 0, -radius, -radius) }
-    path_closed!();
+
+    fn frame(self, width: f64, depth: f64, radius: f64) -> Backing {
+        self.ws(radius).left(width)
+            .ws(radius).forth(depth)
+            .ws(radius).right(width)
+            .ws(radius)
+    }
 }
 
 path_state! {
     Forthed:
     path_funky! { cw(radius) -> Lefting = Corner(radius, 1, -radius, radius) }
     path_funky! { ws(radius) -> Righting = Corner(radius, 0, radius, radius) }
-    path_closed!();
+
+    fn frame(self, width: f64, depth: f64, radius: f64) -> Forthing {
+        self.ws(radius).right(width)
+            .ws(radius).back(depth)
+            .ws(radius).left(width)
+            .ws(radius)
+    }
 }
 
 path_state! {
     Lefted:
     path_funky! { cw(radius) -> Backing = Corner(radius, 1, -radius, -radius) }
     path_funky! { ws(radius) -> Forthing = Corner(radius, 0, -radius, radius) }
-    path_closed!();
+
+    fn close(mut self) -> Path {
+        self.cuts.push(Close());
+        ensure_closed(&self.cuts);
+        Path { cuts: self.cuts }
+    }
 }
 
 path_state! {
     Righted:
     path_funky! { cw(radius) -> Forthing = Corner(radius, 1, radius, radius) }
     path_funky! { ws(radius) -> Backing = Corner(radius, 0, radius, -radius) }
-    path_closed!();
 
     // inner cut, in opposite direction
     fn frame(self, width: f64, depth: f64, radius: f64) -> Righting {
