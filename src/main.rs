@@ -88,7 +88,11 @@ const STAB_JOIN: f64 = SWITCH_HOLE * 0.75;
 fn base() -> Path {
     Path::begin(BEIGE_X, BEIGE_Y)
         .frame(BEIGE_W, BEIGE_D, SMOOTH)
-        .recess((RECESS_RIGHT, RECESS_MID, RECESS_LEFT), RECESS_PCB, BLUNT)
+        .left(RECESS_RIGHT)
+        .ws(BLUNT)
+        .ucw(RECESS_PCB, RECESS_MID, RECESS_PCB, BLUNT)
+        .ws(BLUNT)
+        .left(RECESS_LEFT)
         .close()
         .drill(RIVET_HOLE, RIVET_HOLE)
 }
@@ -602,12 +606,6 @@ path_state! {
 path_state! {
     Lefting:
     path_fn! { left(width) -> Lefted = Left }
-
-    fn recess(self, (a,b,c): (f64,f64,f64), d: f64, radius: f64) -> Lefted {
-        self.left(a).ws(radius)
-            .ucw(d, b, d, radius)
-            .ws(radius).left(c)
-    }
 
     fn uws(self, left: f64, forth: f64, right: f64, radius: f64) -> Righted {
         self.left(left).ws(radius)
