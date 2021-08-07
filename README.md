@@ -410,11 +410,12 @@ Apart from the switches, the keyboard electronics are below the PCB,
 which itself is about 1.5mm thick.
 
 To save on soldering, I'm using hot-swap PCBs; the [Kailh socket data
-sheet][] says these are 2mm thick. There is also a discrete component
-that's 2.5mm thick.
+sheet][] says these are 2mm thick. The HS60 also has a discrete
+component that's 2.5mm thick, and the Keybow has a couple of reset
+buttons that are about 4mm thick.
 
-The thickest component is the USB-C socket. According to the [USB-C
-connector specification][], the socket is about 3.5mm x 8.5mm.
+According to the [USB-C connector specification][], the socket is
+about 3.5mm x 8.5mm.
 
 USB plugs need further clearance: they are up to 6.5mm x 12.5mm.
 
@@ -429,8 +430,8 @@ This means the bottom of the keyboard as a whole is set by the USB
 plug.
 
 In my design that uses 5mm sheets for the outer sandwich, there might
-not be enough clearance above the USB socket, so the recess may need
-to be larger.
+not be enough clearance above the USB socket or Keybow reset buttons,
+so the recess may need to be larger.
 
 [Cherry MX data sheet]: https://raw.githubusercontent.com/keyboardio/keyswitch_documentation/master/datasheets/Cherry/mx_series.pdf
 
@@ -455,9 +456,9 @@ bottom; then choose the flattest heads available.
 There is more variety of fixings for M3 screws. I'm going to try using
 [rivet nuts][] on the bottom because they only protrude 0.8mm. Rivet
 nuts are designed to be inserted into a metal panel; a riveting tool
-is inserted into the nut to stretch and expand it so that it wedges in
-the panel. But I don't need this rivet action, just the flange and the
-internal thread.
+is inserted into the nut to squash it so that it wedges in the panel.
+But I don't need this rivet action, just the flange and the internal
+thread.
 
 [rivet nuts]: https://en.wikipedia.org/wiki/Rivet_nut
 
