@@ -132,6 +132,7 @@ fn shim() -> Path {
 }
 
 fn beige_top() -> Path {
+    // inner radius should be sharper than outer radius of black top
     Path::begin(BEIGE_X, BEIGE_Y)
         .rect(BEIGE_W, BEIGE_D, SMOOTH)
         .goto(BLACK_X, BLACK_Y)
@@ -139,6 +140,11 @@ fn beige_top() -> Path {
 }
 
 fn black_top() -> Path {
+    // base of keycaps is 18mm leaving a 0.5mm gap between keycaps and
+    // the KEYS rectangle; the SHARP radius is 0.8mm; distance between
+    // keycap corner and centre of SHARP curve is 0.3mm orthogonally,
+    // or sqrt(2) * 0.3 == 0.4mm diagonally, so distance betweem
+    // keycap corner and SHARP corner is 0.4mm.
     Path::begin(BLACK_X, BLACK_Y)
         .rect(BLACK_W, BLACK_D, BLUNT)
         .goto(KEYS_X, KEYS_Y)
