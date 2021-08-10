@@ -463,7 +463,9 @@ thread.
 [rivet nuts]: https://en.wikipedia.org/wiki/Rivet_nut
 
 On the top, I will use black screws that go through the recessed black
-keyboard surround, so they should be fairly unobtrusive.
+keyboard surround, so they should be fairly unobtrusive. The most low
+profile screw heads I have found are described as "ultra thin super
+flat wafer head".
 
 To fix the outer cream surround (where I want to avoid visible screw
 heads) I will try acrylic cement, or superglue, or silicone sealant. I
@@ -478,11 +480,11 @@ Rivet nut dimensions:
   * overall length: 9mm
   * depth of flange: 0.8mm
 
-M3 screw dimensions:
+M3 wafer head screw dimensions:
 
   * diameter of hole: 3.1mm
-  * diameter of head: 5.5mm - 6.0mm
-  * depth of head: 1.5mm - 2.0mm
+  * diameter of head: 5.8mm - 6.1mm
+  * depth of head: 0.9mm - 1.0mm
 
 
 ### Illumination
