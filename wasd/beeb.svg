@@ -136,9 +136,9 @@
      inkscape:pageshadow="2"
      inkscape:zoom="1"
      inkscape:cx="739.5"
-     inkscape:cy="80.5"
+     inkscape:cy="240.5"
      inkscape:document-units="in"
-     inkscape:current-layer="layer32"
+     inkscape:current-layer="layer29"
      showgrid="false"
      units="mm"
      inkscape:window-width="1200"
@@ -5544,14 +5544,14 @@
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.56px;font-family:'Open Gorton';-inkscape-font-specification:'Open Gorton, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:1.06667">&lt;</tspan></text>
     <text
        transform="scale(0.99887886,1.0011224)"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.84px;line-height:0;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.06667"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.84px;line-height:0;font-family:'Routed Gothic Narrow';-inkscape-font-specification:'Routed Gothic Narrow, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.06667"
        id="text17604"
-       x="1090.7155"
+       x="1090.7465"
        y="252.38011"><tspan
-         x="1062.2731"
+         x="1062.3041"
          y="252.38011"
          id="tspan17606"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.84px;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:1.06667">DELETE</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.84px;font-family:'Routed Gothic Narrow';-inkscape-font-specification:'Routed Gothic Narrow, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:1.06667">DELETE</tspan></text>
     <text
        transform="scale(0.99887886,1.0011224)"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32.64px;line-height:0;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.06667"
@@ -5877,16 +5877,16 @@
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:36px;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">‵</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.84px;line-height:0;font-family:'Routed Gothic Narrow';-inkscape-font-specification:'Routed Gothic Narrow, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;stroke-width:0.921954"
-       x="77.676529"
-       y="167.15034"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:condensed;font-size:14.4px;line-height:0;font-family:'Routed Gothic Narrow';-inkscape-font-specification:'Routed Gothic Narrow, Condensed';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;stroke-width:0.921954"
+       x="77.641342"
+       y="166.52934"
        id="text202457"
        transform="scale(0.92195444,1.0846523)"><tspan
          sodipodi:role="line"
          id="tspan202455"
-         x="77.676529"
-         y="167.15034"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.84px;font-family:'Routed Gothic Narrow';-inkscape-font-specification:'Routed Gothic Narrow, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:0.921954">ESCAPE</tspan></text>
+         x="77.641342"
+         y="166.52934"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:condensed;font-size:14.4px;font-family:'Routed Gothic Narrow';-inkscape-font-specification:'Routed Gothic Narrow, Condensed';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:0.921954">ESCAPE</tspan></text>
     <g
        aria-label="]"
        id="text47517"
