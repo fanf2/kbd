@@ -36,7 +36,7 @@ const txt = [
 ];
 
 const gooey = 3;
-const radius = 18;
+const radius = 16;
 const space = 24;
 const horz = space;
 const vert = space;
