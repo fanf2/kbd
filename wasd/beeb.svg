@@ -135,8 +135,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1"
-     inkscape:cx="579.5"
-     inkscape:cy="480.5"
+     inkscape:cx="583.5"
+     inkscape:cy="320.5"
      inkscape:document-units="in"
      inkscape:current-layer="layer29"
      showgrid="false"
@@ -161,11 +161,11 @@
      inkscape:snap-center="true"
      inkscape:snap-to-guides="false"
      inkscape:snap-grids="false"
-     inkscape:snap-nodes="true"
+     inkscape:snap-nodes="false"
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:pagecheckerboard="0"
-     inkscape:snap-others="true">
+     inkscape:snap-others="false">
     <inkscape:grid
        type="xygrid"
        id="grid179776"
@@ -2722,7 +2722,7 @@
      inkscape:groupmode="layer"
      id="layer11"
      inkscape:label="Key Grids (Not Printed)"
-     style="display:inline"
+     style="display:none"
      sodipodi:insensitive="true">
     <g
        id="g182457">
@@ -5449,24 +5449,24 @@
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:24px;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:1.06667">—</tspan></text>
     <text
        transform="scale(0.99887886,1.0011224)"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25.92px;line-height:0;font-family:'Routed Gothic Wide';-inkscape-font-specification:'Routed Gothic Wide, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.06667"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:23.99999998px;line-height:0;font-family:'Routed Gothic Wide';-inkscape-font-specification:'Routed Gothic Wide, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.06667"
        id="text17548"
        x="901.34491"
        y="243.39622"><tspan
          x="898.70923"
          y="243.39622"
          id="tspan17550"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25.92px;font-family:'Routed Gothic Wide';-inkscape-font-specification:'Routed Gothic Wide, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:1.06667">{</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:23.99999998px;font-family:'Routed Gothic Wide';-inkscape-font-specification:'Routed Gothic Wide, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:1.06667">{</tspan></text>
     <text
        transform="scale(0.99887886,1.0011224)"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25.92px;line-height:0;font-family:'Routed Gothic Wide';-inkscape-font-specification:'Routed Gothic Wide, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.06667"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:23.99999998px;line-height:0;font-family:'Routed Gothic Wide';-inkscape-font-specification:'Routed Gothic Wide, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.06667"
        id="text17552"
        x="976.79071"
        y="243.3634"><tspan
          x="974.15503"
          y="243.3634"
          id="tspan17554"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25.92px;font-family:'Routed Gothic Wide';-inkscape-font-specification:'Routed Gothic Wide, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:1.06667">}</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:23.99999998px;font-family:'Routed Gothic Wide';-inkscape-font-specification:'Routed Gothic Wide, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:1.06667">}</tspan></text>
     <g
        aria-label="]"
        transform="matrix(0.99887886,0,0,1.0011224,13.25,-1.075)"
@@ -5474,14 +5474,14 @@
        style="font-size:18.8976px;line-height:0.95;font-family:Arial;-inkscape-font-specification:'Arial, Normal';text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:1.06667" />
     <text
        transform="scale(0.99887886,1.0011224)"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:36.47999997px;line-height:0;font-family:'Open Gorton';-inkscape-font-specification:'Open Gorton, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.06667"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:38.4px;line-height:0;font-family:'Open Gorton';-inkscape-font-specification:'Open Gorton, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.06667"
        id="text17564"
-       x="811.7215"
-       y="402.5141"><tspan
-         x="810.44232"
-         y="402.5141"
+       x="811.57135"
+       y="404.41196"><tspan
+         x="810.29218"
+         y="404.41196"
          id="tspan17566"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:36.47999997px;font-family:'Open Gorton';-inkscape-font-specification:'Open Gorton, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:1.06667">.</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:38.4px;font-family:'Open Gorton';-inkscape-font-specification:'Open Gorton, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:1.06667">.</tspan></text>
     <text
        transform="scale(0.99887886,1.0011224)"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:36.48px;line-height:0;font-family:'Open Gorton';-inkscape-font-specification:'Open Gorton, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.06667"
@@ -5494,24 +5494,24 @@
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:36.48px;font-family:'Open Gorton';-inkscape-font-specification:'Open Gorton, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:1.06667">;</tspan></text>
     <text
        transform="scale(0.99887886,1.0011224)"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.56px;line-height:0;font-family:'Open Gorton';-inkscape-font-specification:'Open Gorton, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.06667"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:33.6px;line-height:0;font-family:'Open Gorton';-inkscape-font-specification:'Open Gorton, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.06667"
        id="text17580"
        x="815.01141"
-       y="388.19357"><tspan
+       y="387.74408"><tspan
          x="810.59125"
-         y="388.19357"
+         y="387.74408"
          id="tspan17582"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.56px;font-family:'Open Gorton';-inkscape-font-specification:'Open Gorton, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:1.06667">&gt;</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:33.6px;font-family:'Open Gorton';-inkscape-font-specification:'Open Gorton, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:1.06667">&gt;</tspan></text>
     <text
        transform="scale(0.99887886,1.0011224)"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:31.68px;line-height:0;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.06667"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.4px;line-height:0;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.06667"
        id="text17584"
-       x="886.77161"
-       y="388.59311"><tspan
-         x="882.46527"
-         y="388.59311"
+       x="887.02185"
+       y="387.6442"><tspan
+         x="882.71552"
+         y="387.6442"
          id="tspan17586"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:31.68px;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:1.06667">?</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.4px;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:1.06667">?</tspan></text>
     <text
        transform="scale(0.99887886,1.0011224)"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:36.47999997px;line-height:0;font-family:'Open Gorton';-inkscape-font-specification:'Open Gorton, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.06667"
@@ -5524,24 +5524,24 @@
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:36.47999997px;font-family:'Open Gorton';-inkscape-font-specification:'Open Gorton, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:1.06667">:</tspan></text>
     <text
        transform="scale(0.99887886,1.0011224)"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:36.47999997px;line-height:0;font-family:'Open Gorton';-inkscape-font-specification:'Open Gorton, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.06667"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:36.48px;line-height:0;font-family:'Open Gorton';-inkscape-font-specification:'Open Gorton, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.06667"
        id="text17596"
        x="739.70978"
-       y="401.715"><tspan
+       y="404.51187"><tspan
          x="738.32593"
-         y="401.715"
+         y="404.51187"
          id="tspan17598"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:36.47999997px;font-family:'Open Gorton';-inkscape-font-specification:'Open Gorton, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:1.06667">,</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:36.48px;font-family:'Open Gorton';-inkscape-font-specification:'Open Gorton, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:1.06667">,</tspan></text>
     <text
        transform="scale(0.99887886,1.0011224)"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.56px;line-height:0;font-family:'Open Gorton';-inkscape-font-specification:'Open Gorton, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.06667"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:33.6px;line-height:0;font-family:'Open Gorton';-inkscape-font-specification:'Open Gorton, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.06667"
        id="text17600"
-       x="742.69476"
-       y="388.09372"><tspan
-         x="738.2746"
-         y="388.09372"
+       x="742.79486"
+       y="387.89395"><tspan
+         x="738.37469"
+         y="387.89395"
          id="tspan17602"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.56px;font-family:'Open Gorton';-inkscape-font-specification:'Open Gorton, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:1.06667">&lt;</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:33.6px;font-family:'Open Gorton';-inkscape-font-specification:'Open Gorton, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:1.06667">&lt;</tspan></text>
     <text
        transform="scale(0.99887886,1.0011224)"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.84px;line-height:0;font-family:'Routed Gothic Narrow';-inkscape-font-specification:'Routed Gothic Narrow, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.06667"
@@ -5554,14 +5554,14 @@
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.84px;font-family:'Routed Gothic Narrow';-inkscape-font-specification:'Routed Gothic Narrow, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:1.06667">DELETE</tspan></text>
     <text
        transform="scale(0.99887886,1.0011224)"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32.64px;line-height:0;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.06667"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:28.8px;line-height:0;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.06667"
        id="text17612"
-       x="866.84686"
-       y="173.30421"><tspan
-         x="864.33405"
-         y="173.30421"
+       x="866.89691"
+       y="172.45517"><tspan
+         x="864.38409"
+         y="172.45517"
          id="tspan17614"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32.64px;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:1.06667">–</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:28.8px;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:1.06667">–</tspan></text>
     <text
        transform="scale(0.99887886,1.0011224)"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:48px;line-height:0;font-family:'Open Gorton';-inkscape-font-specification:'Open Gorton, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.06667"
@@ -5574,14 +5574,14 @@
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:48px;font-family:'Open Gorton';-inkscape-font-specification:'Open Gorton, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:1.06667">^</tspan></text>
     <text
        transform="scale(0.99887886,1.0011224)"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32.64px;line-height:0;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.06667"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:28.8px;line-height:0;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.06667"
        id="text17620"
-       x="869.62268"
-       y="196.30626"><tspan
-         x="864.30573"
-         y="196.30626"
+       x="869.72278"
+       y="195.20749"><tspan
+         x="864.40582"
+         y="195.20749"
          id="tspan17622"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32.64px;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:1.06667">=</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:28.8px;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:1.06667">=</tspan></text>
     <text
        transform="scale(0.99887886,1.0011224)"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:48px;line-height:0;font-family:'Open Gorton';-inkscape-font-specification:'Open Gorton, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.06667"
@@ -5616,10 +5616,10 @@
        transform="scale(0.99887886,1.0011224)"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.4px;line-height:0;font-family:'Routed Gothic Wide';-inkscape-font-specification:'Routed Gothic Wide, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.06667"
        id="text17636"
-       x="292.46237"
-       y="196.38483"><tspan
-         x="288.03323"
-         y="196.38483"
+       x="292.56247"
+       y="196.18504"><tspan
+         x="288.13333"
+         y="196.18504"
          id="tspan17638"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.4px;font-family:'Routed Gothic Wide';-inkscape-font-specification:'Routed Gothic Wide, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:1.06667">3</tspan></text>
     <text
@@ -5656,40 +5656,40 @@
        transform="scale(0.99887886,1.0011224)"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.4px;line-height:0;font-family:'Routed Gothic Wide';-inkscape-font-specification:'Routed Gothic Wide, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.06667"
        id="text17652"
-       x="580.9505"
-       y="196.37335"><tspan
-         x="576.63049"
-         y="196.37335"
+       x="580.7002"
+       y="196.12363"><tspan
+         x="576.38019"
+         y="196.12363"
          id="tspan17654"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.4px;font-family:'Routed Gothic Wide';-inkscape-font-specification:'Routed Gothic Wide, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:1.06667">7</tspan></text>
     <text
        transform="scale(0.99887886,1.0011224)"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.4px;line-height:0;font-family:'Routed Gothic Wide';-inkscape-font-specification:'Routed Gothic Wide, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.06667"
        id="text17656"
-       x="652.58032"
-       y="196.51752"><tspan
-         x="648.18292"
-         y="196.51752"
+       x="652.68042"
+       y="196.21785"><tspan
+         x="648.28302"
+         y="196.21785"
          id="tspan17658"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.4px;font-family:'Routed Gothic Wide';-inkscape-font-specification:'Routed Gothic Wide, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:1.06667">8</tspan></text>
     <text
        transform="scale(0.99887886,1.0011224)"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.4px;line-height:0;font-family:'Routed Gothic Wide';-inkscape-font-specification:'Routed Gothic Wide, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.06667"
        id="text17660"
-       x="724.86139"
-       y="196.138"><tspan
-         x="720.47308"
-         y="196.138"
+       x="724.81134"
+       y="196.28784"><tspan
+         x="720.42303"
+         y="196.28784"
          id="tspan17662"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.4px;font-family:'Routed Gothic Wide';-inkscape-font-specification:'Routed Gothic Wide, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:1.06667">9</tspan></text>
     <text
        transform="scale(0.99887886,1.0011224)"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.4px;line-height:0;font-family:'Routed Gothic Wide';-inkscape-font-specification:'Routed Gothic Wide, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.06667"
        id="text17664"
-       x="796.71008"
-       y="196.20508"><tspan
-         x="792.35822"
-         y="196.20508"
+       x="796.60999"
+       y="195.90541"><tspan
+         x="792.25812"
+         y="195.90541"
          id="tspan17666"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.4px;font-family:'Routed Gothic Wide';-inkscape-font-specification:'Routed Gothic Wide, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:1.06667">Ø</tspan></text>
     <text
@@ -5702,7 +5702,7 @@
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.1181px;line-height:0;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic';text-align:center;white-space:pre;shape-inside:url(#rect156991);fill:#ffffff" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.88px;line-height:0;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:24px;line-height:0;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff"
        x="1007.3167"
        y="172.37015"
        id="text349179"><tspan
@@ -5710,29 +5710,29 @@
          id="tspan349177"
          x="1007.3167"
          y="172.37015"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.88px;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">¦</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:24px;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">¦</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32.64px;line-height:0;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;fill-opacity:1;stroke:none"
-       x="845.35925"
-       y="318.19995"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:28.8px;line-height:0;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;fill-opacity:1;stroke:none"
+       x="845.30927"
+       y="318.99994"
        id="text102419"><tspan
          sodipodi:role="line"
          id="tspan102417"
-         x="845.35925"
-         y="318.19995"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32.64px;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff">+</tspan></text>
+         x="845.30927"
+         y="318.99994"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:28.8px;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff">+</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:36.48px;line-height:0;font-family:'Open Gorton';-inkscape-font-specification:'Open Gorton, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;fill-opacity:1;stroke:none"
-       x="917.43549"
-       y="324.69992"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:33.6px;line-height:0;font-family:'Open Gorton';-inkscape-font-specification:'Open Gorton, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;fill-opacity:1;stroke:none"
+       x="917.3855"
+       y="325.89993"
        id="text113227"><tspan
          sodipodi:role="line"
          id="tspan113225"
-         x="917.43549"
-         y="324.69992"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:36.48px;font-family:'Open Gorton';-inkscape-font-specification:'Open Gorton, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff">*</tspan></text>
+         x="917.3855"
+         y="325.89993"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:33.6px;font-family:'Open Gorton';-inkscape-font-specification:'Open Gorton, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff">*</tspan></text>
     <text
        transform="scale(0.99947687,1.0005234)"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.84px;line-height:0;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;display:inline;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.06667"
@@ -5803,13 +5803,13 @@
        transform="scale(0.99947687,1.0005234)"
        style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:27.36px;line-height:0;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Italic';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;letter-spacing:-1px;writing-mode:lr-tb;text-anchor:middle;display:inline;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.06667"
        id="text11779"
-       x="1081.5065"
-       y="400.27533"><tspan
+       x="1081.5386"
+       y="397.79062"><tspan
          sodipodi:role="line"
          id="tspan11781"
          style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.4px;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Italic';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff;stroke-width:1.06667"
-         x="1080.0065"
-         y="400.27533">fn</tspan></text>
+         x="1081.0386"
+         y="397.79062">fn</tspan></text>
     <text
        transform="scale(0.99947687,1.0005234)"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.84px;line-height:0;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;display:inline;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.06667"
@@ -5866,14 +5866,14 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:36px;line-height:0;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;display:inline;fill:#ffffff"
-       x="1002.1362"
-       y="451.57455"
+       x="1001.541"
+       y="453.7962"
        id="text68577"
        transform="rotate(-15)"><tspan
          sodipodi:role="line"
          id="tspan68575"
-         x="1002.1362"
-         y="451.57455"
+         x="1001.541"
+         y="453.7962"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:36px;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff">‵</tspan></text>
     <text
        xml:space="preserve"
@@ -5890,7 +5890,8 @@
     <g
        aria-label="]"
        id="text47517"
-       style="font-size:25.92px;line-height:1.25;font-family:'Routed Gothic Wide';-inkscape-font-specification:'Routed Gothic Wide, Normal';text-align:center;text-anchor:middle;fill:#ffffff">
+       style="font-size:25.92px;line-height:1.25;font-family:'Routed Gothic Wide';-inkscape-font-specification:'Routed Gothic Wide, Normal';text-align:center;text-anchor:middle;fill:#ffffff"
+       transform="matrix(0.92724868,0,0,0.92724868,70.288849,17.893465)">
       <path
          d="m 965.81928,250.77853 c -0.23625,-0.23625 -0.35437,-0.52313 -0.35437,-0.86063 0,-0.3375 0.11812,-0.62437 0.35437,-0.86062 0.23625,-0.23625 0.52313,-0.35438 0.86063,-0.35438 h 9.57187 c 0.3375,0 0.62438,0.135 0.86063,0.405 0.23625,0.25313 0.35437,0.52313 0.35437,0.81 v 20.25 c 0,0.3375 -0.135,0.62438 -0.405,0.86063 -0.25313,0.23625 -0.52313,0.35437 -0.81,0.35437 h -9.57187 c -0.3375,0 -0.62438,-0.11812 -0.86063,-0.35437 -0.23625,-0.23625 -0.35437,-0.52313 -0.35437,-0.86063 0,-0.3375 0.11812,-0.62437 0.35437,-0.86062 0.23625,-0.23625 0.52313,-0.35438 0.86063,-0.35438 h 8.35687 v -17.82 h -8.35687 c -0.3375,0 -0.62438,-0.11812 -0.86063,-0.35437 z"
          id="path55128"
@@ -5900,7 +5901,8 @@
     <g
        aria-label="["
        id="text47517-5"
-       style="font-size:25.92px;line-height:1.25;font-family:'Routed Gothic Wide';-inkscape-font-specification:'Routed Gothic Wide, Normal';text-align:center;text-anchor:middle;display:inline;fill:#ffffff">
+       style="font-size:25.92px;line-height:1.25;font-family:'Routed Gothic Wide';-inkscape-font-specification:'Routed Gothic Wide, Normal';text-align:center;text-anchor:middle;display:inline;fill:#ffffff"
+       transform="matrix(0.92516762,0,0,0.92516762,67.704354,18.70314)">
       <path
          d="m 905.06061,248.95185 c 0.23625,0.23625 0.35438,0.52313 0.35438,0.86063 0,0.3375 -0.11813,0.62437 -0.35438,0.86062 -0.23625,0.23625 -0.52312,0.35438 -0.86062,0.35438 h -8.38188 v 17.82 h 8.38188 c 0.3375,0 0.62437,0.11812 0.86062,0.35437 0.23625,0.23625 0.35438,0.52313 0.35438,0.86063 0,0.3375 -0.11813,0.62437 -0.35438,0.86062 -0.23625,0.23625 -0.52312,0.35438 -0.86062,0.35438 h -9.59688 c -0.28687,0 -0.56531,-0.11813 -0.83531,-0.35438 -0.25313,-0.23625 -0.37969,-0.52312 -0.37969,-0.86062 v -20.25 c 0,-0.28687 0.11813,-0.55687 0.35438,-0.81 0.23625,-0.27 0.52312,-0.405 0.86062,-0.405 h 9.59688 c 0.3375,0 0.62437,0.11812 0.86062,0.35437 z"
          id="path55131"
@@ -5909,29 +5911,30 @@
     </g>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:31.68px;line-height:1.25;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;display:inline;fill:#ffffff"
-       x="881.39526"
-       y="414.89145"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.4px;line-height:1.25;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;display:inline;fill:#ffffff"
+       x="881.4953"
+       y="412.04144"
        id="text47517-3"><tspan
          sodipodi:role="line"
          id="tspan47515-9"
-         x="881.39526"
-         y="414.89145"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:31.68px;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff">/</tspan></text>
+         x="881.4953"
+         y="412.04144"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.4px;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff">/</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:31.68px;line-height:1.25;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;display:inline;fill:#ffffff"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.4px;line-height:1.25;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;display:inline;fill:#ffffff"
        x="1007.1953"
-       y="199.30379"
+       y="196.65379"
        id="text47517-9"><tspan
          sodipodi:role="line"
          id="tspan47515-07"
          x="1007.1953"
-         y="199.30379"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:31.68px;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff">\</tspan></text>
+         y="196.65379"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.4px;font-family:'Routed Gothic';-inkscape-font-specification:'Routed Gothic, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;fill:#ffffff">\</tspan></text>
     <g
        id="path1581"
-       style="fill:#ffffff">
+       style="fill:#ffffff"
+       transform="matrix(0.83593305,0,0,0.83593305,176.97187,31.071369)">
       <path
          style="color:#000000;fill:#ffffff;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none"
          d="m 1078.9238,173.32812 c -3.0677,0.28834 -5.6113,1.31813 -7.6718,3.11915 -2.0944,1.83039 -3.531,4.54776 -3.9961,7.52929 -0.1549,0.99204 -0.1549,2.94546 0,3.9375 0.2167,1.38914 0.5932,2.58109 1.2109,3.84375 1.8573,3.79663 5.3078,6.15017 9.8867,6.76953 7e-4,9e-5 0,-8e-5 0,0 0.015,0.002 0.041,-0.004 0.057,-0.002 v 0.006 0 -0.006 c 1.0007,0.12649 2.5768,0.0812 3.6054,-0.11328 0.2263,-0.0428 0.4582,-0.0939 0.6543,-0.14258 0.1961,-0.0487 0.3374,-0.085 0.4629,-0.14062 0.4192,-0.18542 0.6758,-0.61118 0.6758,-1.08204 0,-0.47821 -0.2688,-0.90253 -0.7012,-1.09375 l -0.3711,-0.16406 -0.6523,0.14649 c -0.9571,0.21347 -1.322,0.25251 -2.332,0.25195 -0.7659,-3.8e-4 -1.1147,-0.0267 -1.6289,-0.11914 -4.5345,-0.81543 -8.0319,-4.44755 -8.5645,-8.875 -0.078,-0.64953 -0.066,-1.85341 0.027,-2.56641 0.4854,-3.70255 2.9248,-6.82746 6.4004,-8.20117 1.3295,-0.52545 2.1669,-0.67388 3.8516,-0.67383 1.1617,5e-5 1.3352,0.0125 1.9062,0.13086 1.8527,0.38412 3.5452,1.26996 4.9102,2.57227 0.9839,0.93865 1.6984,1.9205 2.293,3.15234 1.4017,2.9036 1.3867,6.11223 -0.031,8.85742 -0.4061,0.78657 -0.7706,1.12099 -1.4316,1.34766 -0.1336,0.0458 -0.4988,0.0917 -0.8555,0.0918 -0.3567,1.2e-4 -0.73,-0.042 -0.9082,-0.0957 -0.4935,-0.14876 -1.0392,-0.46275 -1.2656,-0.69531 -0.274,-0.28126 -0.57,-0.84122 -0.6934,-1.36719 -0.1237,-0.52855 -0.1198,-2.05226 0.027,-2.76562 0.1762,-0.85422 0.5854,-1.9413 0.9961,-2.65625 0.2558,-0.44554 0.4206,-0.76501 0.4257,-1.14063 0.01,-0.37561 -0.1467,-0.71 -0.3886,-1.20117 -0.4183,-0.84942 -0.8013,-1.37756 -1.418,-1.95117 -0.5081,-0.47257 -1.0842,-0.83875 -1.7227,-1.09375 -2.2015,-0.87916 -4.9157,-0.24844 -6.7363,1.5293 -1.3452,1.3137 -2.1705,3.19311 -2.2656,5.14648 -0.1676,3.4538 2.1209,6.47759 5.3047,6.93555 1.1334,0.16305 2.3742,-0.074 3.5332,-0.65625 l 0.3848,-0.19336 0.1445,0.24805 c 0.3947,0.67453 0.9979,1.30683 1.6015,1.6582 0.7798,0.4538 2.1299,0.7789 3.125,0.77344 0.513,-0.003 1.1781,-0.13119 1.6934,-0.32032 1.208,-0.44341 2.1238,-1.35756 2.752,-2.70703 1.6683,-3.5842 1.6283,-7.32491 -0.1153,-10.87695 -1.0641,-2.1676 -2.5406,-3.86847 -4.4883,-5.16211 -2.2965,-1.52522 -5.039,-2.23401 -7.6953,-1.98438 z m 0.6343,7.66211 c 0.5741,-0.001 0.9365,0.0828 1.4551,0.33594 0.5774,0.28185 1.288,1.02034 1.6172,1.71289 l 0.029,0.0586 -0.127,0.24023 c -0.3294,0.63007 -0.7231,1.58455 -0.8965,2.18164 -0.3129,1.07941 -0.4007,1.66204 -0.4199,2.79492 l -0.016,0.90235 -0.039,0.0332 c -0.2625,0.21689 -0.9878,0.60768 -1.3652,0.72852 -0.4926,0.1577 -1.3014,0.20164 -1.711,0.10742 -1.252,-0.28817 -2.3045,-1.30641 -2.7675,-2.72852 -0.4776,-1.46703 -0.086,-3.44042 0.9609,-4.73633 0.4094,-0.50702 0.9087,-0.90329 1.5371,-1.21484 0.6352,-0.31491 1.0563,-0.41507 1.7422,-0.41602 z"
