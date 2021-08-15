@@ -210,7 +210,7 @@ WASD red (#C9282D) and orange (#F67F00).
 [HS60]: https://mechboards.co.uk/shop/parts/hs60-hotswap-pcb/
 [Tsangan]: https://old.reddit.com/r/MechanicalKeyboards/comments/euvl59/eli5_tsangan_layout_etymology_origins_and/
 
-![WASD design file](wasd/nice.svg)
+![WASD design file](wasd/paths.svg)
 
 
 Gorton-like fonts
