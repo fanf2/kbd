@@ -1,13 +1,14 @@
 A keyboard like the BBC Micro, made from modern parts
 =====================================================
 
-It's the 40th anniversary of the BBC Micro this year. I am trying to
-make a keyboard in a similar style, made from modern parts.
+It's the 40th anniversary of the BBC Micro later this year. I am
+trying to make a keyboard in a similar style, made from modern parts.
 
 The Beeb's keyboard was what is now called a mechanical keyboard.
 There's a very lively community of mechanical keyboard makers and
 customizers, who have made it fairly easy to get a long way with
 off-the-shelf parts.
+
 
 Contents
 --------
@@ -27,6 +28,7 @@ Contents
       * [Plate](#plate)
       * [PCB and components](#pcb-and-components)
       * [Fixings](#fixings)
+
 
 The BBC Micro keyboard
 ----------------------
@@ -49,11 +51,12 @@ and the Master has 93 keys.
 
 ![BBC Micro keyboard layout](kle/bbc-model-b.png)
 
+
 Modern keyboard sizes
 ---------------------
 
 Key sizes are usually quoted as so many "u", as in units, which are
-the size of one standard key. 1u is 0.75 inches.
+the size of one standard key. 1u is 0.75 inches (19.05 mm).
 
 There are a number of common form-factors, including:
 
@@ -105,6 +108,39 @@ the GUI key; and hyper is for programmable keymap layers.
 [USB HID]: https://wiki.osdev.org/USB_Human_Interface_Devices
 
 ![Beeb HHKB layout](kle/beeb-60%25-hhkb.png)
+
+
+### ANSI vs ECMA
+
+Unlike AT-101 scan codes, the [USB HID usage table][] for keyboards is
+in a layout-independent order (for instance, the letters are
+alphabetical), though footnote 2 on USB HID usage page `0x07` says
+that language-dependent remapping is handled by the OS (for example,
+numbers are shifted on French keyboards, and punctuation is
+unshifted). So in practice a USB keycode still corresponds to a key in
+a particular position in a conventional keyboard layout.
+
+These keys will need remapping in the OS (e.g. with [Karabiner][]):
+
+  * `;+` / `;:`
+  * `:*` / `′"`
+  * `=-` / `-_`
+  * `^~` / `=+`
+  * `@‵` / `‵~`
+
+  * `2"` / `2@`
+  * `6&` / `6^`
+  * `7′` / `7&`
+  * `8(` / `8*`
+  * `9)` / `9(`
+  * `0_` / `0)`
+
+The jokey centred red number keys will be remapped in the keyboard
+firmware with [VIA][].
+
+[VIA]: https://caniusevia.com/
+[Karabiner]: https://karabiner-elements.pqrs.org/
+[USB HID usage table]: https://www.usb.org/hid
 
 
 Keycaps
@@ -254,7 +290,7 @@ What I have found works best is a combination of Routed Gothic, Routed
 Gothic Wide, and Open Gorton.
 
 
-### Detailed notes on legends
+### typographical notes on legends
 
 These notes refer to the [beeb.svg](wasd/beeb.svg) WASD design file.
 
