@@ -444,9 +444,9 @@ and sound of the keyboard. The top of the plate must be 5mm above the
 PCB. For the keys to clip in properly, the plate must be 1.5mm thick.
 
 Acrylic is problematic for keyboard plates, because thin sheets can be
-too brittle, and they are hard to obtain. So some designs use a 5mm
-acrylic plate, into which the keys fit by friction instead of being
-clipped in.
+too brittle, and they have fewer choices of colour than thicker
+sheets. So some designs use a 5mm acrylic plate, into which the keys
+fit by friction instead of being clipped in.
 
 A "high profile" case has a surround above the plate which hides the
 keyswitches. The [Cherry MX data sheet][] suggests that the surround
@@ -466,7 +466,7 @@ component that's 2.5mm thick, and the Keybow has a couple of reset
 buttons that are about 4mm thick.
 
 According to the [USB-C connector specification][], the socket is
-about 3.5mm x 8.5mm.
+about 3.5mm thick x 8.5mm wide.
 
 USB plugs need further clearance: they are up to 6.5mm x 12.5mm.
 
