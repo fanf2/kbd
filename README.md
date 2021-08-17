@@ -390,6 +390,12 @@ of a key unit.
 
   * function key strip holder: 1.5u
 
+  * overall width (from Acorn's manual): 415mm = 21.75u
+
+  * calculated width: 16.75u (keys) + 1.5u (right) + 3u (left) = 21.25u
+
+(It isn't clear where the 0.5u discrepancy comes from...)
+
 The [Acorn Atom][] had a similar design for the keyboard surround. Its
 dimensions were less clearly multiples of a key size, roughly:
 
@@ -418,6 +424,8 @@ My case design has:
   * below space: 0.5u black, 0.75u cream (like the Beeb)
 
   * above numbers: 0.5u black, 1.25u cream (for a whole number of units)
+
+  * overall width: 19u
 
 [BBC Micro photo]: https://en.wikipedia.org/wiki/File:BBC_Micro_Front_Restored.jpg
 [Acorn Atom]: https://en.wikipedia.org/wiki/File:Acorn_atom_zx1.jpg
