@@ -299,10 +299,10 @@ Routed Gothic, Routed Gothic Wide, and Open Gorton.
 These notes refer to the [beeb.svg](wasd/beeb.svg) WASD design file.
 
 CTRL, SHIFT, etc. are all Routed Gothic, except for ESCAPE and DELETE
-which are Routed Gothic Narrow.
+which are Routed Gothic Narrow, and `fn` is Routed Gothic Italic.
 
 Most of the letters and digits are Routed Gothic Wide. A few letters
-are Routed Gothic (non-wide): `R` `S` `B`
+are Routed Gothic (non-wide): `R` `S` `P` `B`
 
 `J` is problematic: Open Gorton has a more authentically wide glyph
 shape, but its weights don't match Routed Gothic (regular is too
@@ -317,7 +317,7 @@ Routed Gothic's private use character codes.
 (rounded top instead of angular), but its numerals are too narrow. I
 stuck with Routed Gothic Wide.
 
-For punctuation, `#$%&*^~,.;:<>` come from Open Gorton; `"(){}[]`
+For punctuation, `#$%&^~,.;:<>` come from Open Gorton; `"(){}[]`
 from Routed Gothic Wide, and `+-=‵′/|\?!` from Routed Gothic.
 
 The Routed Gothic `@` is too bold, but the Open Gorton version looks
@@ -333,8 +333,8 @@ I upped the font size a lot for `,.;:^~*`
 Asterisk is tricky. The `*` on the BBC micro has 6 points; Open Gorton
 has 8 points, a bit like the `*` on the BBC Master's numeric keypad
 (though I think Open Gorton has shorter points). Current Gorton
-Modified keycaps seem to use an 8-point asterisk. Gorton Digital has a
-fairly nice 5-point asterisk, but I stuck with Open Gorton.
+Modified keycaps seem to use an 8-point asterisk. But in the end I
+chose the nice 5-point asterisk from Gorton Digital.
 
 
 ### legend sizes
