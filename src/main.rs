@@ -78,6 +78,7 @@ const DRILL_NEAR: f64 = BLACK_Y + BLACK_D - AROUND_HOLE;
 // for switches the kerf is larger than the tolerance
 const SWITCH_HOLE: f64 = 14.0 / MM_IN - KERF;
 
+// base of keycap is 18mm, stab hole is 15.5mm
 const STAB_DEPTH: f64 = (0.26 - 0.484 + 0.53) * 2.0;
 const STAB_WIDTH: f64 = 1.0 / 3.0;
 const STAB_OFFSET_2U: f64 = 1.0 / 2.0;
