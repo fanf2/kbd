@@ -375,6 +375,7 @@ miniaturized [HS60][].
 [plate and case builder]: http://builder.swillkb.com/
 [Keybow 2040]: https://learn.pimoroni.com/tutorial/hel/assembling-keybow-2040
 
+
 ### Surround
 
 From measuring [Wikipedia's picture of a BBC Micro][BBC Micro photo],
@@ -410,16 +411,18 @@ the sides were smooth.
 
   * above numbers: 0.125u textured, 1.5u green grid with logo
 
-So that there's enough space for screw heads (see below), I'll use
-0.5u black around the keys, including on the far side where the
-function key strip would be. And the outer cream will be 1u either
-side (like all three computers), 0.75u in front of the space bar (like
-the Beeb) and 1.25u on the far side, so it adds up to 2u in both
-directions.
+My case design has:
+
+  * sides: 1u black, 1u cream (like the Beeb and Atom, but centred)
+
+  * below space: 0.5u black, 0.75u cream (like the Beeb)
+
+  * above numbers: 0.5u black, 1.25u cream (for a whole number of units)
 
 [BBC Micro photo]: https://en.wikipedia.org/wiki/File:BBC_Micro_Front_Restored.jpg
 [Acorn Atom]: https://en.wikipedia.org/wiki/File:Acorn_atom_zx1.jpg
 [Acorn Electron]: https://en.wikipedia.org/wiki/File:Acorn_Electron_4x3.jpg
+
 
 ### Layers
 
@@ -431,6 +434,7 @@ The constraints on the height of the keyboard come from:
 
 The layers above the PCB are determined by the keyswitches, as
 documented in a [Cherry MX data sheet][].
+
 
 ### Plate
 
@@ -449,6 +453,7 @@ keyswitches. The [Cherry MX data sheet][] suggests that the surround
 should be something like 4.5mm or 6mm above the plate to match the
 bottom of the keycaps. Keycaps are about 8mm high (depending on their
 profile) and have 4mm travel.
+
 
 ### PCB and components
 

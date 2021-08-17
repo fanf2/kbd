@@ -1,11 +1,11 @@
-<svg height="5in" viewBox="-0.625 -0.625 12.5 5" width="12.5in" xmlns="http://www.w3.org/2000/svg">
+<svg height="5in" viewBox="-1 -0.625 13.25 5" width="13.25in" xmlns="http://www.w3.org/2000/svg">
 <g>
-<path d="M-0.3125,-0.375 a0.0625,0.0625,0,0,0,-0.0625,0.0625 l0,4.375 a0.0625,0.0625,0,0,0,0.0625,0.0625 l11.875,0 a0.0625,0.0625,0,0,0,0.0625,-0.0625 l0,-4.375 a0.0625,0.0625,0,0,0,-0.0625,-0.0625 z" fill="none" stroke="goldenrod" stroke-width="0.01"/>
+<path d="M-0.6875,-0.375 a0.0625,0.0625,0,0,0,-0.0625,0.0625 l0,4.375 a0.0625,0.0625,0,0,0,0.0625,0.0625 l12.625,0 a0.0625,0.0625,0,0,0,0.0625,-0.0625 l0,-4.375 a0.0625,0.0625,0,0,0,-0.0625,-0.0625 z" fill="none" stroke="goldenrod" stroke-width="0.01"/>
 <path d="M0.03125,0 a0.03125,0.03125,0,0,0,-0.03125,0.03125 l0,3.6875 a0.03125,0.03125,0,0,0,0.03125,0.03125 l11.1875,0 a0.03125,0.03125,0,0,0,0.03125,-0.03125 l0,-3.6875 a0.03125,0.03125,0,0,0,-0.03125,-0.03125 z" fill="none" stroke="goldenrod" stroke-width="0.01"/>
-<circle cx="-0.21751968503937008" cy="-0.21751968503937008" fill="none" r="0.05905511811023623" stroke="goldenrod" stroke-width="0.01"/>
-<circle cx="11.46751968503937" cy="-0.21751968503937008" fill="none" r="0.05905511811023623" stroke="goldenrod" stroke-width="0.01"/>
-<circle cx="-0.21751968503937008" cy="3.96751968503937" fill="none" r="0.05905511811023623" stroke="goldenrod" stroke-width="0.01"/>
-<circle cx="11.46751968503937" cy="3.96751968503937" fill="none" r="0.05905511811023623" stroke="goldenrod" stroke-width="0.01"/>
+<circle cx="-0.5925196850393701" cy="-0.21751968503937008" fill="none" r="0.05905511811023623" stroke="goldenrod" stroke-width="0.01"/>
+<circle cx="11.84251968503937" cy="-0.21751968503937008" fill="none" r="0.05905511811023623" stroke="goldenrod" stroke-width="0.01"/>
+<circle cx="-0.5925196850393701" cy="3.96751968503937" fill="none" r="0.05905511811023623" stroke="goldenrod" stroke-width="0.01"/>
+<circle cx="11.84251968503937" cy="3.96751968503937" fill="none" r="0.05905511811023623" stroke="goldenrod" stroke-width="0.01"/>
 <circle cx="3.75" cy="-0.21751968503937008" fill="none" r="0.05905511811023623" stroke="goldenrod" stroke-width="0.01"/>
 <circle cx="7.5" cy="-0.21751968503937008" fill="none" r="0.05905511811023623" stroke="goldenrod" stroke-width="0.01"/>
 <circle cx="3.75" cy="3.96751968503937" fill="none" r="0.05905511811023623" stroke="goldenrod" stroke-width="0.01"/>

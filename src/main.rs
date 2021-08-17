@@ -32,19 +32,20 @@ const KEYS_Y: f64 = 0.0;
 const KEYS_W: f64 = WIDTH as f64 * SWU;
 const KEYS_D: f64 = DEPTH as f64 * SWU;
 
-const BLACK: f64 = 0.5 * SWU;
-const BLACK_X: f64 = -BLACK;
-const BLACK_Y: f64 = -BLACK;
-const BLACK_W: f64 = KEYS_W + BLACK * 2.0;
-const BLACK_D: f64 = KEYS_D + BLACK * 2.0;
+const BLACK_LR: f64 = 1.0 * SWU;
+const BLACK_NF: f64 = 0.5 * SWU;
+const BLACK_X: f64 = -BLACK_LR;
+const BLACK_Y: f64 = -BLACK_NF;
+const BLACK_W: f64 = KEYS_W + BLACK_LR * 2.0;
+const BLACK_D: f64 = KEYS_D + BLACK_NF * 2.0;
 
-const BEIGE_NEAR: f64 = 0.75 * SWU;
-const BEIGE_SIDE: f64 = 1.0 * SWU;
-const BEIGE_FAR: f64 = 1.25 * SWU;
-const BEIGE_X: f64 = BLACK_X - BEIGE_SIDE;
-const BEIGE_Y: f64 = BLACK_Y - BEIGE_FAR;
-const BEIGE_W: f64 = BLACK_W + BEIGE_SIDE * 2.0;
-const BEIGE_D: f64 = BLACK_D + BEIGE_FAR + BEIGE_NEAR;
+const CREAM_LR: f64 = 1.0 * SWU;
+const CREAM_NEAR: f64 = 0.75 * SWU;
+const CREAM_FAR: f64 = 1.25 * SWU;
+const CREAM_X: f64 = BLACK_X - CREAM_LR;
+const CREAM_Y: f64 = BLACK_Y - CREAM_FAR;
+const CREAM_W: f64 = BLACK_W + CREAM_LR * 2.0;
+const CREAM_D: f64 = BLACK_D + CREAM_FAR + CREAM_NEAR;
 
 const BOX_GAP: f64 = BLUNT;
 const BOX_X: f64 = -BOX_GAP;
@@ -52,13 +53,13 @@ const BOX_Y: f64 = -BOX_GAP;
 const BOX_W: f64 = KEYS_W + BOX_GAP * 2.0;
 const BOX_D: f64 = KEYS_D + BOX_GAP * 2.0;
 
-const RECESS_LEFT: f64 = BEIGE_SIDE + BLACK + hhkb_ortho(SWU / 8.0, SWU / 2.0);
+const RECESS_LEFT: f64 = CREAM_LR + BLACK_LR + hhkb_ortho(SWU / 8.0, SWU / 2.0);
 const RECESS_MID: f64 = hhkb_ortho(SWU * 14.0 / 8.0, SWU * 3.0);
-const RECESS_RIGHT: f64 = BEIGE_W - RECESS_LEFT - RECESS_MID;
-const RECESS_INNER: f64 = BEIGE_SIDE + BLACK - BOX_GAP;
+const RECESS_RIGHT: f64 = CREAM_W - RECESS_LEFT - RECESS_MID;
+const RECESS_INNER: f64 = CREAM_LR + BLACK_LR - BOX_GAP;
 const RECESS_L_IN: f64 = RECESS_LEFT - RECESS_INNER;
 const RECESS_R_IN: f64 = RECESS_RIGHT - RECESS_INNER;
-const RECESS_PCB: f64 = BEIGE_FAR + BLACK;
+const RECESS_PCB: f64 = CREAM_FAR + BLACK_NF;
 const RECESS_BOX: f64 = RECESS_PCB - BOX_GAP;
 
 // use the kerf to provide the right fit
@@ -86,8 +87,8 @@ const STAB_GAP: f64 = STAB_OFFSET_2U - STAB_WIDTH / 2.0 - SWITCH_HOLE / 2.0;
 const STAB_JOIN: f64 = SWITCH_HOLE * 0.75;
 
 fn base() -> Path {
-    Path::begin(BEIGE_X, BEIGE_Y)
-        .frame(BEIGE_W, BEIGE_D, SMOOTH)
+    Path::begin(CREAM_X, CREAM_Y)
+        .frame(CREAM_W, CREAM_D, SMOOTH)
         .left(RECESS_RIGHT)
         .ws(BLUNT)
         .ucw(RECESS_PCB, RECESS_MID, RECESS_PCB, BLUNT)
@@ -98,8 +99,8 @@ fn base() -> Path {
 }
 
 fn socket() -> Path {
-    Path::begin(BEIGE_X, BEIGE_Y)
-        .frame(BEIGE_W, BEIGE_D, SMOOTH)
+    Path::begin(CREAM_X, CREAM_Y)
+        .frame(CREAM_W, CREAM_D, SMOOTH)
         .uws(RECESS_RIGHT, RECESS_BOX, RECESS_R_IN, BLUNT)
         .frame(BOX_W, BOX_D, BLUNT)
         .uws(RECESS_L_IN, RECESS_BOX, RECESS_LEFT, BLUNT)
@@ -108,33 +109,33 @@ fn socket() -> Path {
 }
 
 fn closed() -> Path {
-    Path::begin(BEIGE_X, BEIGE_Y)
-        .rect(BEIGE_W, BEIGE_D, SMOOTH)
+    Path::begin(CREAM_X, CREAM_Y)
+        .rect(CREAM_W, CREAM_D, SMOOTH)
         .goto(BOX_X, BOX_Y)
         .rect(BOX_W, BOX_D, BLUNT)
         .drill(SCREW_HOLE, RIVET_HOLE)
 }
 
 fn plate() -> Path {
-    Path::begin(BEIGE_X, BEIGE_Y)
-        .rect(BEIGE_W, BEIGE_D, SMOOTH)
+    Path::begin(CREAM_X, CREAM_Y)
+        .rect(CREAM_W, CREAM_D, SMOOTH)
         .drill(SCREW_HOLE, SCREW_HOLE)
         .keys()
 }
 
 fn shim() -> Path {
-    Path::begin(BEIGE_X, BEIGE_Y)
-        .rect(BEIGE_W, BEIGE_D, SMOOTH)
+    Path::begin(CREAM_X, CREAM_Y)
+        .rect(CREAM_W, CREAM_D, SMOOTH)
         .goto(KEYS_X, KEYS_Y)
         .rect(KEYS_W, KEYS_D, SHARP)
         .drill(SCREW_HOLE, SCREW_HOLE)
         .feet()
 }
 
-fn beige_top() -> Path {
+fn cream_top() -> Path {
     // inner radius should be sharper than outer radius of black top
-    Path::begin(BEIGE_X, BEIGE_Y)
-        .rect(BEIGE_W, BEIGE_D, SMOOTH)
+    Path::begin(CREAM_X, CREAM_Y)
+        .rect(CREAM_W, CREAM_D, SMOOTH)
         .goto(BLACK_X, BLACK_Y)
         .rect(BLACK_W, BLACK_D, SHARP)
 }
