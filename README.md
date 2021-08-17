@@ -147,8 +147,9 @@ Keycaps
 -------
 
 Most current keyboard layouts are not ECMA-23 (the main exceptions are
-Japanese keyboards), so a Beebish keyboard needs several custom keycaps.
-This is difficult. The manufacturing options are, basically:
+Japanese keyboards), so as well as remapping in software, a Beebish
+keyboard needs several custom keycaps. This is difficult. The
+manufacturing options are, basically:
 
   * double-shot injection moulding, which would need custom metal
     legends to be fabricated;
@@ -171,25 +172,28 @@ Custom UV printed keyboards are available from [Max Keyboard][] and
 [WASD Keyboards][]; both of them will only print on to ABS plastic
 with the OEM profile.
 
-### BBC Micro profile
+
+### keycap profile
 
 The BBC Micro keycap profile is uniform (all rows the same, not
-sculptured like the OEM profile) with shallow spherical keytops (not
-cylindrical like OEM), and all keytops angled backwards (not flat like
-DSA) to produce a stairstep effect when the whole board is angled
-forwards.
+sculptured like the [OEM profile][]) with shallow spherical keytops
+(not cylindrical like OEM), and all keytops angled backwards (not flat
+like the [DSA profile][SP families]) to produce a stairstep effect
+when the whole board is angled forwards.
 
 It was probably the [Comptec / Signature Plastics][SP origins] old SA
 profile, before SA was changed from uniform to sculptured. A modern
-version might be to use SA or DSS (both are spherical and sculptured)
-but made into a uniform set by manufacturing all keys with a shape
-from the same row.
+version might be to use [SA or DSS][SP families] (both are spherical
+and sculptured) but made into a uniform set by manufacturing all keys
+with a shape from the same row.
 
+[beeb keycap closeups]: https://geekhack.org/index.php?topic=28630.0
 [keycap profile]: https://old.reddit.com/r/MechanicalKeyboards/comments/j484j5/keycap_profiles_i_compiled_a_direct_comparison/
 [Max Keyboard]: https://www.maxkeyboard.com/shop/cherry-mx-keycaps/custom-color-printed-keycaps/
-[WASD Keyboards]: https://www.wasdkeyboards.com/products/keycaps/keycap-set.html
+[OEM profile]: https://support.wasdkeyboards.com/hc/en-us/articles/115009701328-Keycap-Size-Compatibility
+[SP families]: https://pimpmykeyboard.com/key-cap-family-specs/
 [SP origins]: https://pimpmykeyboard.zendesk.com/hc/en-us/articles/204415935-The-Origin-of-SP-Keycap-Families
-[keycap closeups]: https://geekhack.org/index.php?topic=28630.0
+[WASD Keyboards]: https://www.wasdkeyboards.com/products/keycaps/keycap-set.html
 
 
 Owl logo
@@ -213,22 +217,22 @@ WASD keyboard layout
 
 I have turned [my KLE HHKB design][Beeb 60% HHKB] into a layout for
 submission to WASD for manufacturing. The [beeb.svg](wasd/beeb.svg)
-file has the keycap legends as black text for editing; the
-[paths.svg](wasd/paths.svg) file has legends as white paths for
-printing.
+file has the keycap legends as text for editing; the
+[paths.svg](wasd/paths.svg) file has legends as paths for printing.
 
 This layout has the number row in a more common order, to reduce the
-risk of misunderstandings by the WASD staff. I also had to edit the
-[WASD template][] so that it has a split backspace and split right
-shift, to match the HHKB layout.
+risk of misunderstandings by the WASD staff. I edited the [WASD
+template][] so that it has a split backspace and split right shift, to
+match the HHKB layout, and I made the background black for better
+contrast with the white legends.
 
 [WASD template]: https://support.wasdkeyboards.com/hc/en-us/articles/115007847008-Download-Template-Files
 
 The modifiers on the bottom row do not match the HHKB exactly. The
-original HHKB has a 6u spacebar with two modifiers either side. I
-intend to get an [HS60 HHKB PCB][HS60] which has a [Tsangan][] bottom
-row: a 7u spacebar with three modifiers (1.5u, 1u, 1.5u) each side;
-WASD do not have a 7u spacebar or 1.5u row 1 modifiers.
+original HHKB has a 6u spacebar with two modifiers either side. I have
+an [HS60 HHKB PCB][HS60] which has a [Tsangan][] bottom row: a 7u
+spacebar with three modifiers (1.5u, 1u, 1.5u) each side; WASD do not
+have a 7u spacebar or 1.5u row 1 modifiers.
 
 I'm going to get a 7u spacebar elsewhere; the 3 x 1.25u modifier keys
 from WASD will fit the Tsangan layout, except for a 0.125u gap on each
@@ -286,16 +290,16 @@ and digits); [Quarkwell][], which is a recently created commercial Gorton-alike
 [Quarkwell]: https://www.myfonts.com/fonts/thetypeworks-com/quarkwell/
 [Routed Gothic]: https://webonastick.com/fonts/routed-gothic/
 
-What I have found works best is a combination of Routed Gothic, Routed
-Gothic Wide, and Open Gorton.
+What I found worked best for the WASD design was a combination of
+Routed Gothic, Routed Gothic Wide, and Open Gorton.
 
 
 ### typographical notes on legends
 
 These notes refer to the [beeb.svg](wasd/beeb.svg) WASD design file.
 
-CTRL, SHIFT, etc. are all Routed Gothic, except for ESCAPE and right
-CTRL which are Routed Gothic Narrow.
+CTRL, SHIFT, etc. are all Routed Gothic, except for ESCAPE and DELETE
+which are Routed Gothic Narrow.
 
 Most of the letters and digits are Routed Gothic Wide. A few letters
 are Routed Gothic (non-wide): `R` `S` `B`
@@ -310,7 +314,8 @@ Zero is a Scandinavian capital slashed O and the correct 1 is found in
 Routed Gothic's private use character codes.
 
 `3` is problematic. Again, Open Gorton has a more authentic shape
-(rounded top instead of angular), but its numerals are too narrow.
+(rounded top instead of angular), but its numerals are too narrow. I
+stuck with Routed Gothic Wide.
 
 For punctuation, `#$%&*^~,.;:<>` come from Open Gorton; `"(){}[]`
 from Routed Gothic Wide, and `+-=‵′/|\?!` from Routed Gothic.
@@ -325,10 +330,11 @@ is drawn using an em-dash, and `-` uses an en-dash.
 
 I upped the font size a lot for `,.;:^~*`
 
-The `*` on the BBC micro has 6 points; Open Gorton has 8 points, a bit
-like the `*` on the BBC Master's numeric keypad (though I think Open
-Gorton has shorter points). Gorton Digital has a fairly nice 5-point
-asterisk which might be a plausible alternative.
+Asterisk is tricky. The `*` on the BBC micro has 6 points; Open Gorton
+has 8 points, a bit like the `*` on the BBC Master's numeric keypad
+(though I think Open Gorton has shorter points). Current Gorton
+Modified keycaps seem to use an 8-point asterisk. Gorton Digital has a
+fairly nice 5-point asterisk, but I stuck with Open Gorton.
 
 
 ### legend sizes
@@ -344,6 +350,10 @@ Measurements are roughly:
   * digits, punctuation, function keys: 3/8 keytop height
 
 On the WASD templates, the keycaps are 1/2 in by 5/9 in.
+
+After some advice from WASD's support staff, I left about 5% gap
+between the legends and the keycap edges to avoid printing problems.
+The Beeb number keys look like they were a bit closer than that.
 
 
 Sandwich case
@@ -403,8 +413,8 @@ the sides were smooth.
 So that there's enough space for screw heads (see below), I'll use
 0.5u black around the keys, including on the far side where the
 function key strip would be. And the outer cream will be 1u either
-side (like both computers), 0.75u in front of the space bar (like the
-Beeb) and 1.25u on the far side, so it adds up to 2u in both
+side (like all three computers), 0.75u in front of the space bar (like
+the Beeb) and 1.25u on the far side, so it adds up to 2u in both
 directions.
 
 [BBC Micro photo]: https://en.wikipedia.org/wiki/File:BBC_Micro_Front_Restored.jpg
