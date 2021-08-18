@@ -1,0 +1,50 @@
+#!/usr/bin/perl
+
+use warnings;
+use strict;
+
+my @pre;
+my @toc;
+my @suf;
+
+open my $in, '<', 'README.md'
+    or die "open < README.md: $!\n";
+
+my $toc;
+while (<$in>) {
+	push @pre, $_;
+	$toc = 1 if m{^Contents$};
+	last if $toc and m{^$};
+}
+
+while (<$in>) {
+	last if m{^$};
+}
+push @suf, $_;
+
+sub linkify {
+	my $heading = shift;
+	chomp $heading;
+	my $anchor = lc($heading =~ s{\W+}{-}gr);
+	return "* [$heading](#$anchor)\n";
+}
+
+my $prev;
+while (<$in>) {
+	push @suf, $_;
+	push @toc, " "x2 . linkify $prev
+	    if m{^-+$};
+	push @toc, " "x6 . linkify $1
+	    if m{^### (.*)};
+	$prev = $_;
+}
+
+open my $out, '>', 'README.md'
+    or die "open > README.md: $!\n";
+
+$out->print(@pre, @toc, @suf);
+
+close $out or die "write > README.md: $!\n";
+
+exec 'git --no-pager diff README.md';
+die "exec git diff README.md: $!\n";
