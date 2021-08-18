@@ -16,18 +16,21 @@ Contents
   * [The BBC Micro keyboard](#the-bbc-micro-keyboard)
   * [Modern keyboard sizes](#modern-keyboard-sizes)
   * [Adjusting the BBC Micro layout](#adjusting-the-bbc-micro-layout)
+      * [ANSI vs ECMA](#ansi-vs-ecma)
   * [Keycaps](#keycaps)
-      * [BBC Micro profile](#bbc-micro-profile)
+      * [keycap profile](#keycap-profile)
   * [Owl logo](#owl-logo)
   * [WASD keyboard layout](#wasd-keyboard-layout)
   * [Gorton-like fonts](#gorton-like-fonts)
-      * [Detailed notes on legends](#detailed-notes-on-legends)
+      * [typographical notes on legends](#typographical-notes-on-legends)
+      * [legend sizes](#legend-sizes)
   * [Sandwich case](#sandwich-case)
       * [Surround](#surround)
       * [Layers](#layers)
       * [Plate](#plate)
       * [PCB and components](#pcb-and-components)
       * [Fixings](#fixings)
+      * [Illumination](#illumination)
 
 
 The BBC Micro keyboard
