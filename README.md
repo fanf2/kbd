@@ -9,6 +9,9 @@ There's a very lively community of mechanical keyboard makers and
 customizers, who have made it fairly easy to get a long way with
 off-the-shelf parts.
 
+If you would like to make a similar keyboard, please feel free to use
+this work as you wish - see the [LICENSE][LICENSE.md] for details.
+
 
 Contents
 --------
