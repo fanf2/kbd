@@ -14,10 +14,10 @@
     </style>
     <title>BBC micro owl</title>
   </head>
-  <body onload="owl();">
+  <body onload="owl_gooey();">
     <svg id="svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
       <filter id="gooey">
-	<feGaussianBlur id="blur" stdDeviation="1" />
+	<feGaussianBlur stdDeviation="5" />
 	<feColorMatrix mode="matrix"
 		       values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 6 -3" />
       </filter>

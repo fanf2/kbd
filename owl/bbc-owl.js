@@ -2,7 +2,6 @@
 
 const bmp = [
     "                   ",
-    "                   ",
     " O O O O O O O O O ",
     "  O     O O     O  ",
     " O   O   O   O   O ",
@@ -35,26 +34,25 @@ const txt = [
     "SYSTEM",
 ];
 
-const gooey = 3;
 const radius = 16;
 const space = 24;
 const horz = space;
 const vert = space;
 
-function owl() {
-    const svg = document.getElementById('svg');
-    const svgns = svg.getAttribute('xmlns');
+const textx = bmp[0].length * horz;
+const owlx = textx - horz/2;
 
-    const textx = bmp[0].length * horz;
-    const viewx = textx * 3;
-    const viewy = bmp.length * vert - vert;
-    const texty = viewy - vert;
-    svg.setAttributeNS(null, 'viewBox', `0 0 ${viewx} ${viewy}`);
+const viewx = textx * 3;
+const viewy = bmp.length * vert - vert;
 
-    const blur = document.getElementById('blur');
-    blur.setAttributeNS(null, 'stdDeviation', gooey);
+const texth = viewy / txt.length;
+const texty = texth - vert;
 
+const svgns = 'http://www.w3.org/2000/svg';
+
+function balls() {
     const balls = document.getElementById('balls');
+
     function ball(cx, cy, r) {
 	const elem = document.createElementNS(svgns, 'circle');
 	elem.setAttributeNS(null, 'cx', cx);
@@ -71,15 +69,34 @@ function owl() {
 		ball(x,y,radius);
 	}
     }
+}
 
-    const legend = document.getElementById('legend');
-    const n = txt.length;
-    for (let i = 1; i <= n; i++) {
+function owl_gooey() {
+    svg.setAttributeNS(null, 'viewBox', `0 0 ${viewx} ${viewy}`);
+    balls();
+
+    for (let i = 0; i < txt.length; i++) {
 	const elem = document.createElementNS(svgns, 'text');
 	elem.setAttributeNS(null, 'x', textx);
-	elem.setAttributeNS(null, 'y', i * texty / n);
-	elem.setAttributeNS(null, 'font-size', texty / n);
-	elem.appendChild(document.createTextNode(txt[i-1]));
+	elem.setAttributeNS(null, 'y', i * texth + texty);
+	elem.setAttributeNS(null, 'font-size', texth);
+	elem.appendChild(document.createTextNode(txt[i]));
 	legend.appendChild(elem);
     }
+}
+
+function owl_render() {
+    svg.setAttributeNS(null, 'viewBox', `0 0 ${owlx} ${viewy}`);
+    balls();
+
+    // convert balls to svg image
+    const svgxml = svg.parentElement.innerHTML;
+    img.setAttribute("src", "data:image/svg+xml;utf8," + svgxml);
+
+    // render image as bitmap
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0);
+
+    // convert balls to png image
+    img.setAttribute("src", canvas.toDataURL());
 }
