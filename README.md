@@ -105,15 +105,25 @@ A standard 75% ISO board could be given a Beebish appearance with just
 some replacement keycaps, like my [Beeb 75% ISO][] layout.
 
 I like small keyboards, so I have made a [Beeb 60% HHKB][] layout.
-This has a jokey number row that goes 0-9 (like the BBC Micro function
-keys) and is shifted towards the centre. I have labelled the modifier
-keys in [Space Cadet][] style: meta is sometimes an alias for alt;
-[super is a common legend][super] for what the [USB HID][] spec calls
-the GUI key; and hyper is for programmable keymap layers.
+This has a slightly jokey number row is shifted towards the centre. My
+original design had the number keys in 0-9 order, like the BBC Micro
+function keys, but the conventional order turned out to be less
+troublesome.
 
+I have labelled the modifier keys in [Space Cadet][] style: meta is
+sometimes an alias for alt; [super is a common legend][super] for what
+the [USB HID][] spec calls the GUI key; and hyper is for programmable
+keymap layers.
+
+[BBC Model B]: http://www.keyboard-layout-editor.com/#/gists/f89a6054d6d76e3fe4a5aa9e5e0e5bec
+[BBC Master]: http://www.keyboard-layout-editor.com/#/gists/16e4909fcb8b0c31d4b6a63912db6c3b
+[BBC Master 75%]: http://www.keyboard-layout-editor.com/#/gists/71a93d79bc55dbffa7b49be7e8e1d381
+[Beeb 75% ISO]: http://www.keyboard-layout-editor.com/#/gists/6a842768ef36cce78c7f452732fe69bf
+[Beeb 60% HHKB]: http://www.keyboard-layout-editor.com/#/gists/6791130c7705b4a48605ad0ebdb61e1f
 [Space Cadet]: https://en.wikipedia.org/wiki/Space-cadet_keyboard
 [super]: https://pimpmykeyboard.com/dsa-black-white-keyset-two-shot/
 [USB HID]: https://wiki.osdev.org/USB_Human_Interface_Devices
+
 
 ![Beeb HHKB layout](kle/beeb-60%25-hhkb.png)
 
@@ -128,7 +138,7 @@ numbers are shifted on French keyboards, and punctuation is
 unshifted). So in practice a USB keycode still corresponds to a key in
 a particular position in a conventional keyboard layout.
 
-These keys will need remapping in the OS (e.g. with [Karabiner][]):
+These keys will need remapping in the OS (e.g. with [Ukelele][]):
 
   * `;+` / `;:`
   * `:*` / `′"`
@@ -144,11 +154,43 @@ These keys will need remapping in the OS (e.g. with [Karabiner][]):
   * `0_` / `0)`
 
 The jokey centred red number keys will be remapped in the keyboard
-firmware with [VIA][].
+firmware with [VIA][]. This makes the keyboard easier to use when
+plugged into a system without further configuration, since most of the
+keys match the keycodes suggested by their keycaps.
 
-[VIA]: https://caniusevia.com/
-[Karabiner]: https://karabiner-elements.pqrs.org/
+A disadvantage of remapping using the keyboard firmware is that
+software keyboard views in [Ukelele][] and the macOS Keyboard Viewer
+do not match the hardware so well. For my layout the main consequence
+is that the top row is shifted right one key to make room for ESCAPE,
+a small difference that is easy to cope with. (This is one of the
+reasons for not keeping the jokey 0-9 number key order.)
+
+[Karabiner Elements]: https://karabiner-elements.pqrs.org/
+[Ukelele]: https://software.sil.org/ukelele/
 [USB HID usage table]: https://www.usb.org/hid
+[VIA]: https://caniusevia.com/
+
+
+### Configuration details
+
+Mac OS controls: change ⌘` to ⌘@ in System Preferences.
+
+On the keybow, configured with CircuitPy:
+
+   * row 0: F13 - F16
+   * row 1: F17 - F20
+   * row 2+3: arrows + navigation
+
+Actions on the Keybow configured elsewhere:
+
+  * F13 - F16: mission control / spaces (System Preferences)
+  * F17 - F20: tiled window movement (Hammerspoon)
+  * alt + F13 - F20: tiled window movement (Hammerspoon)
+
+By default in macOS, modifier keys on one keyboard (e.g. the HS60) do
+not affect key presses on another keyboard (e.g. the Keybow). To fix
+this, install [Karabiner Elements][]. I don't actually need Karabiner for
+anything else...
 
 
 Keycaps
@@ -566,14 +608,3 @@ extends out to the edge of the keyboard to make a go-faster stripe.
 
 For the black key surround I would actually like to use dark grey
 tinted acrylic, so RGB backlights can shine through a little.
-
-
-[BBC Model B]: http://www.keyboard-layout-editor.com/##@_backcolor=#333333&name=BBC%20Model%20B&author=Tony%20Finch%20(dot/@dotat.at);&@_x:2.5&c=#ff0000&t=#ffffff&a:7&f:5;&=%F0%9D%91%93%C3%B8&=%F0%9D%91%931&=%F0%9D%91%932&=%F0%9D%91%933&=%F0%9D%91%934&=%F0%9D%91%935&=%F0%9D%91%936&=%F0%9D%91%937&=%F0%9D%91%938&=%F0%9D%91%939&_c=#222222&f:2;&=BREAK;&@_x:0.25;&=ESCAPE&_a:5&f:6;&=!%0A1&_f:9&f2:6;&=%22%0A2&_f:6;&=#%0A3&=$%0A4&=%25%0A5&=/&%0A6&_f:9&f2:6;&=%E2%80%B2%0A7&_f:5&f2:6;&=(%0A8&=)%0A9&_a:7&f:9;&=%C3%98&_a:5&f:7;&=/=%0A%E2%80%93&_f:6;&=%E2%81%93%0A%E2%8C%83&_f:5;&=%7C%0A%5C&_c=#443322&a:7&f:9;&=%E2%86%90&=%E2%86%92;&@_x:0.25&c=#222222&f:3&w:1.5;&=TAB&_f:9;&=Q&=W&=E&=R&=T&=Y&=U&=I&=O&=P&=/@&_a:5&f:5;&=%7B%0A%5B&_f:7;&=%C2%A3%0A%E2%80%94&_c=#443322&a:7&f:9;&=%E2%86%91&=%E2%86%93;&@_c=#222222&a:5&f:3;&=CAPS%0ALOCK&_a:7;&=CTRL&_f:9;&=A&=S&=D&=F&=G&=H&=J&=K&=L&_a:5&f:8;&=+%0A/;&_fa@:6;;&=%E2%9C%BB%0A/:&_f:5;&=%7D%0A%5D&_a:7&f:3&w:2;&=RETURN;&@_a:5;&=SHIFT%0ALOCK&_a:7&w:1.5;&=SHIFT&_f:9;&=Z&=X&=C&=V&=B&=N&=M&_a:5&f:8&f2:9;&=%3C%0A,&=%3E%0A.&_f:6;&=?%0A//&_a:7&f:3&w:1.5;&=SHIFT&_f:2;&=DELETE&_c=#443322&f:3;&=COPY;&@_x:3.5&c=#222222&w:8;&=
-
-[BBC Master]: http://www.keyboard-layout-editor.com/##@_backcolor=#333333&name=BBC%20Master&author=Tony%20Finch%20(dot/@dotat.at)&css=*%20%7B%20font-family/:%20%22Arial%22/;%20%7D;&@_x:1.75&c=#ff0000&t=#ffffff&a:7&f:5;&=%F0%9D%91%93%C3%B8&=%F0%9D%91%931&=%F0%9D%91%932&=%F0%9D%91%933&=%F0%9D%91%934&=%F0%9D%91%935&=%F0%9D%91%936&=%F0%9D%91%937&=%F0%9D%91%938&=%F0%9D%91%939&_x:1&c=#222222&f:2;&=BREAK&_x:1&c=#443322&f:9;&=%E2%86%91&_x:0.75&c=#222222;&=+&=%E2%80%93&=//&=%E2%9C%B3%EF%B8%8E;&@_x:0.25&f:2;&=ESCAPE&_a:5&f:6;&=!%0A1&_f:9&f2:6;&=%22%0A2&_f:6;&=#%0A3&=$%0A4&=%25%0A5&=/&%0A6&_f:9&f2:6;&=%E2%80%B2%0A7&_f:5&f2:6;&=(%0A8&=)%0A9&_a:7&f:9;&=%C3%98&_a:5&f:7;&=/=%0A%E2%80%93&_f:6;&=%E2%81%93%0A%E2%8C%83&_f:5;&=%7C%0A%5C&_c=#443322&a:7&f:9;&=%E2%86%90&=%E2%86%92&_x:0.25&c=#222222;&=7&=8&=9&=#;&@_x:0.25&f:3&w:1.5;&=TAB&_f:9;&=Q&=W&=E&=R&=T&=Y&=U&=I&=O&=P&=/@&_a:5&f:5;&=%7B%0A%5B&_f:7;&=%C2%A3%0A%E2%80%94&_c=#443322&a:7&f:9;&=%E2%86%93&_x:0.75&c=#222222;&=4&=5&=6&_f:2;&=DELETE;&@_a:5&f:3;&=CAPS%0ALOCK&_a:7;&=CTRL&_f:9;&=A&=S&=D&=F&=G&=H&=J&=K&=L&_a:5&f:8;&=+%0A/;&_fa@:6;;&=%E2%9C%BB%0A/:&_f:5;&=%7D%0A%5D&_a:7&f:3&w:2;&=RETURN&_x:0.5&f:9;&=1&=2&=3&=,;&@_a:5&f:3;&=SHIFT%0ALOCK&_a:7&w:1.5;&=SHIFT&_f:9;&=Z&=X&=C&=V&=B&=N&=M&_a:5&f:8&f2:9;&=%3C%0A,&=%3E%0A.&_f:6;&=?%0A//&_a:7&f:3&w:1.5;&=SHIFT&_f:2;&=DELETE&_c=#443322&f:3;&=COPY&_x:0.5&c=#222222&f:9;&=%C3%98&=.&_f:3&w:2;&=RETURN;&@_x:3.5&w:8;&=
-
-[BBC Master 75%]: http://www.keyboard-layout-editor.com/##@_backcolor=#333333&name=BBC%20Master%2075%25&author=Tony%20Finch%20(dot/@dotat.at)&css=*%20%7B%20font-family/:%20%22Arial%22/;%20%7D;&@_x:1.5&c=#ff0000&t=#ffffff&a:7&f:5;&=%F0%9D%91%93%C3%B8&=%F0%9D%91%931&=%F0%9D%91%932&=%F0%9D%91%933&=%F0%9D%91%934&=%F0%9D%91%935&=%F0%9D%91%936&=%F0%9D%91%937&=%F0%9D%91%938&=%F0%9D%91%939&_x:1&c=#222222&f:2;&=BREAK&_x:1&c=#443322&f:9;&=%E2%86%91;&@_c=#222222&f:2;&=ESCAPE&_a:5&f:6;&=!%0A1&_f:9&f2:6;&=%22%0A2&_f:6;&=#%0A3&=$%0A4&=%25%0A5&=/&%0A6&_f:9&f2:6;&=%E2%80%B2%0A7&_f:5&f2:6;&=(%0A8&=)%0A9&_a:7&f:9;&=%C3%98&_a:5&f:7;&=/=%0A%E2%80%93&_f:6;&=%E2%81%93%0A%E2%8C%83&_f:5;&=%7C%0A%5C&_c=#443322&a:7&f:9;&=%E2%86%90&=%E2%86%92;&@_c=#222222&f:3&w:1.5;&=TAB&_f:9;&=Q&=W&=E&=R&=T&=Y&=U&=I&=O&=P&=/@&_a:5&f:5;&=%7B%0A%5B&_f:7;&=%C2%A3%0A%E2%80%94&_c=#443322&a:7&f:9;&=%E2%86%93;&@_x:0.25&c=#222222&f:3&w:1.5;&=CTRL&_f:9;&=A&=S&=D&=F&=G&=H&=J&=K&=L&_a:5&f:8;&=+%0A/;&_fa@:6;;&=%E2%9C%BB%0A/:&_f:5;&=%7D%0A%5D&_a:7&f:3&w:2;&=RETURN;&@_x:0.75&w:1.5;&=SHIFT&_f:9;&=Z&=X&=C&=V&=B&=N&=M&_a:5&f:8&f2:9;&=%3C%0A,&=%3E%0A.&_f:6;&=?%0A//&_a:7&f:3&w:1.5;&=SHIFT&=DEL&_c=#443322;&=COPY;&@_x:1.25;&=FN&=OWL&=ALT&_c=#222222&w:7;&=&_c=#443322;&=ALT&=OWL&=MENU
-
-[Beeb 75% ISO]: http://www.keyboard-layout-editor.com/##@_backcolor=#333333&name=beeb%2075%25%20ISO&author=Tony%20Finch%20(dot/@dotat.at)&css=*%20%7B%20font-family/:%20%22Arial%22/;%20%7D;&@_x:2&c=#ff0000&t=#ffffff&a:7&f:4;&=%F0%9D%91%93%C3%B8&=%F0%9D%91%931&=%F0%9D%91%932&=%F0%9D%91%933&=%F0%9D%91%934&=%F0%9D%91%935&=%F0%9D%91%936&=%F0%9D%91%937&=%F0%9D%91%938&=%F0%9D%91%939&_x:1&c=#222222&f:2;&=BREAK;&@=ESCAPE&_a:5&f:6;&=!%0A1&_fa@:9;;&=%22%0A2&_f:6;&=#%0A3&_f:6;&=$%0A4&_f:6;&=%25%0A5&_f:6;&=/&%0A6&_f:9&f2:6;&=%E2%80%B2%0A7&_f:5&f2:6;&=(%0A8&=)%0A9&_f:6;&=%E2%80%94%0A%C3%98&_f:7;&=%E2%80%93%0A/=&_f:6;&=%E2%81%93%0A%E2%8C%83&_a:7&f:3&w:2;&=DELETE&_c=#443322&f:9;&=%E2%A4%92;&@_c=#222222&f:3&w:1.5;&=TAB&_f:9;&=Q&=W&=E&=R&=T&=Y&=U&=I&=O&=P&_a:5&f:7;&=%E2%80%B5%0A/@&_f:5;&=%7B%0A%5B&_x:0.25&t=#000000&a:7&f:3&w:1.25&h:2&w2:1.5&h2:1&x2:-0.25;&=&_c=#443322&t=#ffffff&f:9;&=%E2%86%9F;&@_c=#222222&f:3&w:1.75;&=CTRL&_f:9;&=A&=S&=D&=F&=G&=H&=J&=K&=L&_a:5&f:8;&=+%0A/;&_fa@:6;;&=%E2%9C%BB%0A/:&_f:5;&=%7D%0A%5D&_x:1.25&c=#443322&a:7&f:9;&=%E2%86%A1;&@_c=#222222&f:3&w:1.25;&=SHIFT&_a:5&f:5;&=%7C%0A%5C&_a:7&f:9;&=Z&=X&=C&=V&=B&=N&=M&_a:5&f:8&f2:9;&=%3C%0A,&=%3E%0A.&_f:6;&=?%0A//&_a:7&f:3&w:1.75;&=SHIFT&_c=#443322&f:9;&=%E2%86%91&=%E2%A4%93;&@_f:3&w:1.25;&=FN&_w:1.25;&=OWL&_w:1.25;&=ALT&_c=#222222&w:6.25;&=&_c=#443322;&=ALT&=OWL&=MENU&_f:9;&=%E2%86%90&=%E2%86%93&=%E2%86%92
-
-[Beeb 60% HHKB]: http://www.keyboard-layout-editor.com/##@_backcolor=#333333&name=beeb%2060%25%20hhkb&author=Tony%20Finch%20(dot/@dotat.at)&css=*%20%7B%20font-family/:%20%22Arial%22/;%20%7D;&@_c=#222222&t=#ffffff&a:7&f:2;&=ESCAPE&_a:5&f:7;&=%E2%80%B5%0A/@&_c=#c13828&f:6;&=%E2%80%94%0A%C3%98&=!%0A1&_f:9&f2:6;&=%22%0A2&_f:6;&=#%0A3&=$%0A4&=%25%0A5&=/&%0A6&_f:9&f2:6;&=%E2%80%B2%0A7&_f:5&f2:6;&=(%0A8&=)%0A9&_c=#222222&f:7;&=%E2%80%93%0A/=&_f:6;&=%E2%81%93%0A%E2%8C%83&_f:5;&=%7C%0A%5C;&@_a:7&f:3&w:1.5;&=TAB&_f:9;&=Q&=W&=E&=R&=T&=Y&=U&=I&=O&=P&_a:5&f:5;&=%7B%0A%5B&=%7D%0A%5D&_a:7&f:3&w:1.5;&=DELETE;&@_w:1.75;&=CTRL&_f:9;&=A&=S&=D&=F&=G&=H&=J&=K&=L&_a:5&f:8;&=+%0A/;&_fa@:6;;&=%E2%9C%BB%0A/:&_a:7&f:3&w:2.25;&=RETURN;&@_w:2.25;&=SHIFT&_f:9;&=Z&=X&=C&=V&=B&=N&=M&_a:5&f:8&f2:9;&=%3C%0A,&=%3E%0A.&_f:6;&=?%0A//&_a:7&f:3&w:1.75;&=SHIFT&_f:5;&=%F0%9D%98%A7%F0%9D%98%AF;&@_x:0.25&c=#6f4c23&f:3&w:1.25;&=HYPER&_w:1.25;&=SUPER%20OWL&_w:1.25;&=META&_c=#222222&w:7;&=&_c=#6f4c23&w:1.25;&=META&_w:1.25;&=SUPER%20OWL&_w:1.25;&=HYPER
