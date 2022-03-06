@@ -138,7 +138,7 @@ numbers are shifted on French keyboards, and punctuation is
 unshifted). So in practice a USB keycode still corresponds to a key in
 a particular position in a conventional keyboard layout.
 
-These keys will need remapping in the OS (e.g. with [Ukelele][]):
+These keys needed remapping in the OS, with [Ukelele][]:
 
   * `;+` / `;:`
   * `:*` / `′"`
@@ -153,10 +153,10 @@ These keys will need remapping in the OS (e.g. with [Ukelele][]):
   * `9)` / `9(`
   * `0_` / `0)`
 
-The jokey centred red number keys will be remapped in the keyboard
-firmware with [VIA][]. This makes the keyboard easier to use when
-plugged into a system without further configuration, since most of the
-keys match the keycodes suggested by their keycaps.
+The centred red number keys are remapped in the keyboard firmware with
+[VIA][]. This makes the keyboard easier to use when plugged into a
+system without further configuration, since most of the keys match the
+keycodes suggested by their keycaps.
 
 A disadvantage of remapping using the keyboard firmware is that
 software keyboard views in [Ukelele][] and the macOS Keyboard Viewer
