@@ -852,7 +852,7 @@
             <key code="7" output="&#x0018;"/>
             <key code="8" output="&#x0003;"/>
             <key code="9" output="&#x0016;"/>
-            <key code="10" output="0"/>
+            <key code="10" output="&#x0000;"/>
             <key code="11" output="&#x0002;"/>
             <key code="12" output="&#x0011;"/>
             <key code="13" output="&#x0017;"/>
