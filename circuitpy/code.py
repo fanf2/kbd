@@ -29,10 +29,10 @@ keyboard = Keyboard(usb_hid.devices)
 layout = KeyboardLayoutUS(keyboard)
 
 # A map of keycodes that will be mapped sequentially to each of the keys, 0-15
-keymap =    [Keycode.LEFT_ARROW,  Keycode.HOME,     108, 104,
-             Keycode.DOWN_ARROW,  Keycode.UP_ARROW, 109, 105,
-             Keycode.RIGHT_ARROW, Keycode.END,      110, 106,
-             Keycode.PAGE_DOWN,   Keycode.PAGE_UP,  111, 107]
+keymap =    [Keycode.LEFT_ARROW,  Keycode.HOME,     Keycode.F5, Keycode.F1,
+             Keycode.DOWN_ARROW,  Keycode.UP_ARROW, Keycode.F6, Keycode.F2,
+             Keycode.RIGHT_ARROW, Keycode.END,      Keycode.F7, Keycode.F3,
+             Keycode.PAGE_DOWN,   Keycode.PAGE_UP,  Keycode.F8, Keycode.F4]
 
 # The colour to set the keys when pressed, yellow.
 rgb = (31, 0, 95)
