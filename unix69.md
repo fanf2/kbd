@@ -1,51 +1,52 @@
-unix 69 layout
-==============
+unix 69 keyboard layout
+=======================
 
-Unix 69 is a 69-key variant of the usual ANSI 65% layout.
+Unix 69 is a compact 69-key keyboard layout. It has four programmable
+function keys in the right column, and six meta keys on the bottom
+row. The meta keys are typically configured to be some combination of
+ctrl / alt / gui / cmd / opt / meta / super / hyper / fn / menu.
 
-Differences from ANSI 65% layout:
+┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┐
+│esc│1! │2@ │3# │4$ │5% │6^ │7& │8* │9( │0) │-_ │=+ │\| │`~ │ f1│
+├───┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴───┼───┤
+│ tab │ q │ w │ e │ r │ t │ y │ u │ i │ o │ p │[{ │]} │ del │ f2│
+├─────┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴─────┼───┤
+│ ctrl │ a │ s │ d │ f │ g │ h │ j │ k │ l │;: │'" │ return │ f3│
+├──────┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴────┬───┼───┤
+│ shift  │ z │ x │ c │ v │ b │ n │ m │,< │.> │/? │ shft │ ↑ │ f4│
+├────┬───┴┬──┴─┬─┴───┴───┴───┴───┴───┴──┬┴──┬┴──┬┴──┬───┼───┼───┤
+│ m1 │ m2 │ m3 │                        │ m4│ m5│ m6│ ← │ ↓ │ → │
+└────┴────┴────┴────────────────────────┴───┴───┴───┴───┴───┴───┘
 
-  * escape
-      - 1u
-      - left of 1
-      - (typical for 65% and 60%)
 
-  * ctrl
-      - 1.75u
-      - left of A
+unix 69 vs ansi
+---------------
 
-  * delete/backspace
-      - 1.5u
-      - above return/enter
+ANSI 65% keyboards have caps lock where ctrl should be.
 
-  * \| and `~
-      - 1u
-      - above delete/backspace
+They have an oversized [\|] and lack a good place for [`~].
 
-  * space
-      - 6.25u
 
-  * left modifier keys
-      - 1.25u
-      - hyper/fn or menu
-      - super/gui
-      - meta/alt
+unix 69 vs hhkb
+---------------
 
-  * right shift
-      - 1.75u
-      - between /? and up
-      - (typical for 65% and hhkb)
+The happy hacking keyboard is OK for a 60% unix layout. However it
+lacks a left [fn] key, and lacks space for full-size arrow keys.
 
-  * right modifier keys
-      - 1u
-      - meta/alt
-      - super/gui or menu
-      - hyper/fn or ctrl
+So I prefer a 65% layout.
 
-  * right function keys
-      - 1u
-      - f1 f2 f3 f4 instead of
-        page up / page down / home / end / ins / del / whatever
+
+unix 69 vs true fox
+-------------------
+
+Unix 69 is similar to the Whitefox / Nightfox "True Fox" layout, with
+a 16 key top row.
+
+On the bottom row, True Fox has two modifers and a gap between space
+and arrows, whereas Unix 69 has three modifiers and no gap. Both
+bottom rows are common in 65% keyboards.
+
+True Fox has caps lock where ctrl should be.
 
 
 SP DSA standard keysets
@@ -139,6 +140,32 @@ https://pimpmykeyboard.com/sp-dsa-dolch-keyset-two-shot/
       - f1 - f4 (iu pale)
 
 total $158 or $141
+
+
+PBTfans Dolch
+-------------
+
+https://kbdfans.com/collections/pbtfans-in-stock/products/pbtfans-dolch
+
+Cherry profile
+
+double shot ABS
+
+base set covers everything, $80
+
+(poor options for right column)
+
+
+Matt3o MTNU Susu
+----------------
+
+https://prototypist.net/products/group-buy-gmk-mtnu-susu-keycap-set
+
+double shot PBT
+
+base set covers everything £95
+
+(poor options for right column)
 
 
 SP DSA ferrous
