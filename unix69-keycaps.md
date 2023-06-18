@@ -1,7 +1,8 @@
 notes on keycap sets for unix 69
 ================================
 
-I would like a Dolch style keycap set. Some notes on the options...
+I would like a Dolch style keycap set, preferably spherical top.
+Some notes on the options...
 
 
 Matt3o MTNU Susu
@@ -9,11 +10,23 @@ Matt3o MTNU Susu
 
 https://prototypist.net/products/group-buy-gmk-mtnu-susu-keycap-set
 
-double shot PBT
+medium profile sculpted spherical double shot PBT
 
 base set covers everything £95
 
 (poor options for right column; better with numpad £34)
+
+
+Matt3o MT3 Susuwatari
+---------------------
+
+https://drop.com/buy/drop-matt3o-mt3-susuwatari-custom-keycap-set
+
+high profile sculpted spherical double shot ABS
+
+base set covers everything $99
+
+(the extras are nice, $49)
 
 
 PBTfans Dolch
@@ -120,6 +133,7 @@ https://pimpmykeyboard.com/sp-dsa-dolch-keyset-two-shot/
 
   * missing
       - alt (1u)
+      - ctrl (1u)
       - replacements for win
 
   * individual keys $5 each
