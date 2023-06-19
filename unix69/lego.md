@@ -78,11 +78,20 @@ no extra clearance needed on the other side of the PCB
 
 ### alternative 1
 
+use a mid-mount USB socket, extends 2 mm below PCB, same as hotswap sockets
+
+plug then extends 5 mm - 1.5 mm = 3.5 mm
+
+still needs cut-out in bottom plate
+
+
+### alternative 2
+
 the KBDcraft Adam puts the USB socket _above_ the PCB
 and sticking out from the board (it cannot fit between switches)
 
 
-### alternative 2
+### alternative 3
 
 or use a USB daughterboard https://unified-daughterboard.github.io/
 
