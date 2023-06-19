@@ -54,7 +54,7 @@ SP DSA standard keysets
 
 https://pimpmykeyboard.com/sp-dsa-standard-keysets-sublimated/
 
-PBT ?? colours ??
+PBT ?? colours ?? guess GSF, GQT, RBH
 
   * alpha kit $60
       - `~ (pale)
