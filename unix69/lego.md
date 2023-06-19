@@ -17,14 +17,14 @@ A somewhat different design: https://kbdcraft.store/products/adam
 lego dimensions
 ---------------
 
-1x1 brick is 8x8 mm (same as my hhkb's surround)
+  * 1x1 brick is 8x8 mm (same as my hhkb's surround)
 
-plate height 3.2 mm
-brick height 9.6 mm
-stud height 1.7 mm
+  * plate height 3.2 mm
+  * brick height 9.6 mm
+  * stud height 1.7 mm
 
-stud diameter 4.8 mm
-clip diameter 3.2 mm (same as holes in studs)
+  * stud diameter 4.8 mm
+  * clip diameter 3.2 mm (same as holes in studs)
 
 
 width
