@@ -228,3 +228,18 @@ or reduce inter-beam gap by 1 ldu (wrt nominal 20 ldu)
       * clearance around pcb is 4 ldu = 1.6 mm each side
 
 probably a sensible middle ground?
+
+
+plate and base corners
+----------------------
+
+The bevel angle between the beam ends is not 45 degrees (because 15 <> 12)
+
+but if it was 45 degrees, the distance (in the direction continuing
+along the beam) from a beam end to the edge of the case is 4mm * sqrt(2)
+
+distance from start of beam end curve to edge of case is 4mm + 4mm * sqrt(2)
+which is 9.7 mm - might as well round up to 10mm.
+
+because the beam end radius is slightly less than 4mm, a 10mm corner radius
+cuts the corner slightly, in a nice way
