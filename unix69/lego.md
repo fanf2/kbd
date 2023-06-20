@@ -25,10 +25,12 @@ lego dimensions
 
   * stud diameter 4.8 mm
   * technic hole diameter 4.8 mm
-  * technic beam width 8 mm (along length of holes)
-  * technic beam height 7.2 mm (diameter of end curve)
+  * technic beam height 8 mm (along length of holes)
+  * technic beam width 7.2 mm (diameter of end curve)
+      - according to LeoCAD
 
   * clip diameter 3.2 mm (same as holes in studs)
+      - might be useful with M3 bolts
 
 
 width
@@ -116,6 +118,7 @@ use technic beams as surround between base and plate
 use M3 bolts and rivet nuts to hold it together
 
   * M3 rivet nuts fit into technic holes
+  * (nicely snug in beams, very tight in bricks)
 
 
 dimensions
@@ -127,6 +130,10 @@ dimensions
 we do not need to round to lego stud units!
 
 using lego draw units, 1 ldu = 0.4 mm, 20 ldu = 1 stud
+
+LeoCAD says technic beam is 2 ldu less than 8mm wide
+
+  * inter-beam gap is more generous than inter-brick gap
 
 
 left / right
@@ -142,7 +149,7 @@ x position of centre line of vertical beams is +/-
 
 391 ldu
 
-plus clearance for pcb
+includes 1 ldu (ish) inter-beam gap clearance for pcb
 
 
 y position of centre of end holes of beams is
@@ -163,21 +170,21 @@ y position of centre line of horizontal beams is +/-
 
 129 ldu (plus a fraction)
 
-plus clearance for pcb
+includes 1 ldu (ish) inter-beam gap clearance for pcb
 
 
 x position of centre of end holes is
 
 +/- 3 * 13 studs / 2 - 0.5 stud = 19 studs = 380 ldu
 
-minus inter-brick gap (1 or 2 ldu) between each beam
+minus inter-beam gap (2 ldu) between each beam
 
 
 corner geometry
 ---------------
 
 the distance between the centre points of the ends of the beams
-must be 1 stud = 8 mm = 20 ldu minus inter-brick gap (1 or 2 ldu)
+must be 1 stud = 8 mm = 20 ldu minus inter-beam gap (2 ldu)
 
   * x1 = 391
   * y1 = 120
@@ -190,7 +197,7 @@ must be 1 stud = 8 mm = 20 ldu minus inter-brick gap (1 or 2 ldu)
   * `sqrt(11*11 + 9*9) = sqrt(121 + 81) = sqrt(202) = 14.2 ldu`
       * too small!
 
-add 4 ldu clearance around pcb
+additional 4 ldu clearance around pcb
 
   * x1 = 391 + 4
   * y1 = 120
@@ -198,14 +205,26 @@ add 4 ldu clearance around pcb
   * y2 = 129 + 4
 
   * `sqrt(15*15 + 13*13) = sqrt(394) = 19.8 ldu`
+      * pessimistic spacing
+      * clearance around pcb is 5 ldu = 2 mm each side
 
-remove 1 ldu inter-brick gap (reduces horizontal pcb clearance)
+remove 2 ldu inter-beam gap (reduces horizontal PCB clearance)
 and reduce vertical PCB clearance to match
 
-  * x1 = 391 - 1 + 4
+  * x1 = 391 - 2 + 4
   * y1 = 120
-  * x2 = 380 - 1
-  * y2 = 129 - 1 + 4
+  * x2 = 380 - 2
+  * y2 = 129 - 2 + 4
+
+  * `sqrt(15*15 + 11*11) = sqrt(346) = 18.6 ldu`
+      * 1 stud less 1.4 ldu inter-beam gap
+      * optimistic spacing
+      * clearance around pcb is 3 ldu = 1.2 mm each side
+
+or reduce inter-beam gap by 1 ldu (wrt nominal 20 ldu)
 
   * `sqrt(15*15 + 12*12) = sqrt(369) = 19.2 ldu`
-      * 1 stud less 0.8 ldu inter-brick gap
+      * 1 stud less 0.8 ldu inter-beam gap
+      * clearance around pcb is 4 ldu = 1.6 mm each side
+
+probably a sensible middle ground?
