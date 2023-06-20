@@ -135,7 +135,7 @@ LeoCAD says technic beam is 2 ldu less than 8mm wide
 
   * inter-beam gap is more generous than inter-brick gap
 
-measurements from the centre of the board
+we'll measure +/- from the centre of the board
 
 
 left / right
