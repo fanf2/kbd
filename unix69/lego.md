@@ -135,6 +135,8 @@ LeoCAD says technic beam is 2 ldu less than 8mm wide
 
   * inter-beam gap is more generous than inter-brick gap
 
+measurements from the centre of the board
+
 
 left / right
 ------------
@@ -243,3 +245,33 @@ which is 9.7 mm - might as well round up to 10mm.
 
 because the beam end radius is slightly less than 4mm, a 10mm corner radius
 cuts the corner slightly, in a nice way
+
+
+USB-C clearance
+---------------
+
+centreline of connector is between esc and 1
+
+7 keys +/- (12.5 mm / 2) = 7 * 19.05 mm +/- 6.25 mm
+
+133.35 mm +/- 6.25 mm = 333 ldu +/- 16 ldu ish
+
+distance from end of beam to plug is
+
+  * 380 ldu (centre of last hole)
+  * - 1 ldu (removed inter-beam gap)
+  * + 10 ldu (half stud to end of beam)
+  * - 333 ldu (centre of connector)
+  * - 16 ldu (half of plug)
+
+which is 40 ldu = 2 studs
+
+plug is 32 ldu, 1.5 studs
+
+so space for connector is
+
+  * 1 stud beam (to form the enclosure's corner)
+  * 1 stud clearance
+  * 1.5 stud plug
+  * 0.5 stud clearance
+  * 35 stud rest of enclosure
