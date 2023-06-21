@@ -17,7 +17,7 @@ A somewhat different design: https://kbdcraft.store/products/adam
 lego dimensions
 ---------------
 
-  * 1x1 brick is 8x8 mm (same as my hhkb's surround)
+  * 1x1 brick is 8x8 mm (same as my hhkbeeb's surround)
 
   * plate height 3.2 mm
   * brick height 9.6 mm
@@ -275,3 +275,17 @@ so space for connector is
   * 1.5 stud plug
   * 0.5 stud clearance
   * 35 stud rest of enclosure
+
+
+fixings
+-------
+
+not every beam needs a screw through the switch plate
+
+beams can be mostly held in place by press fitting with rivet nuts
+through the base, or with a screw in the beam hole recess (if the
+ultra thin super flat wafer head is not so thick it interferes with
+the switch plate above)
+
+the switch plate needs enough screw holes to mount it and for
+rigidity; 8 is probably fine (my hhkbeeb has 6)
