@@ -97,6 +97,11 @@ and extra projections for the USB sockets
 
 https://drop.com/buy/drop-alt-pcba
 
+The case is supposed to be 9mm thick; I guess they shaved some space
+from the components and used a really thin baseplate
+
+https://drop.com/buy/drop-alt-aluminum-case
+
 ### KBDcraft Adam
 
 Top-mount USB-C
