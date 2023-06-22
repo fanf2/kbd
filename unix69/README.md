@@ -41,8 +41,9 @@ the year Unix started.)
 
 I have arranged the bottom row modifiers for Emacs: there are left and
 right meta keys and a right ctrl key for one-handed navigation. Meta
-is what the USB HID spec calls the "GUI" key. Like Unix workstations
-made by Apple and Sun, the meta keys are either side of the space bar.
+is what the USB HID spec calls the "GUI" key; it sometimes has a
+diamond icon legend. Like the HHKB and Unix workstations made by Apple
+and Sun, the meta keys are either side of the space bar.
 
 There are left and right fn keys for things that don't have dedicated
 keys, e.g. fn+arrows for page up/down, home, end. The rightmost column
@@ -57,18 +58,21 @@ ANSI 65% keyboards have caps lock where ctrl should be.
 
 They have an oversized backslash and lack a good place for backquote.
 
+The right column is wasted on fixed-function keys.
+
 
 unix69 vs true fox
 ------------------
 
-Unix69 is similar to Matt3o's Whitefox / Nightfox "True Fox" layout,
-with a 16 key top row.
+Matt3o's Whitefox / Nightfox "True Fox" layout has the same top 2 rows
+as unix69.
+
+True Fox has caps lock where ctrl should be. Its right column is
+wasted on fixed-function keys.
 
 On the bottom row, True Fox has two modifers and a gap between space
 and arrows, whereas unix69 has three modifiers and no gap. Both
 bottom rows are common in 65% keyboards.
-
-True Fox has caps lock where ctrl should be.
 
 
 unix69 vs hhkb
