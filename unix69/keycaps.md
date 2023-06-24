@@ -54,7 +54,11 @@ SP DSA standard keysets
 
 https://pimpmykeyboard.com/sp-dsa-standard-keysets-sublimated/
 
-PBT ?? colours ?? guess GSF, GQT, RBH
+  * PBT colours
+      - GSF (dark)
+      - GQT (pale)
+      - RBH (red)
+      - http://www.keyboard-layout-editor.com/#/gists/74c60d38ef1efecc72a03eb15da15d9a
 
   * alpha kit $60
       - `~ (pale)
@@ -75,7 +79,7 @@ PBT ?? colours ?? guess GSF, GQT, RBH
       - right fn1 fn2 fn3 pn (1u)
       - right shift (1.75u)
 
-  * arrow kit $5 (red)
+  * arrow kit $5 (red / pale)
 
   * individual keys $5 each
       - esc (1u red icon A1)
@@ -91,9 +95,10 @@ SP DSA Dolch key sets
 
 https://pimpmykeyboard.com/sp-dsa-dolch-keyset-two-shot/
 
-  * ABS colors
+  * ABS colours
       - GE (pale)
       - GX (dark)
+      - http://www.keyboard-layout-editor.com/#/gists/2848ea7a272aa571d140694ff6bbe04c
 
   * alpha kit $60
       - `~ (pale)
