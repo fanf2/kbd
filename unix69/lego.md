@@ -207,7 +207,8 @@ additional 4 ldu clearance around pcb
   * y2 = 129 + 4
 
   * `sqrt(15*15 + 13*13) = sqrt(394) = 19.8 ldu`
-      * pessimistic spacing
+      * 2.0 ldu = 0.8 mm gap front and back
+      * 1.8 ldu = 0.7 mm gap at corners
       * clearance around pcb is 5 ldu = 2 mm each side
 
 remove 2 ldu inter-beam gap (reduces horizontal PCB clearance)
@@ -219,17 +220,19 @@ and reduce vertical PCB clearance to match
   * y2 = 129 - 2 + 4
 
   * `sqrt(15*15 + 11*11) = sqrt(346) = 18.6 ldu`
-      * 1 stud less 1.4 ldu inter-beam gap
-      * optimistic spacing
+      * 0.0 ldu = 0.0 mm gap front and back
+      * 0.6 ldu = 0.2 mm gap at corners
       * clearance around pcb is 3 ldu = 1.2 mm each side
 
 or reduce inter-beam gap by 1 ldu (wrt nominal 20 ldu)
 
   * `sqrt(15*15 + 12*12) = sqrt(369) = 19.2 ldu`
-      * 1 stud less 0.8 ldu inter-beam gap
+      * 1.0 ldu = 0.4 mm gap front and back
+      * 1.2 ldu = 0.5 mm gap at corners
       * clearance around pcb is 4 ldu = 1.6 mm each side
 
 probably a sensible middle ground?
+what is pcb drilling tolerance?
 
 
 plate and base corners
