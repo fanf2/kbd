@@ -71,23 +71,25 @@ https://pimpmykeyboard.com/sp-dsa-standard-keysets-sublimated/
       - left menu (1.25u)
       - left alt (1.25u)
       - left super (1.25u)
+      - ??? esc (dark)
 
   * 40% icon modifier kit $32
       - right super (1u)
-      - right alt (1u)
       - right menu (1u)
       - right fn1 fn2 fn3 pn (1u)
       - right shift (1.75u)
+      - ??? right alt (1u)
 
   * arrow kit $5 (red / pale)
 
   * individual keys $5 each
       - esc (1u red icon A1)
-      - ctrl (1.75u dark icon A7)
+      - left ctrl (1.75u dark icon A7)
+      - right ctrl (1u dark icon A7)
       - delete (1.5u dark icon A2)
       - \| (1u pale)
 
-total $137
+total $142
 
 
 SP DSA Dolch key sets
