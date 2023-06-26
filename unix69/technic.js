@@ -1,5 +1,6 @@
 let lego_unit = 0.4; // mm
 let key_unit = 19.05; // mm
+let key_ldu = key_unit / lego_unit;
 
 function roundrect(c, x, y, w, h, r) {
     c.beginPath();
@@ -25,12 +26,35 @@ function beam(c, x, y, width, height) {
     }
 }
 
+function stab_hole(c, x, y) {
+    let stab_width = 18;
+    let stab_depth = 40;
+    c.strokeRect(x - stab_width / 2, y - stab_depth / 2,
+		 stab_width, stab_depth);
+}
+
 function switch_hole(c, x, y, u) {
     let hole = 35; // ldu
-    c.strokeRect((x - 7.5) * key_unit / lego_unit - hole / 2,
-		 (y - 2) * key_unit / lego_unit - hole / 2,
-		 (u - 1) * key_unit / lego_unit + hole,
-		 hole);
+    if (u > 1) {
+	c.save();
+	c.setLineDash([1,2]);
+    }
+    let width = (u - 1) * key_ldu + hole;
+    let cx = (x - 8 + u/2) * key_ldu;
+    let cy = (y - 2) * key_ldu;
+    c.strokeRect(cx - width / 2, cy - hole / 2,
+		 width, hole);
+    if (u > 1) {
+	c.restore();
+	switch_hole(c, x + u/2 - 1/2, y, 1)
+	if (u > 6) {
+	    stab_hole(c, cx - 125, cy);
+	    stab_hole(c, cx + 125, cy);
+	} else if (u > 2) {
+	    stab_hole(c, cx - 30, cy);
+	    stab_hole(c, cx + 30, cy);
+	}
+    }
 }
 
 function main() {
