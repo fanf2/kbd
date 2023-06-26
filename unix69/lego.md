@@ -235,8 +235,46 @@ probably a sensible middle ground?
 what is pcb drilling tolerance?
 
 
-plate and base corners
-----------------------
+plate and base dimensions
+-------------------------
+
+### left / right
+
+pcb edge x
+
+  * 19.05 mm * 16 / 2 keys = 152.4 mm = 381 ldu
+
+beam centre x
+
+  * 391 + 4 - 1 = 394 ldu
+
+plate edge x
+
+  * 394 + 10 - 1 = 403 ldu = 161.2 mm
+
+width of surround
+
+  * 403 - 381 = 22 ldu = 8.8 mm
+
+### front / back
+
+pcb edge y
+
+  * 19.05 mm * 5 / 2 keys = 47.625 mm = 119 ldu
+
+beam centre y
+
+  * 129 + 4 - 1 = 132 ldu
+
+plate edge y
+
+  * 132 + 10 - 1 = 141 ldu = 56.4 mm
+
+width of surround
+
+  * 141 - 119 = 22 ldu = 8.8 mm
+
+### corners
 
 The bevel angle between the beam ends is not 45 degrees (because 15 <> 12)
 
@@ -293,37 +331,20 @@ so space for connector is
   * 35 stud rest of enclosure
 
 
-### base cut-out
-
-y position of centre line of horizontal beams from centre
-
-  * 129 + 4 - 1 = 132 ldu
-
-edge of base plate is extra half stud less inter-beam gap
-
-  * 132 + 10 - 1 = 141 ldu
-
-edge of pcb is
-
-  * 19.05 mm * 5 / 2 keys = 47.625 mm = 119 ldu
-
-
 #### for lower mid-mount usb sockets:
 
-depth of cut out from edge of base to edge of pcb is
+depth of cut out from edge of base to edge of pcb is same as surround
 
-  * 141 - 119 = 22 ldu = 8.8 mm = 3/8 in (ish) or 1/3 in (ish)
+  * 22 ldu = 8.8 mm = 3/8 in (ish) or 1/3 in (ish)
 
 
 #### for bottom-mount usb sockets:
 
 depth of cut out from edge of pcb is 10 mm
 
-  * 47.625 - 10 = 37.625 mm = 94 ldu
+depth of cut out from edge of base is
 
-depth of cut out from edge of base
-
-  * 141 - 94 = 47 ldu = 19 mm = 3/4 in
+  * 10 mm + 22 ldu = 25 + 22 = 47 ldu = 19 mm = 3/4 in
 
 
 #### width of cut-out
