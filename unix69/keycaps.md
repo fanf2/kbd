@@ -80,7 +80,7 @@ https://pimpmykeyboard.com/sp-dsa-standard-keysets-sublimated/
       - right shift (1.75u)
       - ??? right alt (1u)
 
-  * arrow kit $5 (red / pale)
+  * arrow kit $5 (red? pale?)
 
   * individual keys $5 each
       - esc (1u red icon A1)

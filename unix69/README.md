@@ -50,6 +50,8 @@ keys, e.g. fn+arrows for page up/down, home, end. The rightmost column
 has user-programmable macro keys, for things like media control or
 window management.
 
+<http://www.keyboard-layout-editor.com/#/gists/2848ea7a272aa571d140694ff6bbe04c>
+
 
 unix69 vs ansi 65%
 ------------------
