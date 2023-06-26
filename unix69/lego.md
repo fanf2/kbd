@@ -168,7 +168,7 @@ y position of centre line of horizontal beams is +/-
 
 2.5 * 19.05 mm + 4 mm
 
-47.625 + 4 mm
+47.625 + 4 = 51.625 mm
 
 129 ldu (plus a fraction)
 
@@ -253,6 +253,19 @@ cuts the corner slightly, in a nice way
 USB-C clearance
 ---------------
 
+  * 12.5 mm minimum space for width of plug
+  * 9 mm width of socket
+  * 10 mm depth of socket from edge of PCB
+      - should allow plenty of space for all sockets
+
+### centre socket
+
+width of plug = 12.5 mm = 32 ldu = 1.6 studs
+
+width of space = 3 studs = 60 ldu
+
+### left socket
+
 centreline of connector is between esc and 1
 
 7 keys +/- (12.5 mm / 2) = 7 * 19.05 mm +/- 6.25 mm
@@ -278,6 +291,44 @@ so space for connector is
   * 1.5 stud plug
   * 0.5 stud clearance
   * 35 stud rest of enclosure
+
+### base cut-out
+
+
+y position of centre line of horizontal beams from centre
+
+  * 129 + 4 - 1 = 132 ldu
+
+edge of base plate is extra half stud less inter-beam gap
+
+  * 132 + 10 - 1 = 141 ldu
+
+edge of pcb is
+
+  * 19.05 mm * 5 / 2 keys = 47.625 mm = 119 ldu
+
+
+#### for lower mid-mount usb sockets:
+
+depth of cut out from edge of base to edge of pcb is
+
+  * 141 - 119 = 22 ldu = 8.8 mm = 3/8 in (ish) or 1/3 in (ish)
+
+
+#### for bottom-mount usb sockets:
+
+depth of cut out from edge of pcb is 10 mm
+
+  * 47.625 - 10 = 37.625 mm = 94 ldu
+
+depth of cut out from edge of base
+
+  * 141 - 94 = 47 ldu = 19 mm = 3/4 in
+
+
+#### width of cut-out
+
+  * 16 mm = 2 studs = 5/8 in (ish) or 2/3 in (ish)
 
 
 fixings
