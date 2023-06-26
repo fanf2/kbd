@@ -26,7 +26,7 @@ medium profile sculpted spherical double shot PBT
 
 base set covers everything £95
 
-(poor options for right column; better with numpad £34)
+(poor options for right column; better with numpad £34; or use R1 F1-F4?)
 
 
 Matt3o MT3 Susuwatari
