@@ -1,3 +1,6 @@
+let lego_unit = 0.4; // mm
+let key_unit = 19.05; // mm
+
 function roundrect(c, x, y, w, h, r) {
     c.beginPath();
     c.roundRect(x, y, w, h, r);
@@ -22,15 +25,20 @@ function beam(c, x, y, width, height) {
     }
 }
 
+function switch_hole(c, x, y, u) {
+    let hole = 35; // ldu
+    c.strokeRect((x - 7.5) * key_unit / lego_unit - hole / 2,
+		 (y - 2) * key_unit / lego_unit - hole / 2,
+		 (u - 1) * key_unit / lego_unit + hole,
+		 hole);
+}
+
 function main() {
     let c = canvas.getContext("2d")
     c.reset();
     c.strokeStyle = "black";
     c.lineWidth = 0.5;
     c.transform(2, 0, 0, 2, canvas.width/2, canvas.height/2);
-
-    let key_unit = 19.05; // mm
-    let lego_unit = 0.4; // mm
 
     let stud = 20; // ldu
     let beam_x = 394;
@@ -57,6 +65,45 @@ function main() {
     let plate_radius = 25;
     roundrect(c, -plate_width, -plate_depth,
 	      plate_width * 2, plate_depth * 2, plate_radius);
+
+    for (let i = 0; i < 15; i++) {
+	switch_hole(c, i, 0, 1);
+    }
+    switch_hole(c, 15, 0, 1);
+
+    for (let i = 0; i < 12; i++) {
+	switch_hole(c, i + 1.5, 1, 1);
+    }
+    switch_hole(c, 15, 1, 1);
+
+    for (let i = 0; i < 11; i++) {
+	switch_hole(c, i + 1.75, 2, 1);
+    }
+    switch_hole(c, 15, 2, 1);
+
+    for (let i = 0; i < 10; i++) {
+	switch_hole(c, i + 2.25, 3, 1);
+    }
+    switch_hole(c, 14, 3, 1);
+    switch_hole(c, 15, 3, 1);
+
+    for (let i = 0; i < 6; i++) {
+	switch_hole(c, i + 10, 4, 1);
+    }
+
+    switch_hole(c, 0, 1, 1.5);
+    switch_hole(c, 0, 2, 1.75);
+    switch_hole(c, 0, 3, 2.25);
+
+    switch_hole(c, 13.5, 1, 1.5);
+    switch_hole(c, 12.75, 2, 2.25);
+    switch_hole(c, 12.25, 3, 1.75);
+
+    for (let i = 0; i < 3; i++) {
+	switch_hole(c, i * 1.25, 4, 1.25);
+    }
+
+    switch_hole(c, 3.75, 4, 6.25);
 
     let bolt_radius = 4;
     let nut_radius = 6;
