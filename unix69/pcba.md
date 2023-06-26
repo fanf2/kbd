@@ -38,11 +38,11 @@ USB-C dimensions
   * 3.5 mm USB-C socket
   * 1.5 mm PCB / plug clearance
 
-mid-mount USB-C socket is flush with one side of PCB
+mid-mount USB-C socket is flush with one surface of PCB
 
   * 1.5 mm plug clearance
   * 2.0 mm socket
-  * 1.5 mm PCB
+  * 1.5 mm PCB / socket
   * 1.5 mm plug clearance
 
 mid-mount socket might fit in the usual place between esc and 1 ?
