@@ -292,8 +292,8 @@ so space for connector is
   * 0.5 stud clearance
   * 35 stud rest of enclosure
 
-### base cut-out
 
+### base cut-out
 
 y position of centre line of horizontal beams from centre
 

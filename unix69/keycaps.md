@@ -5,6 +5,18 @@ I would like a Dolch style keycap set, preferably spherical top.
 Some notes on the options...
 
 
+Whitefox / Nightfox
+-------------------
+
+https://kono.store/products/whitefox-keycap-set
+
+Cherry profile sublimated PBT
+
+base set covers everything
+
+(poor options for right column, maybe use R1 keys?)
+
+
 Matt3o MTNU Susu
 ----------------
 
