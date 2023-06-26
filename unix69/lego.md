@@ -292,7 +292,9 @@ USB-C clearance
 ---------------
 
   * 12.5 mm minimum space for width of plug
-  * 9 mm width of socket
+  * 9.5 mm width of socket
+  * 2.2 mm socket overhang past edge of pcb
+  * 2 mm clearance between socket and plug
   * 10 mm depth of socket from edge of PCB
       - should allow plenty of space for all sockets
 
