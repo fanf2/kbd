@@ -331,8 +331,8 @@ depth of cut out from edge of base
   * 16 mm = 2 studs = 5/8 in (ish) or 2/3 in (ish)
 
 
-fixings
--------
+fasteners
+---------
 
 not every beam needs a screw through the switch plate
 

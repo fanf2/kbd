@@ -34,7 +34,7 @@ Contents
       * [Layers](#layers)
       * [Plate](#plate)
       * [PCB and components](#pcb-and-components)
-      * [Fixings](#fixings)
+      * [Fasteners](#fasteners)
       * [Illumination](#illumination)
 
 
@@ -551,7 +551,7 @@ so the recess may need to be larger.
 ![laser cut outlines for case](hhkb/all.svg)
 
 
-### Fixings
+### Fasteners
 
 I would like to avoid sticking-out nuts and screw heads. (The Pibow
 uses M2.5 nylon screws which stick out about 2mm.) Unfortunately, it's
@@ -562,7 +562,7 @@ One possibility is to use M2 or M2.5 female-female standoffs inside
 the case sandwich, so that only screw heads protrude on the top and
 bottom; then choose the flattest heads available.
 
-There is more variety of fixings for M3 screws. I'm going to try using
+There is more variety of fasteners in M3 sizes. I'm going to try using
 [rivet nuts][] on the bottom because they only protrude 0.8mm. Rivet
 nuts are designed to be inserted into a metal panel; a riveting tool
 is inserted into the nut to squash it so that it wedges in the panel.
