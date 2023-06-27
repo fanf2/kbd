@@ -141,6 +141,8 @@ wiring diagram in qmk style:
         column  0  1  2  3  4  5  6  7
         keys    9  9  8  9  8  9  8  9
 
+http://www.keyboard-layout-editor.com/#/gists/9529ce631a0991a9847244674e032e82
+
 
 ### rp2040-tiny
 
