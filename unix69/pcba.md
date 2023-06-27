@@ -109,3 +109,37 @@ Top-mount USB-C
 Sticks out on a finger of board into high-profile case surround.
 
 https://kbdcraft.store/products/core64
+
+
+diy controllers
+---------------
+
+matrix gpio pins:
+
+  - 16 + 5 -> 21 pins
+  - 72 = 8 * 9 -> 17 pins
+
+### rp2040-tiny
+
+https://www.waveshare.com/rp2040-tiny.htm
+https://www.waveshare.com/wiki/RP2040-Tiny
+
+separate controller and usb adaptor boards
+
+19 gpio pins
+
+### elite-pi
+
+https://keeb.io/products/elite-pi-usb-c-pro-micro-replacement-rp2040
+
+mid-mount usb socket
+
+25 gpio pins
+
+### 0xCB helios
+
+https://keeb.supply/products/0xcb-helios
+
+mid-mount usb socket
+
+21 gpio pins
