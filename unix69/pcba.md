@@ -124,6 +124,8 @@ matrix gpio pins:
       * 16 key columns in pairs -> 8 matrix columns
       * max 9 keys per matrix column
 
+wiring diagram in qmk style:
+
     ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┐
     │00 │10 │01 │11 │02 │12 │03 │13 │04 │14 │05 │15 │06 │16 │07 │17 │
     ├───┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴───┼───┤
@@ -146,6 +148,8 @@ https://www.waveshare.com/rp2040-tiny.htm
 https://www.waveshare.com/wiki/RP2040-Tiny
 
 separate controller and usb adaptor boards
+
+controller dimensions 18 x 23.5 mm (same as a 1.25u keycap)
 
 19 gpio pins
 
@@ -172,7 +176,7 @@ best solution is probably an underplate
       - 1.5 mm adaptor pcb / base / plug clearance
       - 1.5 mm underplate / below
 
-adaptor dimensions 18 x 18 mm
+adaptor dimensions 18 x 18 mm (same as a keycap)
 
 mounting holes 2 mm, 1 mm from board edge
 
