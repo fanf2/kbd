@@ -91,6 +91,9 @@ function main() {
     roundrect(c, -plate_width, -plate_depth,
 	      plate_width * 2, plate_depth * 2, plate_radius);
 
+    roundrect(c, -plate_width, -plate_depth,
+	      plate_width * 2, plate_radius * 2, plate_radius);
+
     for (let i = 0; i < 15; i++) {
 	switch_hole(c, i, 0, 1);
     }
