@@ -159,6 +159,19 @@ separate controller and usb adaptor boards
       - 1.5 mm adaptor pcb / plug clearance
       - 1.5 mm base / below
 
+buttons behind socket conflict with keyboard pcb
+
+best solution is probably an underplate
+
+  * adaptor mounted on underplate
+      - 1.5 mm plate / above
+      - 3.5 mm switch bodies / above
+      - 1.0 mm keyboard pcb / plug clearance
+      - 0.5 mm keyboard pcb / socket
+      - 3.0 mm components
+      - 1.5 mm adaptor pcb / base / plug clearance
+      - 1.5 mm underplate / below
+
 adaptor dimensions 18 x 18 mm
 
 mounting holes 2 mm, 1 mm from board edge
@@ -168,8 +181,6 @@ socket depth 7.8 mm
 button depth 8.5 ... 12.2 mm
 
 button width 1.1 ... 5.5 mm
-
-buttons behind socket conflict with keyboard pcb
 
 
 ### elite-pi
