@@ -364,12 +364,14 @@ possible alternatives:
 
   * 4 mm hex (4.6 mm corner to corner)
 
-not every beam needs a screw through the switch plate
+not every beam *needs* a screw through the switch plate but beams are
+very bendy so it's probably wise to err on the side of more fasteners
+rather than fewer.
 
-beams can be mostly held in place by press fitting with rivet nuts
-through the base, or with a screw in the beam hole recess (if the
-ultra thin super flat wafer head is not so thick it interferes with
-the switch plate above)
+apart from bendiness, beams can be mostly held in place by press
+fitting with rivet nuts through the base, or with a screw in the beam
+hole recess (if the ultra thin super flat wafer head is not so thick
+it interferes with the switch plate above)
 
 the switch plate needs enough screw holes to mount it and for
-rigidity; 8 is probably fine (my hhkbeeb has 6)
+rigidity; 8 is a bare minimum (my hhkbeeb has 6)
