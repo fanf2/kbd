@@ -117,7 +117,15 @@ diy controllers
 matrix gpio pins:
 
   - 16 + 5 -> 21 pins
-  - 72 = 8 * 9 -> 17 pins
+
+  - 70 = 14 * 5 -> 19 pins
+  - 72 = 12 * 6 -> 18 pins
+  - 70 = 10 * 7 -> 17 pins
+
+  - 72 = 9 * 8 -> 17 pins
+      * 16 key columns in pairs -> 8 matrix columns
+      * need max 9 keys per matrix column - 5 rows * 2 with gaps
+
 
 ### rp2040-tiny
 
@@ -132,9 +140,24 @@ separate controller and usb adaptor boards
       - 1.5 mm plate / above
       - 1.5 mm switch bodies / above
       - 1.5 mm switch bodies / plug clearance
-      - 3.5 mm socket
+      - 0.5 mm switch bodies / socket
+      - 1.5 mm keyboard pcb / socket
+      - 1.5 mm socket
       - 1.5 mm adaptor pcb / plug clearance
       - 1.5 mm base / below
+
+adaptor dimensions 18 x 18 mm
+
+mounting holes 2 mm, 1 mm from board edge
+
+socket depth 7.8 mm
+
+button depth 8.5 ... 12.2 mm
+
+button width 1.1 ... 5.5 mm
+
+buttons behind socket conflict with keyboard pcb
+
 
 ### elite-pi
 

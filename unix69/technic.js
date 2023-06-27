@@ -170,23 +170,35 @@ function main() {
     circle(c, -2 * stud, -beam_y, nut_radius);
 
     // rp2040-tiny
-    let usb_square = 45;
-    let socket_square = 24;
-    c.strokeRect(-socket_square/2, -plate_depth,
-		 socket_square, socket_square);
+    let usb_square = 46;
+    let socket_width = 24;
+    let socket_depth = 20;
+    let button_x = 9;
+    let button_w = 11;
+    let button_y = 22;
+    let button_h = 10;
 
-    roundrect(c, -usb_square/2, -plate_depth, usb_square, usb_square, 2);
+    roundrect(c, -usb_square/2, -plate_depth,
+	      usb_square, usb_square, 2);
+
+    c.strokeRect(-socket_width/2, -plate_depth,
+		 socket_width, socket_depth);
 
     circle(c, -usb_square/2 + 5, -plate_depth + 5, 2.5);
     circle(c, +usb_square/2 - 5, -plate_depth + 5, 2.5);
     circle(c, -usb_square/2 + 5, -plate_depth + usb_square - 5, 2.5);
     circle(c, +usb_square/2 - 5, -plate_depth + usb_square - 5, 2.5);
 
+    roundrect(c, -button_x, -plate_depth + button_y,
+	      -button_w, button_h, 1);
+    roundrect(c, +button_x, -plate_depth + button_y,
+	      +button_w, button_h, 1);
+
     return;
 
     let plug_width = 36; // with extra clearance
-    let socket_width = 24;
-    let socket_depth = 30;
+    //let socket_width = 24;
+    //let socket_depth = 30;
     let socket_overhang = 6;
     let socket_recess = 5;
     c.strokeRect(-socket_width/2, -plate_depth + socket_recess,
