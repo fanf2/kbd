@@ -128,6 +128,14 @@ separate controller and usb adaptor boards
 
 19 gpio pins
 
+  * adaptor mounted on base
+      - 1.5 mm plate / above
+      - 1.5 mm switch bodies / above
+      - 1.5 mm switch bodies / plug clearance
+      - 3.5 mm socket
+      - 1.5 mm adaptor pcb / plug clearance
+      - 1.5 mm base / below
+
 ### elite-pi
 
 https://keeb.io/products/elite-pi-usb-c-pro-micro-replacement-rp2040
