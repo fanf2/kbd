@@ -117,9 +117,6 @@ use technic beams as surround between base and plate
 
 use M3 bolts and rivet nuts to hold it together
 
-  * M3 rivet nuts fit into technic holes
-  * (nicely snug in beams, very tight in bricks)
-
 
 dimensions
 ----------
@@ -356,6 +353,16 @@ depth of cut out from edge of base is
 
 fasteners
 ---------
+
+M3 rivet nuts fit into technic holes, just
+
+  * hole nominal diameter 4.8 mm
+  * rivet nut diameter 4.9 mm
+  * (nicely snug in beams, very tight in bricks)
+
+possible alternatives:
+
+  * 4 mm hex (4.6 mm corner to corner)
 
 not every beam needs a screw through the switch plate
 
