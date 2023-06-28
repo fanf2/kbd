@@ -1,0 +1,12 @@
+[package]
+name = "keybird"
+version = "0.0.0"
+authors = ["Tony Finch <dot@dotat.at>"]
+edition = "2021"
+
+[dependencies]
+anyhow = "*"
+serde_json = "*"
+svg = "*"
+
+serde = { version = "*", features = ["derive"] }
