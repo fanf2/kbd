@@ -66,8 +66,9 @@ The right column is wasted on fixed-function keys.
 unix69 vs true fox
 ------------------
 
-Matt3o's Whitefox / Nightfox "True Fox" layout has the same top 2 rows
-as unix69.
+Matt3o's Whitefox / Nightfox "True Fox" layout has top 2 rows similar
+to unix69. The order of backslash and backquote in True Fox is the
+opposite of unix69, HHKB, and Sun Type 7.
 
 True Fox has caps lock where ctrl should be. Its right column is
 wasted on fixed-function keys.
@@ -80,7 +81,7 @@ bottom rows are common in 65% keyboards.
 unix69 vs hhkb
 ---------------
 
-The happy hacking keyboard is OK for a 60% Unix layout. However it
+The Happy hacking Heyboard is OK for a 60% Unix layout. However it
 lacks a left fn key, and lacks space for full-size arrow keys, so I
 prefer a 65% layout.
 
