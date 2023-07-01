@@ -1,11 +1,18 @@
 use std::collections::HashSet;
 
+const MM_IN: f64 = 25.4;
+const KEY_UNIT: f64 = 0.75 * MM_IN;
+
+const SCREW_HOLE: f64 = 3.0;
+const RIVET_HOLE: f64 = 5.0;
+const SWITCH_HOLE: f64 = 14.0;
+
+
 const ROWS: usize = 5;
 const WIDTH: usize = 16;
 const GROUPS: usize = WIDTH / 2;
 const TRACKS: usize = 9;
 
-const KEY_UNIT: f64 = 0.75 * 25.4;
 
 macro_rules! words {
     { $($word:tt)* } => { vec![ $( stringify!($word), )* ] }
@@ -24,10 +31,10 @@ type Keyboard = Vec<Vec<Key>>;
 
 fn expand_keyboard() -> Keyboard {
     let key_names = vec![
-        words![ ESC 1 2 3 4 5 6 7 8 9 0 MINUS EQUAL BSLS GRAVE F16 ],
-        words![ TAB  Q W E R T Y U I O P        LBRC RBRC BSPC F17 ],
-        words![ LCTL  A S D F G H J K L       SCLN QUOTE ENTER F18 ],
-        words![ LSFT   Z X C V B N M   COMMA DOT SLASH RSFT UP F19 ],
+        words![ ESC 1 2 3 4 5 6 7 8 9 0 MINUS EQUAL BSLS GRAVE F13 ],
+        words![ TAB  Q W E R T Y U I O P        LBRC RBRC BSPC F14 ],
+        words![ LCTL  A S D F G H J K L       SCLN QUOTE ENTER F15 ],
+        words![ LSFT   Z X C V B N M   COMMA DOT SLASH RSFT UP F16 ],
         words![ LFN LALT LGUI SPACE  RGUI RCTL RFN LEFT DOWN RIGHT ],
     ];
 
@@ -35,8 +42,8 @@ fn expand_keyboard() -> Keyboard {
         vec![0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7],
         vec![0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7],
         vec![0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 7],
-        vec![0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 7, 7],
-        vec![0, 0, 1, 3, 4, 5, 6, 6, 7, 7],
+        vec![0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 6, 7, 7],
+        vec![0, 1, 2, 3, 4, 5, 6, 6, 7, 7],
     ];
 
     let key_tracks = vec![
@@ -44,7 +51,7 @@ fn expand_keyboard() -> Keyboard {
         vec![2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2],
         vec![5, 4, 5, 4, 5, 4, 5, 4, 5, 4, 5, 4, 5, 4],
         vec![6, 7, 6, 7, 6, 7, 6, 7, 6, 7, 6, 6, 6, 5],
-        vec![7, 8, 8, 8, 8, 8, 8, 7, 8, 7],
+        vec![8, 8, 8, 8, 8, 8, 8, 7, 8, 7],
     ];
 
     // consistent number of rows
@@ -106,9 +113,7 @@ fn expand_keyboard() -> Keyboard {
     kb
 }
 
-fn main() {
-    let kb = expand_keyboard();
-    // quick 'n' dirty KLE
+fn print_kle(kb: &Keyboard) {
     let mut rowsep = "";
     for row in 0..ROWS {
         print!("{rowsep}[");
@@ -130,4 +135,9 @@ fn main() {
         rowsep = ",\n";
     }
     print!("\n");
+}
+
+fn main() {
+    let kb = expand_keyboard();
+    print_kle(&kb);
 }
