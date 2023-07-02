@@ -2,7 +2,19 @@ notes on keycap sets for unix 69
 ================================
 
 I would like a Dolch style keycap set, preferably spherical top.
-Some notes on the options...
+
+With sculpted keycaps, the right column works well as all R1
+(e.g. F1...F4) because that makes it easier to feel where
+delete / return / up are.
+
+The nightfox keycaps are black on dark grey; it turns out I
+rely too much on looking at the keys, so dark low contrast
+is unhelpful.
+
+Sadly the MTNU group buy ended before I learned some facts
+that make it more tempting :-(
+
+Notes on some options...
 
 
 Whitefox / Nightfox
@@ -14,7 +26,7 @@ Cherry profile sublimated PBT
 
 base set covers everything
 
-(poor options for right column, maybe use R1 keys?)
+(limited options for right column)
 
 
 Matt3o MTNU Susu
@@ -25,8 +37,6 @@ https://prototypist.net/products/group-buy-gmk-mtnu-susu-keycap-set
 medium profile sculpted spherical double shot PBT
 
 base set covers everything £95
-
-(poor options for right column; better with numpad £34; or use R1 F1-F4?)
 
 
 Matt3o MT3 Susuwatari
@@ -50,7 +60,7 @@ Cherry profile double shot ABS
 
 base set covers everything, $80
 
-(poor options for right column, tab legend is cluttered)
+(tab legend is cluttered)
 
 
 WASD DIY
@@ -59,6 +69,52 @@ WASD DIY
 https://www.wasdkeyboards.com/104-key-custom-cherry-mx-keycap-set.html
 
 OEM profile ABS UV-coated $65
+
+
+SP DSS dolch
+------------
+
+https://pimpmykeyboard.com/sp-dss-dolch-keyset-two-shot/
+
+medium height spherical sculpted profile
+
+  * ABS colours
+      - GE (light)
+      - GX (dark)
+      - RA (red)
+
+  * alpha kit $82
+      - F1 - F4 (light)
+      - `~ (light + dark)
+      - \| (light)
+      - space (light 6.25u)
+      - ??? esc (dark)
+
+  * modifier kit $36
+      - tab (1.5u)
+      - left shift (2.25u)
+      - left fn (1.25u)
+      - left alt (1.25u)
+      - left super (1.25u)
+      - ??? return (dark 2.25u)
+      - ??? arrows (dark)
+
+  * pro modifier kit $27
+      - left ctrl (1.75u)
+      - right shift (1.75u)
+      - right super (1u)
+      - right ctrl (1u)
+      - right fn (1u)
+      - backspace (1.5u)
+
+  * ??? red kit $7
+      - esc
+      - return
+      - arrows
+
+extreme mod kit has 1.5u del, but R1 not R2 :-(
+
+total $145 + $7
 
 
 SP DSA standard keysets
@@ -71,6 +127,8 @@ https://pimpmykeyboard.com/sp-dsa-standard-keysets-sublimated/
       - GQT (pale)
       - RBH (red)
       - http://www.keyboard-layout-editor.com/#/gists/74c60d38ef1efecc72a03eb15da15d9a
+
+  * dark low contrast
 
   * alpha kit $60
       - `~ (pale)
@@ -112,6 +170,7 @@ https://pimpmykeyboard.com/sp-dsa-dolch-keyset-two-shot/
   * ABS colours
       - GE (pale)
       - GX (dark)
+      - RA (red)
       - http://www.keyboard-layout-editor.com/#/gists/2848ea7a272aa571d140694ff6bbe04c
 
   * alpha kit $60
