@@ -46,6 +46,8 @@ https://drop.com/buy/drop-matt3o-mt3-susuwatari-custom-keycap-set
 
 high profile sculpted spherical double shot ABS
 
+extra height F row
+
 base set covers everything $99
 
 (the extras are nice, $49)
@@ -71,50 +73,34 @@ https://www.wasdkeyboards.com/104-key-custom-cherry-mx-keycap-set.html
 OEM profile ABS UV-coated $65
 
 
-SP DSS dolch
-------------
+KAT
+---
 
-https://pimpmykeyboard.com/sp-dss-dolch-keyset-two-shot/
+medium height spherical profile, squareish tops
 
-medium height spherical sculpted profile
+sculpted without steps, extra height keys on F row
 
-  * ABS colours
-      - GE (light)
-      - GX (dark)
-      - RA (red)
+dyesub PBT
 
-  * alpha kit $82
-      - F1 - F4 (light)
-      - `~ (light + dark)
-      - \| (light)
-      - space (light 6.25u)
-      - ??? esc (dark)
+### refined
 
-  * modifier kit $36
-      - tab (1.5u)
-      - left shift (2.25u)
-      - left fn (1.25u)
-      - left alt (1.25u)
-      - left super (1.25u)
-      - ??? return (dark 2.25u)
-      - ??? arrows (dark)
+https://mekibo.com/products/kat-refined
 
-  * pro modifier kit $27
-      - left ctrl (1.75u)
-      - right shift (1.75u)
-      - right super (1u)
-      - right ctrl (1u)
-      - right fn (1u)
-      - backspace (1.5u)
+$118 + $55 shipping
 
-  * ??? red kit $7
-      - esc
-      - return
-      - arrows
+### cyberspace
 
-extreme mod kit has 1.5u del, but R1 not R2 :-(
+https://mykeyboard.eu/catalogue/kat-cyberspace-alpha_2449/
 
-total $145 + $7
+glow-in-the-dark!
+
+€109, but won't ship to uk unless I spend more!
+
+### iron
+
+https://mykeyboard.eu/catalogue/kat-iron-alpha_2387/
+
+€100 with rusty modifiers <3 and alternate profile up key
 
 
 SP DSA standard keysets
@@ -219,3 +205,49 @@ https://pimpmykeyboard.com/sp-dsa-dolch-keyset-two-shot/
       - f1 - f4 (iu pale)
 
 total $158 or $141
+
+
+SP DSS dolch
+------------
+
+https://pimpmykeyboard.com/sp-dss-dolch-keyset-two-shot/
+
+medium height spherical sculpted profile
+
+  * ABS colours
+      - GE (light)
+      - GX (dark)
+      - RA (red)
+
+  * alpha kit $82 [out of stock!]
+      - F1 - F4 (light)
+      - `~ (light + dark)
+      - \| (light)
+      - space (light 6.25u)
+      - ??? esc (dark)
+
+  * modifier kit $36
+      - tab (1.5u)
+      - left shift (2.25u)
+      - left fn (1.25u)
+      - left alt (1.25u)
+      - left super (1.25u)
+      - ??? return (dark 2.25u)
+      - ??? arrows (dark)
+
+  * pro modifier kit $27
+      - left ctrl (1.75u)
+      - right shift (1.75u)
+      - right super (1u)
+      - right ctrl (1u)
+      - right fn (1u)
+      - backspace (1.5u)
+
+  * ??? red kit $7
+      - esc
+      - return
+      - arrows
+
+extreme mod kit has 1.5u del, but R1 not R2 :-(
+
+total $145 + $7
