@@ -75,6 +75,7 @@ space bar stabilizer has only 1 mm clearance at front
   * no scope to reduce
 
 left side clearance to esc socket pad = 1.1 mm
+  * can reduce by up to 1 mm
 
 
 ### component clearance
@@ -136,8 +137,8 @@ based on web site image, 220 px == 18 mm
       - 9.75 mm nominal edge to USB edge
 
 
-technic beam enclosure
-----------------------
+rectangular enclosure
+---------------------
 
 width between centres of end holes
 
@@ -196,3 +197,43 @@ trim PCB by 1 mm
   * depth = 120.3
 
   * fits!
+
+
+angled enclosure
+----------------
+
+front beams
+
+  * whole studs, 38 * 8 = 304 mm
+  * narrow gaps, 303.2 mm
+  * tight, 302.4 mm
+
+distance between end holes
+
+  * whole stud, 8 mm
+  * narrow gap, 7.6 mm
+  * tight, 7.2 mm
+
+isoceles corner triangle
+
+  * h = 7.6 mm
+  * b = `sqrt( 7.6 * 7.6 / 2 )`
+  * b = 5.4 mm
+
+internal distance between side beams
+
+  * 303.2 + 5.4 * 2 - 7.2
+  * 306.8 mm
+      - 1 mm clearance either side of 304.8 mm nominal
+
+internal distance between front and back beams
+
+  * 12 * 8 + 5.4 * 2 - 7.2
+  * 99.6 mm
+      - 95.25 mm nominal plus 4.35 mm
+      - 0.35 mm clearance at front, 4 mm space at back
+
+angle rear beams so that space from nominal rear to enclosure rear is:
+
+  * 2 mm FPC under PCB
+  * 16 mm rest of USB adapter
