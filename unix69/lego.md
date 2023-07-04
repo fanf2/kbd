@@ -113,7 +113,7 @@ based on web site image, 220 px == 18 mm
       - ??? 4.9 mm flex lead
 
   * buttons
-      - ??? 3.5 mm thick
+      - 2.5 mm thick
 
   * USB socket
       - 7.5 mm deep
