@@ -1,377 +1,198 @@
-Lego keyboard case
-==================
+lego technic beam sandwich
+==========================
 
-This idea is inspired by James Munns, who [uses Lego for mounting
+Originally inspired by James Munns, who [uses Lego for mounting
 PCBs][bitshiftmask1], including [at least one keyboard][bitshiftmask2].
 
 [bitshiftmask1]: https://twitter.com/bitshiftmask/status/1590395981686001664
 [bitshiftmask2]: https://twitter.com/bitshiftmask/status/1376170525224022018
 
-The idea is to make a keyswitch plate from FR4
-(i.e. a PCB with appropriate cutouts)
-mounted on Lego bricks which form the enclosure.
+The first idea was to make a keyswitch plate from FR4 (i.e. a PCB with
+appropriate cutouts) mounted on Lego bricks which form the enclosure,
+somewhat like https://kbdcraft.store/products/adam
 
-A somewhat different design: https://kbdcraft.store/products/adam
+This was too difficult to make slender, largely because the distance
+from the switch plate to the studs is about 8mm, less than the 5mm +
+3.5mm needed for the switches and USB socket. But an FR4 base plate is
+more adaptable with the possibility of cutouts, so I changed to a
+sandwich design instead.
+
+I failed to make the case for my HHKBeeb because it was toto hard to
+find somewhere that could cut acrylic to my spec. Lego technic beams
+are easier to obtain, albeit less flexible.
+
+So the idea is to make an FR4 sandwich case, with lego technic beams
+enclosing the sides between the switch plate and base plate.
 
 
 lego dimensions
 ---------------
 
-  * 1x1 brick is 8x8 mm (same as my hhkbeeb's surround)
+  * 1x1 brick is 8x8 mm (same as my HHKBeeb's surround)
 
   * plate height 3.2 mm
   * brick height 9.6 mm
   * stud height 1.7 mm
-
   * stud diameter 4.8 mm
-  * technic hole diameter 4.8 mm
-  * technic beam height 8 mm (along length of holes)
-  * technic beam width 7.2 mm (diameter of end curve)
-      - according to LeoCAD
 
   * clip diameter 3.2 mm (same as holes in studs)
       - might be useful with M3 bolts
 
-
-width
------
-
-16 keys * 19.05 mm = 304.8 mm = 38.1 studs
-
-PCB needs to be slightly less wide than 16x the key spacing.
-
-width including surround = 40 studs = 320 mm
-
-
-depth
------
-
-5 keys * 19.05 mm = 95.25 mm = 11.9 studs
-
-14 stud plates are unobtanium so use 16 stud plates
-
-surround: 1 stud left, right, front; 3 stud rear
-
-
-height
-------
-
-keyswitch plate is mounted on lego studs
-
-PCB is 5 mm below plate (Cherry MX dimensions)
-
-hotswap sockets need 2 mm
-
-clearance = brick - stud = 9.6 mm  - 1.7 mm = 7.9 mm, ok
-
-
-USB C socket is 3.5 mm thick x 8.5mm wide
-
-5 mm + 3.5 mm = 8.5 mm, oops
-
-does **not** fit within clearance - remove part of bottom plate?
-
-brick + plate - stud = 9.6 mm + 3.2 mm - 1.7 mm = 11.1 mm, ok
-
-USB plug clearance is 6.5mm x 12.5 mm
-
-6.5/2 + 3.5/2 is 5 mm beyond the socket side of the PCB
-
-5 mm + 5 mm = 10 mm, ok
-
-no extra clearance needed on the other side of the PCB
-
-
-### alternative 1
-
-use a mid-mount USB socket, extends 2 mm below PCB, same as hotswap sockets
-
-plug then extends 5 mm - 1.5 mm = 3.5 mm
-
-still needs cut-out in bottom plate
-
-
-### alternative 2
-
-the KBDcraft Adam puts the USB socket _above_ the PCB
-and sticking out from the board (it cannot fit between switches)
-
-
-### alternative 3
-
-or use a USB daughterboard https://unified-daughterboard.github.io/
-
-old JST connector is 2.9 mm (_just_ fits)
-
-pico-EZmate connector is 1.4 mm
-
-best solution for fitting daughterboard is probably a 3d-printed brick
-
-
-technic case
-============
-
-use FR4 for base as well as switch plate
-
-use technic beams as surround between base and plate
-
-use M3 bolts and rivet nuts to hold it together
-
-
-dimensions
-----------
-
-  * width 3 x 13 beam = 39 studs => 0.5 extra each end
-  * depth 1 x 13 beam => also 0.5 extra each end
-
-we do not need to round to lego stud units!
-
-using lego draw units, 1 ldu = 0.4 mm, 20 ldu = 1 stud
-
-LeoCAD says technic beam is 2 ldu less than 8mm wide
-
-  * inter-beam gap is more generous than inter-brick gap
-
-we'll measure +/- from the centre of the board
-
-
-left / right
-------------
-
-x position of centre line of vertical beams is +/-
-
-16/2 keys + 1/2 stud
-
-8 * 19.05 mm + 4 mm
-
-152.4 mm + 4 mm
-
-391 ldu
-
-includes 1 ldu (ish) inter-beam gap clearance for pcb
-
-
-y position of centre of end holes of beams is
-
-+/- 13 studs / 2 - 0.5 stud = 6 studs = 48 mm = 120 ldu
-
-
-front / back
-------------
-
-y position of centre line of horizontal beams is +/-
-
-5/2 keys + 1/2 stud
-
-2.5 * 19.05 mm + 4 mm
-
-47.625 + 4 = 51.625 mm
-
-129 ldu (plus a fraction)
-
-includes 1 ldu (ish) inter-beam gap clearance for pcb
-
-
-x position of centre of end holes is
-
-+/- 3 * 13 studs / 2 - 0.5 stud = 19 studs = 380 ldu
-
-minus inter-beam gap (2 ldu) between each beam
-
-
-corner geometry
----------------
-
-the distance between the centre points of the ends of the beams
-must be 1 stud = 8 mm = 20 ldu minus inter-beam gap (2 ldu)
-
-  * x1 = 391
-  * y1 = 120
-  * x2 = 380
-  * y2 = 129
-
-  * x = 391 - 380 = 11
-  * y = 129 - 120 = 9
-
-  * `sqrt(11*11 + 9*9) = sqrt(121 + 81) = sqrt(202) = 14.2 ldu`
-      * too small!
-
-additional 4 ldu clearance around pcb
-
-  * x1 = 391 + 4
-  * y1 = 120
-  * x2 = 380
-  * y2 = 129 + 4
-
-  * `sqrt(15*15 + 13*13) = sqrt(394) = 19.8 ldu`
-      * 2.0 ldu = 0.8 mm gap front and back
-      * 1.8 ldu = 0.7 mm gap at corners
-      * clearance around pcb is 5 ldu = 2 mm each side
-
-remove 2 ldu inter-beam gap (reduces horizontal PCB clearance)
-and reduce vertical PCB clearance to match
-
-  * x1 = 391 - 2 + 4
-  * y1 = 120
-  * x2 = 380 - 2
-  * y2 = 129 - 2 + 4
-
-  * `sqrt(15*15 + 11*11) = sqrt(346) = 18.6 ldu`
-      * 0.0 ldu = 0.0 mm gap front and back
-      * 0.6 ldu = 0.2 mm gap at corners
-      * clearance around pcb is 3 ldu = 1.2 mm each side
-
-or reduce inter-beam gap by 1 ldu (wrt nominal 20 ldu)
-
-  * `sqrt(15*15 + 12*12) = sqrt(369) = 19.2 ldu`
-      * 1.0 ldu = 0.4 mm gap front and back
-      * 1.2 ldu = 0.5 mm gap at corners
-      * clearance around pcb is 4 ldu = 1.6 mm each side
-
-probably a sensible middle ground?
-what is pcb drilling tolerance?
-
-
-plate and base dimensions
--------------------------
-
-### left / right
-
-pcb edge x
-
-  * 19.05 mm * 16 / 2 keys = 152.4 mm = 381 ldu
-
-beam centre x
-
-  * 391 + 4 - 1 = 394 ldu
-
-plate edge x
-
-  * 394 + 10 - 1 = 403 ldu = 161.2 mm
-
-width of surround
-
-  * 403 - 381 = 22 ldu = 8.8 mm
-
-### front / back
-
-pcb edge y
-
-  * 19.05 mm * 5 / 2 keys = 47.625 mm = 119 ldu
-
-beam centre y
-
-  * 129 + 4 - 1 = 132 ldu
-
-plate edge y
-
-  * 132 + 10 - 1 = 141 ldu = 56.4 mm
-
-width of surround
-
-  * 141 - 119 = 22 ldu = 8.8 mm
-
-### corners
-
-The bevel angle between the beam ends is not 45 degrees (because 15 <> 12)
-
-but if it was 45 degrees, the distance (in the direction continuing
-along the beam) from a beam end to the edge of the case is 4mm * sqrt(2)
-
-distance from start of beam end curve to edge of case is 4mm + 4mm * sqrt(2)
-which is 9.7 mm - might as well round up to 10mm.
-
-because the beam end radius is slightly less than 4mm, a 10mm corner radius
-cuts the corner slightly, in a nice way
-
-
-USB-C clearance
----------------
-
-  * 12.5 mm minimum space for width of plug
-  * 9.5 mm width of socket
-  * 2.2 mm socket overhang past edge of pcb
-  * 2 mm clearance between socket and plug
-  * 10 mm depth of socket from edge of PCB
-      - should allow plenty of space for all sockets
-
-### centre socket
-
-width of plug = 12.5 mm = 32 ldu = 1.6 studs
-
-width of space = 3 studs = 60 ldu
-
-### left socket
-
-centreline of connector is between esc and 1
-
-7 keys +/- (12.5 mm / 2) = 7 * 19.05 mm +/- 6.25 mm
-
-133.35 mm +/- 6.25 mm = 333 ldu +/- 16 ldu ish
-
-distance from end of beam to plug is
-
-  * 380 ldu (centre of last hole)
-  * - 1 ldu (removed inter-beam gap)
-  * + 10 ldu (half stud to end of beam)
-  * - 333 ldu (centre of connector)
-  * - 16 ldu (half of plug)
-
-which is 40 ldu = 2 studs
-
-plug is 32 ldu, 1.5 studs
-
-so space for connector is
-
-  * 1 stud beam (to form the enclosure's corner)
-  * 1 stud clearance
-  * 1.5 stud plug
-  * 0.5 stud clearance
-  * 35 stud rest of enclosure
-
-
-#### for lower mid-mount usb sockets:
-
-depth of cut out from edge of base to edge of pcb is same as surround
-
-  * 22 ldu = 8.8 mm = 3/8 in (ish) or 1/3 in (ish)
-
-
-#### for bottom-mount usb sockets:
-
-depth of cut out from edge of pcb is 10 mm
-
-depth of cut out from edge of base is
-
-  * 10 mm + 22 ldu = 25 + 22 = 47 ldu = 19 mm = 3/4 in
-
-
-#### width of cut-out
-
-  * 16 mm = 2 studs = 5/8 in (ish) or 2/3 in (ish)
+  * technic hole diameter 4.8 mm
+  * technic beam height 8 mm (along length of holes)
+  * technic beam width 7.2 mm (diameter of end curve)
 
 
 fasteners
 ---------
 
-M3 rivet nuts fit into technic holes, just
+Two options:
 
-  * hole nominal diameter 4.8 mm
-  * rivet nut diameter 4.9 mm
-  * (nicely snug in beams, very tight in bricks)
+  * M3 rivet nuts and bolts. 5mm outer diameter of rivet nut will
+    press fit very firmly into a technic hole. I will use this since I
+    have the bits.
 
-possible alternatives:
+  * M2 standoffs and bolts. M2 hex nut face-to-face distance is 4mm,
+    corner-to-corner is 4.5mm, easily fits into technic hole. Needs to
+    rely on friction against the plates to hold the beam in place.
 
-  * 4 mm hex (4.6 mm corner to corner)
 
-not every beam *needs* a screw through the switch plate but beams are
-very bendy so it's probably wise to err on the side of more fasteners
-rather than fewer.
+nominal board dimensions
+------------------------
 
-apart from bendiness, beams can be mostly held in place by press
-fitting with rivet nuts through the base, or with a screw in the beam
-hole recess (if the ultra thin super flat wafer head is not so thick
-it interferes with the switch plate above)
+16 keys * 19.05 mm = 304.8 mm
 
-the switch plate needs enough screw holes to mount it and for
-rigidity; 8 is a bare minimum (my hhkbeeb has 6)
+5 keys * 19.05 mm = 95.25 mm
+
+38.1 x 11.9 studs
+
+PCB dimension tolerance 0.2 mm
+
+
+### reduced dimensions?
+
+space bar stabilizer has only 1 mm clearance at front
+  * no scope to reduce
+
+left side clearance to esc socket pad = 1.1 mm
+
+
+### component clearance
+
+  - 5 mm switches + pcb
+  - 1.9 mm hotswap socket
+  - 2.1 mm RP2040-Tiny
+
+  - max 7.1 mm
+
+  - 8 mm technic beam
+
+  - 1 mm clearance under sockets
+  - 3 mm clearance under PCB
+
+
+RP2040-Tiny USB adapter
+-----------------------
+
+outer dimensions 18 x 18 mm
+  * corner radius 1 mm
+  * board 1.6 mm thick
+
+mounting holes
+  * diameter 2 mm
+  * centre to edge of board 2 mm
+
+### components
+
+based on web site image, 220 px == 18 mm
+
+  * FPC connector
+      - 1 mm thick
+      - 6.5 mm wide
+      - ??? 4.9 mm flex lead
+
+  * buttons
+      - ??? 3.5 mm thick
+
+  * USB socket
+      - 7.5 mm deep
+      - 9 mm wide
+
+  * thickness step from 2.5 mm to 5 mm
+      - 12.25 mm to USB edge of board
+      - 5.75 mm to FPC edge of board
+
+### limits on position
+
+  * 2.5 mm hotswap to nominal edge
+
+  * adapter on top of base plate
+      - FPC connector under PCB
+      - 15.5 mm nominal edge to USB edge
+
+  * adaptor flush with base
+      - FPC connector under sockets
+      - PCB cutout for buttons
+      - 9.75 mm nominal edge to USB edge
+
+
+technic beam enclosure
+----------------------
+
+width between centres of end holes
+
+front beams
+
+  * whole studs, 38 * 8 = 304 mm
+  * narrow gaps, 303.2 mm
+  * tight, 302.4 mm
+
+side beams
+
+  * whole stud, 304.8 + 8 = 312.8 mm
+  * includes 0.4 mm clearance either side
+
+
+distance between end holes
+
+  * whole stud, 8 mm
+  * narrow gap, 7.6 mm
+  * tight, 7.2 mm
+
+corner triangle
+
+  * x = (312.8 - 303.2) / 2 = 4.8 mm
+  * h = 7.6 mm
+  * y = `sqrt( 7.6 * 7.6 - 4.8 * 4.8 )`
+  * y = `sqrt( 57.76 - 23.04 )`
+  * y = `sqrt( 34.72 )`
+  * y = 5.9 mm
+
+depth of enclosure
+
+  * half beam = 7.2 / 2 = 3.6 mm
+  * corner = 5.9 mm
+  * 3.6 + 5.9 = 9.5 mm
+  * front and back = 19 mm
+  * side beam = 12 * 8 = 96 mm
+  * total = 115 mm
+
+depth to nominal back
+
+  * 7.2 + 0.4 + 95.25 = 102.85 mm
+
+nominal back to enclosure back
+
+  * 115 - 102.85 = 12.15 mm
+
+  * too small!
+
+trim PCB by 1 mm
+
+  * x = (311.8 - 303.2) / 2 = 4.3 mm
+  * h = 7.6 mm
+  * y = `sqrt( 7.6 * 7.6 - 4.3 * 4.3 )`
+  * y = 6.25 mm
+  * depth = 120.3
+
+  * fits!
