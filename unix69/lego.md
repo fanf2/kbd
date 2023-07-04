@@ -131,74 +131,14 @@ based on web site image, 220 px == 18 mm
 rectangular enclosure
 ---------------------
 
-width between centres of end holes
-
-front beams
-
-  * whole studs, 38 * 8 = 304 mm
-  * narrow gaps, 303.2 mm
-  * tight, 302.4 mm
-
-side beams
-
-  * whole stud, 304.8 + 8 = 312.8 mm
-  * includes 0.4 mm clearance either side
-
-
-distance between end holes
-
-  * whole stud, 8 mm
-  * narrow gap, 7.6 mm
-  * tight, 7.2 mm
-
-corner triangle
-
-  * x = (312.8 - 303.2) / 2 = 4.8 mm
-  * h = 7.6 mm
-  * y = `sqrt( 7.6 * 7.6 - 4.8 * 4.8 )`
-  * y = `sqrt( 57.76 - 23.04 )`
-  * y = `sqrt( 34.72 )`
-  * y = 5.9 mm
-
-depth of enclosure
-
-  * half beam = 7.2 / 2 = 3.6 mm
-  * corner = 5.9 mm
-  * 3.6 + 5.9 = 9.5 mm
-  * front and back = 19 mm
-  * side beam = 12 * 8 = 96 mm
-  * total = 115 mm
-
-depth to nominal back
-
-  * 7.2 + 0.4 + 95.25 = 102.85 mm
-
-nominal back to enclosure back
-
-  * 115 - 102.85 = 12.15 mm
-
-  * too small!
-
-### reduce PCB dimensions?
-
-space bar stabilizer has only 1 mm clearance at front
-  * no scope to reduce
-
-left side clearance to esc socket pad = 1.1 mm
-  * can reduce by up to 1 mm
-
-trim PCB by 0.5 mm each side
-
-  * x = (311.8 - 303.2) / 2 = 4.3 mm
-  * h = 7.6 mm
-  * y = `sqrt( 7.6 * 7.6 - 4.3 * 4.3 )`
-  * y = 6.25 mm
-
-only gives us an extra 0.7 mm
+could not make space to mount the USB adapter nicely
 
 
 angled enclosure
 ----------------
+
+rectangular round the front, gentle enlargement at the back
+
 
 front beams
 
@@ -235,3 +175,38 @@ angle rear beams so that space from nominal rear to enclosure rear is:
 
   * 2 mm FPC under PCB
   * 16 mm rest of USB adapter
+
+
+stabilizer cutouts
+------------------
+
+cherry data sheet says
+
+0.94 in between stab keycap mounts = 23.876 mm
+
+0.166 in between mount and outer edge of cutout = 4.216 mm
+
+0.262 in cutout width = 6.65 mm
+
+width between outer edges of cutouts = 32.31 mm
+
+space between switch cutout and stab cutout = 2.515 mm
+
+
+ai03 uses 7 mm width, centred on keycap mounts
+
+width between outer edges of cutouts = 30.876 mm
+
+space between switch cutout and stab cutout = 1.438 mm
+
+
+swill uses 6.75 mm cutout width
+
+space between switch cutout and stab cutout = 1.525 mm
+
+width between outer edges of cutouts = 30.55
+
+
+for now let's use 7 x 14 mm stab cutouts,
+aligned with and 1.5 mm from the switch cutout
+(need to check wrt actual stab dimensions)
