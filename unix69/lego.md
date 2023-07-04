@@ -49,8 +49,8 @@ fasteners
 Two options:
 
   * M3 rivet nuts and bolts. 5mm outer diameter of rivet nut will
-    press fit very firmly into a technic hole. I will use this since I
-    have the bits.
+    press fit very firmly into a technic hole. I will use this
+    since I have the bits left over from HHTBeeb.
 
   * M2 standoffs and bolts. M2 hex nut face-to-face distance is 4mm,
     corner-to-corner is 4.5mm, easily fits into technic hole. Needs to
@@ -64,18 +64,9 @@ nominal board dimensions
 
 5 keys * 19.05 mm = 95.25 mm
 
-38.1 x 11.9 studs
+38.1 x 11.9 studs => 3 x 13m beam wide, 1 x 13m beam deep
 
 PCB dimension tolerance 0.2 mm
-
-
-### reduced dimensions?
-
-space bar stabilizer has only 1 mm clearance at front
-  * no scope to reduce
-
-left side clearance to esc socket pad = 1.1 mm
-  * can reduce by up to 1 mm
 
 
 ### component clearance
@@ -188,15 +179,22 @@ nominal back to enclosure back
 
   * too small!
 
-trim PCB by 1 mm
+### reduce PCB dimensions?
+
+space bar stabilizer has only 1 mm clearance at front
+  * no scope to reduce
+
+left side clearance to esc socket pad = 1.1 mm
+  * can reduce by up to 1 mm
+
+trim PCB by 0.5 mm each side
 
   * x = (311.8 - 303.2) / 2 = 4.3 mm
   * h = 7.6 mm
   * y = `sqrt( 7.6 * 7.6 - 4.3 * 4.3 )`
   * y = 6.25 mm
-  * depth = 120.3
 
-  * fits!
+only gives us an extra 0.7 mm
 
 
 angled enclosure
