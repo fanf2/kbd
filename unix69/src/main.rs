@@ -21,8 +21,8 @@ macro_rules! words {
 struct Key {
     name: &'static str,
     u: f64, // 0.75 in
-    x: f64, // mm
-    y: f64, // mm
+    x: f64, // 0.75 in
+    y: f64, // 0.75 in
     group: usize,
     track: usize,
 }
@@ -75,7 +75,7 @@ fn expand_keyboard() -> Keyboard {
         assert!(key_tracks[row].len() == len);
 
         let mut x = 0.0;
-        let y = row as f64 * KEY_UNIT;
+        let y = row as f64;
 
         for k in 0..len {
             let name = key_names[row][k];
@@ -106,7 +106,7 @@ fn expand_keyboard() -> Keyboard {
 
             kb[row].push(Key { name, group, track, x, y, u });
 
-            x += u * KEY_UNIT;
+            x += u;
         }
     }
 
@@ -137,7 +137,59 @@ fn print_kle(kb: &Keyboard) {
     print!("\n");
 }
 
+// elegant mapping from groups/cols and tracks/rows to GPIO pins
+fn print_qmk_matrix() {
+    print!(r#"
+    "diode_direction": "COL2ROW",
+    "matrix_pins": {{
+"#);
+    print!(r#"        "cols":"#);
+    let mut sep = " [";
+    for col in 0 ..= 8 {
+        print!("{sep}\"GP{col}\"");
+        sep = ", ";
+    }
+    println!("],");
+    print!(r#"        "rows":"#);
+    let mut sep = " [";
+    for row in 0 ..= 6 {
+        print!("{sep}\"GP{row}\"");
+        sep = ", ";
+    }
+    println!(r#", "GP26"]"#);
+    println!("    }},");
+}
+
+fn print_qmk_layout(kb: &Keyboard) {
+    let mut keysep = "[\n";
+    print!(r#"
+    "layouts": {{
+        "LAYOUT_65_ansi_split_bs": {{
+            "layout": "#);
+    for row in 0..ROWS {
+        for key in &kb[row] {
+            let u = key.u;
+            let x = key.x;
+            let y = key.y;
+            let name = key.name;
+            let track = key.track;
+            let group = key.group;
+            print!("{keysep}                {{ \
+                    \"label\": \"{name}\", \
+                    \"matrix\": [{track},{group}], \
+                    \"x\": {x}, \
+                    \"y\": {y}, \
+                    \"w\": {u} \
+                    }}");
+            keysep = ",\n";
+        }
+    }
+    print!("\n            ]\n        }}\n   }}\n");
+}
+
 fn main() {
     let kb = expand_keyboard();
-    print_kle(&kb);
+    //print_kle(&kb);
+    print_qmk_matrix();
+    print_qmk_layout(&kb);
 }
