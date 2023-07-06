@@ -137,7 +137,6 @@ fn print_kle(kb: &Keyboard) {
     print!("\n");
 }
 
-// elegant mapping from groups/cols and tracks/rows to GPIO pins
 fn print_qmk_matrix() {
     print!(r#"
     "diode_direction": "COL2ROW",
@@ -145,9 +144,13 @@ fn print_qmk_matrix() {
 "#);
     print!(r#"        "cols":"#);
     let mut sep = " [";
-    for col in 0 ..= 8 {
+    for col in 0 ..= 3 {
         print!("{sep}\"GP{col}\"");
         sep = ", ";
+    }
+    for col in 4 ..= 7 {
+        let pin = 11 - col;
+        print!("{sep}\"GP{pin}\"");
     }
     println!("],");
     print!(r#"        "rows":"#);
@@ -156,7 +159,7 @@ fn print_qmk_matrix() {
         print!("{sep}\"GP{row}\"");
         sep = ", ";
     }
-    println!(r#", "GP26"]"#);
+    println!(r#", "GP26", "GP8"]"#);
     println!("    }},");
 }
 
@@ -164,7 +167,7 @@ fn print_qmk_layout(kb: &Keyboard) {
     let mut keysep = "[\n";
     print!(r#"
     "layouts": {{
-        "LAYOUT_65_ansi_split_bs": {{
+        "LAYOUT_unix69": {{
             "layout": "#);
     for row in 0..ROWS {
         for key in &kb[row] {
@@ -187,9 +190,37 @@ fn print_qmk_layout(kb: &Keyboard) {
     print!("\n            ]\n        }}\n   }}\n");
 }
 
+fn print_qmk_keymap(kb: &Keyboard) {
+    print!(r#"
+// SPDX-License-Identifier: 0BSD OR MIT-0
+
+#include QMK_KEYBOARD_H
+
+// clang-format off
+
+const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {{
+    [0] = LAYOUT_unix69"#);
+
+    let mut rowsep = "(\n";
+    for row in 0..ROWS {
+        print!("{rowsep}        ");
+        let mut keysep = "";
+        for key in &kb[row] {
+            match key.name {
+                "LFN" | "RFN" => print!("{keysep}MO(1)"),
+                name => print!("{keysep}KC_{name}"),
+            };
+            keysep = ", ";
+        }
+        rowsep = ",\n";
+    }
+    print!("),\n}};\n");
+}
+
 fn main() {
     let kb = expand_keyboard();
     //print_kle(&kb);
     print_qmk_matrix();
     print_qmk_layout(&kb);
+    print_qmk_keymap(&kb);
 }
