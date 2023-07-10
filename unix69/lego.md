@@ -207,6 +207,12 @@ space between switch cutout and stab cutout = 1.525 mm
 width between outer edges of cutouts = 30.55
 
 
-for now let's use 7 x 14 mm stab cutouts,
+gateron stab housing is 7 mm x 11.25 mm
+
+dunno how it fits?!
+
+slop between housing and support is large, 1mm
+
+
+let's use 7 x 14 mm stab cutouts,
 aligned with and 1.5 mm from the switch cutout
-(need to check wrt actual stab dimensions)
