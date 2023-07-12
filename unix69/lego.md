@@ -214,5 +214,17 @@ dunno how it fits?!
 slop between housing and support is large, 1mm
 
 
-let's use 7 x 14 mm stab cutouts,
+let's use 7 mm stab cutouts,
 aligned with and 1.5 mm from the switch cutout
+
+
+vertical size of cutout needs extra clearance for stab wire
+
+cherry has 0.484 - 0.26 = 0.224 in = 5.7 mm above
+
+and below 0.53 - 0.224 = 0.306 in = 7.8 mm below
+
+ai03 has 6 mm above 9 mm below
+
+
+I think 8+8 should be plenty
