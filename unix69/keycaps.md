@@ -1,20 +1,32 @@
 notes on keycap sets for unix 69
 ================================
 
-I would like a Dolch style keycap set, preferably spherical top.
+I would like a Dolch style keycap set, preferably sculpted,
+spherical top, with icon modifiers.
+
+sculpted
+--------
 
 With sculpted keycaps, the right column works well as all R1
 (e.g. F1...F4) because that makes it easier to feel where
-delete / return / up are.
+delete / return / up are. (Tho might not work so well with a
+high profile mountainous F row, such as SA or MT3.)
+
+dyesub
+------
 
 The nightfox keycaps are black on dark grey; it turns out I
-rely too much on looking at the keys, so dark low contrast
-is unhelpful.
+rely too much on looking at the keys, so dark low contrast is
+unhelpful.
 
-Sadly the MTNU group buy ended before I learned some facts
-that make it more tempting :-(
+This makes the SP DSA PBT dyesub keycaps less attractive,
+though perhaps it would work to use the alphas from SP DSA
+Dolch with SP DSA PBT dyesub icon modifiers. Sadly I can't
+pull this trick with SP DSS.
 
-Notes on some options...
+----------------------------------------------------------------
+
+Notes on some specific options...
 
 
 Whitefox / Nightfox
@@ -38,6 +50,9 @@ medium profile sculpted spherical double shot PBT
 
 base set covers everything £95
 
+Sadly the MTNU group buy ended before I learned some facts
+that make it more tempting :-(
+
 
 Matt3o MT3 Susuwatari
 ---------------------
@@ -50,7 +65,10 @@ extra height F row
 
 base set covers everything $99
 
-(the extras are nice, $49)
+the extras are nice, $49
+  * red arrows
+  * R2 up arrow
+  * fun function column options
 
 
 PBTfans Dolch
