@@ -154,6 +154,7 @@ medium height spherical sculpted profile
       - right shift (1.75u)
       - right super (1u)
       - right ctrl (1u)
+      - right alt (1u)
       - right fn (1u)
       - backspace (1.5u)
 
@@ -164,7 +165,7 @@ medium height spherical sculpted profile
 
 extreme mod kit has 1.5u del, but R1 not R2 :-(
 
-total $145 + $7
+alphas + mods + pro + red + del = $157
 
 
 SP DSA standard keysets
