@@ -12,19 +12,13 @@ Switches soldered in
   * no space for kailh hotswap sockets
   * could use mill-max tho
 
-19 mm key spacing for easier kicad grids
-
 
 width of keys without gaps
 --------------------------
 
 17 * 19 = 323 mm
 
-0.5 u gap between main block and macros = 9.5 mm
-
-0.25 u gap around arrows = 4.75 mm
-
-key width = 332.5 mm
+19 mm key spacing to avoid mixing metric and imperial
 
 
 width of lego technic beams
@@ -36,7 +30,7 @@ with side beams, 43 studs
 
   * 15 + 13 + 15 = 43
 
-  * no half stud offsets at the corners
+  * no kitty-corner half stud offsets at the corners
 
 remove 2 * 0.4 mm to narrow gaps between beams
 
@@ -46,25 +40,35 @@ add 2 * 0.4 mm because side beams are 7.2 mm wide
 space at edge
 -------------
 
-switch cutout 14 mm
+switch cutout and body 14 mm wide
 
-(19 - 14) / 2 = 2.5 mm key surround either side
+(slightly more depth for catches)
 
-  * no space for kailh socket
+  * 19 - 14 = 5 mm key surround counting both sides
 
-  * must allow for five pin holes
+  * no space for kailh socket (it sticks out past the switch body)
 
-332.5 - 5 = 327.5 mm
+  * must allow for five pin holes (probably not an issue when there is
+    enough space for the switch bodies - 1 mm clearance between
+    fixture hole and edge of body)
 
-0.5 mm clearance, bit tight
 
-space to edge of fixation pins is 3.5 mm
+gap sizes
+---------
 
-maybe take 3 mm either side
+328 - 323 + 5 = 10 mm
 
-turn fixation holes into slots near edge of board?
+0.5u macro gap = 9.5 mm
 
-332.5 - 2 * 3 = 326.5 mm
+keep 0.5 mm for combined clearance (lol a bit tight)
+
+or
+
+8 mm macro gap (one lego stud)
+
+1 mm clearance each side
+
+gap around arrows is half the macro gap
 
 
 depth of keys
@@ -76,4 +80,132 @@ add 4 mm arrow gap
 
 remove 2 mm key surround at front of PCB
 
-  * 97
+and 2 mm at rear
+
+
+depth of lego technic beams
+---------------------------
+
+96 mm = 12 studs
+
+with rear beams, 13 studs
+
+remove 0.4 mm to narrow gap between front and side beams
+
+add 0.4 mm because rear beams are 7.2 mm wide
+
+
+indented front
+==============
+
+A rectangular enclosure tight around the keyblock is all very well,
+except that it isn't tight around the front, except for the arrow
+keys. But we don't have to be rectangular!
+
+Let's indent the front so that it is also tight along the space bar,
+with a bulge around the arrows.
+
+A bulge just on the right would put a wrist rest at an angle if is is
+shoved up against the keyboard, so maybe put another (empty) bulge on
+the left.
+
+  * gap is now the gap around the arrows
+  * macro gap is twice arrow gap
+
+
+clearance
+---------
+
+overhang = 2 mm
+
+  * keycap overhang of 2 mm gives us 0.5 mm clearance between surround
+    and switch body
+
+  * actual overhang is less because keycaps are 18 mm wide
+
+
+gap size
+--------
+
+aiming for roughly 8 mm
+
+  * let's see how it works out
+
+
+width between sides
+-------------------
+
+width = 17 * 19 + 2 * gap - 2 * overhang
+
+width = 319 + 2 * gap
+
+
+width of arrow bulge
+--------------------
+
+bulge = 4 * 19 + gap - 2 * overhang
+
+bulge = 72 + gap
+
+  * 9 stud beam is too short, must use 11 studs, 88 mm
+
+
+indented beam ends
+------------------
+
+hypotenuse = 7.6 mm
+
+  * beam diameter + 0.4 mm clearance
+
+indent = gap
+
+hole2hole = 8 - overlap
+
+  * whole studs because reduced beam diameter is accounted for by the
+    overlap (e.g. consider indent = 0)
+
+hole2hole^2 + indent^2 = hypotenuse^2
+
+hole2hole = sqrt(hypotenuse^2 - indent^2)
+
+hole2hole = sqrt(57.76 - gap^2)
+
+overlap = hypotenuse - hole2hole
+
+overlap = 8 - sqrt(57.76 - gap^2)
+
+  * example
+      * gap = 4 mm
+      * overlap = 1.54 mm
+
+
+width of indent
+---------------
+
+  * indent is too wide for one beam, so let's calculate each half
+
+width / 2 <= beams <= 7.6 + width / 2
+
+  * beam diameter + 0.4 mm clearance again
+
+  * front beams must not extend past width including side beams
+
+159.5 + gap <= beams <= 167.1 + gap
+
+159.5 <= beams - gap <= 167.1
+
+beams = outer + inner - overlap
+
+outer = 11 studs = 88 mm
+
+71.5 <= inner - overlap - gap <= 79.1
+
+overlap + gap < 8
+
+  * we know gap is about 4 and overlap will be less than that
+
+inner = 10 studs = 80 mm
+
+AWKWARD
+
+what if we make the indent 2 x 11 stud beams, and the left bulge a 9 stud beam
