@@ -190,11 +190,11 @@ width / 2 <= beams <= 7.6 + width / 2
 
   * front beams must not extend past width including side beams
 
-159.5 + gap <= beams <= 167.1 + gap
+159.5 + gap <= beams/2 <= 167.1 + gap
 
-159.5 <= beams - gap <= 167.1
+159.5 <= beams/2 - gap <= 167.1
 
-beams = outer + inner - overlap
+beams/2 = outer + inner - overlap
 
 outer = 11 studs = 88 mm
 
@@ -208,4 +208,19 @@ inner = 10 studs = 80 mm
 
 AWKWARD
 
-what if we make the indent 2 x 11 stud beams, and the left bulge a 9 stud beam
+
+front beam layout
+-----------------
+
+  * what if we make the indent 2 x 11 stud beams
+  * and the left bulge a 9 stud beam
+
+3 * 11 + 9 = 42 studs = 336 mm
+
+beams = 336 - 2 * overlap - 0.4 mm
+
+  * 0.4 mm clearance between indent beams
+
+beams = 336 - 16 - 0.4 + 2 * sqrt(57.76 - gap^2)
+
+beams = 319.6 + 2 * sqrt(57.76 - gap^2)
