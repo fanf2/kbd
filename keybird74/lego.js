@@ -20,6 +20,7 @@ let axle_radius = beam_radius - 2 * beam_shrinkage;
 let usb_width = 12; // mm
 let usb_depth = 8; // mm
 let usb_gap = 3; // mm
+let usb_recess = 2; // mm
 let button_width = 5; // mm
 let button_depth = 4; // mm
 
@@ -35,8 +36,7 @@ let gap = 0.25 * key_unit;
 let body_clearance = 1; // mm
 
 // space bar needs more space
-// this is the same as yiancar's hs60, i think
-let stab_clearance = 2; // mm
+let stab_clearance = 2.5; // mm
 
 // space between beams
 let beam_clearance = 0.5; // mm
@@ -180,10 +180,6 @@ function main() {
     c.strokeRect(overhang, overhang, kw -2 * overhang, kh - 2 * overhang);
 
     // indented front
-    c.moveTo(overhang, kh - gap - overhang);
-    c.lineTo(13 * key_unit, kh - gap - overhang);
-    c.lineTo(13 * key_unit + gap, kh - overhang);
-
     c.moveTo(0, kh - gap);
     c.lineTo(13 * key_unit, kh - gap);
     c.lineTo(13 * key_unit + gap, kh);
@@ -223,21 +219,28 @@ function main() {
     bx += shift_beam(by - beam_origin);
     let rx = kw - bx;
     by = beam_origin;
-    for (i = 0; i < 3; i++) {
-	beam(c, bx, by, 9, 1);
-	bx += 8 * lego_stud + shift_beam(0);
-    }
-    beam(c, bx, by, 7, 1);
+    beam(c, bx, by, 5, 1);
+    bx += 4 * lego_stud + shift_beam(0);
+    beam(c, bx, by, 13, 1);
+    bx += 12 * lego_stud + shift_beam(0);
+    beam(c, bx, by, 13, 1);
+    bx += 12 * lego_stud + shift_beam(0);
+    beam(c, bx, by, 3, 1);
 
     bx = rx;
     beam(c, bx, by, -3, 1);
 
     let ux = 15 * key_unit + gap - usb_width / 2;
-    let uy = by - beam_radius;
+    let uy = by - beam_radius + usb_recess;
     roundrect(c, ux, uy, usb_width, usb_depth);
     roundrect(c, ux - usb_gap, uy, -button_width, button_depth);
     roundrect(c, ux + usb_gap + usb_width, uy, button_width, button_depth);
 
     roundrect(c, 15 * key_unit + gap - rp2040_size / 2, 1.5 * key_unit,
 	      rp2040_size, rp2040_size);
+
+    c.setLineDash([0.2, 0.2]);
+    roundrect(c, ux - usb_gap - button_width - usb_gap, uy,
+	      usb_gap * 4 + button_width * 2 + usb_width, usb_depth,
+	      usb_gap);
 }
