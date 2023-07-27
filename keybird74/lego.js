@@ -78,18 +78,18 @@ function beam(c, x, y, width, height) {
     }
 }
 
-function stab_half(c, x, y, o) {
+function stab_half(c, x, y) {
     c.strokeRect(x - stab_width / 2, y - stab_depth / 2,
 		 stab_width, stab_depth);
     // from cherry data sheet
-    circle(c, x, y + o * 7, 1.5);
-    circle(c, x, y + o * 7, 2.5);
-    circle(c, x, y - o * 8.25, 2);
+    circle(c, x, y + 7, 1.5);
+    circle(c, x, y + 7, 2.5);
+    circle(c, x, y - 8.25, 2);
 }
 
-function stabilizer(c, x, y, w, o) {
-    stab_half(c, x - w / 2, y, o);
-    stab_half(c, x + w / 2, y, o);
+function stabilizer(c, x, y, w) {
+    stab_half(c, x - w / 2, y);
+    stab_half(c, x + w / 2, y);
 }
 
 function gappy_hole(c, x, y, u, gx, gy) {
@@ -105,9 +105,9 @@ function gappy_hole(c, x, y, u, gx, gy) {
 	c.restore();
 	c.strokeRect(cx - key_body/2, cy - key_body/2, key_body, key_body);
 	if (u > 6) {
-	    stabilizer(c, cx, cy, stab_6u, +1);
+	    stabilizer(c, cx, cy, stab_6u);
 	} else if (u > 2) {
-	    stabilizer(c, cx, cy, stab_2u, -1);
+	    stabilizer(c, cx, cy, stab_2u);
 	}
     }
 }
@@ -237,7 +237,7 @@ function main() {
     roundrect(c, ux - usb_gap, uy, -button_width, button_depth);
     roundrect(c, ux + usb_gap + usb_width, uy, button_width, button_depth);
 
-    roundrect(c, 15 * key_unit + gap - rp2040_size / 2, 1.75 * key_unit,
+    roundrect(c, 15 * key_unit + gap - rp2040_size / 2, 0.75 * key_unit,
 	      rp2040_size, rp2040_size);
 
     c.setLineDash([0.2, 0.2]);
