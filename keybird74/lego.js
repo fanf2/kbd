@@ -36,7 +36,7 @@ let gap = 0.25 * key_unit;
 let body_clearance = 1; // mm
 
 // space bar needs more space
-let stab_clearance = 2.5; // mm
+let stab_clearance = 3; // mm
 
 // space between beams
 let beam_clearance = 0.5; // mm
@@ -83,6 +83,7 @@ function stab_half(c, x, y, o) {
 		 stab_width, stab_depth);
     // from cherry data sheet
     circle(c, x, y + o * 7, 1.5);
+    circle(c, x, y + o * 7, 2.5);
     circle(c, x, y - o * 8.25, 2);
 }
 
