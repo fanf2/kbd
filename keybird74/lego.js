@@ -11,7 +11,6 @@ let stab_2u = 24; // mm
 let stab_6u = 100; // mm
 
 let lego_stud = 8; // mm
-let half_stud = lego_stud / 2;
 let beam_shrinkage = 0.4; // mm
 let beam_radius = lego_stud / 2 - beam_shrinkage;
 let axle_radius = beam_radius - 2 * beam_shrinkage;
@@ -33,13 +32,16 @@ let rp2040_size = 8; // mm
 let gap = 0.25 * key_unit;
 
 // space between edge of key body and enclosure beam
-let body_clearance = 1; // mm
+// key body to enclosure outline is 8 mm
+let body_clearance = 2 * beam_shrinkage;
 
-// space bar needs more space
-let stab_clearance = 3; // mm
+// space bar needs more space -- could reduce this to same as
+// body_clearance by mutilating the beams to make space for the
+// stabilizers
+let stab_clearance = overhang + body_clearance;
 
 // space between beams
-let beam_clearance = 0.5; // mm
+let beam_clearance = beam_shrinkage;
 
 // how much to indent in front of the space bar
 let stab_shift = gap + body_clearance - stab_clearance;
