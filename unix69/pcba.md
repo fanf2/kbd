@@ -185,3 +185,32 @@ https://keeb.supply/products/0xcb-helios
 mid-mount usb socket
 
 21 gpio pins
+
+
+copper
+------
+
+how much does copper affect weight?
+
+typically 1 oz / sq. ft.
+
+key matrix N by M
+
+base is roughly (N + 1) * (M + 1) * 0.75 * 0.75 / 12*12 sq. ft.
+
+= (N+1) * (M+1) / 256
+
+plate is base - cutouts
+
+cutouts are roughly N * M * (14 / 12*25.4)^2
+
+= N * M / 480
+
+total is 4 * base - 2 * cutouts
+
+= (N+1) * (M+1) / 64 - N * M / 240
+
+for 65%
+
+= 17 * 6 / 64 - 16 * 5 / 240 = 1.26 oz = 36 g
+
