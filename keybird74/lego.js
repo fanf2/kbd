@@ -31,17 +31,16 @@ let rp2040_size = 8; // mm
 // around arrows
 let gap = 0.25 * key_unit;
 
-// space between edge of key body and enclosure beam
-// key body to enclosure outline is 8 mm
-let body_clearance = 2 * beam_shrinkage;
+// space between outer edges of key body and enclosure beam
+let body_clearance = 0.4; // mm
 
 // space bar needs more space -- could reduce this to same as
 // body_clearance by mutilating the beams to make space for the
 // stabilizers
-let stab_clearance = overhang + body_clearance;
+let stab_clearance = body_clearance + overhang;
 
 // space between beams
-let beam_clearance = beam_shrinkage;
+let beam_clearance = 0.2; // mm
 
 // how much to indent in front of the space bar
 let stab_shift = gap + body_clearance - stab_clearance;
