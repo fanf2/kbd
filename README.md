@@ -19,16 +19,6 @@ The project directory [hhkbeeb](./hhkbeeb/) also contains designs for
 an acrylic sandwich case that I never made.
 
 
-[Keybow 2040](./circuitpy/)
--------------
-
-I have some CircuitPython files containing the configuration for my
-[Pimoroni Keybow 2040](https://shop.pimoroni.com/products/keybow-2040)
-
-More recently [I have ported QMK to the Keybow
-2040](https://github.com/qmk/qmk_firmware/pull/21481)
-
-
 [Keybird69](./keybird69/)
 -----------
 
