@@ -1,4 +1,5 @@
 .DS_Store
-/target
-/unix69/target
-/ukelele/Standard\ Keyboards
+Cargo.lock
+/hhkbeeb/target
+/keybird69/target
+/hhkbeeb/ukelele/Standard\ Keyboards
