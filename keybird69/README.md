@@ -13,6 +13,10 @@ For blog posts about this keyboard, see
 
 And the followup posts that go into some of the details.
 
+The firmware can be found at:
+
+  * https://github.com/fanf2/qmk_firmware/tree/fanf/keyboards/handwired/fanf/keybird69
+
 Here you can find:
 
   * `Cargo.toml`
