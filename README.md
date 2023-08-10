@@ -18,6 +18,10 @@ WASD.
 The project directory [hhkbeeb](./hhkbeeb/) also contains designs for
 an acrylic sandwich case that I never made.
 
+> The default branch in this repository is jokingly called `model-b`
+> because git's default branch used to be `master`, and both are kinds
+> of BBC Micro.
+
 
 [Keybird69](./keybird69/)
 -----------
