@@ -119,7 +119,6 @@ function switch_hole(c, x, y, u) {
 
 function main() {
     let c = canvas.getContext("2d")
-    c.reset();
     c.strokeStyle = "black";
     c.lineWidth = 0.2;
     c.transform(8, 0, 0, 8, 80, 80);
