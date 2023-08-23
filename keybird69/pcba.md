@@ -213,4 +213,3 @@ total is 4 * base - 2 * cutouts
 for 65%
 
 = 17 * 6 / 64 - 16 * 5 / 240 = 1.26 oz = 36 g
-
