@@ -218,6 +218,11 @@ let's use 7 mm stab cutouts,
 aligned with and 1.5 mm from the switch cutout
 
 
+maxkeyboard says spacing between switch centre and stab centre is 12 mm
+
+so 14 / 2 + 1.5 + 7 / 2 = 7 + 1.5 + 3.5 = 12 mm
+
+
 vertical size of cutout needs extra clearance for stab wire
 
 cherry has 0.484 - 0.26 = 0.224 in = 5.7 mm above
