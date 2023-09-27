@@ -222,6 +222,8 @@ maxkeyboard says spacing between switch centre and stab centre is 12 mm
 
 so 14 / 2 + 1.5 + 7 / 2 = 7 + 1.5 + 3.5 = 12 mm
 
+matt3o uses 19.05 * (2.25 - 1) / 2 = 11.9 mm
+
 
 vertical size of cutout needs extra clearance for stab wire
 
