@@ -43,8 +43,8 @@ let beam_clearance = 0.2; // mm
 // instead of one lego_stud between hole centres at the end of each beam
 let beam_spacing = beam_radius * 2 + beam_clearance; // mm
 
-// line between hole centres is 45 degrees
-let beam_corner = Math.sqrt(beam_spacing * beam_spacing / 2);
+// space between horizontal beams and pcb
+let board_clearance = 0.8; // mm
 
 function roundrect(c, x, y, w, h, r) {
     c.beginPath();
@@ -185,34 +185,24 @@ function main() {
     let beam_h = beam_len;
     let beam_w = 4 * beam_len + 3 * beam_spacing;
 
-    let box_h = beam_h + 2 * beam_corner;
-    let box_w = beam_w + 2 * beam_corner;
-
-    let clear_h = (box_h - 2 * beam_radius - keeb_h) / 2;
-    let clear_w = (box_w - 2 * beam_radius - keeb_w) / 2;
-
-    console.log(`keeb_w ${keeb_w}`);
-    console.log(`keeb_h ${keeb_h}`);
-    console.log(`beam_w ${beam_w}`);
-    console.log(`beam_h ${beam_h}`);
-    console.log(`box_w ${box_w}`);
-    console.log(`box_h ${box_h}`);
-    console.log(`clear_w ${clear_w}`);
-    console.log(`clear_h ${clear_h}`);
-
     let beam_y = (keeb_h - beam_h) / 2;
     let beam_x = (keeb_w - beam_w) / 2;
-    let upper_beam = (keeb_h - box_h) / 2;
-    let lower_beam = upper_beam + box_h;
-    let left_beam = (keeb_w - box_w) / 2;
-    let right_beam = left_beam + box_w;
+    let upper_beam = -beam_radius -board_clearance;
+    let lower_beam = keeb_h - upper_beam;
 
-    beam(c, left_beam, beam_y, 1, 13);
-    beam(c, right_beam, beam_y, 1, 13);
+    let corner_y = beam_y - upper_beam;
+    let corner_x = Math.sqrt(beam_spacing ** 2 - corner_y ** 2);
+
+    let left_beam = beam_x - corner_x
 
     for (let i = 0; i < 4; i++) {
 	beam(c, beam_x, upper_beam, 13, 1);
 	beam(c, beam_x, lower_beam, 13, 1);
 	beam_x += beam_len + beam_spacing;
     }
+
+    let right_beam = beam_x - beam_spacing + corner_x;
+
+    beam(c, left_beam, beam_y, 1, 13);
+    beam(c, right_beam, beam_y, 1, 13);
 }
