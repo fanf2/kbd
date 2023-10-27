@@ -22,6 +22,8 @@ let button_depth = 4; // mm
 // package is 7mm, allow some space for pins
 let rp2040_size = 8; // mm
 
+let tau = Math.PI * 2;
+
 //////// adjustable parameters
 
 // around blocks, in key_units
@@ -53,7 +55,8 @@ let board_clearance = 0.8; // mm
 
 //////// fancy enclosure
 
-
+// fake it to be thinner than necessary
+let case_thick = 0.75 * key_unit;
 
 function roundrect(c, x, y, w, h, r) {
     c.beginPath();
@@ -203,12 +206,13 @@ function main() {
     }
 
     c.save();
-    c.setLineDash([0.2, 0.2]);
 
     // outline of pcb
+    c.setLineDash([0.25, 1.0]);
     rect_key_units(c, 0, 0, total_width, main_height);
 
     // key blocks
+    c.setLineDash([0.2, 0.2]);
     rect_key_units(c, left_x, upper_y, side_width, side_height);
     rect_key_units(c, left_x, lower_y, side_width, side_height);
     rect_key_units(c, right_x, upper_y, side_width, side_height);
@@ -217,5 +221,27 @@ function main() {
 
     c.restore();
 
-    lego_beam_enclosure(c);
+    // lego_beam_enclosure(c);
+
+    let pcb_h = main_height * key_unit;
+    let pcb_w = total_width * key_unit;
+    let case_h = pcb_h + case_thick * 2;
+
+    let ellipse_indent = 2;
+    let ellipse_width = main_x * key_unit * 4;
+    let ellipse_left = (main_x + ellipse_indent) * key_unit;
+    let ellipse_right = ellipse_left + (main_width - ellipse_indent * 2) * key_unit;
+    let ellipse_y = pcb_h / 2;
+
+    c.moveTo(-case_thick, -0.5 * key_unit);
+    c.lineTo(-case_thick, pcb_h + 0.25 * key_unit);
+
+    c.moveTo(ellipse_left, pcb_h + case_thick);
+    c.ellipse(ellipse_left, ellipse_y, ellipse_width, case_h / 2,
+	      0, tau * 1/4, tau * 3/4);
+    c.lineTo(ellipse_right, -case_thick);
+    c.ellipse(ellipse_right, ellipse_y, ellipse_width, case_h / 2,
+	      0, tau * 3/4, tau * 5/4);
+    c.closePath();
+    c.stroke();
 }
