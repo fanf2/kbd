@@ -37,17 +37,14 @@ let right_x = main_x + main_width + gap;
 let upper_y = gap;
 let lower_y = upper_y + side_height + gap;
 
-// space between pcb and beams
-let board_clearance = 0.5; // mm
-
 // space between beams
 let beam_clearance = 0.2; // mm
 
-function shift_beam(a) {
-    // a*a + b*b = hypot*hypot
-    let hypot = beam_radius * 2 + beam_clearance;
-    return (Math.sqrt(hypot * hypot - a * a));
-}
+// instead of one lego_stud between hole centres at the end of each beam
+let beam_spacing = beam_radius * 2 + beam_clearance; // mm
+
+// line between hole centres is 45 degrees
+let beam_corner = Math.sqrt(beam_spacing * beam_spacing / 2);
 
 function roundrect(c, x, y, w, h, r) {
     c.beginPath();
@@ -59,6 +56,7 @@ function circle(c, x, y, r) {
     roundrect(c, x - r, y - r, r * 2, r * 2, r);
 }
 
+// x and y are centre of hole at one end
 function beam(c, x, y, width, height) {
     // convert width and height from studs to mm
     let i = width < 0 ? -1 : +1;
@@ -180,49 +178,41 @@ function main() {
 
     c.restore();
 
-    let kw = total_width * key_unit;
-    let kh = main_height * key_unit;
+    let keeb_h = main_height * key_unit;
+    let keeb_w = total_width * key_unit;
 
-    let bh = 12 * lego_stud;
-    let bw = 0;
-    bw += 12 * lego_stud + shift_beam(0);
-    bw += 12 * lego_stud + shift_beam(0);
-    bw += 12 * lego_stud + shift_beam(0);
-    bw += 12 * lego_stud;
+    let beam_len = 12 * lego_stud;
+    let beam_h = beam_len;
+    let beam_w = 4 * beam_len + 3 * beam_spacing;
 
-    let ox = (bw - kw) / 2;
-    let oy = (bh - kh) / 2;
-    let cy = board_clearance + beam_radius;
+    let box_h = beam_h + 2 * beam_corner;
+    let box_w = beam_w + 2 * beam_corner;
 
-    let bx = -ox;
-    let by = kh + cy;
+    let clear_h = (box_h - 2 * beam_radius - keeb_h) / 2;
+    let clear_w = (box_w - 2 * beam_radius - keeb_w) / 2;
 
-    beam(c, bx, by, 13, 1);
-    bx += 12 * lego_stud + shift_beam(0);
-    beam(c, bx, by, 13, 1);
-    bx += 12 * lego_stud + shift_beam(0);
-    beam(c, bx, by, 13, 1);
-    bx += 12 * lego_stud + shift_beam(0);
-    beam(c, bx, by, 13, 1);
-    bx += 12 * lego_stud;
+    console.log(`keeb_w ${keeb_w}`);
+    console.log(`keeb_h ${keeb_h}`);
+    console.log(`beam_w ${beam_w}`);
+    console.log(`beam_h ${beam_h}`);
+    console.log(`box_w ${box_w}`);
+    console.log(`box_h ${box_h}`);
+    console.log(`clear_w ${clear_w}`);
+    console.log(`clear_h ${clear_h}`);
 
-    bx += shift_beam(by - kh + oy);
-    by = kh - oy;
-    beam(c, bx, by, 1, -13);
-    by -= 12 * lego_stud;
-    bx -= shift_beam(by + cy);
-    by = -cy
+    let beam_y = (keeb_h - beam_h) / 2;
+    let beam_x = (keeb_w - beam_w) / 2;
+    let upper_beam = (keeb_h - box_h) / 2;
+    let lower_beam = upper_beam + box_h;
+    let left_beam = (keeb_w - box_w) / 2;
+    let right_beam = left_beam + box_w;
 
-    beam(c, bx, by, -13, 1);
-    bx -= 12 * lego_stud + shift_beam(0);
-    beam(c, bx, by, -13, 1);
-    bx -= 12 * lego_stud + shift_beam(0);
-    beam(c, bx, by, -13, 1);
-    bx -= 12 * lego_stud + shift_beam(0);
-    beam(c, bx, by, -13, 1);
-    bx -= 12 * lego_stud;
+    beam(c, left_beam, beam_y, 1, 13);
+    beam(c, right_beam, beam_y, 1, 13);
 
-    bx -= shift_beam(by + oy);
-    by = -oy;
-    beam(c, bx, by, 1, 13);
+    for (let i = 0; i < 4; i++) {
+	beam(c, beam_x, upper_beam, 13, 1);
+	beam(c, beam_x, lower_beam, 13, 1);
+	beam_x += beam_len + beam_spacing;
+    }
 }
