@@ -1,7 +1,10 @@
 let key_unit = 19.05; // mm
 let key_body = 14; // mm
 let stab_width = 7; // mm
-let stab_depth = 16; // mm
+// (0.484+0.004 - 0.26+0.004) * 25.4 == 5.9 mm
+let stab_depth = 6; // mm
+// (0.53+0.006) * 25.4 == 13.6 mm (take off stab_depth)
+let stab_height = 8; // mm
 
 let lego_stud = 8; // mm
 let beam_shrinkage = 0.4; // mm
@@ -19,7 +22,7 @@ let button_depth = 4; // mm
 // package is 7mm, allow some space for pins
 let rp2040_size = 8; // mm
 
-// adjustable parameters
+//////// adjustable parameters
 
 // around blocks, in key_units
 let gap = 0.25;
@@ -37,6 +40,8 @@ let right_x = main_x + main_width + gap;
 let upper_y = gap;
 let lower_y = upper_y + side_height + gap;
 
+//////// lego enclosure
+
 // space between beams
 let beam_clearance = 0.2; // mm
 
@@ -45,6 +50,10 @@ let beam_spacing = beam_radius * 2 + beam_clearance; // mm
 
 // space between horizontal beams and pcb
 let board_clearance = 0.8; // mm
+
+//////// fancy enclosure
+
+
 
 function roundrect(c, x, y, w, h, r) {
     c.beginPath();
@@ -74,8 +83,8 @@ function beam(c, x, y, width, height) {
 }
 
 function stab_half(c, x, y) {
-    c.strokeRect(x - stab_width / 2, y - stab_depth / 2,
-		 stab_width, stab_depth);
+    c.strokeRect(x - stab_width / 2, y - stab_height,
+		 stab_width, stab_depth + stab_height);
     // from cherry data sheet
     circle(c, x, y + 7, 1.5);
     circle(c, x, y + 7, 2.5);
@@ -113,11 +122,41 @@ function rect_key_units(c, x, y, w, h) {
     c.strokeRect(x * key_unit, y * key_unit, w * key_unit, h * key_unit);
 }
 
+function lego_beam_enclosure(c) {
+    let keeb_h = main_height * key_unit;
+    let keeb_w = total_width * key_unit;
+
+    let beam_len = 12 * lego_stud;
+    let beam_h = beam_len;
+    let beam_w = 4 * beam_len + 3 * beam_spacing;
+
+    let beam_y = (keeb_h - beam_h) / 2;
+    let beam_x = (keeb_w - beam_w) / 2;
+    let upper_beam = -beam_radius -board_clearance;
+    let lower_beam = keeb_h - upper_beam;
+
+    let corner_y = beam_y - upper_beam;
+    let corner_x = Math.sqrt(beam_spacing ** 2 - corner_y ** 2);
+
+    let left_beam = beam_x - corner_x
+
+    for (let i = 0; i < 4; i++) {
+	beam(c, beam_x, upper_beam, 13, 1);
+	beam(c, beam_x, lower_beam, 13, 1);
+	beam_x += beam_len + beam_spacing;
+    }
+
+    let right_beam = beam_x - beam_spacing + corner_x;
+
+    beam(c, left_beam, beam_y, 1, 13);
+    beam(c, right_beam, beam_y, 1, 13);
+}
+
 function main() {
     let c = canvas.getContext("2d")
     c.strokeStyle = "black";
     c.lineWidth = 0.2;
-    c.transform(8, 0, 0, 8, 80, 80);
+    c.transform(8, 0, 0, 8, 300, 150);
 
     for (let i = 0; i < 15; i++) {
 	switch_hole(c, i, 0, 1);
@@ -178,31 +217,5 @@ function main() {
 
     c.restore();
 
-    let keeb_h = main_height * key_unit;
-    let keeb_w = total_width * key_unit;
-
-    let beam_len = 12 * lego_stud;
-    let beam_h = beam_len;
-    let beam_w = 4 * beam_len + 3 * beam_spacing;
-
-    let beam_y = (keeb_h - beam_h) / 2;
-    let beam_x = (keeb_w - beam_w) / 2;
-    let upper_beam = -beam_radius -board_clearance;
-    let lower_beam = keeb_h - upper_beam;
-
-    let corner_y = beam_y - upper_beam;
-    let corner_x = Math.sqrt(beam_spacing ** 2 - corner_y ** 2);
-
-    let left_beam = beam_x - corner_x
-
-    for (let i = 0; i < 4; i++) {
-	beam(c, beam_x, upper_beam, 13, 1);
-	beam(c, beam_x, lower_beam, 13, 1);
-	beam_x += beam_len + beam_spacing;
-    }
-
-    let right_beam = beam_x - beam_spacing + corner_x;
-
-    beam(c, left_beam, beam_y, 1, 13);
-    beam(c, right_beam, beam_y, 1, 13);
+    lego_beam_enclosure(c);
 }
