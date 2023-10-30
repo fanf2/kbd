@@ -34,7 +34,7 @@ The completed Keybird69 has Cherry MX Clear switches and Signature
 Plastics DSS "Dolch" keycaps.
 
 
-[Keybird74](./keybird74/)
+[Keybird42](./keybird42/)
 -----------
 
 Some notes on the next keyboard with a few more keys.
