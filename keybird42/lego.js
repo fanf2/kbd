@@ -55,8 +55,27 @@ let board_clearance = 0.8; // mm
 
 //////// fancy enclosure
 
-// fake it to be thinner than necessary
-let case_thick = 0.75 * key_unit;
+let case_rear = 0.75 * key_unit;
+let case_front = 0.5 * key_unit;
+let case_side = 1 * key_unit;
+
+let ellipse_indent = 2;
+let ellipse_axis = 13 * key_unit;
+
+// derived dimensions
+
+let pcb_h = main_height * key_unit;
+let pcb_w = total_width * key_unit;
+let case_h = pcb_h + case_front + case_rear;
+
+let ellipse_left = (main_x + ellipse_indent) * key_unit;
+let ellipse_right = ellipse_left + (main_width - ellipse_indent * 2) * key_unit;
+let ellipse_y = case_h / 2 - case_rear;
+
+// don't clip ellipse
+let case_clearance = 2; // mm
+let rect_rear = -case_rear -case_clearance;
+let rect_front = pcb_h + case_front + case_clearance;
 
 function roundrect(c, x, y, w, h, r) {
     c.beginPath();
@@ -155,6 +174,26 @@ function lego_beam_enclosure(c) {
     beam(c, right_beam, beam_y, 1, 13);
 }
 
+function ellipse_enclosure(c) {
+    c.beginPath();
+    c.moveTo(ellipse_left, pcb_h + case_front);
+    c.ellipse(ellipse_left, ellipse_y, ellipse_axis, case_h / 2,
+	      0, tau * 1/4, tau * 3/4);
+    c.lineTo(ellipse_right, -case_rear);
+    c.ellipse(ellipse_right, ellipse_y, ellipse_axis, case_h / 2,
+	      0, tau * 3/4, tau * 5/4);
+    c.closePath();
+}
+
+function rectangle_enclosure(c) {
+    c.beginPath();
+    c.moveTo(-case_side, rect_rear);
+    c.lineTo(pcb_w + case_side, rect_rear);
+    c.lineTo(pcb_w + case_side, rect_front);
+    c.lineTo(-case_side, rect_front);
+    c.closePath();
+}
+
 function main() {
     let c = canvas.getContext("2d")
     c.strokeStyle = "black";
@@ -201,7 +240,9 @@ function main() {
 	    gappy_hole(c, i, j, 1, left_x, upper_y);
 	    gappy_hole(c, i, j, 1, left_x, lower_y);
 	    gappy_hole(c, i, j, 1, right_x, upper_y);
-	    gappy_hole(c, i, j, 1, right_x, lower_y);
+	    if (i == 1 || j == 1) {
+		gappy_hole(c, i, j, 1, right_x, lower_y);
+	    }
 	}
     }
 
@@ -223,25 +264,22 @@ function main() {
 
     // lego_beam_enclosure(c);
 
-    let pcb_h = main_height * key_unit;
-    let pcb_w = total_width * key_unit;
-    let case_h = pcb_h + case_thick * 2;
+    // c.beginPath();
+    // c.moveTo(0, upper_y * key_unit - case_rear);
+    // c.lineTo(0, (lower_y + side_height) * key_unit + case_front);
+    // c.stroke();
 
-    let ellipse_indent = 2;
-    let ellipse_width = main_x * key_unit * 4;
-    let ellipse_left = (main_x + ellipse_indent) * key_unit;
-    let ellipse_right = ellipse_left + (main_width - ellipse_indent * 2) * key_unit;
-    let ellipse_y = pcb_h / 2;
-
-    c.moveTo(-case_thick, -0.5 * key_unit);
-    c.lineTo(-case_thick, pcb_h + 0.25 * key_unit);
-
-    c.moveTo(ellipse_left, pcb_h + case_thick);
-    c.ellipse(ellipse_left, ellipse_y, ellipse_width, case_h / 2,
-	      0, tau * 1/4, tau * 3/4);
-    c.lineTo(ellipse_right, -case_thick);
-    c.ellipse(ellipse_right, ellipse_y, ellipse_width, case_h / 2,
-	      0, tau * 3/4, tau * 5/4);
-    c.closePath();
+    c.save();
+    rectangle_enclosure(c);
+    c.clip();
+    ellipse_enclosure(c);
     c.stroke();
+    c.restore();
+
+    c.save();
+    ellipse_enclosure(c);
+    c.clip();
+    rectangle_enclosure(c);
+    c.stroke();
+    c.restore();
 }
