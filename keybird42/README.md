@@ -41,17 +41,34 @@ So keybird42 has the following features:
       - nav cluster moved 0.25u downwards
           + better vertical symmetry
           + equal gaps between clusters
-      - inspired by [wjrii's board][wjrii]
 
   * function keys moved to left
       - function-rowless
       - two clusters of 6 mirroring the nav and arrow clusters
       - vaguely AT reto feel, but more symmetry
 
-[wjrii]: https://geekhack.org/index.php?topic=121633.0
-
 The result is a board with 84 keys and some lovely symmetries,
 and better modifier + arrow key ergonomics than usual.
 
 I called it keybird42 because 42 is funnier than 84, and because the
 symmetry is emphasized by talking about half the number of keys.
+
+
+inspiration
+-----------
+
+  * displaced arrow cluster
+      - https://geekhack.org/index.php?topic=121633.0
+
+  * upper case horizontal screws
+      - https://geekhack.org/index.php?topic=121696.0
+
+  * drone vibration isolation mount
+      - https://geekhack.org/index.php?topic=119899.0
+
+  * upper case curved like keycap profile
+      - https://en.wikipedia.org/wiki/Apple_Extended_Keyboard
+
+  * rounded front and rear
+      - https://clickykeyboards.com/wp-content/uploads/2016/11/030.jpg
+
