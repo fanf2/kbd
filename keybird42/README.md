@@ -66,9 +66,11 @@ inspiration
   * drone vibration isolation mount
       - https://geekhack.org/index.php?topic=119899.0
 
+  * XT TKL FRL with grommet mount
+      - https://geekhack.org/index.php?topic=121658.0
+
   * upper case curved like keycap profile
       - https://en.wikipedia.org/wiki/Apple_Extended_Keyboard
 
   * rounded front and rear
       - https://clickykeyboards.com/wp-content/uploads/2016/11/030.jpg
-
