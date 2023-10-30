@@ -7,10 +7,6 @@ interest checks and group buys
   * https://keycaplendar.firebaseapp.com/
   * https://keycapsets.com/
 
-want
-
-  * https://drop.com/buy/drop-matt3o-mt3-susuwatari-custom-keycap-set?defaultSelectionIds=952681
-
 
 switches
 --------
