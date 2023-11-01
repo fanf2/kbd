@@ -70,6 +70,7 @@ inspiration
       - https://geekhack.org/index.php?topic=121658.0
 
   * upper case curved like keycap profile
+      - https://geekhack.org/index.php?topic=117922.0
       - https://en.wikipedia.org/wiki/Apple_Extended_Keyboard
 
   * rounded front and rear
