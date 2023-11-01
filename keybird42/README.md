@@ -75,3 +75,23 @@ inspiration
 
   * rounded front and rear
       - https://clickykeyboards.com/wp-content/uploads/2016/11/030.jpg
+
+
+CadQuery / build123d model
+--------------------------
+
+This model of keybird42 is written in Python.
+
+It uses [build123d][]. For development and visualization, I installed
+a build of [CQ-editor][] that includes [build123d][] and [CadQuery][].
+They are both based on the same underlying CAD library, so they can
+coexist happily while providing different higher-level programming
+interfaces.
+
+The keycaps are based on [matt3o's OPK][OPK] (open programmatic keycap)
+rewritten to use [build123d][] instead of [CadQuery][].
+
+[OPK]: https://github.com/cubiq/OPK
+[build123d]: https://build123d.readthedocs.io/
+[CadQuery]: https://cadquery.readthedocs.io/
+[CQ-editor]: https://github.com/jdegenstein/jmwright-CQ-Editor
