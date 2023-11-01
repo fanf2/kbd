@@ -84,62 +84,37 @@ def keycap(
     # Main shape
     keycap = bd.loft([base, mid, top]);
 
+    # sketch the profile of a body that will be carved
+    # from the main shape to create the top scoop
+
+    def squared_arc(c0, c1, c2, s3, s4):
+        return bd.make_face(bd.ThreePointArc(c0, c1, c2)
+                            + bd.Polyline(c2, s3, s4, c0))
+
     if convex:
-        scoop_face = bd.make_face([
-            bd.ThreePointArc((-by/2, -1), (0, 2), (by/2, -1)),
-            bd.Polyline((by/2, -1), (by/2, 10), (-by/2, 10), (-by/2, -1))
-        ])
-        scoop = bd.Plane.YZ \
-            * bd.Location((0, height-2.1, -bx/2), angle) \
-            * bd.extrude(scoop_face, amount=bx)
+        scoop = [ bd.Location((0, -2.1)) *
+                  squared_arc((-by/2, -1), (0, 2), (+by/2, -1),
+                              (+by/2, 10), (-by/2, 10)) ]
     else:
-        pass
+        scoop = [
+            squared_arc((-by/2+2, 0), (0, min(-0.1, -depth+1.5)), (+by/2-2, 0),
+                        (+by/2, height), (-by/2, height)),
+            squared_arc((-by/2-2, -0.5), (0, -depth), (+by/2+2, -0.5),
+                        (+by/2, height), (-by/2, height))
+        ]
 
+    # spread out the faces above the keycap to form the scoop body
 
-    keycap -= scoop
+    keycap -= bd.loft([
+        bd.Plane.YZ *
+        bd.Location((0, height, (bx * i/len(scoop)) - bx/2), angle) *
+        face for i, face in enumerate(scoop + [scoop[0]])
+    ])
+
+    # Top edge fillet
     keycap = bd.fillet(keycap.edges() >> bd.Axis.Z, 0.6)
 
     return keycap
-
-    # Create a body that will be carved from the main shape to create the top scoop
-    if convex:
-        scoop = (
-            cq.Workplane("YZ").transformed(offset=cq.Vector(0, height-2.1, -bx/2), rotate=cq.Vector(0, 0, angle))
-            .moveTo(-by/2, -1)
-            .threePointArc((0, 2), (by/2, -1))
-            .lineTo(by/2, 10)
-            .lineTo(-by/2, 10)
-            .close()
-            .extrude(bx, combine=False)
-        )
-    else:
-        scoop = (
-            cq.Workplane("YZ").transformed(offset=cq.Vector(0, height, bx/2), rotate=cq.Vector(0, 0, angle))
-            .moveTo(-by/2+2,0)
-            .threePointArc((0, min(-0.1, -depth+1.5)), (by/2-2, 0))
-            .lineTo(by/2, height)
-            .lineTo(-by/2, height)
-            .close()
-            .workplane(offset=-bx/2)
-            .moveTo(-by/2-2, -0.5)
-            .threePointArc((0, -depth), (by/2+2, -0.5))
-            .lineTo(by/2, height)
-            .lineTo(-by/2, height)
-            .close()
-            .workplane(offset=-bx/2)
-            .moveTo(-by/2+2, 0)
-            .threePointArc((0, min(-0.1, -depth+1.5)), (by/2-2, 0))
-            .lineTo(by/2, height)
-            .lineTo(-by/2, height)
-            .close()
-            .loft(combine=False)
-        )
-
-    #show_object(tool, options={'alpha': 0.4})
-    keycap = keycap - scoop
-    
-    # Top edge fillet
-    keycap = keycap.edges(">Z").fillet(0.6)
 
     # Since the shell() function is not able to deal with complex shapes
     # we need to subtract a smaller keycap from the main shape
@@ -274,4 +249,4 @@ def keycap(
     return keycap
 
 
-show_object(keycap(convex=True))
+show_object(keycap())
