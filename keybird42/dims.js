@@ -11,22 +11,22 @@ function round_rect(c, x, y, w, h, r, f) {
     c.fillStyle = f;
     c.fill();
     c.restore();
-
-    c.save();
-    c.beginPath();
-    c.moveTo(-100, y+h);
-    c.lineTo(+100, y+h);
-    c.lineWidth = 0.1;
-    c.strokeStyle = "#ccc";
-    c.stroke();
-    c.restore();
 }
 
 function mark_y(c, x, y) {
     c.save();
     c.font = "1px sans-serif";
     c.fillStyle = "#888";
-    c.fillText(y, x, y - 0.1);
+    c.fillText(y, x + 0.1, y + 0.3);
+    c.restore();
+
+    c.save();
+    c.beginPath();
+    c.moveTo(-2, y);
+    c.lineTo(x, y);
+    c.lineWidth = 0.1;
+    c.strokeStyle = "#ccc";
+    c.stroke();
     c.restore();
 }
 
@@ -56,7 +56,7 @@ function redraw() {
     let pcb_h = mm(pcb);
     let base_h = mm(base);
 
-    let plate_w = 44;
+    let plate_w = 42;
     let pcb_y = body_h;
 
     // chip
@@ -124,8 +124,8 @@ function redraw() {
     round_rect(c, 0, base_y, plate_w, base_h, 0, "#8f88");
 
     mark_y(c, 44, pcb_y);
-    mark_y(c, 46, socket_y);
     mark_y(c, 44, chip_y);
+    mark_y(c, 46, socket_y);
     mark_y(c, 46, socket_y + socket_h);
     mark_y(c, 44, max_y);
     mark_y(c, 46, base_y);
