@@ -126,6 +126,7 @@ function redraw() {
     mark_y(c, 44, pcb_y);
     mark_y(c, 46, socket_y);
     mark_y(c, 44, chip_y);
+    mark_y(c, 46, socket_y + socket_h);
     mark_y(c, 44, max_y);
     mark_y(c, 46, base_y);
     mark_y(c, 44, base_y + base_h);
