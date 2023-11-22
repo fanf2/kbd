@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="dims.js">
+    </script>
+  </head>
+  <body onload="redraw()">
+    <table>
+      <tr>
+	<th><label for="body">body</label></th>
+	<th><label for="pins">pins</label></th>
+	<th><label for="chip">chip</label></th>
+	<th><label for="plate">plate</label></th>
+	<th><label for="pcb">pcb</label></th>
+	<th><label for="base">base</label></th>
+	<th><label for="plug">plug</label></th>
+	<th><label for="socket">socket</label></th>
+	<th><label for="sink">sink</label></th>
+	<th><label for="rivnut">rivnut</label></th>
+	<th><label for="flange">flange</label></th>
+      </tr>
+      <tr>
+	<td><select id="body" name="body" disabled>
+	    <option>5.0 mm</option>
+	</select></td>
+	<td><select id="pins" name="pins" disabled>
+	    <option>3.3 mm</option>
+	</select></td>
+	<td><select id="chip" name="chip" disabled>
+	    <option>2.0 mm</option>
+	</select></td>
+	<td><select id="plate" name="plate" disabled>
+	    <option>1.6 mm</option>
+	</select></td>
+	<td><select id="pcb" name="pcb" onchange="redraw()">
+	    <option>1.2 mm</option>
+	    <option>1.6 mm</option>
+	</select></td>
+	<td><select id="base" name="base" onchange="redraw()">
+	    <option>1.0 mm</option>
+	    <option>1.2 mm</option>
+	    <option>1.6 mm</option>
+	</select></td>
+	<td><select id="plug" name="plug" disabled>
+	    <option>6.6 mm</option>
+	</select></td>
+	<td><select id="socket" name="socket" disabled>
+	    <option>3.2 mm</option>
+	</select></td>
+	<td><select id="sink" name="sink" onchange="redraw()">
+	    <option>2.1 mm</option>
+	    <option>1.6 mm</option>
+	    <option>0.8 mm</option>
+	</select></td>
+	<td><select id="rivnut" name="rivnut" disabled>
+	    <option>9.0 mm</option>
+	</select></td>
+	<td><select id="flange" name="flange" onchange="redraw()">
+	    <option>0.4 mm</option>
+	    <option>0.8 mm</option>
+	</select></td>
+      </tr>
+    </table>
+    <canvas id="canvas" width="1000" height="1000">
+    </canvas>
+  </body>
+</html>
