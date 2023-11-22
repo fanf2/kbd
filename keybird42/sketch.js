@@ -12,12 +12,10 @@ let beam_radius = lego_stud / 2 - beam_shrinkage;
 let axle_radius = beam_radius - 2 * beam_shrinkage;
 
 // slight over-estimate
-let usb_width = 12; // mm
-let usb_depth = 8; // mm
-let usb_gap = 3; // mm
-let usb_recess = 2; // mm
-let button_width = 5; // mm
-let button_depth = 4; // mm
+let usb_width = 9; // mm
+let usb_depth = 6.5; // mm
+let usb_legs = 1.5; // mm
+let usb_pins = 1; // mm
 
 // package is 7mm, allow some space for pins
 let rp2040_size = 8; // mm
@@ -55,12 +53,21 @@ let board_clearance = 0.8; // mm
 
 //////// fancy enclosure
 
-let case_rear = 0.75 * key_unit;
+let case_rear = 0.5 * key_unit;
 let case_front = 0.5 * key_unit;
-let case_side = 1 * key_unit;
+let case_side = 0.75 * key_unit;
 
-let ellipse_indent = 2;
-let ellipse_axis = 13 * key_unit;
+let ellipse_indent = 1;
+let ellipse_axis = 8 * key_unit;
+
+let rivnut_r = 7 / 2;
+
+let rivnut_x0 = 2.5 * key_unit;
+let rivnut_x1 = 8.5 * key_unit;
+let rivnut_x2 = 10.75 * key_unit + rivnut_r;
+let rivnut_y0 = - rivnut_r;
+let rivnut_y1 = 0.25 * key_unit - rivnut_r;
+let rivnut_y2 = 2.5 * key_unit;
 
 // derived dimensions
 
@@ -85,6 +92,19 @@ function roundrect(c, x, y, w, h, r) {
 
 function circle(c, x, y, r) {
     roundrect(c, x - r, y - r, r * 2, r * 2, r);
+}
+
+function rivnut(c, x, y) {
+    for (let i = 0; i < 3; i++) {
+	circle(c, x, y, rivnut_r - i);
+    }
+}
+
+function rivnut_quad(c, x, y) {
+    rivnut(c, pcb_w / 2 - x, y);
+    rivnut(c, pcb_w / 2 + x, y);
+    rivnut(c, pcb_w / 2 - x, pcb_h - y);
+    rivnut(c, pcb_w / 2 + x, pcb_h - y);
 }
 
 // x and y are centre of hole at one end
@@ -269,6 +289,10 @@ function main() {
     // c.lineTo(0, (lower_y + side_height) * key_unit + case_front);
     // c.stroke();
 
+    rivnut_quad(c, rivnut_x0, rivnut_y0);
+    rivnut_quad(c, rivnut_x1, rivnut_y1);
+    rivnut_quad(c, rivnut_x2, rivnut_y2);
+
     c.save();
     rectangle_enclosure(c);
     c.clip();
@@ -282,4 +306,9 @@ function main() {
     rectangle_enclosure(c);
     c.stroke();
     c.restore();
+
+    roundrect(c, (main_x + main_width) * key_unit, 0,
+	      usb_width + 2 * usb_legs, usb_depth + usb_pins, 0);
+    roundrect(c, (main_x + main_width) * key_unit + usb_legs, 0,
+	      usb_width, usb_depth, 0);
 }
