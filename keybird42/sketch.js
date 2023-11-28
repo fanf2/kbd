@@ -17,6 +17,12 @@ let usb_depth = 6.5; // mm
 let usb_legs = 1.5; // mm
 let usb_pins = 1; // mm
 
+// 40 pins 0.5 mm pitch
+let fpc_width = 25; // mm
+let fpc_depth = 5.2; // mm
+let fpc_pins = 21; // mm
+let fpc_legs = 1.2; // mm
+
 // package is 7mm, allow some space for pins
 let rp2040_size = 8; // mm
 
@@ -311,4 +317,11 @@ function main() {
 	      usb_width + 2 * usb_legs, usb_depth + usb_pins, 0);
     roundrect(c, (main_x + main_width) * key_unit + usb_legs, 0,
 	      usb_width, usb_depth, 0);
+
+    roundrect(c, (main_x + 8.5) * key_unit,
+	      4.5 * key_unit,
+	      fpc_width, -fpc_depth, 0);
+    roundrect(c, (main_x + 8.5) * key_unit + (fpc_width - fpc_pins) / 2,
+	      4.5 * key_unit,
+	      fpc_pins, fpc_legs, 0);
 }
