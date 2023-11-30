@@ -74,6 +74,7 @@ inspiration
       - https://en.wikipedia.org/wiki/Apple_Extended_Keyboard
 
   * rounded front and rear
+      - https://vortexgear.store/products/pc-66-68-key
       - https://clickykeyboards.com/wp-content/uploads/2016/11/030.jpg
 
 
