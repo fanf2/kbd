@@ -1,0 +1,25 @@
+# definition of a uson-8-ep footprint
+# used by the Winbond W25Q16JVUXIQ flash chip
+# https://gitlab.com/kicad/libraries/kicad-footprint-generator/-/tree/master/scripts/Packages/Package_NoLead__DFN_QFN_LGA_SON
+
+uson_8_ep:
+  device_type: 'USON'
+  library: iobird
+
+  custom_name_format: 'USON-8-EP_2x3mm'
+
+  ipc_class: 'qfn'
+
+  num_pins_x: 0
+  num_pins_y: 4
+  pitch: 0.5
+
+  body_size_x: 3.0 +/-0.1
+  body_size_y: 2.0 +/-0.1
+  overall_height: 0.55 +/-0.05
+
+  lead_width: 0.25  +/-0.05
+  lead_len: 0.45 +/-0.05
+
+  EP_size_x: 0.2 +/-0.05
+  EP_size_y: 1.6 +/-0.05
