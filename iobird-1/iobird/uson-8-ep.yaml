@@ -7,6 +7,7 @@ uson_8_ep:
   library: iobird
 
   custom_name_format: 'USON-8-EP_2x3mm'
+  size_source: 'https://datasheet.lcsc.com/lcsc/2205122030_Winbond-Elec-W25Q16JVUXIQ_C2843335.pdf'
 
   ipc_class: 'qfn'
 

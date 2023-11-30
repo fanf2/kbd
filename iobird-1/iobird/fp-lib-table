@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "iobird")(type "KiCad")(uri "${KIPRJMOD}/iobird.pretty")(options "")(descr ""))
+)

@@ -6,7 +6,7 @@
     (property "Value" "W25Q16JVUXIQ" (at 7.62 11.43 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "Package_SO:SOIC-8_5.23x5.23mm_P1.27mm" (at 0 0 0)
+    (property "Footprint" "iobird:USON-8-EP_2x3mm" (at 0 0 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "https://datasheet.lcsc.com/lcsc/2205122030_Winbond-Elec-W25Q16JVUXIQ_C2843335.pdf" (at 0 0 0)
