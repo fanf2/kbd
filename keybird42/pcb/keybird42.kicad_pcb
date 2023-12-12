@@ -4416,7 +4416,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 37019ef6-f780-4714-9ef0-dc49eae0a05c)
-    (at 182.57 134.93)
+    (at 152.4 101.6)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -6176,7 +6176,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 51d3136a-5423-47f3-9402-ad816d227b8e)
-    (at 182.57 119.38)
+    (at 127 101.6)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -7231,7 +7231,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 62a7a389-2f20-4162-b9ea-b3835a762f47)
-    (at 182.57 150.48)
+    (at 228.6 101.6)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -9135,7 +9135,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 7ebab10c-7803-49a2-8176-1e0e1457cb3f)
-    (at 182.57 181.58)
+    (at 330.2 101.6)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -10540,7 +10540,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 892f9625-50af-4542-8b36-ec45ce01c092)
-    (at 182.57 103.83)
+    (at 101.6 101.6)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -11096,7 +11096,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 95e9d844-0eb1-4cef-9991-9386ebbfb678)
-    (at 182.57 197.13)
+    (at 355.6 101.6)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -12079,7 +12079,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp a5aee766-2a43-498b-9b25-9cd6307bfa06)
-    (at 182.57 166.03)
+    (at 304.8 101.6)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
