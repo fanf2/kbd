@@ -3,7 +3,7 @@
   (descr "Diode SMD 1206 (3216 Metric), square (rectangular) end terminal, IPC_7351 nominal, (Body size source: http://www.tortai-tech.com/upload/download/2011102023233369053.pdf), generated with kicad-footprint-generator")
   (tags "diode handsolder")
   (attr smd)
-  (fp_text reference "REF**" (at 0 -1.82) (layer "B.SilkS")
+  (fp_text reference "REF**" (at 0 2.1) (layer "B.SilkS")
       (effects (font (size 1 1) (thickness 0.15)))
     (tstamp b981a655-e808-4bc4-beba-0a02354c4ec1)
   )
