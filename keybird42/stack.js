@@ -40,13 +40,13 @@ const nut_shank = 5;
 const nut_flange = 8;
 const nut_thick = 8.5;
 
-// pcba needs to be slender enough not to affect overall thickness
-// pcb should be >= 1.2 mm (kailh socket depth)
-// components are less than 2mm thick
-const pcb_thick = 1.2;
+const pcb_thick = 1.2; // kailh socket depth
 const pcba_clearance = 0.5;
-const pcba_thick = mx_pins + pcba_clearance;
 const pcba_components = mx_pins - pcb_thick;
+const pcba_thick = pcba_components + pcba_clearance;
+
+console.assert(pcba_components > 2, // thickness of parts
+	       "not enough space for components");
 
 // enclosure
 const layer_thin = plate_thick;
@@ -130,7 +130,7 @@ function main() {
     roundrect(c, case_front, mx_lower, pcb_width, pcb_thick, 0);
     c.fillStyle = "#88c";
     roundrect(c, case_front + base_gap, mx_lower + pcb_thick,
-	      component_width, pcba_components, 0);
+	      component_width, pcba_thick, 0);
 
     const udb_x = width - usb_hang;
     const udb_y = case_bot - layer_thin - udb_thick;
