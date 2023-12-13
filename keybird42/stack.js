@@ -120,7 +120,7 @@ function main() {
     c.strokeStyle = "#000";
     c.fillStyle = "#fff";
     c.lineWidth = 0.1;
-    c.transform(20, 0, 0, 20, 400, 400);
+    c.transform(20, 0, 0, 20, 200, 400);
 
     for (x = 0; x < keys; x++) {
 	drawkey(c, case_front + x * key_unit, 0);
