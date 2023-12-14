@@ -194,7 +194,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 02360527-5a31-4603-b935-9b44ddc6edee)
-    (at 236.22 101.6)
+    (at 236.22 104.775)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -266,7 +266,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 02ef8595-96b3-48cb-ab7c-6f8b62fd95a1)
-    (at 255.27 25.4)
+    (at 255.27 28.575)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -338,7 +338,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 03820bae-6800-485b-8a75-0ed9d33f2a2b)
-    (at 171.45 25.4)
+    (at 171.45 28.575)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -477,7 +477,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 04dbf4c2-ab60-41b1-a17d-087a7c72eacb)
-    (at 109.22 63.5)
+    (at 102.39375 66.675)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -616,7 +616,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 055144b6-3056-49c5-8ccd-4cf0366a19ed)
-    (at 332.74 44.45)
+    (at 333.375 47.625)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -755,7 +755,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 05a991c6-213a-46f8-9bf1-f35a67f07737)
-    (at 264.16 44.45)
+    (at 264.795 47.625)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -827,7 +827,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 05fe42e5-41e1-4c83-afee-eace8b7b3423)
-    (at 284.48 63.5)
+    (at 280.9875 66.675)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -966,7 +966,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 08fd1727-f9bb-4dbd-befc-9690696ad468)
-    (at 123.19 44.45)
+    (at 123.825 47.625)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -1105,7 +1105,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 0978ef5d-f549-451c-aa92-211a610127ec)
-    (at 414.02 95.25)
+    (at 412.4325 95.25)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -1177,7 +1177,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 0bd5cb2b-e585-4015-9a91-61d39d8bd701)
-    (at 151.13 63.5)
+    (at 147.6375 66.675)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -1316,7 +1316,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 0dd1905f-dee8-416f-8db6-0668d664bbac)
-    (at 243.84 82.55)
+    (at 240.9825 85.725)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -1388,7 +1388,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 0df0d139-6c74-401e-b93a-9f284f5eab4e)
-    (at 133.35 25.4)
+    (at 133.35 28.575)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -1527,7 +1527,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 0f13f97a-5948-446a-a090-5ef136c846f6)
-    (at 406.4 50.8)
+    (at 404.8125 52.3875)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -1666,7 +1666,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 119b44a0-6264-4bbb-bdfa-cc9e04cb9d6c)
-    (at 124.46 82.55)
+    (at 114.77625 85.725)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -1738,7 +1738,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 13622ff3-aa3f-41cd-b05f-131e2bee19a6)
-    (at 363.22 101.6)
+    (at 367.18875 104.775)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -1810,7 +1810,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 148feb57-301c-4294-9404-b63469d76961)
-    (at 31.75 95.25)
+    (at 33.3375 95.25)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -1949,7 +1949,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 1571feec-37ad-4f11-9b6f-b5c1e70148fa)
-    (at 406.4 76.2)
+    (at 404.8125 76.2)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -2088,7 +2088,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 162399e7-1098-4851-8b29-b4a11466a1c8)
-    (at 394.97 76.2)
+    (at 393.3825 76.2)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -2160,7 +2160,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 16e53fa1-6246-4813-a9f5-293bf833b569)
-    (at 433.07 50.8)
+    (at 431.4825 52.3875)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -2232,7 +2232,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 19139eb7-d99c-4458-afc9-cd649aa52002)
-    (at 58.42 95.25)
+    (at 60.0075 95.25)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -2304,7 +2304,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 19394539-e6c1-4cac-ace6-5e6bc3919ef1)
-    (at 160.02 101.6)
+    (at 155.2575 104.775)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -2376,7 +2376,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 1950e2b0-d37b-496c-b17d-d928d5f6c1d8)
-    (at 152.4 25.4)
+    (at 152.4 28.575)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -2515,7 +2515,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 1a003488-08ed-4c13-9c90-34e36cb781e5)
-    (at 160.02 82.55)
+    (at 157.1625 85.725)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -2654,7 +2654,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 1bcc6267-1b74-48bf-b5fe-ab15497ed693)
-    (at 236.22 25.4)
+    (at 236.22 28.575)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -2726,7 +2726,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 1e125c2a-c72f-4097-a1e7-81c20f083b29)
-    (at 361.95 25.4)
+    (at 361.95 28.575)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -2865,7 +2865,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 1ea480b6-2eeb-412f-85d2-1dd47423ccd7)
-    (at 303.53 63.5)
+    (at 300.0375 66.675)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -3004,7 +3004,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 1f86f5b1-e6bd-42b9-b3e6-557f96d8c6ad)
-    (at 132.08 63.5)
+    (at 128.5875 66.675)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -3143,7 +3143,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 2039f984-cedb-40d6-9434-8af21e6a8db0)
-    (at 274.32 25.4)
+    (at 274.32 28.575)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -3215,7 +3215,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 23367e54-2232-4876-9046-05e7426103a8)
-    (at 179.07 25.4)
+    (at 179.07 28.575)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -3287,7 +3287,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 23e25ade-21e9-4675-9e17-cb0303e70f4f)
-    (at 340.36 44.45)
+    (at 340.995 47.625)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -3359,7 +3359,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 25f63c3a-9e5b-44aa-a209-7878c53502ea)
-    (at 302.26 44.45)
+    (at 302.895 47.625)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -3431,7 +3431,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 270ca3be-e847-4b7e-93ae-75745f85116b)
-    (at 247.65 25.4)
+    (at 247.65 28.575)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -3570,7 +3570,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 277e4607-55c0-4f25-91f0-922a4fe6335e)
-    (at 50.8 76.2)
+    (at 52.3875 76.2)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -3709,7 +3709,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 282ec63e-6242-400f-8243-5812a4aa5e98)
-    (at 198.12 82.55)
+    (at 195.2625 85.725)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -3848,7 +3848,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 2aa34a85-ac78-4905-b8c1-729630095c14)
-    (at 312.42 101.6)
+    (at 317.1825 104.775)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -3920,7 +3920,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 2bd55a46-c6d7-4dce-b6d2-02311b48728e)
-    (at 292.1 63.5)
+    (at 288.6075 66.675)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -3992,7 +3992,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 2bdb033b-3e89-4952-9dc3-beae03e225ae)
-    (at 300.99 82.55)
+    (at 298.1325 85.725)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -4064,7 +4064,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 2c5f1326-dfd8-4ddf-b1cd-72ae731ef37b)
-    (at 342.9 25.4)
+    (at 342.9 28.575)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -4203,7 +4203,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 3053be61-1e47-4df6-ade2-897656a2ba82)
-    (at 177.8 63.5)
+    (at 174.3075 66.675)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -4275,7 +4275,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 3099d9f7-d4d6-47fe-9608-1346f029754d)
-    (at 215.9 63.5)
+    (at 212.4075 66.675)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -4347,7 +4347,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 3227dc79-96fd-4101-87eb-588c4b11936d)
-    (at 77.47 76.2)
+    (at 79.0575 76.2)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -4419,7 +4419,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 37019ef6-f780-4714-9ef0-dc49eae0a05c)
-    (at 152.4 101.6)
+    (at 147.6375 104.775)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -4558,7 +4558,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 38080490-94a5-4f22-aa8c-9a69056121b9)
-    (at 246.38 63.5)
+    (at 242.8875 66.675)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -4697,7 +4697,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 387c85a2-def0-41fa-9a74-ed2c75ccd02a)
-    (at 180.34 44.45)
+    (at 180.975 47.625)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -4836,7 +4836,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 39d2d6c7-15cc-4bfe-9db5-8208a1528f3c)
-    (at 254 63.5)
+    (at 250.5075 66.675)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -4908,7 +4908,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 3a30735c-f785-4650-8e85-9b15ebd3dd3b)
-    (at 322.58 63.5)
+    (at 319.0875 66.675)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -5047,7 +5047,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 3e2bc563-79d2-44ae-875a-f672db5dddf4)
-    (at 31.75 76.2)
+    (at 33.3375 76.2)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -5186,7 +5186,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 3e5f13e4-6f91-4a4a-a21e-c9ba3ae5f1e5)
-    (at 350.52 25.4)
+    (at 350.52 28.575)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -5258,7 +5258,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 3f353969-98b6-43ab-8346-de26206792e4)
-    (at 50.8 50.8)
+    (at 52.3875 52.3875)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -5397,7 +5397,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 42d9bf91-8acf-4f31-a7fb-071cc85e8aa6)
-    (at 209.55 25.4)
+    (at 209.55 28.575)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -5536,7 +5536,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 46570971-1195-4da7-a998-c2c605b74c73)
-    (at 196.85 63.5)
+    (at 193.3575 66.675)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -5608,7 +5608,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 46b5fa1d-f5b7-4605-befb-64d21739e27b)
-    (at 39.37 95.25)
+    (at 40.9575 95.25)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -5680,7 +5680,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 49b45831-a43a-43cd-8c74-27b2ccba2d77)
-    (at 226.06 44.45)
+    (at 226.695 47.625)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -5752,7 +5752,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 4c0da8c3-6cb6-42e1-a939-983585001bf4)
-    (at 224.79 82.55)
+    (at 221.9325 85.725)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -5824,7 +5824,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 4cb5aa80-eba7-4e95-836f-89b7241ffc49)
-    (at 140.97 82.55)
+    (at 138.1125 85.725)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -5963,7 +5963,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 4d04b972-dd57-41c5-8521-6c67484e88de)
-    (at 58.42 50.8)
+    (at 60.0075 52.3875)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -6035,7 +6035,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 4d4cfecc-1ac4-45ec-8fec-f30dd285a9e6)
-    (at 148.59 82.55)
+    (at 145.7325 85.725)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -6107,7 +6107,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 4fca53ea-8738-4d38-9c60-33e790ed95f8)
-    (at 281.94 82.55)
+    (at 279.0825 85.725)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -6179,7 +6179,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 51d3136a-5423-47f3-9402-ad816d227b8e)
-    (at 127 101.6)
+    (at 121.44375 104.775)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -6318,7 +6318,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 5443b7e5-4dac-4f83-988f-1e56229eec05)
-    (at 116.84 82.55)
+    (at 107.15625 85.725)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -6457,7 +6457,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 57523df5-8943-413e-abd0-9fda5b145d33)
-    (at 313.69 44.45)
+    (at 314.325 47.625)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -6596,7 +6596,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 57cde882-2014-45dd-8dbe-b44fb34006ce)
-    (at 304.8 25.4)
+    (at 304.8 28.575)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -6735,7 +6735,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 583db565-2b4d-43cd-bc30-0e6fb67a51df)
-    (at 208.28 63.5)
+    (at 204.7875 66.675)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -6874,7 +6874,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 59840ea4-9ec3-4492-b060-20417ada15f5)
-    (at 109.22 44.45)
+    (at 107.6325 47.625)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -6946,7 +6946,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 5c09b391-4fd5-46a4-8d28-fae3e134f74a)
-    (at 312.42 25.4)
+    (at 312.42 28.575)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -7018,7 +7018,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 5f2054aa-0ed3-4244-b526-dbb753cb51b6)
-    (at 433.07 76.2)
+    (at 431.4825 76.2)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -7090,7 +7090,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 5fac2b20-4450-41db-918c-fc5289a799a1)
-    (at 320.04 82.55)
+    (at 317.1825 85.725)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -7162,7 +7162,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 616efb8e-4755-40a2-a440-5713fb004e59)
-    (at 207.01 44.45)
+    (at 207.645 47.625)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -7234,7 +7234,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 62a7a389-2f20-4162-b9ea-b3835a762f47)
-    (at 228.6 101.6)
+    (at 228.6 104.775)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -7373,7 +7373,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 62f35e7f-8e86-40a1-9b7a-f4ff6429585d)
-    (at 58.42 76.2)
+    (at 60.0075 76.2)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -7445,7 +7445,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 6649d863-693f-4c0c-b415-602ef6fad12e)
-    (at 227.33 63.5)
+    (at 223.8375 66.675)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -7584,7 +7584,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 66c21e85-1923-4c1c-b7df-5ec97f06040e)
-    (at 217.17 82.55)
+    (at 214.3125 85.725)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -7723,7 +7723,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 695a654e-f531-4741-ba2c-5abf10194001)
-    (at 158.75 63.5)
+    (at 155.2575 66.675)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -7795,7 +7795,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 6a5fa030-e6f0-4b52-aac9-ecc0eac682e1)
-    (at 349.25 63.5)
+    (at 350.04375 66.675)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -7934,7 +7934,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 6d47d4a7-4248-4be1-bc5f-3e2f0198a548)
-    (at 321.31 44.45)
+    (at 321.945 47.625)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -8006,7 +8006,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 6d6bbd2d-af09-476b-9001-ca670d59fca1)
-    (at 198.12 25.4)
+    (at 198.12 28.575)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -8078,7 +8078,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 6ed1a53a-5406-45f6-bd6f-eeaeceabb439)
-    (at 142.24 44.45)
+    (at 142.875 47.625)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -8217,7 +8217,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 6f6ca362-fb4b-493d-84bd-7bdcd8b38a8f)
-    (at 369.57 25.4)
+    (at 369.57 28.575)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -8289,7 +8289,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 73bcfa71-3369-46e0-a34f-e6a175e2e1d9)
-    (at 236.22 82.55)
+    (at 233.3625 85.725)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -8428,7 +8428,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 741d8caa-d8ae-4dcc-8591-5beb46b40c80)
-    (at 161.29 44.45)
+    (at 161.925 47.625)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -8567,7 +8567,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 758559c0-ac8e-4431-b116-778a9e54a752)
-    (at 116.84 63.5)
+    (at 110.01375 66.675)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -8639,7 +8639,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 775026f4-269a-46d7-b41f-c9983a305195)
-    (at 95.25 25.4)
+    (at 95.25 28.575)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -8778,7 +8778,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 77866880-14be-4004-9086-88608dc3f5a7)
-    (at 77.47 95.25)
+    (at 79.0575 95.25)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -8850,7 +8850,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 77e4bbe7-cfaa-4e81-bf1f-436efd33e9e8)
-    (at 168.91 44.45)
+    (at 169.545 47.625)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -8922,7 +8922,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 7ad6b4e8-e3af-47ce-bf26-df319f2c9fae)
-    (at 245.11 44.45)
+    (at 245.745 47.625)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -8994,7 +8994,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 7c9a2a18-60b5-4829-a2e0-5754fa769499)
-    (at 77.47 50.8)
+    (at 79.0575 52.3875)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -9066,7 +9066,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 7ce3260f-029d-428e-9c54-8595ff873945)
-    (at 414.02 50.8)
+    (at 412.4325 52.3875)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -9138,7 +9138,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 7ebab10c-7803-49a2-8176-1e0e1457cb3f)
-    (at 330.2 101.6)
+    (at 335.75625 104.775)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -9277,7 +9277,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 816fbc9c-7f45-4876-abb0-74cb02a30910)
-    (at 355.6 44.45)
+    (at 357.1875 47.625)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -9416,7 +9416,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 824dae0f-7cf8-4e43-84df-5a26ebcaccc9)
-    (at 275.59 44.45)
+    (at 276.225 47.625)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -9555,7 +9555,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 82a7d0c9-eeb8-4e87-866b-92ebb5c9960d)
-    (at 186.69 82.55)
+    (at 183.8325 85.725)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -9627,7 +9627,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 830186c4-6495-4642-9732-dbe75fe073ac)
-    (at 179.07 82.55)
+    (at 176.2125 85.725)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -9766,7 +9766,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 842f90bb-0938-463f-8861-30aaf5352ab5)
-    (at 414.02 31.75)
+    (at 412.4325 33.3375)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -9838,7 +9838,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 848b3c1f-faa2-43fb-8c0a-c75bdeee15e2)
-    (at 274.32 82.55)
+    (at 271.4625 85.725)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -9977,7 +9977,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 84c2cd13-4361-4b2e-8ce2-2704ff137510)
-    (at 283.21 44.45)
+    (at 283.845 47.625)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -10049,7 +10049,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 84d24e13-19ce-41dc-b9fa-7cfea56b3286)
-    (at 134.62 101.6)
+    (at 129.06375 104.775)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -10121,7 +10121,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 85ab3453-9f0b-43c5-8386-661bb6d5fd4f)
-    (at 190.5 25.4)
+    (at 190.5 28.575)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -10260,7 +10260,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 87d85b28-c0d8-44c4-b9a3-5c2eadade1ab)
-    (at 39.37 76.2)
+    (at 40.9575 76.2)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -10332,7 +10332,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 886529b3-f14f-483a-93b1-b5a2ff846f28)
-    (at 266.7 25.4)
+    (at 266.7 28.575)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -10471,7 +10471,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 889e757d-7a48-4b15-a2d4-508e2b539d85)
-    (at 58.42 31.75)
+    (at 60.0075 33.3375)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -10543,7 +10543,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 892f9625-50af-4542-8b36-ec45ce01c092)
-    (at 101.6 101.6)
+    (at 97.63125 104.775)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -10682,7 +10682,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 8aae63a4-8cae-4f29-be6f-804c789e8587)
-    (at 387.35 76.2)
+    (at 385.7625 76.2)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -10821,7 +10821,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 93baec4a-d67d-4269-a09a-8b8823a7c73a)
-    (at 323.85 25.4)
+    (at 323.85 28.575)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -10960,7 +10960,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 95b1396a-03da-4784-b30f-04702a24db09)
-    (at 361.95 82.55)
+    (at 361.95 85.725)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -11099,7 +11099,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 95e9d844-0eb1-4cef-9991-9386ebbfb678)
-    (at 355.6 101.6)
+    (at 359.56875 104.775)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -11238,7 +11238,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 973cd1e2-4513-427b-8b41-25fb3dfcab12)
-    (at 406.4 31.75)
+    (at 404.8125 33.3375)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -11377,7 +11377,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 98944241-5728-4f26-adc0-f165e0378709)
-    (at 394.97 31.75)
+    (at 393.3825 33.3375)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -11449,7 +11449,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 995a4066-fa76-439c-879b-5fcd907edb04)
-    (at 149.86 44.45)
+    (at 150.495 47.625)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -11521,7 +11521,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp 9a6acd12-9eeb-42c3-ba8b-4518a5e49fe9)
-    (at 69.85 50.8)
+    (at 71.4375 52.3875)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -11660,7 +11660,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 9e233f9b-4c59-4edf-b879-81b0dd96391d)
-    (at 394.97 50.8)
+    (at 393.3825 52.3875)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -11732,7 +11732,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp a11c5f7c-a738-4777-8117-1b4b09b0bc56)
-    (at 50.8 95.25)
+    (at 52.3875 95.25)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -11871,7 +11871,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp a484198d-36a7-4f66-aaea-3c6a97efb851)
-    (at 356.87 63.5)
+    (at 357.66375 66.675)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -11943,7 +11943,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp a5850c1d-fed1-4dd6-8c28-23fd3f0c0319)
-    (at 218.44 44.45)
+    (at 219.075 47.625)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -12082,7 +12082,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp a5aee766-2a43-498b-9b25-9cd6307bfa06)
-    (at 304.8 101.6)
+    (at 309.5625 104.775)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -12221,7 +12221,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp a772c022-f0fc-4fbb-b1ea-402627e3d81d)
-    (at 39.37 50.8)
+    (at 40.9575 52.3875)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -12293,7 +12293,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp a990c1b8-e482-4cf0-9806-7510a8195253)
-    (at 387.35 95.25)
+    (at 385.7625 95.25)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -12432,7 +12432,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp aae79c23-0fc8-4dc2-83d6-49afdd691e2c)
-    (at 160.02 25.4)
+    (at 160.02 28.575)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -12504,7 +12504,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp ab2ee88c-434b-4d88-bf5b-cce152327ccc)
-    (at 285.75 25.4)
+    (at 285.75 28.575)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -12643,7 +12643,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp ad9d6e49-54cb-4fa1-a880-fcb34e3753f0)
-    (at 31.75 31.75)
+    (at 33.3375 33.3375)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -12782,7 +12782,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp adca924f-8eb0-41ed-9350-2befc58faea8)
-    (at 187.96 44.45)
+    (at 188.595 47.625)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -12854,7 +12854,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp ae0a31b5-f247-401f-aa72-5891b0e9bcf8)
-    (at 387.35 50.8)
+    (at 385.7625 52.3875)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -12993,7 +12993,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp ae0d78d7-05ba-4fa5-a065-1e9ceb1034cc)
-    (at 50.8 31.75)
+    (at 52.3875 33.3375)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -13132,7 +13132,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp ae49ede7-0d00-4dec-acb0-64e92728d059)
-    (at 345.44 82.55)
+    (at 343.37625 85.725)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -13204,7 +13204,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp b106e8f4-c974-401b-923c-7a4542c3a243)
-    (at 262.89 82.55)
+    (at 260.0325 85.725)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -13276,7 +13276,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp b601ecfc-de6a-4973-96d1-2e2b6f6e71a8)
-    (at 312.42 82.55)
+    (at 309.5625 85.725)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -13415,7 +13415,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp b9a0a066-9319-4abc-8e85-0f33db0de1ba)
-    (at 337.82 101.6)
+    (at 343.37625 104.775)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -13487,7 +13487,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp b9f7e7fb-9506-4f21-8d77-83223537f926)
-    (at 363.22 44.45)
+    (at 364.8075 47.625)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -13559,7 +13559,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp bd538b6d-0214-4ecf-8dbb-892ab4a1fdfc)
-    (at 39.37 31.75)
+    (at 40.9575 33.3375)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -13570,7 +13570,7 @@
     (property "ki_keywords" "diode")
     (path "/ce9f9fbb-9f9c-49bd-aa6d-e855b519f724")
     (attr smd)
-    (fp_text reference "D111" (at 0 3.5) (layer "B.SilkS")
+    (fp_text reference "D111" (at 1.5875 5.0875) (layer "B.SilkS")
         (effects (font (size 1 1) (thickness 0.15)))
       (tstamp da281b75-368a-4c45-9946-6a423133e699)
     )
@@ -13631,7 +13631,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp bd837bbc-9094-4a12-81d5-0ac51704b0ca)
-    (at 102.87 25.4)
+    (at 102.87 28.575)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -13703,7 +13703,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp be733ce2-eb90-4dce-b46d-13a275b24201)
-    (at 140.97 25.4)
+    (at 140.97 28.575)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -13775,7 +13775,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp be82e7af-87ef-4bf7-93fb-0da70e36202a)
-    (at 101.6 44.45)
+    (at 100.0125 47.625)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -13914,7 +13914,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp c48fa27f-217b-4d1e-a94f-e2d05a5a43c7)
-    (at 237.49 44.45)
+    (at 238.125 47.625)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -14053,7 +14053,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp c5bdeb85-f143-4da5-9118-5fd2fc7fe90a)
-    (at 387.35 31.75)
+    (at 385.7625 33.3375)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -14192,7 +14192,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp c654022c-c026-4940-95cc-f6c28f726aea)
-    (at 330.2 63.5)
+    (at 326.7075 66.675)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -14264,7 +14264,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp c6f62b7b-3d35-489b-a140-f0eb345b559d)
-    (at 77.47 31.75)
+    (at 79.0575 33.3375)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -14336,7 +14336,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp c6fb5cd1-1385-4b92-9f3b-c60efc214070)
-    (at 425.45 31.75)
+    (at 423.8625 33.3375)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -14475,7 +14475,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp c829703d-b5f6-490e-9917-60dab9b0a32e)
-    (at 433.07 95.25)
+    (at 431.4825 95.25)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -14547,7 +14547,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp ca558e3b-0383-4bff-9fd9-6e9d17d7ef94)
-    (at 199.39 44.45)
+    (at 200.025 47.625)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -14686,7 +14686,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp d0ba0677-6791-43f3-98c8-5043e84009d9)
-    (at 31.75 50.8)
+    (at 33.3375 52.3875)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -14825,7 +14825,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp d1a8a04c-ba15-469f-8fd2-b5ea1d001221)
-    (at 205.74 82.55)
+    (at 202.8825 85.725)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -14897,7 +14897,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp d239b9ed-152d-47da-882f-0dd999c9f6e0)
-    (at 109.22 101.6)
+    (at 105.25125 104.775)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -14969,7 +14969,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp d2831afc-8b1e-42dc-bc87-86dca625022b)
-    (at 425.45 95.25)
+    (at 423.8625 95.25)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -15108,7 +15108,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp d2e27459-83f2-4225-96c7-c6a253b91e4e)
-    (at 265.43 63.5)
+    (at 261.9375 66.675)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -15247,7 +15247,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp d327d904-37a1-44db-872c-cbab0eb2ab10)
-    (at 293.37 82.55)
+    (at 290.5125 85.725)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -15386,7 +15386,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp d50548f1-db1a-423d-8f7b-c9fe288affe1)
-    (at 433.07 31.75)
+    (at 431.4825 33.3375)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -15458,7 +15458,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp d51de995-9a63-4e2e-bded-4a5066d0e1fa)
-    (at 425.45 76.2)
+    (at 423.8625 76.2)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -15597,7 +15597,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp d62338c0-986f-4499-b7d1-71ed1fd2b653)
-    (at 139.7 63.5)
+    (at 136.2075 66.675)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -15669,7 +15669,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp d643997a-cca9-4f02-8be6-9bbc06ef823a)
-    (at 189.23 63.5)
+    (at 185.7375 66.675)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -15808,7 +15808,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp d9c7425e-b39d-451f-a3e0-77de1c7f4268)
-    (at 294.64 44.45)
+    (at 295.275 47.625)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -15947,7 +15947,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp da54d183-e328-4963-b268-2f1c690bdceb)
-    (at 170.18 63.5)
+    (at 166.6875 66.675)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -16086,7 +16086,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp daaa03ab-4dcf-46b0-940c-729425209c8c)
-    (at 114.3 25.4)
+    (at 114.3 28.575)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -16225,7 +16225,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp db656798-4462-4c99-a015-53a7fa73bd2d)
-    (at 331.47 25.4)
+    (at 331.47 28.575)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -16297,7 +16297,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp de73a29b-21c2-4993-a71f-be6f1c74f7d6)
-    (at 406.4 95.25)
+    (at 404.8125 95.25)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -16436,7 +16436,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp e0c47bd3-826e-42d2-b5de-7028b0a9c9bf)
-    (at 69.85 76.2)
+    (at 71.4375 76.2)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -16575,7 +16575,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp e3c08440-aff3-41aa-89d6-7aac47c8e74f)
-    (at 425.45 50.8)
+    (at 423.8625 52.3875)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -16714,7 +16714,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp e46a3690-9533-4b52-8899-cd3f8520433a)
-    (at 369.57 82.55)
+    (at 369.57 85.725)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -16786,7 +16786,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp e5f03106-17f3-48d2-8fcb-70950bc7118c)
-    (at 255.27 82.55)
+    (at 252.4125 85.725)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -16925,7 +16925,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp e686990b-2841-4296-86fc-b98c252132ca)
-    (at 337.82 82.55)
+    (at 335.75625 85.725)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -17064,7 +17064,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp e7df9534-cc21-4b4b-9c52-d96b60530c88)
-    (at 256.54 44.45)
+    (at 257.175 47.625)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -17203,7 +17203,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp ea0e1fbd-add1-43c0-98b3-f9b6edd2fb5c)
-    (at 69.85 95.25)
+    (at 71.4375 95.25)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -17342,7 +17342,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp ea1ccaf8-ce6e-4ef8-a6fd-10506870f879)
-    (at 293.37 25.4)
+    (at 293.37 28.575)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -17414,7 +17414,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp eaf4a5ea-7e3a-4670-87a8-d1e7d67ad0e1)
-    (at 130.81 44.45)
+    (at 131.445 47.625)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -17486,7 +17486,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp ebc89e10-ddaa-41dc-b4d9-27921d23e44c)
-    (at 394.97 95.25)
+    (at 393.3825 95.25)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -17558,7 +17558,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp ee604eb5-c5a5-4022-b177-ff9ca1562756)
-    (at 228.6 25.4)
+    (at 228.6 28.575)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -17697,7 +17697,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp f0401800-4a57-4baf-a5e7-eb10dee74046)
-    (at 414.02 76.2)
+    (at 412.4325 76.2)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -17769,7 +17769,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp f2972563-bf61-4887-b8fe-ce20fb87fd14)
-    (at 311.15 63.5)
+    (at 307.6575 66.675)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -17841,7 +17841,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp f410cb11-5bba-4452-9452-48c9e070f5ea)
-    (at 273.05 63.5)
+    (at 269.5575 66.675)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -17913,7 +17913,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp f4940031-5f69-4cf4-bae2-6a7ca434212e)
-    (at 121.92 25.4)
+    (at 121.92 28.575)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -17985,7 +17985,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp f6beeecb-455c-45ed-9d76-fe764eb072a2)
-    (at 234.95 63.5)
+    (at 231.4575 66.675)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -18057,7 +18057,7 @@
 
   (footprint "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (layer "F.Cu")
     (tstamp fa6fa682-4412-4f68-96ce-1655230a7903)
-    (at 69.85 31.75)
+    (at 71.4375 33.3375)
     (descr "Kailh keyswitch Hotswap Socket")
     (tags "Kailh Keyboard Keyswitch Switch Hotswap Socket Relief Cutout")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -18196,7 +18196,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp fbecc621-fa43-49dc-86a2-2f5f308ed9d2)
-    (at 167.64 82.55)
+    (at 164.7825 85.725)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -18268,7 +18268,7 @@
 
   (footprint "keybird42:RP2040-Tiny" (layer "F.Cu")
     (tstamp fd160375-fa5b-476b-b553-2daf35035f28)
-    (at 199.39 102.235)
+    (at 261.9375 104.14)
     (property "Sheetfile" "keybird42.kicad_sch")
     (property "Sheetname" "")
     (property "ki_description" "Waveshare RP2040-Tiny")
@@ -18349,7 +18349,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp fe44e2da-0fad-4531-8f01-b6a8ce332665)
-    (at 217.17 25.4)
+    (at 217.17 28.575)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
