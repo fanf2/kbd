@@ -23,8 +23,8 @@
       "otherItems": false,
       "pads": false,
       "text": false,
-      "tracks": false,
-      "vias": false,
+      "tracks": true,
+      "vias": true,
       "zones": false
     },
     "visible_items": [
@@ -64,7 +64,7 @@
       39,
       40
     ],
-    "visible_layers": "ffd7bff_ffffffff",
+    "visible_layers": "ffffbff_ffffffff",
     "zone_display_mode": 0
   },
   "meta": {
