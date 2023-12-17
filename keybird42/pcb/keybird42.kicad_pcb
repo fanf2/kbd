@@ -261,7 +261,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 02ef8595-96b3-48cb-ab7c-6f8b62fd95a1)
-    (at 255.389579 28.575024)
+    (at 255.984279 27.384375)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -745,7 +745,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 05a991c6-213a-46f8-9bf1-f35a67f07737)
-    (at 264.914587 47.62504)
+    (at 265.509291 46.434375)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -1157,7 +1157,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 0a883c16-c82d-443e-b1d8-631a11927620)
-    (at 357.783121 66.675)
+    (at 358.378125 65.484375)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -1362,7 +1362,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 0dd1905f-dee8-416f-8db6-0668d664bbac)
-    (at 241.102083 85.725)
+    (at 241.696845 84.534347)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -1707,7 +1707,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 119b44a0-6264-4bbb-bdfa-cc9e04cb9d6c)
-    (at 114.895621 85.725)
+    (at 115.490383 84.534347)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -2665,7 +2665,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 1bcc6267-1b74-48bf-b5fe-ab15497ed693)
-    (at 236.339563 28.575024)
+    (at 236.934263 27.384375)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -3148,7 +3148,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 2039f984-cedb-40d6-9434-8af21e6a8db0)
-    (at 274.439595 28.575024)
+    (at 275.034295 27.384375)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -3215,7 +3215,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 23367e54-2232-4876-9046-05e7426103a8)
-    (at 179.189371 28.575)
+    (at 179.784071 27.384351)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -3282,7 +3282,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 23e25ade-21e9-4675-9e17-cb0303e70f4f)
-    (at 341.114371 47.625)
+    (at 341.709075 46.434335)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -3487,7 +3487,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 25f63c3a-9e5b-44aa-a209-7878c53502ea)
-    (at 303.014619 47.62504)
+    (at 303.609323 46.434375)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -4038,7 +4038,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 2bd55a46-c6d7-4dce-b6d2-02311b48728e)
-    (at 288.726871 66.675)
+    (at 289.321875 65.484375)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -4105,7 +4105,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 2bdb033b-3e89-4952-9dc3-beae03e225ae)
-    (at 298.251871 85.725)
+    (at 298.846633 84.534347)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -4449,7 +4449,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 3053be61-1e47-4df6-ade2-897656a2ba82)
-    (at 174.426871 66.675)
+    (at 175.021875 65.484375)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -4516,7 +4516,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 3099d9f7-d4d6-47fe-9608-1346f029754d)
-    (at 212.526871 66.675)
+    (at 213.121875 65.484375)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -5067,7 +5067,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 39d2d6c7-15cc-4bfe-9db5-8208a1528f3c)
-    (at 250.627075 66.675056)
+    (at 251.222079 65.484431)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -5412,7 +5412,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 3e5f13e4-6f91-4a4a-a21e-c9ba3ae5f1e5)
-    (at 350.639371 28.575)
+    (at 351.234071 27.384351)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -5757,7 +5757,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 46570971-1195-4da7-a998-c2c605b74c73)
-    (at 193.476871 66.675)
+    (at 194.071875 65.484375)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -5891,7 +5891,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 49b45831-a43a-43cd-8c74-27b2ccba2d77)
-    (at 226.814371 47.625)
+    (at 227.409075 46.434335)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -6164,7 +6164,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 4d4cfecc-1ac4-45ec-8fec-f30dd285a9e6)
-    (at 145.851871 85.725)
+    (at 146.446633 84.534347)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -6231,7 +6231,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 4f481bea-4ea3-49b4-8665-314299d79ca3)
-    (at 222.052051 85.725072)
+    (at 222.646813 84.534419)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -6297,7 +6297,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 4fca53ea-8738-4d38-9c60-33e790ed95f8)
-    (at 279.202099 85.725)
+    (at 279.796861 84.534347)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -7287,7 +7287,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 59840ea4-9ec3-4492-b060-20417ada15f5)
-    (at 107.751871 47.625)
+    (at 108.346575 46.434335)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -7354,7 +7354,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 5c09b391-4fd5-46a4-8d28-fae3e134f74a)
-    (at 312.539627 28.575024)
+    (at 313.134327 27.384375)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -7421,7 +7421,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 5fac2b20-4450-41db-918c-fc5289a799a1)
-    (at 317.302131 85.725)
+    (at 317.896893 84.534347)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -7488,7 +7488,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 616efb8e-4755-40a2-a440-5713fb004e59)
-    (at 207.764371 47.625)
+    (at 208.359075 46.434335)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -7827,7 +7827,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 695a654e-f531-4741-ba2c-5abf10194001)
-    (at 155.376871 66.675)
+    (at 155.971875 65.484375)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -7894,7 +7894,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 6d47d4a7-4248-4be1-bc5f-3e2f0198a548)
-    (at 322.064635 47.62504)
+    (at 322.659339 46.434375)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -7961,7 +7961,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 6d6bbd2d-af09-476b-9001-ca670d59fca1)
-    (at 198.239371 28.575)
+    (at 198.834071 27.384351)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -8167,7 +8167,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 6f6ca362-fb4b-493d-84bd-7bdcd8b38a8f)
-    (at 369.689675 28.575024)
+    (at 370.284375 27.384375)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -8650,7 +8650,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 758559c0-ac8e-4431-b116-778a9e54a752)
-    (at 110.133121 66.675)
+    (at 110.728125 65.484375)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -8923,7 +8923,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 77e4bbe7-cfaa-4e81-bf1f-436efd33e9e8)
-    (at 169.664371 47.625)
+    (at 170.259075 46.434335)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -8990,7 +8990,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 7ad6b4e8-e3af-47ce-bf26-df319f2c9fae)
-    (at 245.864371 47.625)
+    (at 246.459075 46.434335)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -9608,7 +9608,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 82a7d0c9-eeb8-4e87-866b-92ebb5c9960d)
-    (at 183.951871 85.725)
+    (at 184.546633 84.534347)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -10020,7 +10020,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 84c2cd13-4361-4b2e-8ce2-2704ff137510)
-    (at 283.964371 47.625)
+    (at 284.559075 46.434335)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -11328,7 +11328,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 995a4066-fa76-439c-879b-5fcd907edb04)
-    (at 150.614371 47.625)
+    (at 151.209075 46.434335)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -11739,7 +11739,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp 9f7927de-f774-4fd9-89e7-2b91ed3ded66)
-    (at 367.308363 85.725028)
+    (at 367.903125 84.534375)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -12428,7 +12428,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp aae79c23-0fc8-4dc2-83d6-49afdd691e2c)
-    (at 160.139371 28.575)
+    (at 160.734071 27.384351)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -12818,7 +12818,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp adca924f-8eb0-41ed-9350-2befc58faea8)
-    (at 188.714371 47.625)
+    (at 189.309075 46.434335)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -13163,7 +13163,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp ae49ede7-0d00-4dec-acb0-64e92728d059)
-    (at 343.495621 85.725)
+    (at 344.090383 84.534347)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -13230,7 +13230,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp b106e8f4-c974-401b-923c-7a4542c3a243)
-    (at 260.152083 85.725)
+    (at 260.746845 84.534347)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -13503,7 +13503,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp b9f7e7fb-9506-4f21-8d77-83223537f926)
-    (at 364.927171 47.62504)
+    (at 365.521875 46.434375)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -13637,7 +13637,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp bd837bbc-9094-4a12-81d5-0ac51704b0ca)
-    (at 102.989371 28.575)
+    (at 103.584071 27.384351)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -13704,7 +13704,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp be733ce2-eb90-4dce-b46d-13a275b24201)
-    (at 141.089371 28.575)
+    (at 141.684071 27.384351)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -14254,7 +14254,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp c654022c-c026-4940-95cc-f6c28f726aea)
-    (at 326.827139 66.675056)
+    (at 327.422143 65.484431)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -14527,7 +14527,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp c70c0125-cfcb-4086-a2bd-31f05d84d190)
-    (at 231.577059 66.675056)
+    (at 232.172063 65.484431)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -14871,7 +14871,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp d1a8a04c-ba15-469f-8fd2-b5ea1d001221)
-    (at 203.001871 85.725)
+    (at 203.596633 84.534347)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -15488,7 +15488,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp d62338c0-986f-4499-b7d1-71ed1fd2b653)
-    (at 136.326871 66.675)
+    (at 136.921875 65.484375)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -16111,7 +16111,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp db656798-4462-4c99-a015-53a7fa73bd2d)
-    (at 331.589643 28.575024)
+    (at 332.184343 27.384375)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -16456,7 +16456,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp e0ddc8e3-540c-49f2-b759-1cf5f7413412)
-    (at 307.776903 66.674998)
+    (at 308.371907 65.484373)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -17217,7 +17217,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp ea1ccaf8-ce6e-4ef8-a6fd-10506870f879)
-    (at 293.489371 28.575)
+    (at 294.084071 27.384351)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -17284,7 +17284,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp eaf4a5ea-7e3a-4670-87a8-d1e7d67ad0e1)
-    (at 131.564371 47.625)
+    (at 132.159075 46.434335)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -17624,7 +17624,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp f410cb11-5bba-4452-9452-48c9e070f5ea)
-    (at 269.677091 66.675056)
+    (at 270.272095 65.484431)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -17691,7 +17691,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp f4940031-5f69-4cf4-bae2-6a7ca434212e)
-    (at 122.039371 28.575)
+    (at 122.634071 27.384351)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -17897,7 +17897,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp fbecc621-fa43-49dc-86a2-2f5f308ed9d2)
-    (at 164.901871 85.725)
+    (at 165.496633 84.534347)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
@@ -18045,7 +18045,7 @@
 
   (footprint "keybird42:D_SOD-123_HandSolder_Back" (layer "F.Cu")
     (tstamp fe44e2da-0fad-4531-8f01-b6a8ce332665)
-    (at 217.289371 28.575)
+    (at 217.884071 27.384351)
     (descr "SOD-123")
     (tags "SOD-123")
     (property "Sheetfile" "keybird42.kicad_sch")
