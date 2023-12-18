@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "keybird42")(type "KiCad")(uri "${KIPRJMOD}/keybird42.pretty")(options "")(descr ""))
+)
