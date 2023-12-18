@@ -193,7 +193,7 @@
     (property "Value" "SW_MX" (at 0 10.16 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Footprint" "PCM_Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX" (at 0 7.62 0)
+    (property "Footprint" "keybird42:SW_Hotswap_Kailh_MX" (at 0 7.62 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 0 5.08 0)
