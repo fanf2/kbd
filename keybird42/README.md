@@ -45,13 +45,19 @@ So keybird42 has the following features:
   * function keys moved to left
       - function-rowless
       - two clusters of 6 mirroring the nav and arrow clusters
-      - vaguely AT reto feel, but more symmetry
+      - vaguely PC AT reto feel, but more symmetry
 
 The result is a board with 84 keys and some lovely symmetries,
 and better modifier + arrow key ergonomics than usual.
 
-I called it keybird42 because 42 is funnier than 84, and because the
-symmetry is emphasized by talking about half the number of keys.
+I called it keybird42 because:
+
+  * 420 mm wide PCB
+  * 84 keys total (42 * 2)
+  * 21 keys wide (42 / 2)
+  * 5 keys deep (fnord)
+  * 23 key unit wide case (fnord)
+  * 123 mm deep case
 
 
 inspiration
@@ -77,22 +83,9 @@ inspiration
       - https://vortexgear.store/products/pc-66-68-key
       - https://clickykeyboards.com/wp-content/uploads/2016/11/030.jpg
 
+  * rounded sides
+      - https://clickclack.io/pages/pixelspace-capsule
 
-CadQuery / build123d model
---------------------------
-
-This model of keybird42 is written in Python.
-
-It uses [build123d][]. For development and visualization, I installed
-a build of [CQ-editor][] that includes [build123d][] and [CadQuery][].
-They are both based on the same underlying CAD library, so they can
-coexist happily while providing different higher-level programming
-interfaces.
-
-The keycaps are based on [matt3o's OPK][OPK] (open programmatic keycap)
-rewritten to use [build123d][] instead of [CadQuery][].
-
-[OPK]: https://github.com/cubiq/OPK
-[build123d]: https://build123d.readthedocs.io/
-[CadQuery]: https://cadquery.readthedocs.io/
-[CQ-editor]: https://github.com/jdegenstein/jmwright-CQ-Editor
+  * "chicong", curved case rounded front and rear
+      - https://deskthority.net/wiki/Chicony_KB-5160
+      - https://deskthority.net/wiki/Chicony_KB-5161
