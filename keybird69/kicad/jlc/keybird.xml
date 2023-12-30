@@ -1,0 +1,1861 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="E">
+  <design>
+    <source>/Users/fanf/Code/ops/kbd/unix69/kicad/keybird.kicad_sch</source>
+    <date>Sunday, 02 July 2023 at 03:33:28</date>
+    <tool>Eeschema (6.0.11-0)</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title>Keybird</title>
+        <company/>
+        <rev>0.2</rev>
+        <date>2023-06-29</date>
+        <source>keybird.kicad_sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+        <comment number="5" value=""/>
+        <comment number="6" value=""/>
+        <comment number="7" value=""/>
+        <comment number="8" value=""/>
+        <comment number="9" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="D00">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>23b2d8c0-6e45-4a85-8bfc-246413ad13f2</tstamps>
+    </comp>
+    <comp ref="D01">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>332d05ef-d9c3-4d60-ac87-f1f70d3656bb</tstamps>
+    </comp>
+    <comp ref="D02">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>a2f07fc5-268a-44e8-b7d3-7ca745f9a3d2</tstamps>
+    </comp>
+    <comp ref="D03">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>e29f743c-3349-4859-b6ce-2af91bd4310b</tstamps>
+    </comp>
+    <comp ref="D04">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>f83e1454-4515-4bcc-b8b6-51758775dadd</tstamps>
+    </comp>
+    <comp ref="D05">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>d827fb52-d5f5-42ba-872c-54aacdcf7b80</tstamps>
+    </comp>
+    <comp ref="D06">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>f3db9627-4638-41f4-96b0-db5a046752fd</tstamps>
+    </comp>
+    <comp ref="D07">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>76f22cf3-8ba5-4e5b-9f19-7e86952bbc88</tstamps>
+    </comp>
+    <comp ref="D10">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>27a844e2-aea5-41ea-aa33-d01ae0141438</tstamps>
+    </comp>
+    <comp ref="D11">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>d2f1b868-ea65-4f15-bf1e-93a3c655e55f</tstamps>
+    </comp>
+    <comp ref="D12">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>a6831baa-1e9d-4313-a49a-8a78ca22058f</tstamps>
+    </comp>
+    <comp ref="D13">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>37998e37-bc08-439f-9415-a532f86e2e95</tstamps>
+    </comp>
+    <comp ref="D14">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>4dc3fd39-caad-4032-8827-2c7f90c958ee</tstamps>
+    </comp>
+    <comp ref="D15">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>c14400a0-2dc4-4c8d-aad3-4fb1c39303c9</tstamps>
+    </comp>
+    <comp ref="D16">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>ab5fe16b-c6f4-4c83-b7f7-778db50101d7</tstamps>
+    </comp>
+    <comp ref="D17">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>d9427663-4658-40a5-91cd-92bbd59b06a3</tstamps>
+    </comp>
+    <comp ref="D20">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>1efa49f2-5041-4bd6-bb65-22657e374e15</tstamps>
+    </comp>
+    <comp ref="D21">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>ad6c9d64-3134-4de3-8a60-97fffd6bdafc</tstamps>
+    </comp>
+    <comp ref="D22">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>fd827eba-97d5-49d6-8569-194204812c7d</tstamps>
+    </comp>
+    <comp ref="D23">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>8745d443-7607-46b6-bf8c-dc411af4da54</tstamps>
+    </comp>
+    <comp ref="D24">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>953238a7-6bf9-4b25-9b66-c95a03db698c</tstamps>
+    </comp>
+    <comp ref="D25">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>fc2a0b57-493d-43ba-8c07-55be312e0e17</tstamps>
+    </comp>
+    <comp ref="D26">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>2d76e82e-d00e-4b5a-873c-64ba42906237</tstamps>
+    </comp>
+    <comp ref="D27">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>a914db74-577b-4021-92aa-2cfae2edce27</tstamps>
+    </comp>
+    <comp ref="D30">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>b5fff569-9256-498f-80c1-f542674c2696</tstamps>
+    </comp>
+    <comp ref="D31">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>ed831317-f688-470f-9591-90fa4ff972d0</tstamps>
+    </comp>
+    <comp ref="D32">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>b1e85ed1-44bb-4785-b7e1-ec16d84d8a73</tstamps>
+    </comp>
+    <comp ref="D33">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>13f66b6e-331a-4f34-86c6-bd3e38e06278</tstamps>
+    </comp>
+    <comp ref="D34">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>3e673576-f328-4d6e-baa8-7f51445bb227</tstamps>
+    </comp>
+    <comp ref="D35">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>1c99f8ab-4cd1-49e6-b8d7-85ca6e99a472</tstamps>
+    </comp>
+    <comp ref="D36">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>6268a8db-a4dd-405a-a2b7-64033580479f</tstamps>
+    </comp>
+    <comp ref="D40">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>eaabe20a-4219-4767-b816-cb4156cf0f32</tstamps>
+    </comp>
+    <comp ref="D41">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>7fa1b2dc-d21c-478e-8ef6-9a279bdce0c8</tstamps>
+    </comp>
+    <comp ref="D42">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>3d40c416-d5d3-484e-a9ed-662a14d3e628</tstamps>
+    </comp>
+    <comp ref="D43">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>f123cab7-402b-4591-a045-aa9da53cfc70</tstamps>
+    </comp>
+    <comp ref="D44">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>129e5bf7-ed08-45d7-836b-d061302d173d</tstamps>
+    </comp>
+    <comp ref="D45">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>4b0f7b87-f6d6-462c-b4d7-16488a0964b0</tstamps>
+    </comp>
+    <comp ref="D47">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>b79f1cf8-91c0-45cc-a466-d926c1aa9b9a</tstamps>
+    </comp>
+    <comp ref="D50">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>ae2f3e80-455c-476d-b0d1-43793837e193</tstamps>
+    </comp>
+    <comp ref="D51">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>98d8ddc1-1891-4f9c-b6e4-0a6a05495608</tstamps>
+    </comp>
+    <comp ref="D52">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>0a2a7764-cac3-4bb9-a1b7-bc7d1282c35d</tstamps>
+    </comp>
+    <comp ref="D53">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>57614974-5434-45f0-bb2e-456af8eaab17</tstamps>
+    </comp>
+    <comp ref="D54">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>0cf4c8e4-24f5-43c2-a806-52aadffe961d</tstamps>
+    </comp>
+    <comp ref="D55">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>443fdc29-e1af-4021-8a87-43f9db779e44</tstamps>
+    </comp>
+    <comp ref="D56">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>fad356d3-c77c-47d8-a508-c3a86fad5a58</tstamps>
+    </comp>
+    <comp ref="D57">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>a641155a-0aff-4f1d-bf2b-43d4b083202e</tstamps>
+    </comp>
+    <comp ref="D60">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>7d4bf326-a6ed-42f9-8634-191f0882d845</tstamps>
+    </comp>
+    <comp ref="D61">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>57708382-df99-476a-a8e5-fb1148acca36</tstamps>
+    </comp>
+    <comp ref="D62">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>69dc93a6-2ed0-480e-afea-0313ed66ccfe</tstamps>
+    </comp>
+    <comp ref="D63">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>28bb8cf2-fa93-4028-b792-38e574f3e4a1</tstamps>
+    </comp>
+    <comp ref="D64">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>0e7ce4e7-0cf4-421e-9202-1a51aa5d219b</tstamps>
+    </comp>
+    <comp ref="D65">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>c96d909c-f097-425a-9bd7-476cc63c6374</tstamps>
+    </comp>
+    <comp ref="D66">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>1ce4d7d6-455e-42a4-b5b8-8b1a82000624</tstamps>
+    </comp>
+    <comp ref="D67">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>214ea12c-d199-4469-8811-b168dce22e47</tstamps>
+    </comp>
+    <comp ref="D70">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>373e7290-4cfe-424f-a119-35113b523498</tstamps>
+    </comp>
+    <comp ref="D71">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>8c3d4a8b-a599-4262-91fe-a9b0fe6b9c27</tstamps>
+    </comp>
+    <comp ref="D72">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>8eeaa755-ed6e-414f-924d-6ff2a1bf68be</tstamps>
+    </comp>
+    <comp ref="D73">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>2ea2136a-0e18-4266-a086-8023ea6286d2</tstamps>
+    </comp>
+    <comp ref="D74">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>dae39db2-aed9-4af0-a93a-893558e0ecc3</tstamps>
+    </comp>
+    <comp ref="D76">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>d23d5e4b-6145-48e7-a3f8-a4e32392c89f</tstamps>
+    </comp>
+    <comp ref="D77">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>db59283f-2086-4287-8f78-3dbc6d965995</tstamps>
+    </comp>
+    <comp ref="D80">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>b18653ef-238f-4f59-a4dc-d30d2f9374ad</tstamps>
+    </comp>
+    <comp ref="D81">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>2dfd968f-97a1-4807-9302-44b57554202f</tstamps>
+    </comp>
+    <comp ref="D82">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>0eb478c5-873c-4c9a-b6ca-cb3fe5657279</tstamps>
+    </comp>
+    <comp ref="D83">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>43df579a-67c4-4eb3-b555-b43777788559</tstamps>
+    </comp>
+    <comp ref="D84">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>fe488aed-a4d2-4f89-849f-624bdc84ea6a</tstamps>
+    </comp>
+    <comp ref="D85">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>687feb45-3604-422e-b0c9-75a4177ce85e</tstamps>
+    </comp>
+    <comp ref="D86">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>b4380333-3e9c-4533-8c3c-94c680fc5f37</tstamps>
+    </comp>
+    <comp ref="D87">
+      <value>DIODE</value>
+      <footprint>Diode_SMD:D_SOD-123</footprint>
+      <libsource lib="pspice" part="DIODE" description="Diode symbol for simulation only. Pin order incompatible with official kicad footprints"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>2f4fee03-451b-4d10-aade-e9c8627344d2</tstamps>
+    </comp>
+    <comp ref="SW00">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>9eeb211e-2c67-4a1c-bcf5-9706e2fac2b8</tstamps>
+    </comp>
+    <comp ref="SW01">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>3e5f9aa0-2d68-4e1e-9ba4-f7b4578fc8e2</tstamps>
+    </comp>
+    <comp ref="SW02">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>f9662668-a9b1-4c30-a287-dc755658aeef</tstamps>
+    </comp>
+    <comp ref="SW03">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>259c4443-9b54-4903-a2d5-3d38f748525d</tstamps>
+    </comp>
+    <comp ref="SW04">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>0786b193-70c9-4fcd-9376-a69c34741226</tstamps>
+    </comp>
+    <comp ref="SW05">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>7ca8e56f-ce14-4154-a431-42f77be59b45</tstamps>
+    </comp>
+    <comp ref="SW06">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>0ff7082f-52ab-4281-b322-f2f44bcfbf09</tstamps>
+    </comp>
+    <comp ref="SW07">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>df8afc48-ad33-4c92-a5a4-030d55fe0254</tstamps>
+    </comp>
+    <comp ref="SW10">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>2ac89bbf-af0e-4195-ac42-94d4e018a346</tstamps>
+    </comp>
+    <comp ref="SW11">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>bac73a0d-2170-4e47-bcbd-68bb05092bf9</tstamps>
+    </comp>
+    <comp ref="SW12">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>1e25a32d-d609-4056-8184-e68a2f791895</tstamps>
+    </comp>
+    <comp ref="SW13">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>7c12924e-8dd4-4a6b-b048-b676fc28df62</tstamps>
+    </comp>
+    <comp ref="SW14">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>f6994f0a-39d5-4f55-8258-4cb4dcd44298</tstamps>
+    </comp>
+    <comp ref="SW15">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>85eb7938-0b6f-4580-a598-81886f61d0fd</tstamps>
+    </comp>
+    <comp ref="SW16">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>dde61e7b-48f1-4d06-9f27-3d3a1787d84d</tstamps>
+    </comp>
+    <comp ref="SW17">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>9ae0fb9f-3ee0-429e-a676-69ab42269304</tstamps>
+    </comp>
+    <comp ref="SW20">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.50u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>839e34b9-783d-44bb-b07c-29bb089da355</tstamps>
+    </comp>
+    <comp ref="SW21">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>ef90600a-9d5b-4264-b774-be838a9566bf</tstamps>
+    </comp>
+    <comp ref="SW22">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>1afcbc70-ebec-471d-8cbf-37d5d873cc83</tstamps>
+    </comp>
+    <comp ref="SW23">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>be06081b-3e49-46ad-b571-8213b4701de0</tstamps>
+    </comp>
+    <comp ref="SW24">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>6b6f147c-5469-4230-b1a7-8197d2ec27b3</tstamps>
+    </comp>
+    <comp ref="SW25">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>1c89a46f-7a1b-4f37-a4b7-6d7a5f04c2a5</tstamps>
+    </comp>
+    <comp ref="SW26">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>8b393264-4c7e-44df-ad03-94c912caf7cd</tstamps>
+    </comp>
+    <comp ref="SW27">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>e3957973-c7e0-43a1-b24b-9def92196d0f</tstamps>
+    </comp>
+    <comp ref="SW30">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>12e6b956-ac74-4ab5-b835-92d7f3fba897</tstamps>
+    </comp>
+    <comp ref="SW31">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>d30b51c2-f18d-4384-afbb-711ea3708541</tstamps>
+    </comp>
+    <comp ref="SW32">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>ff41b51e-2313-4f50-8515-ad4351f71bc2</tstamps>
+    </comp>
+    <comp ref="SW33">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>7c51d0f5-4fdb-4289-93e1-1985d0148670</tstamps>
+    </comp>
+    <comp ref="SW34">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>885a9c9d-a1b9-43e7-b8d7-f3dc4fe698d2</tstamps>
+    </comp>
+    <comp ref="SW35">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>cfb4ffc5-ac24-4a98-88a8-30e8fb515241</tstamps>
+    </comp>
+    <comp ref="SW36">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.50u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>f5270249-7c55-4196-a30e-4a4f22b71f76</tstamps>
+    </comp>
+    <comp ref="SW40">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>68c8127b-b6a7-4f1c-a52e-e3d1a8568d78</tstamps>
+    </comp>
+    <comp ref="SW41">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>04fb37ed-d1ea-4597-9917-999923fe5707</tstamps>
+    </comp>
+    <comp ref="SW42">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>5c33afc3-5a09-4d9c-99c3-f38288d3c0d1</tstamps>
+    </comp>
+    <comp ref="SW43">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>fb089272-b307-43a2-a210-4e0a60b988b4</tstamps>
+    </comp>
+    <comp ref="SW44">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>9c613ef7-5ea8-43fc-b657-9e9c4bc9d201</tstamps>
+    </comp>
+    <comp ref="SW45">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>5f8f3975-1d49-4e3b-a642-4d191172c6b6</tstamps>
+    </comp>
+    <comp ref="SW47">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>6d879f9a-58f7-4365-a091-3673d3655623</tstamps>
+    </comp>
+    <comp ref="SW50">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.75u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>ffb1d48a-6747-4544-a011-db8a970fc2ac</tstamps>
+    </comp>
+    <comp ref="SW51">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>8dc76fa2-b05f-48c6-a68e-b9c12969b155</tstamps>
+    </comp>
+    <comp ref="SW52">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>b3ce69df-9e59-40a0-b53d-ed1e2bc60c4f</tstamps>
+    </comp>
+    <comp ref="SW53">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>105709b7-8836-4996-b381-9686b93b2d04</tstamps>
+    </comp>
+    <comp ref="SW54">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="" part="SW_Push_1" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>7f1d74f3-eec5-480a-943f-b99e3a655d30</tstamps>
+    </comp>
+    <comp ref="SW55">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>a3a9cb35-e4b3-42ec-9b52-c8eb00776e6f</tstamps>
+    </comp>
+    <comp ref="SW56">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_2.25u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>11aa4558-7006-4da7-9142-6a23f41bab44</tstamps>
+    </comp>
+    <comp ref="SW57">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>6cb32a04-e4e5-4471-bd17-7b5f8deb63bb</tstamps>
+    </comp>
+    <comp ref="SW60">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_2.25u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>3ca2beb9-364e-4206-8bb6-b8d98e4d97fa</tstamps>
+    </comp>
+    <comp ref="SW61">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>b749989b-a454-43d4-8fca-a0395c0860c2</tstamps>
+    </comp>
+    <comp ref="SW62">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>1396bed6-4033-4fc5-979e-fa5620eb9a53</tstamps>
+    </comp>
+    <comp ref="SW63">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>ef484a1f-7369-4623-98cc-83023c566e65</tstamps>
+    </comp>
+    <comp ref="SW64">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>3f6a196b-f6f2-4249-887c-d090d12246a1</tstamps>
+    </comp>
+    <comp ref="SW65">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>9209f175-c19a-4ffb-9190-41fb1f653e78</tstamps>
+    </comp>
+    <comp ref="SW66">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.75u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>8cea67ee-951d-4832-aff3-3880589c4e0b</tstamps>
+    </comp>
+    <comp ref="SW67">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>13ca4c6c-d523-4023-aac7-635e307b1347</tstamps>
+    </comp>
+    <comp ref="SW70">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>867a8dcc-c70a-470e-8cd9-41e0db234a1f</tstamps>
+    </comp>
+    <comp ref="SW71">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="" part="SW_Push_2" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>52f833bb-fdfe-41f0-99e0-5a1c5eecdf02</tstamps>
+    </comp>
+    <comp ref="SW72">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>e9fed523-a077-44e5-bacb-08e14f314978</tstamps>
+    </comp>
+    <comp ref="SW73">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>d4c0d527-b7ff-4d77-85c4-5bbc3b7b4c63</tstamps>
+    </comp>
+    <comp ref="SW74">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>4c67d305-deb8-4629-bfea-477e8f526503</tstamps>
+    </comp>
+    <comp ref="SW76">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>34ae7ca6-5a6f-48c8-b6fd-3e674e6dabba</tstamps>
+    </comp>
+    <comp ref="SW77">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>6870b80f-3dcb-4ec0-9dc2-72c4ecf671de</tstamps>
+    </comp>
+    <comp ref="SW80">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.25u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>b627df07-1fe4-4dbb-935f-9bb316a1adf1</tstamps>
+    </comp>
+    <comp ref="SW81">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.25u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00467339-9e5a-4cec-a6c8-beb0a92dc9f6</tstamps>
+    </comp>
+    <comp ref="SW82">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.25u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>26e55729-f49d-409c-9bb3-ca45f7380221</tstamps>
+    </comp>
+    <comp ref="SW83">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_6.25u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>53ac4e10-e7e6-4e19-8456-afae9defeed3</tstamps>
+    </comp>
+    <comp ref="SW84">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>0f800d0b-871b-4511-91bf-869ce167b861</tstamps>
+    </comp>
+    <comp ref="SW85">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>f3835db5-dfd4-4f09-98ce-a299ef44ebdf</tstamps>
+    </comp>
+    <comp ref="SW86">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>a4c1edb1-f901-4afe-8b6d-9762a18baf3b</tstamps>
+    </comp>
+    <comp ref="SW87">
+      <value>SW_Push</value>
+      <footprint>Switch_Keyboard_Hotswap_Kailh:SW_Hotswap_Kailh_MX_1.00u</footprint>
+      <libsource lib="Switch" part="SW_Push" description="Push button switch, generic, two pins"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>481b6d3f-3a79-41a6-b533-902a22cd147e</tstamps>
+    </comp>
+    <comp ref="U1">
+      <value>RP2040-Tiny</value>
+      <footprint>Module:RP2040-Tiny</footprint>
+      <libsource lib="MCU_Module" part="RP2040-Tiny" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="keybird.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>4f446bf0-7a58-47d8-8ee3-5a4b85e317f4</tstamps>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="" part="SW_Push_1">
+      <description>Push button switch, generic, two pins</description>
+      <docs>~</docs>
+      <fields>
+        <field name="Reference">SW</field>
+        <field name="Value">SW_Push_1</field>
+        <field name="Datasheet">~</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="" part="SW_Push_2">
+      <description>Push button switch, generic, two pins</description>
+      <docs>~</docs>
+      <fields>
+        <field name="Reference">SW</field>
+        <field name="Value">SW_Push_2</field>
+        <field name="Datasheet">~</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="MCU_Module" part="RP2040-Tiny">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">RP2040-Tiny</field>
+        <field name="Footprint">Module:RP2040-Tiny</field>
+      </fields>
+      <pins>
+        <pin num="0" name="GP0" type="bidirectional"/>
+        <pin num="1" name="GP1" type="bidirectional"/>
+        <pin num="2" name="GP2" type="bidirectional"/>
+        <pin num="3" name="GP3" type="bidirectional"/>
+        <pin num="4" name="GP4" type="bidirectional"/>
+        <pin num="5" name="GP5" type="bidirectional"/>
+        <pin num="6" name="GP6" type="bidirectional"/>
+        <pin num="7" name="GP7" type="bidirectional"/>
+        <pin num="8" name="GP8" type="bidirectional"/>
+        <pin num="9" name="GP9" type="bidirectional"/>
+        <pin num="10" name="GP10" type="bidirectional"/>
+        <pin num="11" name="GP11" type="bidirectional"/>
+        <pin num="12" name="GP12" type="bidirectional"/>
+        <pin num="13" name="GP13" type="bidirectional"/>
+        <pin num="14" name="GP14" type="bidirectional"/>
+        <pin num="15" name="GP15" type="bidirectional"/>
+        <pin num="16" name="GP26" type="bidirectional"/>
+        <pin num="17" name="GP27" type="bidirectional"/>
+        <pin num="18" name="GP28" type="bidirectional"/>
+        <pin num="19" name="GP29" type="bidirectional"/>
+        <pin num="20" name="3V3" type="power_out"/>
+        <pin num="21" name="GND" type="power_out"/>
+        <pin num="22" name="5V" type="power_out"/>
+      </pins>
+    </libpart>
+    <libpart lib="Switch" part="SW_Push">
+      <description>Push button switch, generic, two pins</description>
+      <docs>~</docs>
+      <fields>
+        <field name="Reference">SW</field>
+        <field name="Value">SW_Push</field>
+        <field name="Datasheet">~</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="pspice" part="DIODE">
+      <description>Diode symbol for simulation only. Pin order incompatible with official kicad footprints</description>
+      <docs>~</docs>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">DIODE</field>
+        <field name="Datasheet">~</field>
+      </fields>
+      <pins>
+        <pin num="1" name="K" type="input"/>
+        <pin num="2" name="A" type="input"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="MCU_Module">
+      <uri>/Applications/KiCad/KiCad.app/Contents/SharedSupport/symbols//MCU_Module.kicad_sym</uri>
+    </library>
+    <library logical="Switch">
+      <uri>/Applications/KiCad/KiCad.app/Contents/SharedSupport/symbols//Switch.kicad_sym</uri>
+    </library>
+    <library logical="pspice">
+      <uri>/Applications/KiCad/KiCad.app/Contents/SharedSupport/symbols//pspice.kicad_sym</uri>
+    </library>
+  </libraries>
+  <nets>
+    <net code="1" name="/COL0">
+      <node ref="SW00" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW10" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW20" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW30" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW40" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW50" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW60" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW70" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW80" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="U1" pin="0" pinfunction="GP0" pintype="bidirectional"/>
+    </net>
+    <net code="2" name="/COL1">
+      <node ref="SW01" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW11" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW21" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW31" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW41" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW51" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW61" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW71" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW81" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="U1" pin="1" pinfunction="GP1" pintype="bidirectional"/>
+    </net>
+    <net code="3" name="/COL2">
+      <node ref="SW02" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW12" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW22" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW32" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW42" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW52" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW62" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW72" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW82" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="U1" pin="2" pinfunction="GP2" pintype="bidirectional"/>
+    </net>
+    <net code="4" name="/COL3">
+      <node ref="SW03" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW13" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW23" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW33" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW43" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW53" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW63" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW73" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW83" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="U1" pin="3" pinfunction="GP3" pintype="bidirectional"/>
+    </net>
+    <net code="5" name="/COL4">
+      <node ref="SW04" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW14" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW24" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW34" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW44" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW54" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW64" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW74" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW84" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="U1" pin="7" pinfunction="GP7" pintype="bidirectional"/>
+    </net>
+    <net code="6" name="/COL5">
+      <node ref="SW05" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW15" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW25" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW35" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW45" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW55" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW65" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW85" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="U1" pin="6" pinfunction="GP6" pintype="bidirectional"/>
+    </net>
+    <net code="7" name="/COL6">
+      <node ref="SW06" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW16" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW26" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW36" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW56" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW66" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW76" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW86" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="U1" pin="5" pinfunction="GP5" pintype="bidirectional"/>
+    </net>
+    <net code="8" name="/COL7">
+      <node ref="SW07" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW17" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW27" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW47" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW57" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW67" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW77" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="SW87" pin="2" pinfunction="2" pintype="passive"/>
+      <node ref="U1" pin="4" pinfunction="GP4" pintype="bidirectional"/>
+    </net>
+    <net code="9" name="/ROW0">
+      <node ref="D00" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D01" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D02" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D03" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D04" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D05" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D06" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D07" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="U1" pin="9" pinfunction="GP9" pintype="bidirectional"/>
+    </net>
+    <net code="10" name="/ROW1">
+      <node ref="D10" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D11" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D12" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D13" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D14" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D15" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D16" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D17" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="U1" pin="10" pinfunction="GP10" pintype="bidirectional"/>
+    </net>
+    <net code="11" name="/ROW2">
+      <node ref="D20" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D21" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D22" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D23" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D24" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D25" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D26" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D27" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="U1" pin="11" pinfunction="GP11" pintype="bidirectional"/>
+    </net>
+    <net code="12" name="/ROW3">
+      <node ref="D30" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D31" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D32" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D33" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D34" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D35" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D36" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="U1" pin="12" pinfunction="GP12" pintype="bidirectional"/>
+    </net>
+    <net code="13" name="/ROW4">
+      <node ref="D40" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D41" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D42" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D43" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D44" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D45" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D47" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="U1" pin="13" pinfunction="GP13" pintype="bidirectional"/>
+    </net>
+    <net code="14" name="/ROW5">
+      <node ref="D50" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D51" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D52" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D53" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D54" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D55" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D56" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D57" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="U1" pin="14" pinfunction="GP14" pintype="bidirectional"/>
+    </net>
+    <net code="15" name="/ROW6">
+      <node ref="D60" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D61" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D62" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D63" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D64" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D65" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D66" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D67" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="U1" pin="15" pinfunction="GP15" pintype="bidirectional"/>
+    </net>
+    <net code="16" name="/ROW7">
+      <node ref="D70" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D71" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D72" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D73" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D74" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D76" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D77" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="U1" pin="16" pinfunction="GP26" pintype="bidirectional"/>
+    </net>
+    <net code="17" name="/ROW8">
+      <node ref="D80" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D81" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D82" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D83" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D84" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D85" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D86" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="D87" pin="2" pinfunction="A" pintype="input"/>
+      <node ref="U1" pin="8" pinfunction="GP8" pintype="bidirectional"/>
+    </net>
+    <net code="18" name="GND">
+      <node ref="U1" pin="21" pinfunction="GND" pintype="power_out"/>
+    </net>
+    <net code="19" name="Net-(D00-Pad1)">
+      <node ref="D00" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW00" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="20" name="Net-(D01-Pad1)">
+      <node ref="D01" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW01" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="21" name="Net-(D02-Pad1)">
+      <node ref="D02" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW02" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="22" name="Net-(D03-Pad1)">
+      <node ref="D03" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW03" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="23" name="Net-(D04-Pad1)">
+      <node ref="D04" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW04" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="24" name="Net-(D05-Pad1)">
+      <node ref="D05" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW05" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="25" name="Net-(D06-Pad1)">
+      <node ref="D06" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW06" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="26" name="Net-(D07-Pad1)">
+      <node ref="D07" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW07" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="27" name="Net-(D10-Pad1)">
+      <node ref="D10" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW10" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="28" name="Net-(D11-Pad1)">
+      <node ref="D11" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW11" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="29" name="Net-(D12-Pad1)">
+      <node ref="D12" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW12" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="30" name="Net-(D13-Pad1)">
+      <node ref="D13" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW13" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="31" name="Net-(D14-Pad1)">
+      <node ref="D14" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW14" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="32" name="Net-(D15-Pad1)">
+      <node ref="D15" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW15" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="33" name="Net-(D16-Pad1)">
+      <node ref="D16" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW16" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="34" name="Net-(D17-Pad1)">
+      <node ref="D17" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW17" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="35" name="Net-(D20-Pad1)">
+      <node ref="D20" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW20" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="36" name="Net-(D21-Pad1)">
+      <node ref="D21" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW21" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="37" name="Net-(D22-Pad1)">
+      <node ref="D22" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW22" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="38" name="Net-(D23-Pad1)">
+      <node ref="D23" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW23" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="39" name="Net-(D24-Pad1)">
+      <node ref="D24" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW24" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="40" name="Net-(D25-Pad1)">
+      <node ref="D25" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW25" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="41" name="Net-(D26-Pad1)">
+      <node ref="D26" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW26" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="42" name="Net-(D27-Pad1)">
+      <node ref="D27" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW27" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="43" name="Net-(D30-Pad1)">
+      <node ref="D30" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW30" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="44" name="Net-(D31-Pad1)">
+      <node ref="D31" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW31" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="45" name="Net-(D32-Pad1)">
+      <node ref="D32" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW32" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="46" name="Net-(D33-Pad1)">
+      <node ref="D33" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW33" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="47" name="Net-(D34-Pad1)">
+      <node ref="D34" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW34" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="48" name="Net-(D35-Pad1)">
+      <node ref="D35" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW35" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="49" name="Net-(D36-Pad1)">
+      <node ref="D36" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW36" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="50" name="Net-(D40-Pad1)">
+      <node ref="D40" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW40" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="51" name="Net-(D41-Pad1)">
+      <node ref="D41" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW41" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="52" name="Net-(D42-Pad1)">
+      <node ref="D42" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW42" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="53" name="Net-(D43-Pad1)">
+      <node ref="D43" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW43" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="54" name="Net-(D44-Pad1)">
+      <node ref="D44" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW44" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="55" name="Net-(D45-Pad1)">
+      <node ref="D45" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW45" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="56" name="Net-(D47-Pad1)">
+      <node ref="D47" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW47" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="57" name="Net-(D50-Pad1)">
+      <node ref="D50" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW50" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="58" name="Net-(D51-Pad1)">
+      <node ref="D51" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW51" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="59" name="Net-(D52-Pad1)">
+      <node ref="D52" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW52" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="60" name="Net-(D53-Pad1)">
+      <node ref="D53" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW53" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="61" name="Net-(D55-Pad1)">
+      <node ref="D55" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW55" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="62" name="Net-(D56-Pad1)">
+      <node ref="D56" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW56" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="63" name="Net-(D57-Pad1)">
+      <node ref="D57" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW57" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="64" name="Net-(D60-Pad1)">
+      <node ref="D60" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW60" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="65" name="Net-(D61-Pad1)">
+      <node ref="D61" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW61" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="66" name="Net-(D62-Pad1)">
+      <node ref="D62" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW62" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="67" name="Net-(D63-Pad1)">
+      <node ref="D63" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW63" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="68" name="Net-(D64-Pad1)">
+      <node ref="D64" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW64" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="69" name="Net-(D65-Pad1)">
+      <node ref="D65" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW65" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="70" name="Net-(D66-Pad1)">
+      <node ref="D66" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW66" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="71" name="Net-(D67-Pad1)">
+      <node ref="D67" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW67" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="72" name="Net-(D70-Pad1)">
+      <node ref="D70" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW70" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="73" name="Net-(D71-Pad1)">
+      <node ref="D71" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW71" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="74" name="Net-(D72-Pad1)">
+      <node ref="D72" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW72" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="75" name="Net-(D73-Pad1)">
+      <node ref="D73" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW73" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="76" name="Net-(D74-Pad1)">
+      <node ref="D74" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW74" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="77" name="Net-(D76-Pad1)">
+      <node ref="D76" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW76" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="78" name="Net-(D77-Pad1)">
+      <node ref="D77" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW77" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="79" name="Net-(D80-Pad1)">
+      <node ref="D80" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW80" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="80" name="Net-(D81-Pad1)">
+      <node ref="D81" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW81" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="81" name="Net-(D82-Pad1)">
+      <node ref="D82" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW82" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="82" name="Net-(D83-Pad1)">
+      <node ref="D83" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW83" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="83" name="Net-(D84-Pad1)">
+      <node ref="D84" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW84" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="84" name="Net-(D85-Pad1)">
+      <node ref="D85" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW85" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="85" name="Net-(D86-Pad1)">
+      <node ref="D86" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW86" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="86" name="Net-(D87-Pad1)">
+      <node ref="D87" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW87" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="87" name="Net-(SW54-Pad1)">
+      <node ref="D54" pin="1" pinfunction="K" pintype="input"/>
+      <node ref="SW54" pin="1" pinfunction="1" pintype="passive"/>
+    </net>
+    <net code="88" name="unconnected-(U1-Pad17)">
+      <node ref="U1" pin="17" pinfunction="GP27" pintype="bidirectional+no_connect"/>
+    </net>
+    <net code="89" name="unconnected-(U1-Pad18)">
+      <node ref="U1" pin="18" pinfunction="GP28" pintype="bidirectional+no_connect"/>
+    </net>
+    <net code="90" name="unconnected-(U1-Pad19)">
+      <node ref="U1" pin="19" pinfunction="GP29" pintype="bidirectional+no_connect"/>
+    </net>
+    <net code="91" name="unconnected-(U1-Pad20)">
+      <node ref="U1" pin="20" pinfunction="3V3" pintype="power_out+no_connect"/>
+    </net>
+    <net code="92" name="unconnected-(U1-Pad22)">
+      <node ref="U1" pin="22" pinfunction="5V" pintype="power_out+no_connect"/>
+    </net>
+  </nets>
+</export>
