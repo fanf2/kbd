@@ -31,20 +31,25 @@ let usb_depth = 7.3; // mm
 // around blocks, in key_units
 let gap = 0.25;
 
+// a little extra to make the pcb 420mm wide
+let pcb_wing = 9/32; // key_unit
+let pcb_trim = 4/32; // key_unit
+
 // positions of blocks, all in key_units
 let main_width = 15;
 let main_height = 5;
 let side_width = 3;
 let side_height = 2;
-let total_width = main_width + side_width * 2 + gap * 2;
+let outside_width = side_width + gap;
+let total_width = main_width + outside_width * 2;
+let trim_width = 4.25;
 
 let left_x = 0;
 let main_x = side_width + gap;
 let right_x = main_x + main_width + gap;
 let upper_y = gap;
 let lower_y = upper_y + side_height + gap;
-
-let centre_x = (main_x + main_width / 2) * key_unit; // mm
+let below_y = upper_y + side_height + gap + side_height;
 
 //////// lego enclosure
 
@@ -61,7 +66,7 @@ let board_clearance = 0.8; // mm
 
 let case_rear = 1.0 * key_unit;
 let case_front = 0.5 * key_unit;
-let case_side = 0.75 * key_unit;
+let case_side = (1 - gap) * key_unit;
 
 let ellipse_indent = 1;
 let ellipse_axis = 8 * key_unit;
@@ -77,9 +82,10 @@ let rivnut_y2 = 2.5 * key_unit;
 
 // derived dimensions
 
-let pcb_h = main_height * key_unit;
-let pcb_w = total_width * key_unit;
-let case_h = pcb_h + case_front + case_rear;
+let keys_h = main_height * key_unit;
+let keys_w = total_width * key_unit;
+let centre_x = keys_w / 2;
+let case_h = keys_h + case_front + case_rear;
 
 let ellipse_left = (main_x + ellipse_indent) * key_unit;
 let ellipse_right = ellipse_left + (main_width - ellipse_indent * 2) * key_unit;
@@ -88,7 +94,7 @@ let ellipse_y = case_h / 2 - case_rear;
 // don't clip ellipse
 let case_clearance = 2; // mm
 let rect_rear = -case_rear -case_clearance;
-let rect_front = pcb_h + case_front + case_clearance;
+let rect_front = keys_h + case_front + case_clearance;
 
 function roundrect(c, x, y, w, h, r) {
     c.beginPath();
@@ -107,10 +113,10 @@ function rivnut(c, x, y) {
 }
 
 function rivnut_quad(c, x, y) {
-    rivnut(c, pcb_w / 2 - x, y);
-    rivnut(c, pcb_w / 2 + x, y);
-    rivnut(c, pcb_w / 2 - x, pcb_h - y);
-    rivnut(c, pcb_w / 2 + x, pcb_h - y);
+    rivnut(c, centre_x - x, y);
+    rivnut(c, centre_x + x, y);
+    rivnut(c, centre_x - x, keys_h - y);
+    rivnut(c, centre_x + x, keys_h - y);
 }
 
 // x and y are centre of hole at one end
@@ -170,6 +176,10 @@ function rect_key_units(c, x, y, w, h) {
     c.strokeRect(x * key_unit, y * key_unit, w * key_unit, h * key_unit);
 }
 
+function line_key_units(c, x, y) {
+    c.lineTo(x * key_unit, y * key_unit);
+}
+
 function lego_beam_enclosure(c) {
     let keeb_h = main_height * key_unit;
     let keeb_w = total_width * key_unit;
@@ -202,7 +212,7 @@ function lego_beam_enclosure(c) {
 
 function ellipse_enclosure(c) {
     c.beginPath();
-    c.moveTo(ellipse_left, pcb_h + case_front);
+    c.moveTo(ellipse_left, keys_h + case_front);
     c.ellipse(ellipse_left, ellipse_y, ellipse_axis, case_h / 2,
 	      0, tau * 1/4, tau * 3/4);
     c.lineTo(ellipse_right, -case_rear);
@@ -214,17 +224,21 @@ function ellipse_enclosure(c) {
 function rectangle_enclosure(c) {
     c.beginPath();
     c.moveTo(-case_side, rect_rear);
-    c.lineTo(pcb_w + case_side, rect_rear);
-    c.lineTo(pcb_w + case_side, rect_front);
+    c.lineTo(keys_w + case_side, rect_rear);
+    c.lineTo(keys_w + case_side, rect_front);
     c.lineTo(-case_side, rect_front);
     c.closePath();
 }
 
 function main() {
     let c = canvas.getContext("2d")
-    c.strokeStyle = "black";
-    c.lineWidth = 0.2;
     c.transform(8, 0, 0, 8, 300, 200);
+
+    // switch plate
+
+    c.save();
+    c.strokeStyle = "#00c";
+    c.lineWidth = 0.2;
 
     for (let i = 0; i < 15; i++) {
 	switch_hole(c, i, 0, 1);
@@ -272,14 +286,79 @@ function main() {
 	}
     }
 
-    c.save();
+    c.restore();
 
     // outline of pcb
-    c.setLineDash([0.25, 1.0]);
-    rect_key_units(c, 0, 0, total_width, main_height);
+
+    c.save();
+    c.strokeStyle = "#0c0";
+    c.lineWidth = 0.3;
+
+    c.beginPath();
+    c.moveTo(outside_width * key_unit, 0);
+    line_key_units(c, outside_width + main_width,
+		   0);
+    line_key_units(c, outside_width + main_width + gap,
+		   upper_y);
+    line_key_units(c, outside_width + main_width + outside_width,
+		   upper_y);
+    line_key_units(c, outside_width + main_width + outside_width + pcb_wing,
+		   upper_y + pcb_wing);
+    line_key_units(c, outside_width + main_width + outside_width + pcb_wing,
+		   below_y - pcb_wing);
+    line_key_units(c, outside_width + main_width + outside_width,
+		   below_y);
+    line_key_units(c, outside_width + main_width + gap,
+		   below_y);
+    line_key_units(c, outside_width + main_width - pcb_trim,
+		   main_height - pcb_trim);
+    line_key_units(c, outside_width + main_width - trim_width + pcb_trim,
+		   main_height - pcb_trim);
+    line_key_units(c, outside_width + main_width - trim_width,
+		   main_height);
+    line_key_units(c, outside_width + trim_width,
+		   main_height);
+    line_key_units(c, outside_width + trim_width - pcb_trim,
+		   main_height - pcb_trim);
+    line_key_units(c, outside_width + pcb_trim,
+		   main_height - pcb_trim);
+    line_key_units(c, side_width,
+		   below_y);
+    line_key_units(c, 0,
+		   below_y);
+    line_key_units(c, -pcb_wing,
+		   below_y - pcb_wing);
+    line_key_units(c, -pcb_wing,
+		   upper_y + pcb_wing);
+    line_key_units(c, 0,
+		   upper_y);
+    line_key_units(c, side_width,
+		   upper_y);
+    line_key_units(c, outside_width,
+		   0);
+    c.stroke();
+    c.restore();
+
+    // Waveshare RP2040-Tiny daughterboard
+
+    c.save();
+    c.strokeStyle = "#080";
+    c.lineWidth = 0.2;
+
+    roundrect(c, centre_x - tdb_width/2, -case_rear + tdb_hang,
+	      tdb_width, tdb_depth, tdb_radius);
+    roundrect(c, centre_x - usb_width/2, -case_rear + tdb_hang,
+	      usb_width, usb_depth, 0);
+
+    c.restore();
 
     // key blocks
-    c.setLineDash([0.2, 0.2]);
+
+    c.save();
+    c.strokeStyle = "#088";
+    c.lineWidth = 0.4;
+    c.setLineDash([0.4, 0.4]);
+
     rect_key_units(c, left_x, upper_y, side_width, side_height);
     rect_key_units(c, left_x, lower_y, side_width, side_height);
     rect_key_units(c, right_x, upper_y, side_width, side_height);
@@ -288,16 +367,11 @@ function main() {
 
     c.restore();
 
-    // lego_beam_enclosure(c);
+    // outline of enclosure
 
-    // c.beginPath();
-    // c.moveTo(0, upper_y * key_unit - case_rear);
-    // c.lineTo(0, (lower_y + side_height) * key_unit + case_front);
-    // c.stroke();
-
-    // rivnut_quad(c, rivnut_x0, rivnut_y0);
-    // rivnut_quad(c, rivnut_x1, rivnut_y1);
-    // rivnut_quad(c, rivnut_x2, rivnut_y2);
+    c.save();
+    c.strokeStyle = "#000";
+    c.lineWidth = 0.2;
 
     c.save();
     rectangle_enclosure(c);
@@ -313,9 +387,5 @@ function main() {
     c.stroke();
     c.restore();
 
-    // Waveshare RP2040-Tiny daughterboard
-    roundrect(c, centre_x - tdb_width/2, -case_rear + tdb_hang,
-	      tdb_width, tdb_depth, tdb_radius);
-    roundrect(c, centre_x - usb_width/2, -case_rear + tdb_hang,
-	      usb_width, usb_depth, 0);
+    c.restore();
 }
