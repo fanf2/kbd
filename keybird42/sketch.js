@@ -1,3 +1,5 @@
+let tau = Math.PI * 2;
+
 let key_unit = 19.05; // mm
 let key_body = 14; // mm
 let stab_width = 7; // mm
@@ -11,22 +13,18 @@ let beam_shrinkage = 0.4; // mm
 let beam_radius = lego_stud / 2 - beam_shrinkage;
 let axle_radius = beam_radius - 2 * beam_shrinkage;
 
+// Waveshare RP2040-Tiny daughterboard
+let tdb_width = 18; // mm
+let tdb_depth = 18; // mm
+let tdb_radius = 1; // mm
+
+// space between edge of board and edge of case
+// USB space between socket and plug is nominally 1.3mm
+let tdb_hang = 1.0;
+
 // slight over-estimate
 let usb_width = 9; // mm
-let usb_depth = 6.5; // mm
-let usb_legs = 1.5; // mm
-let usb_pins = 1; // mm
-
-// 40 pins 0.5 mm pitch
-let fpc_width = 25; // mm
-let fpc_depth = 5.2; // mm
-let fpc_pins = 21; // mm
-let fpc_legs = 1.2; // mm
-
-// package is 7mm, allow some space for pins
-let rp2040_size = 8; // mm
-
-let tau = Math.PI * 2;
+let usb_depth = 7.3; // mm
 
 //////// adjustable parameters
 
@@ -46,6 +44,8 @@ let right_x = main_x + main_width + gap;
 let upper_y = gap;
 let lower_y = upper_y + side_height + gap;
 
+let centre_x = (main_x + main_width / 2) * key_unit; // mm
+
 //////// lego enclosure
 
 // space between beams
@@ -57,9 +57,9 @@ let beam_spacing = beam_radius * 2 + beam_clearance; // mm
 // space between horizontal beams and pcb
 let board_clearance = 0.8; // mm
 
-//////// fancy enclosure
+//////// layered enclosure
 
-let case_rear = 0.5 * key_unit;
+let case_rear = 1.0 * key_unit;
 let case_front = 0.5 * key_unit;
 let case_side = 0.75 * key_unit;
 
@@ -224,7 +224,7 @@ function main() {
     let c = canvas.getContext("2d")
     c.strokeStyle = "black";
     c.lineWidth = 0.2;
-    c.transform(8, 0, 0, 8, 300, 150);
+    c.transform(8, 0, 0, 8, 300, 200);
 
     for (let i = 0; i < 15; i++) {
 	switch_hole(c, i, 0, 1);
@@ -295,9 +295,9 @@ function main() {
     // c.lineTo(0, (lower_y + side_height) * key_unit + case_front);
     // c.stroke();
 
-    rivnut_quad(c, rivnut_x0, rivnut_y0);
-    rivnut_quad(c, rivnut_x1, rivnut_y1);
-    rivnut_quad(c, rivnut_x2, rivnut_y2);
+    // rivnut_quad(c, rivnut_x0, rivnut_y0);
+    // rivnut_quad(c, rivnut_x1, rivnut_y1);
+    // rivnut_quad(c, rivnut_x2, rivnut_y2);
 
     c.save();
     rectangle_enclosure(c);
@@ -313,15 +313,9 @@ function main() {
     c.stroke();
     c.restore();
 
-    roundrect(c, (main_x + main_width) * key_unit, 0,
-	      usb_width + 2 * usb_legs, usb_depth + usb_pins, 0);
-    roundrect(c, (main_x + main_width) * key_unit + usb_legs, 0,
+    // Waveshare RP2040-Tiny daughterboard
+    roundrect(c, centre_x - tdb_width/2, -case_rear + tdb_hang,
+	      tdb_width, tdb_depth, tdb_radius);
+    roundrect(c, centre_x - usb_width/2, -case_rear + tdb_hang,
 	      usb_width, usb_depth, 0);
-
-    roundrect(c, (main_x + 8.5) * key_unit,
-	      4.5 * key_unit,
-	      fpc_width, -fpc_depth, 0);
-    roundrect(c, (main_x + 8.5) * key_unit + (fpc_width - fpc_pins) / 2,
-	      4.5 * key_unit,
-	      fpc_pins, fpc_legs, 0);
 }
