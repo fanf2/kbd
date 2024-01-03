@@ -33,7 +33,6 @@ let gap = 0.25;
 
 // a little extra to make the pcb 420mm wide
 let pcb_wing = 9/32; // key_unit
-let pcb_trim = 4/32; // key_unit
 
 // positions of blocks, all in key_units
 let main_width = 15;
@@ -41,8 +40,7 @@ let main_height = 5;
 let side_width = 3;
 let side_height = 2;
 let outside_width = side_width + gap;
-let total_width = main_width + outside_width * 2;
-let trim_width = 4.25;
+let keys_wide = main_width + outside_width * 2;
 
 let left_x = 0;
 let main_x = side_width + gap;
@@ -68,33 +66,39 @@ let case_rear = 1.0 * key_unit;
 let case_front = 0.5 * key_unit;
 let case_side = (1 - gap) * key_unit;
 
-let ellipse_indent = 1;
-let ellipse_axis = 8 * key_unit;
+let accent_h = 39; // mm
+let accent_in = 2; // mm
+let accent_w = 3.2; // 3 mm + clearance
+
+let ellipse_indent = 1.5;
+let ellipse_axis = 7.5 * key_unit;
 
 let rivnut_r = 7 / 2;
 
-let rivnut_x0 = 2.5 * key_unit;
-let rivnut_x1 = 8.5 * key_unit;
-let rivnut_x2 = 10.75 * key_unit + rivnut_r;
-let rivnut_y0 = - rivnut_r;
-let rivnut_y1 = 0.25 * key_unit - rivnut_r;
-let rivnut_y2 = 2.5 * key_unit;
+let rivnut_x0 = 2;
+let rivnut_x1 = 6;
+let rivnut_x2 = 9.75;
+let rivnut_y0 = 3.02;
+let rivnut_y1 = 3.02;
+let rivnut_y2 = 2.55;
 
 // derived dimensions
 
 let keys_h = main_height * key_unit;
-let keys_w = total_width * key_unit;
-let centre_x = keys_w / 2;
+let keys_w = keys_wide * key_unit;
 let case_h = keys_h + case_front + case_rear;
+let case_w = keys_w + case_side * 2;
+
+let centre_x = keys_w / 2;
+let centre_y = case_h / 2 - case_rear;
 
 let ellipse_left = (main_x + ellipse_indent) * key_unit;
 let ellipse_right = ellipse_left + (main_width - ellipse_indent * 2) * key_unit;
-let ellipse_y = case_h / 2 - case_rear;
 
 // don't clip ellipse
-let case_clearance = 2; // mm
-let rect_rear = -case_rear -case_clearance;
-let rect_front = keys_h + case_front + case_clearance;
+let clip_clearance = 2; // mm
+let rect_rear = -case_rear -clip_clearance;
+let rect_front = keys_h + case_front + clip_clearance;
 
 function roundrect(c, x, y, w, h, r) {
     c.beginPath();
@@ -113,10 +117,12 @@ function rivnut(c, x, y) {
 }
 
 function rivnut_quad(c, x, y) {
-    rivnut(c, centre_x - x, y);
-    rivnut(c, centre_x + x, y);
-    rivnut(c, centre_x - x, keys_h - y);
-    rivnut(c, centre_x + x, keys_h - y);
+    x *= key_unit;
+    y *= key_unit;
+    rivnut(c, centre_x - x, centre_y - y);
+    rivnut(c, centre_x + x, centre_y - y);
+    rivnut(c, centre_x - x, centre_y + y);
+    rivnut(c, centre_x + x, centre_y + y);
 }
 
 // x and y are centre of hole at one end
@@ -182,7 +188,7 @@ function line_key_units(c, x, y) {
 
 function lego_beam_enclosure(c) {
     let keeb_h = main_height * key_unit;
-    let keeb_w = total_width * key_unit;
+    let keeb_w = keys_wide * key_unit;
 
     let beam_len = 12 * lego_stud;
     let beam_h = beam_len;
@@ -213,10 +219,10 @@ function lego_beam_enclosure(c) {
 function ellipse_enclosure(c) {
     c.beginPath();
     c.moveTo(ellipse_left, keys_h + case_front);
-    c.ellipse(ellipse_left, ellipse_y, ellipse_axis, case_h / 2,
+    c.ellipse(ellipse_left, centre_y, ellipse_axis, case_h / 2,
 	      0, tau * 1/4, tau * 3/4);
     c.lineTo(ellipse_right, -case_rear);
-    c.ellipse(ellipse_right, ellipse_y, ellipse_axis, case_h / 2,
+    c.ellipse(ellipse_right, centre_y, ellipse_axis, case_h / 2,
 	      0, tau * 3/4, tau * 5/4);
     c.closePath();
 }
@@ -232,7 +238,7 @@ function rectangle_enclosure(c) {
 
 function main() {
     let c = canvas.getContext("2d")
-    c.transform(8, 0, 0, 8, 300, 200);
+    c.transform(8, 0, 0, 8, 300, 300);
 
     // switch plate
 
@@ -292,7 +298,7 @@ function main() {
 
     c.save();
     c.strokeStyle = "#0c0";
-    c.lineWidth = 0.3;
+    c.lineWidth = 0.4;
 
     c.beginPath();
     c.moveTo(outside_width * key_unit, 0);
@@ -308,21 +314,13 @@ function main() {
 		   below_y - pcb_wing);
     line_key_units(c, outside_width + main_width + outside_width,
 		   below_y);
-    line_key_units(c, outside_width + main_width + gap,
+    line_key_units(c, outside_width + main_width + gap * 2,
 		   below_y);
-    line_key_units(c, outside_width + main_width - pcb_trim,
-		   main_height - pcb_trim);
-    line_key_units(c, outside_width + main_width - trim_width + pcb_trim,
-		   main_height - pcb_trim);
-    line_key_units(c, outside_width + main_width - trim_width,
+    line_key_units(c, outside_width + main_width,
 		   main_height);
-    line_key_units(c, outside_width + trim_width,
+    line_key_units(c, outside_width,
 		   main_height);
-    line_key_units(c, outside_width + trim_width - pcb_trim,
-		   main_height - pcb_trim);
-    line_key_units(c, outside_width + pcb_trim,
-		   main_height - pcb_trim);
-    line_key_units(c, side_width,
+    line_key_units(c, side_width - gap,
 		   below_y);
     line_key_units(c, 0,
 		   below_y);
@@ -336,6 +334,7 @@ function main() {
 		   upper_y);
     line_key_units(c, outside_width,
 		   0);
+    c.closePath();
     c.stroke();
     c.restore();
 
@@ -356,7 +355,7 @@ function main() {
 
     c.save();
     c.strokeStyle = "#088";
-    c.lineWidth = 0.4;
+    c.lineWidth = 0.6;
     c.setLineDash([0.4, 0.4]);
 
     rect_key_units(c, left_x, upper_y, side_width, side_height);
@@ -386,6 +385,55 @@ function main() {
     rectangle_enclosure(c);
     c.stroke();
     c.restore();
+
+    // inside enclosure
+
+    for (let x of [-1, +1]) {
+	for (let y of [-1, +1]) {
+	    c.beginPath();
+
+	    let clear_y = centre_y + y;
+
+	    c.moveTo(centre_x,
+		     clear_y + y * key_unit * 2.75);
+	    c.lineTo(centre_x + x * key_unit * (main_width / 2 - 1),
+		     clear_y + y * key_unit * 2.75);
+	    c.bezierCurveTo(centre_x + x * key_unit * (main_width / 2 + 1),
+			    clear_y + y * key_unit * 2.75,
+			    centre_x + x * key_unit * (main_width / 2 + 1),
+			    clear_y + y * key_unit * 2.75,
+			    centre_x + x * key_unit * (main_width / 2 + 2.2),
+			    clear_y + y * key_unit * 2.25);
+	    c.lineTo(centre_x + x * (case_w / 2 - case_side + 1),
+		     clear_y + y * (key_unit * 2.25));
+	    c.lineTo(centre_x + x * (case_w / 2 - accent_w - accent_in * 2),
+		     clear_y + y * (accent_h - accent_in));
+	    c.lineTo(centre_x + x * (case_w / 2 - accent_w - accent_in),
+		     clear_y + y * (accent_h - accent_in));
+	    c.lineTo(centre_x + x * (case_w / 2 - accent_w - accent_in),
+		     clear_y + y * (accent_h));
+	    c.lineTo(centre_x + x * (case_w / 2 - accent_in),
+		     clear_y + y * (accent_h));
+	    c.lineTo(centre_x + x * (case_w / 2 - accent_in),
+		     clear_y + y * (accent_h - accent_in));
+	    c.lineTo(centre_x + x * (case_w / 2 - 0),
+		     clear_y + y * (accent_h - accent_in));
+
+	    c.stroke();
+	}
+    }
+
+    c.restore();
+
+    // fasteners
+
+    c.save();
+    c.strokeStyle = "#a0a";
+    c.lineWidth = 0.2;
+
+    rivnut_quad(c, rivnut_x0, rivnut_y0);
+    rivnut_quad(c, rivnut_x1, rivnut_y1);
+    rivnut_quad(c, rivnut_x2, rivnut_y2);
 
     c.restore();
 }
