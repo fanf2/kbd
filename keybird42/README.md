@@ -60,6 +60,53 @@ I called it keybird42 because:
   * 123 mm deep case
 
 
+window placement
+----------------
+
+I intend to use the left hand function clusters to move windows into
+the places I like on my 4K display. The most useful positions for me
+are:
+
+   * 4 columns, quarters
+   * 3 columns, thirds
+   * 3 columns, 1/4 1/2 1/4
+   * 2 halves side-by-side
+   * 1/3 and 2/3 side-by-side
+
+These fit into the 12 function keys fairly nicely, thus:
+
+        +---+---+---+
+        |1  |2  |3+4|
+        |  4|  4|  4|
+        +---+---+---+
+        |1+2|3  |4  |
+        |  4|  4|  4|
+        +---+---+---+
+
+        +---+---+---+
+        |1+2|2+3|2+3|
+        |  3|  4|  3|
+        +---+---+---+
+        |1  |2  |3  |
+        |  3|  3|  3|
+        +---+---+---+
+
+It might be useful to augment these with top-half (CTRL) and
+bottom-half (SHIFT) variants.
+
+
+other functions
+---------------
+
+The right function cluster has room for:
+
+  * non-full-screen maximize
+  * application windows
+  * mission control
+  * prev/next desktop (PG UP, PG DN)
+  * screenshot (PRNT SCRN)
+
+
 inspiration
 -----------
 
