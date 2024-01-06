@@ -5,7 +5,7 @@ let key_body = 14; // mm
 let stab_width = 7; // mm
 // (0.484+0.004 - 0.26+0.004) * 25.4 == 5.9 mm
 let stab_depth = 6; // mm
-// (0.53+0.006) * 25.4 == 13.6 mm (take off stab_depth)
+// (0.53+0.006) * 25.4 == 13.6 mm; 13.6 - 5.9 == 7.7 mm
 let stab_height = 8; // mm
 
 let lego_stud = 8; // mm
@@ -33,6 +33,7 @@ let gap = 0.25;
 
 // a little extra to make the pcb 420mm wide
 let pcb_wing = 9/32; // key_unit
+let pcb_trim = 4/32; // key_unit
 
 // positions of blocks, all in key_units
 let main_width = 15;
@@ -306,29 +307,29 @@ function main() {
 		   0);
     line_key_units(c, outside_width + main_width + gap,
 		   upper_y);
-    line_key_units(c, outside_width + main_width + outside_width,
+    line_key_units(c, outside_width + main_width + outside_width - pcb_trim,
 		   upper_y);
     line_key_units(c, outside_width + main_width + outside_width + pcb_wing,
-		   upper_y + pcb_wing);
+		   upper_y + pcb_trim + pcb_wing);
     line_key_units(c, outside_width + main_width + outside_width + pcb_wing,
-		   below_y - pcb_wing);
-    line_key_units(c, outside_width + main_width + outside_width,
-		   below_y);
-    line_key_units(c, outside_width + main_width + gap * 2,
-		   below_y);
-    line_key_units(c, outside_width + main_width,
-		   main_height);
-    line_key_units(c, outside_width,
-		   main_height);
-    line_key_units(c, side_width - gap,
-		   below_y);
-    line_key_units(c, 0,
-		   below_y);
+		   below_y - pcb_trim * 2 - pcb_wing);
+    line_key_units(c, outside_width + main_width + outside_width - pcb_trim,
+		   below_y - pcb_trim);
+    line_key_units(c, outside_width + main_width + gap + pcb_trim,
+		   below_y - pcb_trim);
+    line_key_units(c, outside_width + main_width - pcb_trim,
+		   main_height - pcb_trim);
+    line_key_units(c, outside_width + pcb_trim,
+		   main_height - pcb_trim);
+    line_key_units(c, side_width - gap + pcb_trim,
+		   below_y - pcb_trim);
+    line_key_units(c, pcb_trim,
+		   below_y - pcb_trim);
     line_key_units(c, -pcb_wing,
-		   below_y - pcb_wing);
+		   below_y - pcb_trim * 2 - pcb_wing);
     line_key_units(c, -pcb_wing,
-		   upper_y + pcb_wing);
-    line_key_units(c, 0,
+		   upper_y + pcb_trim + pcb_wing);
+    line_key_units(c, pcb_trim,
 		   upper_y);
     line_key_units(c, side_width,
 		   upper_y);
