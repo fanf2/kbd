@@ -50,6 +50,12 @@ let upper_y = gap;
 let lower_y = upper_y + side_height + gap;
 let below_y = upper_y + side_height + gap + side_height;
 
+let space_width = 7;
+
+let pcb_bump_left = outside_width + main_width / 2 - (space_width - 1) / 2;
+let pcb_bump_right = pcb_bump_left + space_width - 1;
+let pcb_bump_half = 1/4;
+
 //////// lego enclosure
 
 // space between beams
@@ -276,7 +282,7 @@ function main() {
     switch_hole(c, 1.25, 4, 1.25);
     switch_hole(c, 2.5, 4, 1.5);
 
-    switch_hole(c, 4, 4, 7);
+    switch_hole(c, 4, 4, space_width);
 
     switch_hole(c, 11, 4, 1.5);
     switch_hole(c, 12.5, 4, 1.25);
@@ -319,6 +325,25 @@ function main() {
 		   below_y - pcb_trim);
     line_key_units(c, outside_width + main_width - pcb_trim,
 		   main_height - pcb_trim);
+
+    line_key_units(c, pcb_bump_right + pcb_bump_half,
+		   main_height - pcb_trim);
+    line_key_units(c, pcb_bump_right + pcb_bump_half - pcb_trim,
+		   main_height);
+    line_key_units(c, pcb_bump_right - pcb_bump_half + pcb_trim,
+		   main_height);
+    line_key_units(c, pcb_bump_right - pcb_bump_half,
+		   main_height - pcb_trim);
+
+    line_key_units(c, pcb_bump_left + pcb_bump_half,
+		   main_height - pcb_trim);
+    line_key_units(c, pcb_bump_left + pcb_bump_half - pcb_trim,
+		   main_height);
+    line_key_units(c, pcb_bump_left - pcb_bump_half + pcb_trim,
+		   main_height);
+    line_key_units(c, pcb_bump_left - pcb_bump_half,
+		   main_height - pcb_trim);
+
     line_key_units(c, outside_width + pcb_trim,
 		   main_height - pcb_trim);
     line_key_units(c, side_width - gap + pcb_trim,
