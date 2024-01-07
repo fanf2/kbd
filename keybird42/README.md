@@ -52,9 +52,9 @@ and better modifier + arrow key ergonomics than usual.
 
 I called it keybird42 because:
 
-  * 420 mm wide PCB
-  * 84 keys total (42 * 2)
+  * 42 cm wide PCB
   * 21 keys wide (42 / 2)
+  * 84 keys total (42 * 2)
   * 5 keys deep (fnord)
   * 23 key unit wide case (fnord)
   * 123 mm deep case
