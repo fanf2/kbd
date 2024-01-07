@@ -84,8 +84,8 @@ let rivnut_r = 7 / 2;
 
 let rivnut_x0 = 3.5;
 let rivnut_y0 = 3;
-let rivnut_x1 = 9.75;
-let rivnut_y1 = 2.55;
+let rivnut_x1 = 9.25;
+let rivnut_y1 = 2.5;
 
 // derived dimensions
 
@@ -390,27 +390,93 @@ function main() {
 
     c.restore();
 
-    // outline of enclosure
+    // ellipse-based enclosure
+
+    c.save();
+    c.strokeStyle = "#ccc";
+    c.lineWidth = 1;
+
+    c.save();
+    rectangle_enclosure(c);
+    c.clip();
+    ellipse_enclosure(c);
+    c.stroke();
+    c.restore();
+
+    c.save();
+    ellipse_enclosure(c);
+    c.clip();
+    rectangle_enclosure(c);
+    c.stroke();
+    c.restore();
+
+    c.restore();
+
+    // new enclosure
 
     c.save();
     c.strokeStyle = "#000";
     c.lineWidth = 0.2;
 
-    c.save();
-    rectangle_enclosure(c);
-    c.clip();
-    ellipse_enclosure(c);
-    c.stroke();
-    c.restore();
+    for (let x of [-1, +1]) {
+	for (let y of [-1, +1]) {
+	    c.beginPath();
 
-    c.save();
-    ellipse_enclosure(c);
-    c.clip();
-    rectangle_enclosure(c);
-    c.stroke();
-    c.restore();
+	    c.moveTo(centre_x,
+		     centre_y + y * key_unit * 3.0);
+	    c.lineTo(centre_x + x * key_unit * 3.25,
+		     centre_y + y * key_unit * 3.0);
+	    c.arc(centre_x + x * key_unit * 3.5,
+		  centre_y + y * key_unit * 3.0,
+		  key_unit * 0.25,
+		  x > 0 ? tau/2 : 0,
+		  x < 0 ? tau/2 : 0,
+		  x*y < 0);
+	    c.lineTo(centre_x + x * key_unit * 7.5,
+		     centre_y + y * key_unit * 2.75);
+	    c.lineTo(centre_x + x * key_unit * 9.0,
+		     centre_y + y * key_unit * 2.55);
+	    c.arc(centre_x + x * key_unit * 9.25,
+		  centre_y + y * key_unit * 2.5,
+		  key_unit * 0.25,
+		  x > 0 ? tau/2 + 0.1*x*y : +0.1*x*y,
+		  x < 0 ? tau/2 - 0.1*x*y : -0.1*x*y,
+		  x*y < 0);
+	    c.lineTo(centre_x + x * key_unit * 10.8,
+		     centre_y + y * key_unit * 2.3);
+	    c.lineTo(centre_x + x * key_unit * (main_width / 2 + 4) - x * 9,
+		     centre_y + y * key_unit * 2.00);
 
-    
+	    c.moveTo(centre_x,
+		     centre_y + y * key_unit * 3.0);
+	    c.lineTo(centre_x,
+		     centre_y + y * key_unit * 3.25);
+	    c.lineTo(centre_x + x * key_unit * (main_width / 2 - 4),
+		     centre_y + y * key_unit * 3.25);
+	    c.lineTo(centre_x + x * key_unit * (main_width / 2 - 0),
+		     centre_y + y * key_unit * 3.00);
+	    c.lineTo(centre_x + x * key_unit * (main_width / 2 + 1.75),
+		     centre_y + y * key_unit * 2.75);
+	    c.lineTo(centre_x + x * key_unit * (main_width / 2 + 3.25),
+		     centre_y + y * key_unit * 2.50);
+	    c.lineTo(centre_x + x * key_unit * (main_width / 2 + 4),
+		     centre_y + y * key_unit * 2.25);
+	    c.lineTo(centre_x + x * key_unit * (main_width / 2 + 4),
+		     centre_y + y * key_unit * 2.00);
+	    c.lineTo(centre_x + x * key_unit * (main_width / 2 + 4) - x * 3,
+		     centre_y + y * key_unit * 2.00);
+	    c.lineTo(centre_x + x * key_unit * (main_width / 2 + 4) - x * 3,
+		     centre_y + y * key_unit * 2.00 + y * 2);
+	    c.lineTo(centre_x + x * key_unit * (main_width / 2 + 4) - x * 6,
+		     centre_y + y * key_unit * 2.00 + y * 2);
+	    c.lineTo(centre_x + x * key_unit * (main_width / 2 + 4) - x * 6,
+		     centre_y + y * key_unit * 2.00);
+	    c.lineTo(centre_x + x * key_unit * (main_width / 2 + 4) - x * 9,
+		     centre_y + y * key_unit * 2.00);
+
+	    c.stroke();
+	}
+    }
 
     c.restore();
 
