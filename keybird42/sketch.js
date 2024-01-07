@@ -82,12 +82,10 @@ let ellipse_axis = 7.5 * key_unit;
 
 let rivnut_r = 7 / 2;
 
-let rivnut_x0 = 2;
-let rivnut_x1 = 6;
-let rivnut_x2 = 9.75;
-let rivnut_y0 = 3.02;
-let rivnut_y1 = 3.02;
-let rivnut_y2 = 2.55;
+let rivnut_x0 = 3.5;
+let rivnut_y0 = 3;
+let rivnut_x1 = 9.75;
+let rivnut_y1 = 2.55;
 
 // derived dimensions
 
@@ -166,7 +164,7 @@ function stabilizer(c, x, y, w) {
 function gappy_hole(c, x, y, u, gx, gy) {
     if (u > 1) {
 	c.save();
-	c.setLineDash([1,1]);
+	c.setLineDash([0.5,0.5]);
     }
     let cx = (x + u / 2 + gx) * key_unit;
     let cy = (y + 1 / 2 + gy) * key_unit;
@@ -380,9 +378,9 @@ function main() {
     // key blocks
 
     c.save();
-    c.strokeStyle = "#088";
-    c.lineWidth = 0.6;
-    c.setLineDash([0.4, 0.4]);
+    c.strokeStyle = "#aaa";
+    c.lineWidth = 0.5;
+    c.setLineDash([1, 0.5]);
 
     rect_key_units(c, left_x, upper_y, side_width, side_height);
     rect_key_units(c, left_x, lower_y, side_width, side_height);
@@ -412,42 +410,7 @@ function main() {
     c.stroke();
     c.restore();
 
-    // inside enclosure
-
-    for (let x of [-1, +1]) {
-	for (let y of [-1, +1]) {
-	    c.beginPath();
-
-	    let clear_y = centre_y + y;
-
-	    c.moveTo(centre_x,
-		     clear_y + y * key_unit * 2.75);
-	    c.lineTo(centre_x + x * key_unit * (main_width / 2 - 1),
-		     clear_y + y * key_unit * 2.75);
-	    c.bezierCurveTo(centre_x + x * key_unit * (main_width / 2 + 1),
-			    clear_y + y * key_unit * 2.75,
-			    centre_x + x * key_unit * (main_width / 2 + 1),
-			    clear_y + y * key_unit * 2.75,
-			    centre_x + x * key_unit * (main_width / 2 + 2.2),
-			    clear_y + y * key_unit * 2.25);
-	    c.lineTo(centre_x + x * (case_w / 2 - case_side + 1),
-		     clear_y + y * (key_unit * 2.25));
-	    c.lineTo(centre_x + x * (case_w / 2 - accent_w - accent_in * 2),
-		     clear_y + y * (accent_h - accent_in));
-	    c.lineTo(centre_x + x * (case_w / 2 - accent_w - accent_in),
-		     clear_y + y * (accent_h - accent_in));
-	    c.lineTo(centre_x + x * (case_w / 2 - accent_w - accent_in),
-		     clear_y + y * (accent_h));
-	    c.lineTo(centre_x + x * (case_w / 2 - accent_in),
-		     clear_y + y * (accent_h));
-	    c.lineTo(centre_x + x * (case_w / 2 - accent_in),
-		     clear_y + y * (accent_h - accent_in));
-	    c.lineTo(centre_x + x * (case_w / 2 - 0),
-		     clear_y + y * (accent_h - accent_in));
-
-	    c.stroke();
-	}
-    }
+    
 
     c.restore();
 
@@ -459,7 +422,6 @@ function main() {
 
     rivnut_quad(c, rivnut_x0, rivnut_y0);
     rivnut_quad(c, rivnut_x1, rivnut_y1);
-    rivnut_quad(c, rivnut_x2, rivnut_y2);
 
     c.restore();
 }
