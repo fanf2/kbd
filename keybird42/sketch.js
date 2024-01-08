@@ -85,7 +85,7 @@ let rivnut_r = 7 / 2;
 let rivnut_x0 = 3.5;
 let rivnut_y0 = 3;
 let rivnut_x1 = 9.25;
-let rivnut_y1 = 2.5;
+let rivnut_y1 = 2.625;
 
 // derived dimensions
 
@@ -435,9 +435,9 @@ function main() {
 	    c.lineTo(centre_x + x * key_unit * 7.5,
 		     centre_y + y * key_unit * 2.75);
 	    c.lineTo(centre_x + x * key_unit * 9.0,
-		     centre_y + y * key_unit * 2.55);
+		     centre_y + y * key_unit * 2.68);
 	    c.arc(centre_x + x * key_unit * 9.25,
-		  centre_y + y * key_unit * 2.5,
+		  centre_y + y * key_unit * 2.625,
 		  key_unit * 0.25,
 		  x > 0 ? tau/2 + 0.1*x*y : +0.1*x*y,
 		  x < 0 ? tau/2 - 0.1*x*y : -0.1*x*y,
@@ -456,9 +456,9 @@ function main() {
 	    c.lineTo(centre_x + x * key_unit * (main_width / 2 - 0),
 		     centre_y + y * key_unit * 3.00);
 	    c.lineTo(centre_x + x * key_unit * (main_width / 2 + 1.75),
-		     centre_y + y * key_unit * 2.75);
+		     centre_y + y * key_unit * 2.875);
 	    c.lineTo(centre_x + x * key_unit * (main_width / 2 + 3.25),
-		     centre_y + y * key_unit * 2.50);
+		     centre_y + y * key_unit * 2.5);
 	    c.lineTo(centre_x + x * key_unit * (main_width / 2 + 4),
 		     centre_y + y * key_unit * 2.25);
 	    c.lineTo(centre_x + x * key_unit * (main_width / 2 + 4),
