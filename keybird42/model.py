@@ -6,12 +6,7 @@ log = build123d.logging.getLogger("build123d")
 
 log.info("hello!")
 
-# measurements in mm
-
-KEY_UNIT = 19.05
-
-def ku(n):
-    return KEY_UNIT * n
+# vertical measurements in mm
 
 PLATE_THICK = 1.5   # 0.06 in
 PCB_THICK = 1.5     # minimum allowed by kailh socket knobs
@@ -20,10 +15,26 @@ PCB_THICK = 1.5     # minimum allowed by kailh socket knobs
 MX_BODY_HEIGHT = 11.6
 MX_PLATE_HEIGHT = 5.0
 MX_PIN_LENGTH = 3.3
-MX_PLATE_HOLE = 14.0
 
 PCB_PLATE_GAP = MX_PLATE_HEIGHT - PLATE_THICK
 
+# horizontal measurements in mm
+
+KEY_UNIT = 19.05
+
+def ku(n):
+    return KEY_UNIT * n
+
+MX_PLATE_HOLE = 14.0
+
+# (0.484+0.004 - 0.26+0.004) * 25.4 == 5.9 mm
+MX_STAB_ABOVE = 6
+# (0.53+0.006) * 25.4 == 13.6 mm; 13.6 - 5.9 == 7.7 mm
+MX_STAB_BELOW = 8
+
+MX_STAB_WIDTH = 7
+MX_STAB_DEPTH = MX_STAB_BELOW + MX_STAB_ABOVE
+MX_STAB_Y = MX_STAB_BELOW / 2 - MX_STAB_ABOVE / 2
 
 # key block layout
 
@@ -54,11 +65,17 @@ ELLIPSE_AXIS	= ku( 7.50 )
 
 class plate_cutout:
     k100 = Rectangle(MX_PLATE_HOLE, MX_PLATE_HOLE)
+
+    stab = Rectangle(MX_STAB_WIDTH, MX_STAB_DEPTH)
+    def balance(stab, width):
+        return (Location((-ku(width - 1) / 2, MX_STAB_Y)) * stab +
+                Location((+ku(width - 1) / 2, MX_STAB_Y)) * stab)
+
     k125 = k100
     k150 = k100
     k175 = k100
-    k225 = k100
-    k700 = k100
+    k225 = k100 + balance(stab, 2.25)
+    k700 = k100 + balance(stab, 7.00)
 
 class keycaps:
     k100 = Rectangle(ku(1.00), ku(1))
