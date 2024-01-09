@@ -6,7 +6,7 @@ log = build123d.logging.getLogger("build123d")
 
 log.info("hello!")
 
-EXPLODE = 10
+EXPLODE = 2
 
 # vertical measurements in mm
 
@@ -42,8 +42,6 @@ MX_STAB_Y	= MX_STAB_BELOW / 2 - MX_STAB_ABOVE / 2
 INNER_FILLET	= 1.0
 OUTER_FILLET	= 1.0
 
-# key block layout
-
 BLOCK_GAP	= ku( 0.25 )
 
 CASE_SIDE	= ku( 1.00 ) - BLOCK_GAP
@@ -60,6 +58,8 @@ CHEEK_NOTCH	= 2
 BROW_Y		= CASE_REAR - BLOCK_GAP
 
 ACCENT_CLEAR	= 0.2
+
+# key block layout
 
 KEYS_WIDE	= 15
 KEYS_DEEP	= 5
@@ -79,6 +79,14 @@ TOTAL_DEPTH	= MAIN_DEPTH + CASE_FRONT + CASE_REAR
 
 MIDDLE_WIDTH	= MAIN_WIDTH - ku(2.0)
 ELLIPSE_AXIS	= ku( 7.0 )
+
+USB_INSET	= 1.0
+USB_WIDTH	= 8.5 # spec says 8.25
+USB_CLEAR	= 1.0
+USBDB_WIDTH	= 18
+USBDB_DEPTH	= 18
+USBDB_R		= 1.0
+USBDB_Y		= TOTAL_DEPTH/2 - USBDB_DEPTH/2 - USB_CLEAR/2 - USB_INSET
 
 class plate_cutout:
     k100 = Rectangle(MX_PLATE_HOLE, MX_PLATE_HOLE)
@@ -210,6 +218,12 @@ def side_cutout():
     cutout += mirror(cutout, Plane.YZ)
     return cutout
 
+def usb_cutout():
+    usbdb = RectangleRounded(USBDB_WIDTH, USBDB_DEPTH, USBDB_R)
+    inset = RectangleRounded(USB_WIDTH, 2 * USB_INSET + USB_CLEAR, USB_CLEAR)
+    return (Location((0, USBDB_Y)) * offset(usbdb, USB_CLEAR)
+            + Location((0, TOTAL_DEPTH/2)) * inset)
+
 outline = ellipse_outline()
 
 small_holes = screw_holes(3.2)
@@ -237,17 +251,19 @@ base_plate	= extrude(base_plate, amount=PLATE_THICK)
 inset = offset(outline, amount=-SIDE_THICK)
 wall = outline - inset + hole_support + side_walls() - cheeks
 
-lower_wall = wall - large_holes
 upper_wall = wall - small_holes
-
-lower_perspex	= extrude(lower_wall, amount=PERSPEX_THICK)
-lower_plate	= extrude(lower_wall, amount=PLATE_THICK)
+lower_wall = wall - large_holes
+bottom_wall = lower_wall - usb_cutout()
 
 upper_perspex	= extrude(upper_wall, amount=PERSPEX_THICK)
 upper_plate	= extrude(upper_wall, amount=PLATE_THICK)
 
+lower_perspex	= extrude(lower_wall, amount=PERSPEX_THICK)
+lower_plate	= extrude(bottom_wall, amount=PLATE_THICK)
+bottom_perspex	= extrude(bottom_wall, amount=PERSPEX_THICK)
+
 layers = (Location((0,0, EXPLODE * 0.0)) * base_plate +
-          Location((0,0, EXPLODE * 1.5)) * lower_perspex +
+          Location((0,0, EXPLODE * 1.5)) * bottom_perspex +
           Location((0,0, EXPLODE * 4.5)) * lower_plate +
           Location((0,0, EXPLODE * 6.0)) * lower_perspex +
           Location((0,0, EXPLODE * 9.0)) * switch_plate +
