@@ -40,13 +40,13 @@ MAIN_WIDTH	= KEY_UNIT * KEYS_WIDE
 MAIN_DEPTH	= KEY_UNIT * KEYS_DEEP
 MAIN_Y		= CASE_FRONT / 2 - CASE_REAR / 2
 
-FUNC_WIDTH	= ku( 3.00 )
-FUNC_DEPTH	= ku( 2.00 )
-FUNC_X		= MAIN_WIDTH / 2 + BLOCK_GAP + FUNC_WIDTH / 2
-FUNC_Y1		= MAIN_Y + MAIN_DEPTH / 2 - BLOCK_GAP - FUNC_DEPTH / 2
-FUNC_Y2		= FUNC_Y1 - BLOCK_GAP - FUNC_DEPTH
+FUN_WIDTH	= ku( 3.00 )
+FUN_DEPTH	= ku( 2.00 )
+FUN_X		= MAIN_WIDTH / 2 + BLOCK_GAP + FUN_WIDTH / 2
+FUN_Y1		= MAIN_Y + MAIN_DEPTH / 2 - BLOCK_GAP - FUN_DEPTH / 2
+FUN_Y2		= FUN_Y1 - BLOCK_GAP - FUN_DEPTH
 
-TOTAL_WIDTH	= MAIN_WIDTH + (BLOCK_GAP + FUNC_WIDTH + CASE_SIDE) * 2
+TOTAL_WIDTH	= MAIN_WIDTH + (BLOCK_GAP + FUN_WIDTH + CASE_SIDE) * 2
 TOTAL_DEPTH	= MAIN_DEPTH + CASE_FRONT + CASE_REAR
 
 MIDDLE_WIDTH	= MAIN_WIDTH - ku(3)
@@ -81,6 +81,25 @@ def key_matrix(keys):
     key4 = Location((stagger, MAIN_Y - ku(1))) * keys.k100
     row4 = [ loc * key4 for loc in key_row(KEYS_WIDE - 5) ]
 
+    rows = row1 + row2 + row3 + row4
+
+    fun_block = GridLocations(ku(1), ku(1), 3, 2)
+
+    key5 = Location((-FUN_X, FUN_Y1)) * keys.k100
+    fun1 = [ loc * key5 for loc in fun_block ]
+
+    key6 = Location((-FUN_X, FUN_Y2)) * keys.k100
+    fun2 = [ loc * key6 for loc in fun_block ]
+
+    key7 = Location((+FUN_X, FUN_Y1)) * keys.k100
+    fun3 = [ loc * key7 for loc in fun_block ]
+
+    key_hi = Location((+FUN_X, FUN_Y2 + ku(0.5))) * keys.k100
+    key_lo = Location((+FUN_X, FUN_Y2 - ku(0.5))) * keys.k100
+    arrows = [key_hi] + [ loc * key_lo for loc in key_row(3) ]
+
+    funs = fun1 + fun2 + fun3 + arrows
+
     l = -MAIN_WIDTH / 2
     r = +MAIN_WIDTH / 2
 
@@ -100,7 +119,7 @@ def key_matrix(keys):
         Location((r - ku(1.50/2 + 2.50), MAIN_Y - ku(2))) * keys.k150,
     ]
 
-    matrix = space + modifiers + row1 + row2 + row3 + row4
+    matrix = space + modifiers + rows + funs
 
     return matrix
 
@@ -126,19 +145,19 @@ def ellipse_outline():
         * Rectangle(MAIN_WIDTH, MAIN_DEPTH)
     )
 
-    func_block = Rectangle(FUNC_WIDTH, FUNC_DEPTH)
-    func_n1 = Location((-FUNC_X, FUNC_Y1)) * func_block
-    func_n2 = Location((-FUNC_X, FUNC_Y2)) * func_block
-    func_p1 = Location((+FUNC_X, FUNC_Y1)) * func_block
-    func_p2 = Location((+FUNC_X, FUNC_Y2)) * func_block
-    func_blocks = func_n1 + func_n2 + func_p1 + func_p2
+    fun_block = Rectangle(FUN_WIDTH, FUN_DEPTH)
+    fun_n1 = Location((-FUN_X, FUN_Y1)) * fun_block
+    fun_n2 = Location((-FUN_X, FUN_Y2)) * fun_block
+    fun_p1 = Location((+FUN_X, FUN_Y1)) * fun_block
+    fun_p2 = Location((+FUN_X, FUN_Y2)) * fun_block
+    fun_blocks = fun_n1 + fun_n2 + fun_p1 + fun_p2
 
     one_key = Rectangle(ku(1), ku(1))
-    blocker1 = Location((FUNC_X - ku(1), FUNC_Y2 + ku(0.5))) * one_key
-    blocker2 = Location((FUNC_X + ku(1), FUNC_Y2 + ku(0.5))) * one_key
+    blocker1 = Location((FUN_X - ku(1), FUN_Y2 + ku(0.5))) * one_key
+    blocker2 = Location((FUN_X + ku(1), FUN_Y2 + ku(0.5))) * one_key
     arrow_blockers = blocker1 + blocker2
 
-    outline = outline - main_block - func_blocks + arrow_blockers
+    outline = outline - main_block - fun_blocks + arrow_blockers
 
     return outline
 
