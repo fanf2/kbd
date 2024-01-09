@@ -78,7 +78,11 @@ TOTAL_WIDTH	= MAIN_WIDTH + (BLOCK_GAP + FUN_WIDTH + CASE_SIDE) * 2
 TOTAL_DEPTH	= MAIN_DEPTH + CASE_FRONT + CASE_REAR
 
 MIDDLE_WIDTH	= MAIN_WIDTH - ku(2.0)
-ELLIPSE_AXIS	= ku( 7.0 )
+ELLIPSE_AXIS	= ku(7.0)
+
+FOOT_WIDTH	= MIDDLE_WIDTH
+FOOT_DEPTH	= CASE_REAR
+FOOT_AXIS	= ku(2.0)
 
 USB_INSET	= 1.0
 USB_WIDTH	= 8.5 # spec says 8.25
@@ -177,26 +181,33 @@ def key_matrix(keys):
 
     return matrix
 
-def ellipse_outline():
-    middle = Rectangle(MIDDLE_WIDTH, TOTAL_DEPTH)
+def elliptangle(width, depth, axis):
+    middle = Rectangle(width, depth)
 
     # dunno why i need to explicitly convert these to locations
     edges = middle.edges()
     left = Location(edges[0].center())
     right = Location(edges[2].center())
 
-    ellipse = Ellipse(ELLIPSE_AXIS, TOTAL_DEPTH / 2)
+    ellipse = Ellipse(axis, depth / 2)
     left = left * ellipse
     right = right * ellipse
 
-    oval = left + middle + right
+    return left + middle + right
 
+def ellipse_outline():
+    oval = elliptangle(MIDDLE_WIDTH, TOTAL_DEPTH, ELLIPSE_AXIS)
     clip = Rectangle(TOTAL_WIDTH, TOTAL_DEPTH)
-
     return oval & clip
 
-def screw_holes(diameter):
-    return [ Location((ku(x*i), ku(y*j))) * Circle(diameter/2)
+def foot_outline(thin=1.0):
+    oval = elliptangle(FOOT_WIDTH, FOOT_DEPTH * thin, FOOT_AXIS * thin)
+    return Location((0, TOTAL_DEPTH / 2 - FOOT_DEPTH * thin / 2)) * oval
+
+def screw_holes(diameter, smaller=None):
+    smaller = smaller or diameter
+    return [ Location((ku(x*i), ku(y*j)))
+             * Circle(diameter/2 if j < 0 or x > 6 else smaller/2)
              for (x,y) in [(3.5,3.0), (9.25, 2.7)]
              for i in [-1, +1]
              for j in [-1, +1]]
@@ -228,6 +239,7 @@ outline = ellipse_outline()
 
 small_holes = screw_holes(3.2)
 large_holes = screw_holes(5.2)
+mixed_holes = screw_holes(5.2, 3.2)
 hole_support = screw_holes(CASE_FRONT)
 
 cheeks = side_cutout()
@@ -243,7 +255,7 @@ top_perspex	= extrude(top_perspex, amount=PERSPEX_THICK)
 switch_plate	= outline - small_holes - key_matrix(plate_cutout) - cheeks
 switch_plate	= extrude(switch_plate, amount=PLATE_THICK)
 
-base_plate	= outline - large_holes
+base_plate	= outline - mixed_holes
 base_plate	= extrude(base_plate, amount=PLATE_THICK)
 
 # TODO: fillet inner corners of side_walls()
@@ -252,7 +264,7 @@ inset = offset(outline, amount=-SIDE_THICK)
 wall = outline - inset + hole_support + side_walls() - cheeks
 
 upper_wall = wall - small_holes
-lower_wall = wall - large_holes
+lower_wall = wall - mixed_holes
 bottom_wall = lower_wall - usb_cutout()
 
 upper_perspex	= extrude(upper_wall, amount=PERSPEX_THICK)
@@ -262,14 +274,33 @@ lower_perspex	= extrude(lower_wall, amount=PERSPEX_THICK)
 lower_plate	= extrude(bottom_wall, amount=PLATE_THICK)
 bottom_perspex	= extrude(bottom_wall, amount=PERSPEX_THICK)
 
-layers = (Location((0,0, EXPLODE * 0.0)) * base_plate +
-          Location((0,0, EXPLODE * 1.5)) * bottom_perspex +
-          Location((0,0, EXPLODE * 4.5)) * lower_plate +
-          Location((0,0, EXPLODE * 6.0)) * lower_perspex +
-          Location((0,0, EXPLODE * 9.0)) * switch_plate +
-          Location((0,0, EXPLODE* 10.5)) * upper_perspex +
-          Location((0,0, EXPLODE* 13.5)) * upper_plate +
-          Location((0,0, EXPLODE* 15.0)) * top_perspex)
+foot = foot_outline()
+small_foot_perspex = extrude(foot - small_holes, amount=PERSPEX_THICK)
+small_foot_plate = extrude(foot - small_holes, amount=PLATE_THICK)
+big_foot_perspex = extrude(foot - large_holes, amount=PERSPEX_THICK)
+big_foot_plate = extrude(foot - large_holes, amount=PLATE_THICK)
+half_foot = extrude(foot_outline(0.5) - large_holes, amount=PLATE_THICK)
+
+
+layers = Part() + [
+    Location((0,0, EXPLODE * y)) * layer
+    for (y, layer) in [
+            ((-13.5), half_foot),
+            ((-12), big_foot_perspex),
+            ((-9.0), big_foot_plate),
+            ((-7.5), big_foot_perspex),
+            ((-4.5), small_foot_plate),
+            ((-3.0), small_foot_perspex),
+            (( 0.0), base_plate),
+            (( 1.5), bottom_perspex),
+            (( 4.5), lower_plate),
+            (( 6.0), lower_perspex),
+            (( 9.0), switch_plate),
+            ((10.5), upper_perspex),
+            ((13.5), upper_plate),
+            ((15.0), top_perspex),
+    ] ]
+
 
 # fillet outer corners
 edges = layers.edges().filter_by(Axis.Z).group_by(Axis.X)
