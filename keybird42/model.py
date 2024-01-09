@@ -26,16 +26,19 @@ KEY_UNIT = 19.05
 def ku(n):
     return KEY_UNIT * n
 
-MX_PLATE_HOLE = 14.0
+MX_PLATE_HOLE	= 14.0
 
 # (0.484+0.004 - 0.26+0.004) * 25.4 == 5.9 mm
-MX_STAB_ABOVE = 6
+MX_STAB_ABOVE	= 6
 # (0.53+0.006) * 25.4 == 13.6 mm; 13.6 - 5.9 == 7.7 mm
-MX_STAB_BELOW = 8
+MX_STAB_BELOW	= 8
 
-MX_STAB_WIDTH = 7
-MX_STAB_DEPTH = MX_STAB_BELOW + MX_STAB_ABOVE
-MX_STAB_Y = MX_STAB_BELOW / 2 - MX_STAB_ABOVE / 2
+MX_STAB_WIDTH	= 7
+MX_STAB_DEPTH	= MX_STAB_BELOW + MX_STAB_ABOVE
+MX_STAB_Y	= MX_STAB_BELOW / 2 - MX_STAB_ABOVE / 2
+
+INNER_FILLET	= 1.0
+OUTER_FILLET	= 1.0
 
 # key block layout
 
@@ -44,6 +47,14 @@ BLOCK_GAP	= ku( 0.25 )
 CASE_SIDE	= ku( 1.00 ) - BLOCK_GAP
 CASE_FRONT	= ku( 0.50 )
 CASE_REAR	= ku( 1.00 )
+
+SIDE_THICK	= ku( 0.25 )
+
+CHEEK_WIDTH	= ku( 0.50 )
+CHEEK_DEPTH	= ku( 4.00 )
+CHEEK_THICK	= 3
+CHEEK_NOTCH	= 4
+CHEEK_CLEAR	= 0.2
 
 KEYS_WIDE	= 15
 KEYS_DEEP	= 5
@@ -61,8 +72,8 @@ FUN_Y2		= FUN_Y1 - BLOCK_GAP - FUN_DEPTH
 TOTAL_WIDTH	= MAIN_WIDTH + (BLOCK_GAP + FUN_WIDTH + CASE_SIDE) * 2
 TOTAL_DEPTH	= MAIN_DEPTH + CASE_FRONT + CASE_REAR
 
-MIDDLE_WIDTH	= MAIN_WIDTH - ku(3)
-ELLIPSE_AXIS	= ku( 7.50 )
+MIDDLE_WIDTH	= MAIN_WIDTH - ku(2.0)
+ELLIPSE_AXIS	= ku( 7.0 )
 
 class plate_cutout:
     k100 = Rectangle(MX_PLATE_HOLE, MX_PLATE_HOLE)
@@ -173,29 +184,55 @@ def ellipse_outline():
 
 def screw_holes(diameter):
     return [ Location((ku(x*i), ku(y*j))) * Circle(diameter/2)
-             for (x,y) in [(3.5,3.0), (9.25, 3 - 3/8)]
+             for (x,y) in [(3.5,3.0), (9.25, 2.75)]
              for i in [-1, +1]
              for j in [-1, +1]]
+
+def side_walls():
+    thicker = (Location((TOTAL_WIDTH/2 - CHEEK_WIDTH/2, 0))
+               * Rectangle(CHEEK_WIDTH, CHEEK_DEPTH + ku(0.5)))
+    return thicker + mirror(thicker, Plane.YZ)
+
+def side_cutout():
+    cutout = (Location((TOTAL_WIDTH/2 - CHEEK_WIDTH/2, 0))
+              * Rectangle(CHEEK_WIDTH + CHEEK_CLEAR, CHEEK_DEPTH))
+    notch_thick = CHEEK_THICK + CHEEK_CLEAR
+    notch_x = TOTAL_WIDTH/2 - CHEEK_THICK - notch_thick / 2
+    notch = Ellipse(notch_thick/2, CHEEK_NOTCH/2)
+    top_notch = Location((notch_x, +CHEEK_DEPTH / 2)) * notch
+    bot_notch = Location((notch_x, -CHEEK_DEPTH / 2)) * notch
+    cutout += top_notch + bot_notch
+    cutout += mirror(cutout, Plane.YZ)
+    return cutout
 
 outline = ellipse_outline()
 
 small_holes = screw_holes(3.2)
 large_holes = screw_holes(5.2)
+hole_support = screw_holes(7.5)
+
+cheeks = side_cutout()
 
 # TODO: fillet inner corners of top_plate
 
 top_plate = outline - small_holes - key_matrix(keycaps)
 base_plate = outline - large_holes
-switch_plate = outline - small_holes - key_matrix(plate_cutout)
+switch_plate = outline - small_holes - key_matrix(plate_cutout) - cheeks
 
-top_plate = extrude(Location((0,0,-3)) * top_plate, amount=PERSPEX_THICK)
-switch_plate = extrude(Location((0,0,-9)) * switch_plate, amount=PLATE_THICK)
-base_plate = extrude(Location((0,0,-18)) * base_plate, amount=PLATE_THICK)
+top_plate = extrude(Location((0,0,-4)) * top_plate, amount=PERSPEX_THICK)
+switch_plate = extrude(Location((0,0,-10)) * switch_plate, amount=PLATE_THICK)
+base_plate = extrude(Location((0,0,-19)) * base_plate, amount=PLATE_THICK)
 
 layers = top_plate + switch_plate + base_plate
 
 # fillet outer corners
 edges = layers.edges().filter_by(Axis.Z).group_by(Axis.X)
-layers = fillet(edges[-1] + edges[+0], radius=PERSPEX_THICK)
+layers = fillet(edges[-1] + edges[+0], radius=OUTER_FILLET)
 
 show_object(layers)
+
+inset = offset(outline, amount=-SIDE_THICK)
+
+wall = outline - inset + hole_support + side_walls() - cheeks
+
+show_object(wall)
