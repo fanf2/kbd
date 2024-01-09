@@ -85,10 +85,10 @@ class keycaps:
     k225 = Rectangle(ku(2.25), ku(1))
     k700 = Rectangle(ku(7.00), ku(1))
 
-def key_row(width):
-    return GridLocations(ku(1), ku(1), width, 1)
-
 def key_matrix(keys):
+
+    def key_row(width):
+        return GridLocations(ku(1), ku(1), width, 1)
 
     stagger = -ku(0.25)
 
@@ -166,11 +166,19 @@ def ellipse_outline():
 
     return oval & clip
 
+def screw_holes(diameter):
+    return [ Location((ku(x*i), ku(y*j))) * Circle(diameter/2)
+             for (x,y) in [(3.5,3.0), (9.25, 3 - 3/8)]
+             for i in [-1, +1]
+             for j in [-1, +1]]
+
 sketch = ellipse_outline()
 
 plate = key_matrix(plate_cutout)
 caps = key_matrix(keycaps)
 
-sketch = sketch - caps + plate
+holes = screw_holes(7)
+
+sketch = sketch - holes - caps + plate
 
 show_object(sketch)
