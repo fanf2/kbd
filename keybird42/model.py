@@ -79,12 +79,16 @@ class plate_cutout:
     k700 = k100 + balance(stab, 7.00)
 
 class keycaps:
-    k100 = Rectangle(ku(1.00), ku(1))
-    k125 = Rectangle(ku(1.25), ku(1))
-    k150 = Rectangle(ku(1.50), ku(1))
-    k175 = Rectangle(ku(1.75), ku(1))
-    k225 = Rectangle(ku(2.25), ku(1))
-    k700 = Rectangle(ku(7.00), ku(1))
+
+    def keycap(width):
+        return Rectangle(ku(width) + 0.1, ku(1) + 0.1)
+
+    k100 = keycap(1.00)
+    k125 = keycap(1.25)
+    k150 = keycap(1.50)
+    k175 = keycap(1.75)
+    k225 = keycap(2.25)
+    k700 = keycap(7.00)
 
 def key_matrix(keys):
 
@@ -178,12 +182,20 @@ outline = ellipse_outline()
 small_holes = screw_holes(3.2)
 large_holes = screw_holes(5.2)
 
+# TODO: fillet inner corners of top_plate
+
 top_plate = outline - small_holes - key_matrix(keycaps)
 base_plate = outline - large_holes
 switch_plate = outline - small_holes - key_matrix(plate_cutout)
 
-top_plate = extrude(Location((0,0,+6)) * top_plate, amount=PERSPEX_THICK)
-base_plate = extrude(Location((0,0,-9)) * base_plate, amount=PLATE_THICK)
-switch_plate = extrude(switch_plate, amount=PLATE_THICK)
+top_plate = extrude(Location((0,0,-3)) * top_plate, amount=PERSPEX_THICK)
+switch_plate = extrude(Location((0,0,-9)) * switch_plate, amount=PLATE_THICK)
+base_plate = extrude(Location((0,0,-18)) * base_plate, amount=PLATE_THICK)
 
-show_object(top_plate + switch_plate + base_plate)
+layers = top_plate + switch_plate + base_plate
+
+# fillet outer corners
+edges = layers.edges().filter_by(Axis.Z).group_by(Axis.X)
+layers = fillet(edges[-1] + edges[+0], radius=PERSPEX_THICK)
+
+show_object(layers)
