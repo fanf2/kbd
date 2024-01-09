@@ -6,6 +6,8 @@ log = build123d.logging.getLogger("build123d")
 
 log.info("hello!")
 
+EXPLODE = 10
+
 # vertical measurements in mm
 
 PERSPEX_THICK = 3.0
@@ -209,30 +211,46 @@ outline = ellipse_outline()
 
 small_holes = screw_holes(3.2)
 large_holes = screw_holes(5.2)
-hole_support = screw_holes(7.5)
+hole_support = screw_holes(7.7)
 
 cheeks = side_cutout()
 
-# TODO: fillet inner corners of top_plate
+# TODO: fillet inner corners of top_perspex
 
-top_plate = outline - small_holes - key_matrix(keycaps)
-base_plate = outline - large_holes
-switch_plate = outline - small_holes - key_matrix(plate_cutout) - cheeks
+top_perspex	= outline - small_holes - key_matrix(keycaps)
+top_perspex	= extrude(top_perspex, amount=PERSPEX_THICK)
 
-top_plate = extrude(Location((0,0,-4)) * top_plate, amount=PERSPEX_THICK)
-switch_plate = extrude(Location((0,0,-10)) * switch_plate, amount=PLATE_THICK)
-base_plate = extrude(Location((0,0,-19)) * base_plate, amount=PLATE_THICK)
+switch_plate	= outline - small_holes - key_matrix(plate_cutout) - cheeks
+switch_plate	= extrude(switch_plate, amount=PLATE_THICK)
 
-layers = top_plate + switch_plate + base_plate
+base_plate	= outline - large_holes
+base_plate	= extrude(base_plate, amount=PLATE_THICK)
+
+# TODO: fillet inner corners of side_walls()
+
+inset = offset(outline, amount=-SIDE_THICK)
+wall = outline - inset + hole_support + side_walls() - cheeks
+
+lower_wall = wall - large_holes
+upper_wall = wall - small_holes
+
+lower_perspex	= extrude(lower_wall, amount=PERSPEX_THICK)
+lower_plate	= extrude(lower_wall, amount=PLATE_THICK)
+
+upper_perspex	= extrude(upper_wall, amount=PERSPEX_THICK)
+upper_plate	= extrude(upper_wall, amount=PLATE_THICK)
+
+layers = (Location((0,0, EXPLODE * 0.0)) * base_plate +
+          Location((0,0, EXPLODE * 1.5)) * lower_perspex +
+          Location((0,0, EXPLODE * 4.5)) * lower_plate +
+          Location((0,0, EXPLODE * 6.0)) * lower_perspex +
+          Location((0,0, EXPLODE * 9.0)) * switch_plate +
+          Location((0,0, EXPLODE* 10.5)) * upper_perspex +
+          Location((0,0, EXPLODE* 13.5)) * upper_plate +
+          Location((0,0, EXPLODE* 15.0)) * top_perspex)
 
 # fillet outer corners
 edges = layers.edges().filter_by(Axis.Z).group_by(Axis.X)
 layers = fillet(edges[-1] + edges[+0], radius=OUTER_FILLET)
 
 show_object(layers)
-
-inset = offset(outline, amount=-SIDE_THICK)
-
-wall = outline - inset + hole_support + side_walls() - cheeks
-
-show_object(wall)
