@@ -60,6 +60,14 @@ class plate_cutout:
     k225 = k100
     k700 = k100
 
+class keycaps:
+    k100 = Rectangle(ku(1.00), ku(1))
+    k125 = Rectangle(ku(1.25), ku(1))
+    k150 = Rectangle(ku(1.50), ku(1))
+    k175 = Rectangle(ku(1.75), ku(1))
+    k225 = Rectangle(ku(2.25), ku(1))
+    k700 = Rectangle(ku(7.00), ku(1))
+
 def key_row(width):
     return GridLocations(ku(1), ku(1), width, 1)
 
@@ -135,36 +143,17 @@ def ellipse_outline():
     left = left * ellipse
     right = right * ellipse
 
-    outline = left + middle + right
+    oval = left + middle + right
 
     clip = Rectangle(TOTAL_WIDTH, TOTAL_DEPTH)
-    outline = outline & clip
 
-    main_block = (
-        Location((0, MAIN_Y))
-        * Rectangle(MAIN_WIDTH, MAIN_DEPTH)
-    )
-
-    fun_block = Rectangle(FUN_WIDTH, FUN_DEPTH)
-    fun_n1 = Location((-FUN_X, FUN_Y1)) * fun_block
-    fun_n2 = Location((-FUN_X, FUN_Y2)) * fun_block
-    fun_p1 = Location((+FUN_X, FUN_Y1)) * fun_block
-    fun_p2 = Location((+FUN_X, FUN_Y2)) * fun_block
-    fun_blocks = fun_n1 + fun_n2 + fun_p1 + fun_p2
-
-    one_key = Rectangle(ku(1), ku(1))
-    blocker1 = Location((FUN_X - ku(1), FUN_Y2 + ku(0.5))) * one_key
-    blocker2 = Location((FUN_X + ku(1), FUN_Y2 + ku(0.5))) * one_key
-    arrow_blockers = blocker1 + blocker2
-
-    outline = outline - main_block - fun_blocks + arrow_blockers
-
-    return outline
+    return oval & clip
 
 sketch = ellipse_outline()
 
-matrix = key_matrix(plate_cutout)
+plate = key_matrix(plate_cutout)
+caps = key_matrix(keycaps)
 
-sketch = sketch + matrix
+sketch = sketch - caps + plate
 
 show_object(sketch)
