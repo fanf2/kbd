@@ -1,7 +1,8 @@
-import build123d as bd
+from build123d import *
 
-log = bd.logging.getLogger("build123d")
-log.addHandler(bd.logging.NullHandler())
+# dunno why it can't find `logging` via the previous import
+import build123d
+log = build123d.logging.getLogger("build123d")
 
 log.info("hello!")
 
@@ -25,37 +26,65 @@ PCB_PLATE_GAP = MX_PLATE_HEIGHT - PLATE_THICK
 
 # key block layout
 
-MAIN_WIDTH	= ku( 15.00 )
-MAIN_DEPTH	= ku(  5.00 )
-
 BLOCK_GAP	= ku(  0.25 )
 
 CASE_SIDE	= ku(  1.00 ) - BLOCK_GAP
 CASE_FRONT	= ku(  0.50 )
 CASE_REAR	= ku(  1.00 )
 
+MAIN_WIDTH	= ku( 15.00 )
+MAIN_DEPTH	= ku(  5.00 )
+MAIN_Y		= CASE_FRONT / 2 - CASE_REAR / 2
+
 FUNC_WIDTH	= ku(  3.00 )
 FUNC_DEPTH	= ku(  2.00 )
-
-FUNC_REAR	= CASE_REAR + BLOCK_GAP
-FUNC_FRONT	= CASE_FRONT + MAIN_DEPTH - (BLOCK_GAP + FUNC_DEPTH) * 2
+FUNC_X		= MAIN_WIDTH / 2 + BLOCK_GAP + FUNC_WIDTH / 2
+FUNC_Y1		= MAIN_Y + MAIN_DEPTH / 2 - BLOCK_GAP - FUNC_DEPTH / 2
+FUNC_Y2		= FUNC_Y1 - BLOCK_GAP - FUNC_DEPTH
 
 TOTAL_WIDTH	= MAIN_WIDTH + (BLOCK_GAP + FUNC_WIDTH + CASE_SIDE) * 2
 TOTAL_DEPTH	= MAIN_DEPTH + CASE_FRONT + CASE_REAR
 
 MIDDLE_WIDTH	= MAIN_WIDTH - ku(3)
-ELLIPSE_AXIS	= ku(  7.50 )
-
+ELLIPSE_AXIS	= ku( 7.50 )
 
 def EllipseOutline():
-    middle = bd.Rectangle(MIDDLE_WIDTH, TOTAL_DEPTH)
+    middle = Rectangle(MIDDLE_WIDTH, TOTAL_DEPTH)
+
+    # dunno why i need to explicitly convert these to locations
     edges = middle.edges()
-    left = bd.Location(edges[0].center())
-    right = bd.Location(edges[2].center())
-    ellipse = bd.Ellipse(ELLIPSE_AXIS, TOTAL_DEPTH / 2)
-    wideboy = middle + left * ellipse + right * ellipse
-    outline = bd.Rectangle(TOTAL_WIDTH, TOTAL_DEPTH)
-    return wideboy.intersect(outline)
+    left = Location(edges[0].center())
+    right = Location(edges[2].center())
+
+    ellipse = Ellipse(ELLIPSE_AXIS, TOTAL_DEPTH / 2)
+    left = left * ellipse
+    right = right * ellipse
+
+    outline = left + middle + right
+
+    clip = Rectangle(TOTAL_WIDTH, TOTAL_DEPTH)
+    outline = outline & clip
+
+    main_block = (
+        Location((0, MAIN_Y, 0))
+        * Rectangle(MAIN_WIDTH, MAIN_DEPTH)
+    )
+
+    func_block = Rectangle(FUNC_WIDTH, FUNC_DEPTH)
+    func_n1 = Location((-FUNC_X, FUNC_Y1, 0)) * func_block
+    func_n2 = Location((-FUNC_X, FUNC_Y2, 0)) * func_block
+    func_p1 = Location((+FUNC_X, FUNC_Y1, 0)) * func_block
+    func_p2 = Location((+FUNC_X, FUNC_Y2, 0)) * func_block
+    func_blocks = func_n1 + func_n2 + func_p1 + func_p2
+
+    one_key = Rectangle(ku(1), ku(1))
+    blocker1 = Location((FUNC_X - ku(1), FUNC_Y2 + ku(0.5), 0)) * one_key
+    blocker2 = Location((FUNC_X + ku(1), FUNC_Y2 + ku(0.5), 0)) * one_key
+    arrow_blockers = blocker1 + blocker2
+
+    outline = outline - main_block - func_blocks + arrow_blockers
+
+    return outline
 
 outline = EllipseOutline()
 show_object(outline)
