@@ -8,8 +8,9 @@ log.info("hello!")
 
 # vertical measurements in mm
 
+PERSPEX_THICK = 3.0
 PLATE_THICK = 1.5   # 0.06 in
-PCB_THICK = 1.5     # minimum allowed by kailh socket knobs
+PCB_THICK = 1.6     # 1.2 is minimum allowed by kailh socket knobs
 
 # relative to top of the pcb
 MX_BODY_HEIGHT = 11.6
@@ -172,13 +173,17 @@ def screw_holes(diameter):
              for i in [-1, +1]
              for j in [-1, +1]]
 
-sketch = ellipse_outline()
+outline = ellipse_outline()
 
-plate = key_matrix(plate_cutout)
-caps = key_matrix(keycaps)
+small_holes = screw_holes(3.2)
+large_holes = screw_holes(5.2)
 
-holes = screw_holes(7)
+top_plate = outline - small_holes - key_matrix(keycaps)
+base_plate = outline - large_holes
+switch_plate = outline - small_holes - key_matrix(plate_cutout)
 
-sketch = sketch - holes - caps + plate
+top_plate = extrude(Location((0,0,+6)) * top_plate, amount=PERSPEX_THICK)
+base_plate = extrude(Location((0,0,-9)) * base_plate, amount=PLATE_THICK)
+switch_plate = extrude(switch_plate, amount=PLATE_THICK)
 
-show_object(sketch)
+show_object(top_plate + switch_plate + base_plate)
