@@ -65,7 +65,9 @@ def key_row(width):
 
 def key_matrix(keys):
 
-    stagger = Location((-ku(0.25),0))
+    stagger = -ku(0.25)
+
+    space = Location((0, MAIN_Y - ku(2))) * keys.k700
 
     key1 = Location((0, MAIN_Y + ku(2))) * keys.k100
     row1 = [ loc * key1 for loc in key_row(KEYS_WIDE) ]
@@ -73,26 +75,32 @@ def key_matrix(keys):
     key2 = Location((0, MAIN_Y + ku(1))) * keys.k100
     row2 = [ loc * key2 for loc in key_row(KEYS_WIDE - 3) ]
 
-    key3 = Location((ku(-0.25), MAIN_Y)) * keys.k100
+    key3 = Location((stagger, MAIN_Y)) * keys.k100
     row3 = [ loc * key3 for loc in key_row(KEYS_WIDE - 4) ]
 
-    key4 = Location((ku(-0.25), MAIN_Y - ku(1))) * keys.k100
+    key4 = Location((stagger, MAIN_Y - ku(1))) * keys.k100
     row4 = [ loc * key4 for loc in key_row(KEYS_WIDE - 5) ]
-
-    matrix = row1 + row2 + row3 + row4
 
     l = -MAIN_WIDTH / 2
     r = +MAIN_WIDTH / 2
 
-    matrix += [
-        Location((l + ku(1.50)/2, MAIN_Y + ku(1))) * keys.k150,
-        Location((r - ku(1.50)/2, MAIN_Y + ku(1))) * keys.k150,
-        Location((l + ku(1.75)/2, MAIN_Y + ku(0))) * keys.k175,
-        Location((r - ku(2.25)/2, MAIN_Y + ku(0))) * keys.k225,
-        Location((l + ku(2.25)/2, MAIN_Y - ku(1))) * keys.k225,
-        Location((r - ku(3.75)/2, MAIN_Y - ku(1))) * keys.k175,
-        Location((r - ku(1.00)/2, MAIN_Y - ku(1))) * keys.k100,
+    modifiers = [
+        Location((l + ku(1.50/2), MAIN_Y + ku(1))) * keys.k150,
+        Location((l + ku(1.75/2), MAIN_Y + ku(0))) * keys.k175,
+        Location((l + ku(2.25/2), MAIN_Y - ku(1))) * keys.k225,
+        Location((l + ku(1.25/2), MAIN_Y - ku(2))) * keys.k125,
+        Location((l + ku(1.25/2 + 1.25), MAIN_Y - ku(2))) * keys.k125,
+        Location((l + ku(1.50/2 + 2.50), MAIN_Y - ku(2))) * keys.k150,
+        Location((r - ku(1.50/2), MAIN_Y + ku(1))) * keys.k150,
+        Location((r - ku(2.25/2), MAIN_Y + ku(0))) * keys.k225,
+        Location((r - ku(1.00/2), MAIN_Y - ku(1))) * keys.k100,
+        Location((r - ku(1.25/2), MAIN_Y - ku(2))) * keys.k125,
+        Location((r - ku(1.75/2 + 1.00), MAIN_Y - ku(1))) * keys.k175,
+        Location((r - ku(1.25/2 + 1.25), MAIN_Y - ku(2))) * keys.k125,
+        Location((r - ku(1.50/2 + 2.50), MAIN_Y - ku(2))) * keys.k150,
     ]
+
+    matrix = space + modifiers + row1 + row2 + row3 + row4
 
     return matrix
 
