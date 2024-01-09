@@ -55,8 +55,11 @@ SIDE_THICK	= ku( 0.25 )
 CHEEK_WIDTH	= ku( 0.50 )
 CHEEK_DEPTH	= ku( 4.00 )
 CHEEK_THICK	= 3
-CHEEK_NOTCH	= 4
-CHEEK_CLEAR	= 0.2
+CHEEK_NOTCH	= 2
+
+BROW_Y		= CASE_REAR - BLOCK_GAP
+
+ACCENT_CLEAR	= 0.2
 
 KEYS_WIDE	= 15
 KEYS_DEEP	= 5
@@ -186,7 +189,7 @@ def ellipse_outline():
 
 def screw_holes(diameter):
     return [ Location((ku(x*i), ku(y*j))) * Circle(diameter/2)
-             for (x,y) in [(3.5,3.0), (9.25, 2.75)]
+             for (x,y) in [(3.5,3.0), (9.25, 2.7)]
              for i in [-1, +1]
              for j in [-1, +1]]
 
@@ -197,8 +200,8 @@ def side_walls():
 
 def side_cutout():
     cutout = (Location((TOTAL_WIDTH/2 - CHEEK_WIDTH/2, 0))
-              * Rectangle(CHEEK_WIDTH + CHEEK_CLEAR, CHEEK_DEPTH))
-    notch_thick = CHEEK_THICK + CHEEK_CLEAR
+              * Rectangle(CHEEK_WIDTH + ACCENT_CLEAR, CHEEK_DEPTH))
+    notch_thick = CHEEK_THICK + ACCENT_CLEAR
     notch_x = TOTAL_WIDTH/2 - CHEEK_THICK - notch_thick / 2
     notch = Ellipse(notch_thick/2, CHEEK_NOTCH/2)
     top_notch = Location((notch_x, +CHEEK_DEPTH / 2)) * notch
@@ -211,13 +214,16 @@ outline = ellipse_outline()
 
 small_holes = screw_holes(3.2)
 large_holes = screw_holes(5.2)
-hole_support = screw_holes(7.7)
+hole_support = screw_holes(CASE_FRONT)
 
 cheeks = side_cutout()
 
 # TODO: fillet inner corners of top_perspex
 
-top_perspex	= outline - small_holes - key_matrix(keycaps)
+brow = (Location((0, TOTAL_DEPTH / 2 - BROW_Y)) *
+        Rectangle(MAIN_WIDTH + ACCENT_CLEAR, PERSPEX_THICK + ACCENT_CLEAR))
+
+top_perspex	= outline - small_holes - key_matrix(keycaps) - brow
 top_perspex	= extrude(top_perspex, amount=PERSPEX_THICK)
 
 switch_plate	= outline - small_holes - key_matrix(plate_cutout) - cheeks
