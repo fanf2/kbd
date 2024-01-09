@@ -433,7 +433,7 @@ function main() {
 		  x < 0 ? tau/2 : 0,
 		  x*y < 0);
 	    c.lineTo(centre_x + x * key_unit * 7.5,
-		     centre_y + y * key_unit * 2.75);
+		     centre_y + y * key_unit * 2.875);
 	    c.lineTo(centre_x + x * key_unit * 9.0,
 		     centre_y + y * key_unit * 2.68);
 	    c.arc(centre_x + x * key_unit * 9.25,
@@ -451,27 +451,27 @@ function main() {
 		     centre_y + y * key_unit * 3.0);
 	    c.lineTo(centre_x,
 		     centre_y + y * key_unit * 3.25);
-	    c.lineTo(centre_x + x * key_unit * (main_width / 2 - 4),
+	    c.lineTo(centre_x + x * key_unit * 3.5,
 		     centre_y + y * key_unit * 3.25);
-	    c.lineTo(centre_x + x * key_unit * (main_width / 2 - 0),
-		     centre_y + y * key_unit * 3.00);
-	    c.lineTo(centre_x + x * key_unit * (main_width / 2 + 1.75),
+	    c.lineTo(centre_x + x * key_unit * 7.5,
+		     centre_y + y * key_unit * 3.125);
+	    c.lineTo(centre_x + x * key_unit * 9.25,
 		     centre_y + y * key_unit * 2.875);
-	    c.lineTo(centre_x + x * key_unit * (main_width / 2 + 3.25),
+	    c.lineTo(centre_x + x * key_unit * 10.75,
 		     centre_y + y * key_unit * 2.5);
-	    c.lineTo(centre_x + x * key_unit * (main_width / 2 + 4),
+	    c.lineTo(centre_x + x * key_unit * 11.5,
 		     centre_y + y * key_unit * 2.25);
-	    c.lineTo(centre_x + x * key_unit * (main_width / 2 + 4),
+	    c.lineTo(centre_x + x * key_unit * 11.5,
 		     centre_y + y * key_unit * 2.00);
-	    c.lineTo(centre_x + x * key_unit * (main_width / 2 + 4) - x * 3,
+	    c.lineTo(centre_x + x * key_unit * 11.5 - x * 3,
 		     centre_y + y * key_unit * 2.00);
-	    c.lineTo(centre_x + x * key_unit * (main_width / 2 + 4) - x * 3,
+	    c.lineTo(centre_x + x * key_unit * 11.5 - x * 3,
 		     centre_y + y * key_unit * 2.00 + y * 2);
-	    c.lineTo(centre_x + x * key_unit * (main_width / 2 + 4) - x * 6,
+	    c.lineTo(centre_x + x * key_unit * 11.5 - x * 6,
 		     centre_y + y * key_unit * 2.00 + y * 2);
-	    c.lineTo(centre_x + x * key_unit * (main_width / 2 + 4) - x * 6,
+	    c.lineTo(centre_x + x * key_unit * 11.5 - x * 6,
 		     centre_y + y * key_unit * 2.00);
-	    c.lineTo(centre_x + x * key_unit * (main_width / 2 + 4) - x * 9,
+	    c.lineTo(centre_x + x * key_unit * 11.5 - x * 9,
 		     centre_y + y * key_unit * 2.00);
 
 	    c.stroke();
