@@ -6,7 +6,7 @@ log = build123d.logging.getLogger("build123d")
 
 log.info("hello!")
 
-EXPLODE = 1.1
+EXPLODE = 1.001
 
 # vertical measurements in mm
 
@@ -214,18 +214,12 @@ def pcb_outline():
          MAIN_Y - MAIN_DEPTH/2 + PCB_INSET + BLOCK_GAP*2),
         (MAIN_WIDTH/2 + PCB_INSET + BLOCK_GAP,
          MAIN_Y - MAIN_DEPTH/2 + PCB_INSET + BLOCK_GAP*2),
-        (MAIN_WIDTH/2 - PCB_INSET,
-         pcb_front),
-        (PCB_TOE + PCB_INSET*2,
-         pcb_front),
-        (PCB_TOE + PCB_INSET,
-         pcb_front - PCB_INSET),
-        (PCB_TOE - PCB_INSET,
-         pcb_front - PCB_INSET),
-        (PCB_TOE - PCB_INSET*2,
-         pcb_front),
-        (0,
-         pcb_front),
+        (MAIN_WIDTH/2 - PCB_INSET, pcb_front),
+        (PCB_TOE + PCB_INSET*2,	   pcb_front),
+        (PCB_TOE + PCB_INSET,      pcb_front - PCB_INSET),
+        (PCB_TOE - PCB_INSET,      pcb_front - PCB_INSET),
+        (PCB_TOE - PCB_INSET*2,    pcb_front),
+        (0,                        pcb_front),
     ])
     outline = make_face(half + mirror(half, Plane.YZ))
     # dunno why this comes out upside-down
@@ -370,19 +364,16 @@ small_foot_perspex = extrude(foot - small_holes, amount=PERSPEX_THICK)
 small_foot_plate = extrude(foot - small_holes, amount=PLATE_THICK)
 big_foot_perspex = extrude(foot - large_holes, amount=PERSPEX_THICK)
 big_foot_plate = extrude(foot - large_holes, amount=PLATE_THICK)
-half_foot = extrude(foot_outline(0.5) - large_holes, amount=PLATE_THICK)
-
-test_foot = extrude(foot - large_holes, amount=PERSPEX_THICK)
 
 model = Part() + [
     Location((0,0, EXPLODE * y)) * part
     for (y, part) in [
-            # ((-13.5), half_foot),
-            # ((-12), big_foot_perspex),
-            # ((-9.0), big_foot_plate),
-            # ((-7.5), big_foot_perspex),
-            # ((-4.5), small_foot_plate),
-            ((-3.0), test_foot),
+            ((-13.5), big_foot_plate),
+            ((-12), big_foot_perspex),
+            ((-9.0), big_foot_plate),
+            ((-7.5), big_foot_perspex),
+            ((-4.5), small_foot_plate),
+            ((-3.0), small_foot_perspex),
             (( 0.0), base_plate),
             (( 1.5), bottom_perspex),
             (( 1.5), side_accents()),
