@@ -6,7 +6,7 @@ log = build123d.logging.getLogger("build123d")
 
 log.info("hello!")
 
-EXPLODE = 10
+EXPLODE = 1.1
 
 # vertical measurements in mm
 
@@ -87,9 +87,14 @@ PCB_TOE		= ku( 3.00 )
 MIDDLE_WIDTH	= MAIN_WIDTH - ku(2.0)
 ELLIPSE_AXIS	= ku(7.0)
 
-FOOT_WIDTH	= MIDDLE_WIDTH
-FOOT_DEPTH	= CASE_REAR
-FOOT_AXIS	= ku(2.0)
+HOLE_X1		= ku( 3.50 )
+HOLE_Y1		= ku( 3.00 )
+HOLE_X2		= ku( 9.25 )
+HOLE_Y2		= ku( 2.70 )
+
+HOLE_SMALL	= 3.2
+HOLE_BIG	= 5.2
+HOLE_SUPPORT	= CASE_FRONT
 
 USB_INSET	= 1.0
 USB_WIDTH	= 8.5 # spec says 8.34
@@ -252,14 +257,24 @@ def ellipse_outline():
     return oval & clip
 
 def foot_outline(thin=1.0):
-    oval = elliptangle(FOOT_WIDTH, FOOT_DEPTH * thin, FOOT_AXIS * thin)
-    return Location((0, TOTAL_DEPTH / 2 - FOOT_DEPTH * thin / 2)) * oval
+    foot_width = abs(HOLE_X2 - HOLE_X1)
+    foot_depth = abs(HOLE_Y2 - HOLE_Y1) + HOLE_SUPPORT
+    oval = elliptangle(foot_width, foot_depth, foot_depth/2)
+    foot_y = TOTAL_DEPTH / 2 - foot_depth / 2
+    left = Location((HOLE_X1 + foot_width/2, foot_y)) * oval
+
+    trim_box = Rectangle(foot_depth, foot_depth)
+    trim = trim_box - Circle(HOLE_SUPPORT*1.15/2)
+    trim -= Location((-foot_depth/2, 0)) * trim_box
+    left -= Location((HOLE_X2, HOLE_Y2)) * trim
+
+    right = mirror(left, Plane.YZ)
+    return left + right
 
 def screw_holes(diameter, smaller=None):
     smaller = smaller or diameter
-    return [ Location((ku(x*i), ku(y*j)))
-             * Circle(diameter/2 if j < 0 or x > 6 else smaller/2)
-             for (x,y) in [(3.5,3.0), (9.25, 2.7)]
+    return [ Location((x*i, y*j)) * Circle(diameter/2 if j < 0 else smaller/2)
+             for (x,y) in [(HOLE_X1, HOLE_Y1), (HOLE_X2, HOLE_Y2)]
              for i in [-1, +1]
              for j in [-1, +1]]
 
@@ -312,10 +327,10 @@ def usb_daughterboard():
 
 outline = ellipse_outline()
 
-small_holes = screw_holes(3.2)
-large_holes = screw_holes(5.2)
-mixed_holes = screw_holes(5.2, 3.2)
-hole_support = screw_holes(CASE_FRONT)
+small_holes = screw_holes(HOLE_SMALL)
+large_holes = screw_holes(HOLE_BIG)
+mixed_holes = screw_holes(HOLE_BIG, HOLE_SMALL)
+hole_support = screw_holes(HOLE_SUPPORT)
 
 cheeks = side_cutout()
 
@@ -349,13 +364,15 @@ lower_perspex	= extrude(lower_wall, amount=PERSPEX_THICK)
 lower_plate	= extrude(bottom_wall, amount=PLATE_THICK)
 bottom_perspex	= extrude(bottom_wall, amount=PERSPEX_THICK)
 
-foot = foot_outline()
+foot = foot_outline() & outline
+
 small_foot_perspex = extrude(foot - small_holes, amount=PERSPEX_THICK)
 small_foot_plate = extrude(foot - small_holes, amount=PLATE_THICK)
 big_foot_perspex = extrude(foot - large_holes, amount=PERSPEX_THICK)
 big_foot_plate = extrude(foot - large_holes, amount=PLATE_THICK)
 half_foot = extrude(foot_outline(0.5) - large_holes, amount=PLATE_THICK)
 
+test_foot = extrude(foot - large_holes, amount=PERSPEX_THICK)
 
 model = Part() + [
     Location((0,0, EXPLODE * y)) * part
@@ -365,7 +382,7 @@ model = Part() + [
             # ((-9.0), big_foot_plate),
             # ((-7.5), big_foot_perspex),
             # ((-4.5), small_foot_plate),
-            # ((-3.0), small_foot_perspex),
+            ((-3.0), test_foot),
             (( 0.0), base_plate),
             (( 1.5), bottom_perspex),
             (( 1.5), side_accents()),
