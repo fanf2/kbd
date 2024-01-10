@@ -6,7 +6,7 @@ log = build123d.logging.getLogger("build123d")
 
 log.info("hello!")
 
-EXPLODE = 2
+EXPLODE = 1
 
 # vertical measurements in mm
 
@@ -53,12 +53,13 @@ SIDE_THICK	= ku( 0.25 )
 
 CHEEK_WIDTH	= ku( 0.50 )
 CHEEK_DEPTH	= ku( 4.00 )
+CHEEK_HEIGHT	= 13.5
 CHEEK_THICK	= 3
 CHEEK_NOTCH	= 2
 
 BROW_Y		= CASE_REAR - BLOCK_GAP
 
-ACCENT_CLEAR	= 0.2
+ACCENT_CLEAR	= 2 * 0.2
 
 # key block layout
 
@@ -270,13 +271,20 @@ def side_cutout():
     cutout = (Location((TOTAL_WIDTH/2 - CHEEK_WIDTH/2, 0))
               * Rectangle(CHEEK_WIDTH + ACCENT_CLEAR, CHEEK_DEPTH))
     notch_thick = CHEEK_THICK + ACCENT_CLEAR
-    notch_x = TOTAL_WIDTH/2 - CHEEK_THICK - notch_thick / 2
-    notch = Ellipse(notch_thick/2, CHEEK_NOTCH/2)
+    notch_deep = CHEEK_NOTCH + ACCENT_CLEAR
+    notch = RectangleRounded(notch_thick, notch_deep, CHEEK_NOTCH/2)
+    notch_x = TOTAL_WIDTH/2 - CHEEK_WIDTH/2
     top_notch = Location((notch_x, +CHEEK_DEPTH / 2)) * notch
     bot_notch = Location((notch_x, -CHEEK_DEPTH / 2)) * notch
     cutout += top_notch + bot_notch
     cutout += mirror(cutout, Plane.YZ)
     return cutout
+
+def side_accents():
+    one = (Location((TOTAL_WIDTH/2 - CHEEK_WIDTH/2, 0))
+           * Rectangle(CHEEK_THICK, CHEEK_DEPTH + CHEEK_NOTCH/2))
+    both = one + mirror(one, Plane.YZ)
+    return extrude(both, amount=CHEEK_HEIGHT)
 
 def usb_cutout():
     usbdb = RectangleRounded(USBDB_WIDTH, USBDB_DEPTH, USBDB_R)
@@ -348,16 +356,17 @@ model = Part() + [
             # ((-7.5), big_foot_perspex),
             # ((-4.5), small_foot_plate),
             # ((-3.0), small_foot_perspex),
-            (( 0.0), base_plate),
-            (( 1.5), bottom_perspex),
+            #(( 0.0), base_plate),
+            #(( 1.5), bottom_perspex),
+            (( 1.5), side_accents()),
             (( 1.5), usb_daughterboard()),
-            (( 4.0), pcb_outline()),
+            (( 4.0), pcb_outline()), # 5mm below switch plate
             (( 4.5), lower_plate),
             (( 6.0), lower_perspex),
             (( 9.0), switch_plate),
             ((10.5), upper_perspex),
-            ((13.5), upper_plate),
-            ((15.0), top_perspex),
+            #((13.5), upper_plate),
+            #((15.0), top_perspex),
     ] ]
 
 
