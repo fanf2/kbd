@@ -311,13 +311,19 @@ def usb_cutout():
     return (Location((0, USBDB_Y)) * offset(usbdb, USB_CLEAR)
             + Location((0, TOTAL_DEPTH/2)) * inset)
 
+def daughterboard_holes():
+    holes = Sketch() + [ loc * Circle(1.1) for loc in
+                         GridLocations(14, 14, 2, 2) ]
+    return Location((0, USBDB_Y)) * holes
+
 def usb_daughterboard():
+    holes = daughterboard_holes()
     board = (Location((0, USBDB_Y)) *
             RectangleRounded(USBDB_WIDTH, USBDB_DEPTH, USBDB_R))
     socket = (Location((0, USBDB_Y + USBDB_DEPTH/4)) *
             RectangleRounded(USBDB_WIDTH, USBDB_DEPTH/2, USBDB_R))
-    return (extrude(board, amount=USB_THIN) +
-            extrude(socket, amount=USB_THICK))
+    return (extrude(board - holes, amount=USB_THIN) +
+            extrude(socket - holes, amount=USB_THICK))
 
 outline = ellipse_outline()
 
@@ -339,7 +345,7 @@ top_perspex	= extrude(top_perspex, amount=PERSPEX_THICK)
 switch_plate	= outline - small_holes - key_matrix(plate_cutout) - cheeks
 switch_plate	= extrude(switch_plate, amount=PLATE_THICK)
 
-base_plate	= outline - mixed_holes
+base_plate	= outline - mixed_holes - daughterboard_holes()
 base_plate	= extrude(base_plate, amount=PLATE_THICK)
 
 # TODO: fillet inner corners of side_walls()
