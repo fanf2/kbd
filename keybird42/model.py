@@ -13,6 +13,7 @@ EXPLODE = 2
 PERSPEX_THICK = 3.0
 PLATE_THICK = 1.5   # 0.06 in
 PCB_THICK = 1.6     # 1.2 is minimum allowed by kailh socket knobs
+COMPONENTS_THICK = 2.0
 
 # relative to top of the pcb
 MX_BODY_HEIGHT = 11.6
@@ -77,6 +78,10 @@ FUN_Y2		= FUN_Y1 - BLOCK_GAP - FUN_DEPTH
 TOTAL_WIDTH	= MAIN_WIDTH + (BLOCK_GAP + FUN_WIDTH + CASE_SIDE) * 2
 TOTAL_DEPTH	= MAIN_DEPTH + CASE_FRONT + CASE_REAR
 
+PCB_INSET	= ku( 1/8 )
+PCB_WING	= ku( 13/32 )
+PCB_TOE		= ku( 3.00 )
+
 MIDDLE_WIDTH	= MAIN_WIDTH - ku(2.0)
 ELLIPSE_AXIS	= ku(7.0)
 
@@ -85,8 +90,10 @@ FOOT_DEPTH	= CASE_REAR
 FOOT_AXIS	= ku(2.0)
 
 USB_INSET	= 1.0
-USB_WIDTH	= 8.5 # spec says 8.25
-USB_CLEAR	= 1.0
+USB_WIDTH	= 8.5 # spec says 8.34
+USB_THICK	= 1 + 3.2
+USB_THIN	= 1 + 1
+USB_CLEAR	= 0.5
 USBDB_WIDTH	= 18
 USBDB_DEPTH	= 18
 USBDB_R		= 1.0
@@ -181,6 +188,48 @@ def key_matrix(keys):
 
     return matrix
 
+def pcb_outline():
+    pcb_front = MAIN_Y - MAIN_DEPTH/2 + PCB_INSET
+    half = Polyline(*[
+        (0,
+         MAIN_Y + MAIN_DEPTH/2),
+        (MAIN_WIDTH/2,
+         MAIN_Y + MAIN_DEPTH/2),
+        (MAIN_WIDTH/2 + BLOCK_GAP,
+         MAIN_Y + MAIN_DEPTH/2 - BLOCK_GAP),
+        (MAIN_WIDTH/2 + PCB_INSET + FUN_WIDTH,
+         MAIN_Y + MAIN_DEPTH/2 - BLOCK_GAP),
+        (MAIN_WIDTH/2 + PCB_INSET + FUN_WIDTH + PCB_WING,
+         MAIN_Y + MAIN_DEPTH/2 - BLOCK_GAP - PCB_WING),
+        (MAIN_WIDTH/2 + PCB_INSET + FUN_WIDTH + PCB_WING,
+         MAIN_Y - MAIN_DEPTH/2 + PCB_INSET + BLOCK_GAP*2 + PCB_WING),
+        (MAIN_WIDTH/2 + PCB_INSET + FUN_WIDTH,
+         MAIN_Y - MAIN_DEPTH/2 + PCB_INSET + BLOCK_GAP*2),
+        (MAIN_WIDTH/2 + PCB_INSET + BLOCK_GAP,
+         MAIN_Y - MAIN_DEPTH/2 + PCB_INSET + BLOCK_GAP*2),
+        (MAIN_WIDTH/2 - PCB_INSET,
+         pcb_front),
+        (PCB_TOE + PCB_INSET*2,
+         pcb_front),
+        (PCB_TOE + PCB_INSET,
+         pcb_front - PCB_INSET),
+        (PCB_TOE - PCB_INSET,
+         pcb_front - PCB_INSET),
+        (PCB_TOE - PCB_INSET*2,
+         pcb_front),
+        (0,
+         pcb_front),
+    ])
+    outline = make_face(half + mirror(half, Plane.YZ))
+    # dunno why this comes out upside-down
+    outline = mirror(outline, Plane.XY)
+    keepout = offset(outline, amount=-PCB_INSET)
+    screws = (Location((+PCB_TOE, pcb_front)) * Circle(PCB_INSET) +
+            Location((-PCB_TOE, pcb_front)) * Circle(PCB_INSET))
+    board = extrude(outline, amount=PCB_THICK)
+    components = extrude(keepout + screws, amount=-COMPONENTS_THICK)
+    return board + components
+
 def elliptangle(width, depth, axis):
     middle = Rectangle(width, depth)
 
@@ -235,6 +284,14 @@ def usb_cutout():
     return (Location((0, USBDB_Y)) * offset(usbdb, USB_CLEAR)
             + Location((0, TOTAL_DEPTH/2)) * inset)
 
+def usb_daughterboard():
+    board = (Location((0, USBDB_Y)) *
+            RectangleRounded(USBDB_WIDTH, USBDB_DEPTH, USBDB_R))
+    socket = (Location((0, USBDB_Y + USBDB_DEPTH/4)) *
+            RectangleRounded(USBDB_WIDTH, USBDB_DEPTH/2, USBDB_R))
+    return (extrude(board, amount=USB_THIN) +
+            extrude(socket, amount=USB_THICK))
+
 outline = ellipse_outline()
 
 small_holes = screw_holes(3.2)
@@ -282,17 +339,19 @@ big_foot_plate = extrude(foot - large_holes, amount=PLATE_THICK)
 half_foot = extrude(foot_outline(0.5) - large_holes, amount=PLATE_THICK)
 
 
-layers = Part() + [
-    Location((0,0, EXPLODE * y)) * layer
-    for (y, layer) in [
-            ((-13.5), half_foot),
-            ((-12), big_foot_perspex),
-            ((-9.0), big_foot_plate),
-            ((-7.5), big_foot_perspex),
-            ((-4.5), small_foot_plate),
-            ((-3.0), small_foot_perspex),
+model = Part() + [
+    Location((0,0, EXPLODE * y)) * part
+    for (y, part) in [
+            # ((-13.5), half_foot),
+            # ((-12), big_foot_perspex),
+            # ((-9.0), big_foot_plate),
+            # ((-7.5), big_foot_perspex),
+            # ((-4.5), small_foot_plate),
+            # ((-3.0), small_foot_perspex),
             (( 0.0), base_plate),
             (( 1.5), bottom_perspex),
+            (( 1.5), usb_daughterboard()),
+            (( 4.0), pcb_outline()),
             (( 4.5), lower_plate),
             (( 6.0), lower_perspex),
             (( 9.0), switch_plate),
@@ -303,7 +362,7 @@ layers = Part() + [
 
 
 # fillet outer corners
-edges = layers.edges().filter_by(Axis.Z).group_by(Axis.X)
-layers = fillet(edges[-1] + edges[+0], radius=OUTER_FILLET)
+edges = model.edges().filter_by(Axis.Z).group_by(Axis.X)
+model = fillet(edges[-1] + edges[+0], radius=OUTER_FILLET)
 
-show_object(layers)
+show_object(model)
