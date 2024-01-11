@@ -85,9 +85,17 @@ plastics
 
     https://www.plasticstockist.com/Naturals-Perspex-Sheet/Mineral-Grey-Naturals-Perspex-Acrylic-Sheet.aspx
 
+  * platinum 10% xmit pearlescent 9PY2 - £72
+
+    https://www.plasticstockist.com/Pearlescent-acrylic/Platinum-9py2-Perspex-Pearlescent-Acrylic-Sheet.aspx
+
   * ash grey S2 9642 - £57
 
     https://www.plasticstockist.com/Naturals-Perspex-Sheet/Ash-Grey-Naturals-Perspex-Acrylic-Sheet.aspx
+
+  * pearl 20% xmit pearlescent 1PY1 - £72
+
+    https://www.plasticstockist.com/Pearlescent-acrylic/Pearl-1py1-Perspex-Pearlescent-Acrylic-Sheet.aspx
 
   * white 25% xmit opal 028 - £28
 
