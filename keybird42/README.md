@@ -105,34 +105,3 @@ The right function cluster has room for:
   * mission control
   * prev/next desktop (PG UP, PG DN)
   * screenshot (PRNT SCRN)
-
-
-inspiration
------------
-
-  * displaced arrow cluster
-      - https://geekhack.org/index.php?topic=121633.0
-
-  * upper case horizontal screws
-      - https://geekhack.org/index.php?topic=121696.0
-
-  * drone vibration isolation mount
-      - https://geekhack.org/index.php?topic=119899.0
-
-  * XT TKL FRL with grommet mount
-      - https://geekhack.org/index.php?topic=121658.0
-
-  * upper case curved like keycap profile
-      - https://geekhack.org/index.php?topic=117922.0
-      - https://en.wikipedia.org/wiki/Apple_Extended_Keyboard
-
-  * rounded front and rear
-      - https://vortexgear.store/products/pc-66-68-key
-      - https://clickykeyboards.com/wp-content/uploads/2016/11/030.jpg
-
-  * rounded sides
-      - https://clickclack.io/pages/pixelspace-capsule
-
-  * "chicong", curved case rounded front and rear
-      - https://deskthority.net/wiki/Chicony_KB-5160
-      - https://deskthority.net/wiki/Chicony_KB-5161
