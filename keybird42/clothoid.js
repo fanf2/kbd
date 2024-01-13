@@ -11,28 +11,29 @@ function main() {
     c.translate(canvas.width/2, canvas.height/2);
     c.scale(1000, 1000);
 
-    c.strokeStyle = "#008";
-    c.lineWidth = 0.01;
-
     function circle(x, y, r) {
 	c.beginPath();
 	c.roundRect(x - r, y - r, 2*r, 2*r, r);
+	c.fill();
 	c.stroke();
     }
+
+    c.strokeStyle = "#008";
+    c.fillStyle = "#ffff";
+    c.lineWidth = 0.01;
     circle(0, 0, 1);
+
+    // https://enwp.org/Euler_spiral
+    // x = ∫ cos(s²) ds
+    // y = ∫ sin(s²) ds
+
+    // eyeballed limit of curve as s → ∞
+    const r = 1 - exp(-1);
 
     c.strokeStyle = "#800";
     c.fillStyle = "#800";
-
-    const r = 1 - exp(-1);
-    console.log(r);
-
     circle(+r, +r, 0.25);
     circle(-r, -r, 0.25);
-
-    // https://enwp.org/Euler_spiral
-    // x = integral cos(s*s) ds
-    // y = integral sin(s*s) ds
 
     let x = 0;
     let y = 0;
@@ -43,8 +44,7 @@ function main() {
 	let dx = cos(s*s) * ds;
 	let dy = sin(s*s) * ds;
 
-	let f = exp(-1)
-	c.lineWidth = f / (s + 1) - exp(-3)
+	c.lineWidth = exp(-1) / (s + 1) - exp(-3);
 
 	c.beginPath();
 	c.moveTo(+x, +y);
@@ -59,13 +59,4 @@ function main() {
 	x += dx;
 	y += dy;
     }
-
-    for (let s = lim; s < 100; s += ds) {
-	let dx = cos(s*s) * ds;
-	let dy = sin(s*s) * ds;
-	x += dx;
-	y += dy;
-    }
-
-    console.log(x, y);
 }
