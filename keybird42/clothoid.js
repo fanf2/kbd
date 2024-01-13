@@ -65,8 +65,8 @@ function main() {
 	return (25 / (i + 125));
     }
 
-    style(0.01, "#c8c", "#0000");
-    circle(0, 0, 1);
+    style(0.1, "#80c", "#888");
+    circle(0, 0, 1.5);
 
     let points = [];
     let inner_end = 0;
@@ -92,7 +92,7 @@ function main() {
     let ao2 = atan2(+lim_c - eo.yo, +lim_c - eo.xo);
     let ai2 = atan2(+lim_c - ei.yi, +lim_c - ei.xi);
 
-    style(0.01, "#0808", "#0000");
+    style(0.1, "#0000", "#0cc");
     c.beginPath();
     c.moveTo(+points[0].xo, +points[0].yo);
     for (let i = 1; i <= outer_end; i++) {
@@ -110,5 +110,6 @@ function main() {
 	c.lineTo(-points[i].xi, -points[i].yi);
     }
     c.closePath();
+    c.fill();
     c.stroke();
 }
