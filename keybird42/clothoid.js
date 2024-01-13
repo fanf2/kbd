@@ -1,9 +1,10 @@
 "use strict";
 
 const tau = Math.PI * 2;
+const exp = Math.exp;
 const sin = Math.sin;
 const cos = Math.cos;
-const exp = Math.exp;
+const atan2 = Math.atan2;
 const sqrt = Math.sqrt;
 
 function main() {
@@ -11,7 +12,7 @@ function main() {
     c.translate(canvas.width/2, canvas.height/2);
     let scale = 1000;
     c.scale(scale, scale);
-    c.rotate(tau*2/3);
+    //c.rotate(tau*2/3);
 
     function style(w, s, f) {
 	c.lineWidth = w;
@@ -67,7 +68,7 @@ function main() {
     style(0.01, "#008", "#0000");
     circle(0, 0, 1);
 
-    style(0.01, "#800", "#0000");
+    style(0.005, "#800", "#0000");
     circle(+lim_c, +lim_c, lim_r);
     circle(-lim_c, -lim_c, lim_r);
     circle(+lim_c, +lim_c, 0.01);
@@ -103,14 +104,47 @@ function main() {
 	}
     }
 
-    // find out where inner curve meets the limit
-    let xe = 0;
-    let ye = 0;
+    let points = [];
+    let inner_end = 0;
+    let outer_end = 0;
     clothoid(function(i, x, y, dx, dy) {
 	let w = width(i) / length(dx, dy);
-	xe = x + dy * w;
-	ye = y - dx * w;
-	return (limit(xe, ye));
+	let xi = x - dy * w;
+	let yi = y + dx * w;
+	let xo = x + dy * w;
+	let yo = y - dx * w;
+	points[i] = { xi, yi, xo, yo };
+	let ilim = limit(xi, yi);
+	let olim = limit(xo, yo);
+	inner_end = ilim ? inner_end : i;
+	outer_end = olim ? outer_end : i;
+	return (ilim && olim);
     });
-    console.log(xe, ye);
+
+    let ei = points[inner_end];
+    let eo = points[outer_end];
+    let ao1 = atan2(-lim_c + eo.yo, -lim_c + eo.xo);
+    let ai1 = atan2(-lim_c + ei.yi, -lim_c + ei.xi);
+    let ao2 = atan2(+lim_c - eo.yo, +lim_c - eo.xo);
+    let ai2 = atan2(+lim_c - ei.yi, +lim_c - ei.xi);
+
+    style(0.01, "#0808", "#0000");
+    c.beginPath();
+    c.moveTo(+points[0].xo, +points[0].yo);
+    for (let i = 1; i <= outer_end; i++) {
+	c.lineTo(+points[i].xo, +points[i].yo);
+    }
+    c.arc(+lim_c, +lim_c, lim_r, ao1, ai1);
+    for (let i = inner_end; i >= 0; i--) {
+	c.lineTo(+points[i].xi, +points[i].yi);
+    }
+    for (let i = 0; i <= outer_end; i++) {
+	c.lineTo(-points[i].xo, -points[i].yo);
+    }
+    c.arc(-lim_c, -lim_c, lim_r, ao2, ai2);
+    for (let i = inner_end; i > 0; i--) {
+	c.lineTo(-points[i].xi, -points[i].yi);
+    }
+    c.closePath();
+    c.stroke();
 }
