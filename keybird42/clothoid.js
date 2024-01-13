@@ -25,12 +25,6 @@ function main() {
     }
 
     function twinline(x1, y1, x2, y2) {
-	c.beginPath();
-	c.moveTo(+x1, +y1);
-	c.lineTo(+x2, +y2);
-	c.moveTo(-x1, -y1);
-	c.lineTo(-x2, -y2);
-	c.stroke();
     }
 
     function length(x, y) {
@@ -48,8 +42,8 @@ function main() {
     // size of infill around limit
     const lim_r = 1/4;
 
-    function outside(x, y) {
-	return (length(lim_c - x, lim_c - y) > lim_r);
+    function inside(x, y) {
+	return (length(lim_c - x, lim_c - y) < lim_r);
     }
 
     function width(s) {
@@ -63,38 +57,59 @@ function main() {
     circle(+lim_c, +lim_c, lim_r);
     circle(-lim_c, -lim_c, lim_r);
 
-    let x = 0;
-    let y = 0;
-    let s = 0;
-    let xi = 0;
-    let yi = -width(0);
-    let xo = 0;
-    let yo = +width(0);
-
-    while (outside(x, y)) {
-	let dx = cos(s*s) * ds;
-	let dy = sin(s*s) * ds;
-	let dlen = length(dx, dy);
-
-	let w = width(s);
-	let nxi = x + w * dy / dlen;
-	let nyi = y - w * dx / dlen;
-	let nxo = x - w * dy / dlen;
-	let nyo = y + w * dx / dlen;
-
-	style(w * 2, "#8888", "#0000");
-	twinline(x, y, x+dx, y+dy);
-
-	style(0.005, "#000", "#0000");
-	twinline(xi, yi, nxi, nyi);
-	twinline(xo, yo, nxo, nyo);
-
-	s += ds;
-	x += dx;
-	y += dy;
-	xi = nxi;
-	yi = nyi;
-	xo = nxo;
-	yo = nyo;
+    function clothoid(fun) {
+	let s = 0
+	let x = 0;
+	let y = 0;
+	for (;;) {
+	    let dx = cos(s*s) * ds;
+	    let dy = sin(s*s) * ds;
+	    if (fun(s, x, y, dx, dy, width(s), length(dx, dy))) {
+		return;
+	    }
+	    s += ds;
+	    x += dx;
+	    y += dy;
+	}
     }
+
+    function inner(mirror) {
+	style(0.005, "#000", "#0000");
+	c.beginPath();
+	c.moveTo(0, -width(0) * mirror);
+	clothoid(function(s, x, y, dx, dy, w, dlen) {
+	    let xx = x + w * dy / dlen;
+	    let yy = y - w * dx / dlen;
+	    c.lineTo(mirror * xx, mirror * yy);
+	    return (inside(xx, yy));
+	});
+	c.stroke();
+    }
+
+    function outer(mirror) {
+	style(0.005, "#000", "#0000");
+	c.beginPath();
+	c.moveTo(0, +width(0) * mirror);
+	clothoid(function(s, x, y, dx, dy, w, dlen) {
+	    let xx = x - w * dy / dlen;
+	    let yy = y + w * dx / dlen;
+	    c.lineTo(mirror * xx, mirror * yy);
+	    return (inside(xx, yy));
+	});
+	c.stroke();
+    }
+
+    clothoid(function(s, x, y, dx, dy, w, dlen) {
+	style(w * 2, "#8888", "#0000");
+	c.beginPath();
+	c.moveTo(+x,    +y);
+	c.lineTo(+x+dx, +y+dy);
+	c.moveTo(-x,    -y);
+	c.lineTo(-x-dx, -y-dy);
+	c.stroke();
+	return (inside(x, y));
+    });
+
+    outer(+1); inner(+1);
+    outer(-1); inner(-1);
 }
