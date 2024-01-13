@@ -12,7 +12,7 @@ function main() {
     c.translate(canvas.width/2, canvas.height/2);
     let scale = 1000;
     c.scale(scale, scale);
-    //c.rotate(tau*2/3);
+    c.rotate(tau*2/3);
 
     function style(w, s, f) {
 	c.lineWidth = w;
@@ -65,44 +65,8 @@ function main() {
 	return (25 / (i + 125));
     }
 
-    style(0.01, "#008", "#0000");
+    style(0.01, "#c8c", "#0000");
     circle(0, 0, 1);
-
-    style(0.005, "#800", "#0000");
-    circle(+lim_c, +lim_c, lim_r);
-    circle(-lim_c, -lim_c, lim_r);
-    circle(+lim_c, +lim_c, 0.01);
-    circle(-lim_c, -lim_c, 0.01);
-
-    clothoid(function(i, x, y, dx, dy) {
-	style(width(i) * 2, "#8888", "#0000");
-	c.beginPath();
-	c.moveTo(+x,    +y);
-	c.lineTo(+x+dx, +y+dy);
-	c.moveTo(-x,    -y);
-	c.lineTo(-x-dx, -y-dy);
-	c.stroke();
-    });
-
-    function outline(inner, mirror) {
-	style(0.005, "#000", "#0000");
-	c.beginPath();
-	c.moveTo(0, width(0) * inner * mirror);
-	clothoid(function(i, x, y, dx, dy) {
-	    let w = inner * width(i) / length(dx, dy);
-	    let xx = x - dy * w;
-	    let yy = y + dx * w;
-	    c.lineTo(mirror * xx, mirror * yy);
-	    return (limit(xx, yy));
-	});
-	c.stroke();
-    }
-
-    for (let inner of [-1, +1]) {
-	for (let mirror of [-1, +1]) {
-	    outline(inner, mirror);
-	}
-    }
 
     let points = [];
     let inner_end = 0;
