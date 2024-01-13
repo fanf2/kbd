@@ -24,9 +24,6 @@ function main() {
 	c.stroke();
     }
 
-    function twinline(x1, y1, x2, y2) {
-    }
-
     function length(x, y) {
 	return (sqrt(x*x + y*y));
     }
@@ -35,8 +32,23 @@ function main() {
     // x = ∫ cos(s²) ds
     // y = ∫ sin(s²) ds
 
-    // integration step size
-    const ds = 0.01;
+    function clothoid(fun) {
+	let s = 0;
+	let x = 0;
+	let y = 0;
+	for (;;) {
+	    const ds = 0.01; // integration step size
+	    let dx = cos(s*s) * ds;
+	    let dy = sin(s*s) * ds;
+	    if (fun(s, x, y, dx, dy, length(dx, dy))) {
+		return;
+	    }
+	    s += ds;
+	    x += dx;
+	    y += dy;
+	}
+    }
+
     // eyeballed limit of curve as s → ∞
     const lim_c = 1 - exp(-1);
     // size of infill around limit
@@ -46,10 +58,6 @@ function main() {
 	return (length(lim_c - x, lim_c - y) < lim_r);
     }
 
-    function width(s) {
-	return (0.1 / (s + 0.5));
-    }
-
     style(0.01, "#008", "#0000");
     circle(0, 0, 1);
 
@@ -57,27 +65,17 @@ function main() {
     circle(+lim_c, +lim_c, lim_r);
     circle(-lim_c, -lim_c, lim_r);
 
-    function clothoid(fun) {
-	let s = 0
-	let x = 0;
-	let y = 0;
-	for (;;) {
-	    let dx = cos(s*s) * ds;
-	    let dy = sin(s*s) * ds;
-	    if (fun(s, x, y, dx, dy, width(s), length(dx, dy))) {
-		return;
-	    }
-	    s += ds;
-	    x += dx;
-	    y += dy;
-	}
+    // adjust according to aesthetic preference
+    function width(s) {
+	return (0.1 / (s + 0.5));
     }
 
     function inner(mirror) {
 	style(0.005, "#000", "#0000");
 	c.beginPath();
 	c.moveTo(0, -width(0) * mirror);
-	clothoid(function(s, x, y, dx, dy, w, dlen) {
+	clothoid(function(s, x, y, dx, dy, dlen) {
+	    let w = width(s);
 	    let xx = x + w * dy / dlen;
 	    let yy = y - w * dx / dlen;
 	    c.lineTo(mirror * xx, mirror * yy);
@@ -90,7 +88,8 @@ function main() {
 	style(0.005, "#000", "#0000");
 	c.beginPath();
 	c.moveTo(0, +width(0) * mirror);
-	clothoid(function(s, x, y, dx, dy, w, dlen) {
+	clothoid(function(s, x, y, dx, dy, dlen) {
+	    let w = width(s);
 	    let xx = x - w * dy / dlen;
 	    let yy = y + w * dx / dlen;
 	    c.lineTo(mirror * xx, mirror * yy);
@@ -99,8 +98,8 @@ function main() {
 	c.stroke();
     }
 
-    clothoid(function(s, x, y, dx, dy, w, dlen) {
-	style(w * 2, "#8888", "#0000");
+    clothoid(function(s, x, y, dx, dy, dlen) {
+	style(width(s) * 2, "#8888", "#0000");
 	c.beginPath();
 	c.moveTo(+x,    +y);
 	c.lineTo(+x+dx, +y+dy);
