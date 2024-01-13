@@ -24,10 +24,6 @@ function main() {
 	c.stroke();
     }
 
-    function length(x, y) {
-	return (sqrt(x*x + y*y));
-    }
-
     // https://enwp.org/Euler_spiral
     // x = ∫ cos(s²) ds
     // y = ∫ sin(s²) ds
@@ -37,10 +33,10 @@ function main() {
 	let x = 0;
 	let y = 0;
 	for (;;) {
-	    const ds = 0.01; // integration step size
+	    let ds = 0.01; // integration step size
 	    let dx = cos(s*s) * ds;
 	    let dy = sin(s*s) * ds;
-	    if (fun(s, x, y, dx, dy, length(dx, dy))) {
+	    if (fun(s, x, y, dx, dy)) {
 		return;
 	    }
 	    s += ds;
@@ -54,8 +50,17 @@ function main() {
     // size of infill around limit
     const lim_r = 1/4;
 
+    function length(x, y) {
+	return (sqrt(x*x + y*y));
+    }
+
     function inside(x, y) {
 	return (length(lim_c - x, lim_c - y) < lim_r);
+    }
+
+    // adjust according to aesthetic preference
+    function width(s) {
+	return (0.1 / (s + 0.5));
     }
 
     style(0.01, "#008", "#0000");
@@ -65,19 +70,14 @@ function main() {
     circle(+lim_c, +lim_c, lim_r);
     circle(-lim_c, -lim_c, lim_r);
 
-    // adjust according to aesthetic preference
-    function width(s) {
-	return (0.1 / (s + 0.5));
-    }
-
     function inner(mirror) {
 	style(0.005, "#000", "#0000");
 	c.beginPath();
 	c.moveTo(0, -width(0) * mirror);
-	clothoid(function(s, x, y, dx, dy, dlen) {
-	    let w = width(s);
-	    let xx = x + w * dy / dlen;
-	    let yy = y - w * dx / dlen;
+	clothoid(function(s, x, y, dx, dy) {
+	    let w = width(s) / length(dx, dy);
+	    let xx = x + dy * w;
+	    let yy = y - dx * w;
 	    c.lineTo(mirror * xx, mirror * yy);
 	    return (inside(xx, yy));
 	});
@@ -88,17 +88,17 @@ function main() {
 	style(0.005, "#000", "#0000");
 	c.beginPath();
 	c.moveTo(0, +width(0) * mirror);
-	clothoid(function(s, x, y, dx, dy, dlen) {
-	    let w = width(s);
-	    let xx = x - w * dy / dlen;
-	    let yy = y + w * dx / dlen;
+	clothoid(function(s, x, y, dx, dy) {
+	    let w = width(s) / length(dx, dy);
+	    let xx = x - dy * w;
+	    let yy = y + dx * w;
 	    c.lineTo(mirror * xx, mirror * yy);
 	    return (inside(xx, yy));
 	});
 	c.stroke();
     }
 
-    clothoid(function(s, x, y, dx, dy, dlen) {
+    clothoid(function(s, x, y, dx, dy) {
 	style(width(s) * 2, "#8888", "#0000");
 	c.beginPath();
 	c.moveTo(+x,    +y);
