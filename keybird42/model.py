@@ -6,7 +6,7 @@ log = build123d.logging.getLogger("build123d")
 
 log.info("hello!")
 
-EXPLODE = 1.001
+EXPLODE = 5
 
 # vertical measurements in mm
 
@@ -30,6 +30,8 @@ def ku(n):
     return KEY_UNIT * n
 
 MX_PLATE_HOLE	= 14.0
+
+MX_PLATE_RIB	= KEY_UNIT - MX_PLATE_HOLE
 
 # (0.484+0.004 - 0.26+0.004) * 25.4 == 5.9 mm
 MX_STAB_ABOVE	= 6
@@ -107,32 +109,58 @@ USBDB_R		= 1.0
 USBDB_Y		= TOTAL_DEPTH/2 - USBDB_DEPTH/2 - USB_CLEAR/2 - USB_INSET
 
 class plate_cutout:
+    small = Rectangle(MX_PLATE_HOLE, MX_PLATE_HOLE * 3/4)
+
     k100 = Rectangle(MX_PLATE_HOLE, MX_PLATE_HOLE)
 
     stab = Rectangle(MX_STAB_WIDTH, MX_STAB_DEPTH)
-    def balance(stab, width):
+    def stabs(stab, width):
         return (Location((-ku(width - 1) / 2, MX_STAB_Y)) * stab +
                 Location((+ku(width - 1) / 2, MX_STAB_Y)) * stab)
 
+    # paired holes under space bar
+    def space(key, width):
+        return (Location((-ku(width), 0)) * key +
+                Location((+ku(width), 0)) * key)
+
+    def hole(size, body=1):
+        sign = +1 if size > 0 else -1
+        width = ku(sign*size - body)/2 - MX_PLATE_RIB
+        pos = sign * (ku(body) + MX_PLATE_RIB + width)/2
+        return Location((pos, 0)) * Rectangle(width, MX_PLATE_HOLE)
+
     k125 = k100
     k150 = k100
-    k175 = k100
-    k225 = k100 + balance(stab, 2.25)
-    k700 = k100 + balance(stab, 7.00)
+    k175 = k100 + hole(-1.75) + hole(+1.75)
+    k225 = k100 + stabs(stab, 2.25)
+    k700 = k100 + space(small, 1) + space(small, 2) + stabs(stab, 7.00)
+    # add holes between main key block and function blocks
+    ktab = k100 + hole(-2.0)
+    kdel = k100 + hole(+2.0)
+    klfn = k100 + hole(-1.75)
+    krfn = k100 + hole(+1.75)
+    # cmd is 1.5u but it has wider keys to either side
+    kcmd = k175
 
 class keycaps:
 
     def keycap(width):
         return Rectangle(ku(width) + 0.1, ku(1) + 0.1)
 
+    small = keycap(1.00)
     k100 = keycap(1.00)
     k125 = keycap(1.25)
+    klfn = k125
+    krfn = k125
     k150 = keycap(1.50)
+    ktab = k150
+    kdel = k150
+    kcmd = k150
     k175 = keycap(1.75)
     k225 = keycap(2.25)
     k700 = keycap(7.00)
 
-def key_matrix(keys):
+def key_matrix(keys, top=False):
 
     def key_row(width):
         return GridLocations(ku(1), ku(1), width, 1)
@@ -166,29 +194,35 @@ def key_matrix(keys):
     key7 = Location((+FUN_X, FUN_Y1)) * keys.k100
     fun3 = [ loc * key7 for loc in fun_block ]
 
+    key8 = Location((+FUN_X, FUN_Y2)) * keys.k100
+    fun4 = [ loc * key8 for loc in fun_block ]
+
     key_hi = Location((+FUN_X, FUN_Y2 + ku(0.5))) * keys.k100
     key_lo = Location((+FUN_X, FUN_Y2 - ku(0.5))) * keys.k100
     arrows = [key_hi] + [ loc * key_lo for loc in key_row(3) ]
 
-    funs = fun1 + fun2 + fun3 + arrows
+    spares = [Location((+FUN_X - ku(1), FUN_Y1 + ku(1.375))) * keys.small,
+              Location((-FUN_X + ku(1), FUN_Y1 + ku(1.375))) * keys.small ]
+
+    funs = fun1 + fun2 + fun3 + (arrows if top else fun4 + spares)
 
     l = -MAIN_WIDTH / 2
     r = +MAIN_WIDTH / 2
 
     modifiers = [
-        Location((l + ku(1.50/2), MAIN_Y + ku(1))) * keys.k150,
+        Location((l + ku(1.50/2), MAIN_Y + ku(1))) * keys.ktab,
         Location((l + ku(1.75/2), MAIN_Y + ku(0))) * keys.k175,
         Location((l + ku(2.25/2), MAIN_Y - ku(1))) * keys.k225,
-        Location((l + ku(1.25/2), MAIN_Y - ku(2))) * keys.k125,
+        Location((l + ku(1.25/2), MAIN_Y - ku(2))) * keys.klfn,
         Location((l + ku(1.25/2 + 1.25), MAIN_Y - ku(2))) * keys.k125,
-        Location((l + ku(1.50/2 + 2.50), MAIN_Y - ku(2))) * keys.k150,
-        Location((r - ku(1.50/2), MAIN_Y + ku(1))) * keys.k150,
+        Location((l + ku(1.50/2 + 2.50), MAIN_Y - ku(2))) * keys.kcmd,
+        Location((r - ku(1.50/2), MAIN_Y + ku(1))) * keys.kdel,
         Location((r - ku(2.25/2), MAIN_Y + ku(0))) * keys.k225,
         Location((r - ku(1.00/2), MAIN_Y - ku(1))) * keys.k100,
-        Location((r - ku(1.25/2), MAIN_Y - ku(2))) * keys.k125,
+        Location((r - ku(1.25/2), MAIN_Y - ku(2))) * keys.krfn,
         Location((r - ku(1.75/2 + 1.00), MAIN_Y - ku(1))) * keys.k175,
         Location((r - ku(1.25/2 + 1.25), MAIN_Y - ku(2))) * keys.k125,
-        Location((r - ku(1.50/2 + 2.50), MAIN_Y - ku(2))) * keys.k150,
+        Location((r - ku(1.50/2 + 2.50), MAIN_Y - ku(2))) * keys.kcmd,
     ]
 
     matrix = space + modifiers + rows + funs
@@ -278,8 +312,9 @@ def side_walls():
     return thicker + mirror(thicker, Plane.YZ)
 
 def side_cutout():
-    cutout = (Location((TOTAL_WIDTH/2 - CHEEK_WIDTH/2, 0))
-              * Rectangle(CHEEK_WIDTH + ACCENT_CLEAR, CHEEK_DEPTH))
+    width = CASE_SIDE - MX_PLATE_RIB/2
+    cutout = (Location((TOTAL_WIDTH/2 - width/2, 0))
+              * Rectangle(width, CHEEK_DEPTH))
     notch_thick = PERSPEX_THICK + ACCENT_CLEAR
     notch_depth = CHEEK_NOTCH + ACCENT_CLEAR
     notch = RectangleRounded(notch_thick, notch_depth, CHEEK_NOTCH/2)
@@ -339,7 +374,7 @@ cheeks = side_cutout()
 brow = (Location((0, TOTAL_DEPTH / 2 - BROW_Y)) *
         Rectangle(MAIN_WIDTH + ACCENT_CLEAR, PERSPEX_THICK + ACCENT_CLEAR))
 
-top_perspex	= outline - small_holes - key_matrix(keycaps) - brow
+top_perspex	= outline - small_holes - key_matrix(keycaps, True) - brow
 top_perspex	= extrude(top_perspex, amount=PERSPEX_THICK)
 
 switch_plate	= outline - small_holes - key_matrix(plate_cutout) - cheeks
