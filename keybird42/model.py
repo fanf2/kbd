@@ -49,7 +49,7 @@ BLOCK_GAP	= ku( 0.25 )
 
 CASE_SIDE	= ku( 1.00 ) - BLOCK_GAP
 CASE_FRONT	= ku( 0.50 )
-CASE_REAR	= ku( 1.00 )
+CASE_REAR	= ku( 7/6 )
 
 SIDE_THICK	= ku( 0.25 )
 
@@ -89,14 +89,14 @@ PCB_TOE		= ku( 3.00 )
 MIDDLE_WIDTH	= MAIN_WIDTH - ku(2.0)
 ELLIPSE_AXIS	= ku(7.0)
 
-HOLE_X1		= ku( 3.50 )
-HOLE_Y1		= ku( 3.00 )
-HOLE_X2		= ku( 9.25 )
-HOLE_Y2		= ku( 2.70 )
-
 HOLE_SMALL	= 3.2
 HOLE_BIG	= 5.2
-HOLE_SUPPORT	= CASE_FRONT
+HOLE_SUPPORT	= ku(0.5)
+
+HOLE_X1		= ku( 3.50 )
+HOLE_Y1		= (TOTAL_DEPTH - HOLE_SUPPORT) / 2
+HOLE_X2		= ku( 9.25 )
+HOLE_Y2		= HOLE_Y1 - ku(0.3)
 
 USB_INSET	= 1.0
 USB_WIDTH	= 8.5 # spec says 8.34
@@ -109,8 +109,6 @@ USBDB_R		= 1.0
 USBDB_Y		= TOTAL_DEPTH/2 - USBDB_DEPTH/2 - USB_CLEAR/2 - USB_INSET
 
 class plate_cutout:
-    small = Rectangle(MX_PLATE_HOLE, MX_PLATE_HOLE * 3/4)
-
     k100 = Rectangle(MX_PLATE_HOLE, MX_PLATE_HOLE)
 
     stab = Rectangle(MX_STAB_WIDTH, MX_STAB_DEPTH)
@@ -119,9 +117,10 @@ class plate_cutout:
                 Location((+ku(width - 1) / 2, MX_STAB_Y)) * stab)
 
     # paired holes under space bar
-    def space(key, width):
-        return (Location((-ku(width), 0)) * key +
-                Location((+ku(width), 0)) * key)
+    small = Rectangle(MX_PLATE_HOLE, MX_PLATE_HOLE/2)
+    def space(small, width):
+        return (Location((-ku(width), 0)) * small +
+                Location((+ku(width), 0)) * small)
 
     def hole(size, body=1):
         sign = +1 if size > 0 else -1
@@ -147,7 +146,6 @@ class keycaps:
     def keycap(width):
         return Rectangle(ku(width) + 0.1, ku(1) + 0.1)
 
-    small = keycap(1.00)
     k100 = keycap(1.00)
     k125 = keycap(1.25)
     klfn = k125
@@ -159,6 +157,7 @@ class keycaps:
     k175 = keycap(1.75)
     k225 = keycap(2.25)
     k700 = keycap(7.00)
+    small = k100
 
 def key_matrix(keys, top=False):
 
@@ -201,8 +200,10 @@ def key_matrix(keys, top=False):
     key_lo = Location((+FUN_X, FUN_Y2 - ku(0.5))) * keys.k100
     arrows = [key_hi] + [ loc * key_lo for loc in key_row(3) ]
 
-    spares = [Location((+FUN_X - ku(1), FUN_Y1 + ku(1.375))) * keys.small,
-              Location((-FUN_X + ku(1), FUN_Y1 + ku(1.375))) * keys.small ]
+    spares = [ Location((+FUN_X - ku(1), FUN_Y1 + ku(1.5))) * keys.k100,
+               Location((-FUN_X + ku(1), FUN_Y1 + ku(1.5))) * keys.k100,
+               Location((+FUN_X - ku(1), FUN_Y2 - ku(1.25))) * keys.small,
+               Location((-FUN_X + ku(1), FUN_Y2 - ku(1.25))) * keys.small ]
 
     funs = fun1 + fun2 + fun3 + (arrows if top else fun4 + spares)
 
