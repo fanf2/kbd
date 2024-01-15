@@ -84,7 +84,8 @@ TOTAL_DEPTH	= MAIN_DEPTH + CASE_FRONT + CASE_REAR
 
 PCB_INSET	= ku( 1/8 )
 PCB_WING	= ku( 13/32 )
-PCB_TOE		= ku( 3.00 )
+# space bar stab hole distance from centre
+PCB_STAB	= ku( 6.00 )/2
 
 MIDDLE_WIDTH	= MAIN_WIDTH - ku(2.0)
 ELLIPSE_AXIS	= ku(7.0)
@@ -250,18 +251,16 @@ def pcb_outline():
         (MAIN_WIDTH/2 + PCB_INSET + BLOCK_GAP,
          MAIN_Y - MAIN_DEPTH/2 + PCB_INSET + BLOCK_GAP*2),
         (MAIN_WIDTH/2 - PCB_INSET, pcb_front),
-        (PCB_TOE + PCB_INSET*2,	   pcb_front),
-        (PCB_TOE + PCB_INSET,      pcb_front - PCB_INSET),
-        (PCB_TOE - PCB_INSET,      pcb_front - PCB_INSET),
-        (PCB_TOE - PCB_INSET*2,    pcb_front),
-        (0,                        pcb_front),
+        (PCB_STAB + PCB_INSET*2,   pcb_front),
+        (PCB_STAB + PCB_INSET,     pcb_front - PCB_INSET),
+        (0,                        pcb_front - PCB_INSET),
     ])
     outline = make_face(half + mirror(half, Plane.YZ))
     # dunno why this comes out upside-down
     outline = mirror(outline, Plane.XY)
     keepout = offset(outline, amount=-PCB_INSET)
-    screws = (Location((+PCB_TOE, pcb_front)) * Circle(PCB_INSET) +
-            Location((-PCB_TOE, pcb_front)) * Circle(PCB_INSET))
+    screws = (Location((+PCB_STAB, pcb_front)) * Circle(PCB_INSET) +
+            Location((-PCB_STAB, pcb_front)) * Circle(PCB_INSET))
     board = extrude(outline, amount=PCB_THICK)
     components = extrude(keepout + screws, amount=-COMPONENTS_THICK)
     return board + components
