@@ -104,19 +104,22 @@ def multiocular_vertices(shape):
 
 def meniscus(shape, vertex, radius):
     vertex = vertex.center()
-    chomp = shape & Location(vertex) * Circle(radius)
+    circle = Location(vertex) * Circle(radius)
+    chomp = shape & circle
     edges = []
     radii = []
     for e in chomp.edges():
         # control point tangents are scaled and point towards vertex
         if e @ 1 == vertex:
-            radii += [( e @ 0, (e % 0) * +radius )]
+            radii += [( (e @ 0), (e % 0) * (+radius*2/3) )]
         elif e @ 0 == vertex:
-            radii += [( e @ 1, (e % 1) * -radius )]
+            radii += [( (e @ 1), (e % 1) * (-radius*2/3) )]
         else:
             edges += [e]
     if len(radii) != 2:
         log.info("meniscus requires 2 radial edges")
+        log.info(chomp.show_topology())
+        log.info(radius)
         log.info(radii)
         return
     (p0, t0) = radii[0]
@@ -124,9 +127,14 @@ def meniscus(shape, vertex, radius):
     e = Bezier(p0, p0 + t0, p1 + t1, p1)
     edges = Curve() + e + edges
     meniscus = make_face(edges)
-    log.info(meniscus.show_topology())
-    #show_object(meniscus)
+    if chomp.area * 2 < circle.area:
+        meniscus = circle - meniscus
     return meniscus
+
+def quadrants(shape):
+    shape += mirror(shape, Plane.XZ)
+    shape += mirror(shape, Plane.YZ)
+    return shape
 
 def case_outline():
     middle = Rectangle(MIDDLE_WIDTH, TOTAL_DEPTH)
@@ -154,11 +162,22 @@ def case_walls(outline):
     # side walls are thicker
     inset = inset & Rectangle(TOTAL_WIDTH - SIDE_THICK * 2, CLIP_DEPTH)
 
+    ring = outline - inset
+
+    v = ring.vertices().group_by(Axis.X)[-2].sort_by(Axis.Y)[-1]
+    inner = quadrants(meniscus(ring, v, WALL_THICK / 2))
+
     side = Rectangle(SIDE_INSET_W, SIDE_DEPTH)
     sides = (Location((-SIDE_INSET_X, 0)) * side +
              Location((+SIDE_INSET_X, 0)) * side)
 
-    return outline - inset #- sides
+    walls = ring + inner
+
+    vs = walls.vertices().group_by(Axis.X)[0]
+    outer = quadrants(meniscus(ring, vs[0], WALL_THICK / 4) +
+                      meniscus(ring, vs[1], WALL_THICK / 4))
+
+    return walls - outer - sides
 
 CASE_OUTLINE = case_outline()
 
@@ -166,9 +185,6 @@ SIDE_DEPTH = side_depth(CASE_OUTLINE)
 
 WALLS = case_walls(CASE_OUTLINE)
 
-v = WALLS.vertices().group_by(Axis.X)[-2].sort_by(Axis.Y)[-1]
-WALLS = WALLS + meniscus(WALLS, v, PERSPEX_THICK)
-
-log.info(WALLS.fuse().show_topology())
+log.info(WALLS.show_topology())
 
 show_object(WALLS)
