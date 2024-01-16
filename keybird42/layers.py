@@ -105,26 +105,28 @@ def multiocular_vertices(shape):
 def meniscus(shape, vertex, radius):
     vertex = vertex.center()
     chomp = shape & Location(vertex) * Circle(radius)
-    log.info(chomp.show_topology())
-    r0 = [ (e, e @ 0, e % 0)
-           for e in chomp.edges() if e @ 1 == vertex ]
-    r1 = [ (e, e @ 1, -(e % 1))
-           for e in chomp.edges() if e @ 0 == vertex ]
-    radii = r0 + r1
-    log.info(radii)
+    edges = []
+    radii = []
+    for e in chomp.edges():
+        # control point tangents are scaled and point towards vertex
+        if e @ 1 == vertex:
+            radii += [( e @ 0, (e % 0) * +radius )]
+        elif e @ 0 == vertex:
+            radii += [( e @ 1, (e % 1) * -radius )]
+        else:
+            edges += [e]
     if len(radii) != 2:
         log.info("meniscus requires 2 radial edges")
+        log.info(radii)
         return
-    (e0, p0, t0) = radii[0]
-    (e1, p1, t1) = radii[1]
-    c0 = p0 + t0
-    c1 = p1 + t1
-    e2 = Bezier(p0, p0 + t0, p1 + t1, p1)
-    meniscus = Curve() + e0 + e1 + e2
-    log.info(meniscus)
-    show_object(meniscus)
+    (p0, t0) = radii[0]
+    (p1, t1) = radii[1]
+    e = Bezier(p0, p0 + t0, p1 + t1, p1)
+    edges = Curve() + e + edges
+    meniscus = make_face(edges)
     log.info(meniscus.show_topology())
-    show_object(shape + make_face(meniscus))
+    #show_object(meniscus)
+    return meniscus
 
 def case_outline():
     middle = Rectangle(MIDDLE_WIDTH, TOTAL_DEPTH)
@@ -156,7 +158,7 @@ def case_walls(outline):
     sides = (Location((-SIDE_INSET_X, 0)) * side +
              Location((+SIDE_INSET_X, 0)) * side)
 
-    return outline - inset - sides
+    return outline - inset #- sides
 
 CASE_OUTLINE = case_outline()
 
@@ -165,6 +167,8 @@ SIDE_DEPTH = side_depth(CASE_OUTLINE)
 WALLS = case_walls(CASE_OUTLINE)
 
 v = WALLS.vertices().group_by(Axis.X)[-2].sort_by(Axis.Y)[-1]
-meniscus(WALLS, v, 2)
+WALLS = WALLS + meniscus(WALLS, v, PERSPEX_THICK)
 
-#show_object(WALLS)
+log.info(WALLS.fuse().show_topology())
+
+show_object(WALLS)
