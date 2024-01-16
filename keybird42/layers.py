@@ -102,6 +102,30 @@ def multiocular_vertices(shape):
     pupil = [ c * Circle(1) for c in cs ]
     return Sketch() + iris - pupil
 
+def meniscus(shape, vertex, radius):
+    vertex = vertex.center()
+    chomp = shape & Location(vertex) * Circle(radius)
+    log.info(chomp.show_topology())
+    r0 = [ (e, e @ 0, e % 0)
+           for e in chomp.edges() if e @ 1 == vertex ]
+    r1 = [ (e, e @ 1, -(e % 1))
+           for e in chomp.edges() if e @ 0 == vertex ]
+    radii = r0 + r1
+    log.info(radii)
+    if len(radii) != 2:
+        log.info("meniscus requires 2 radial edges")
+        return
+    (e0, p0, t0) = radii[0]
+    (e1, p1, t1) = radii[1]
+    c0 = p0 + t0
+    c1 = p1 + t1
+    e2 = Bezier(p0, p0 + t0, p1 + t1, p1)
+    meniscus = Curve() + e0 + e1 + e2
+    log.info(meniscus)
+    show_object(meniscus)
+    log.info(meniscus.show_topology())
+    show_object(shape + make_face(meniscus))
+
 def case_outline():
     middle = Rectangle(MIDDLE_WIDTH, TOTAL_DEPTH)
 
@@ -120,10 +144,8 @@ def case_outline():
     return oval & clip
 
 def side_depth(outline):
-    side = outline.vertices().group_by(Axis.X)[0]
-    # convert vertices to vectors
-    side_len = (side[0].center() - side[1].center()).length
-    return side_len - WALL_THICK * 2
+    side = outline.edges().sort_by(Axis.X)[0]
+    return side.length - WALL_THICK * 2
 
 def case_walls(outline):
     inset = offset(outline, amount=-WALL_THICK)
@@ -142,7 +164,7 @@ SIDE_DEPTH = side_depth(CASE_OUTLINE)
 
 WALLS = case_walls(CASE_OUTLINE)
 
-ww = multiocular_vertices(WALLS)
+v = WALLS.vertices().group_by(Axis.X)[-2].sort_by(Axis.Y)[-1]
+meniscus(WALLS, v, 2)
 
-show_object(WALLS)
-show_object(ww)
+#show_object(WALLS)
