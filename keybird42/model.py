@@ -34,9 +34,9 @@ MX_PLATE_HOLE	= 14.0
 MX_PLATE_RIB	= KEY_UNIT - MX_PLATE_HOLE
 
 # (0.484+0.004 - 0.26+0.004) * 25.4 == 5.9 mm
-MX_STAB_ABOVE	= 6
+MX_STAB_BELOW	= 6
 # (0.53+0.006) * 25.4 == 13.6 mm; 13.6 - 5.9 == 7.7 mm
-MX_STAB_BELOW	= 8
+MX_STAB_ABOVE	= 8
 
 MX_STAB_WIDTH	= 7
 MX_STAB_DEPTH	= MX_STAB_BELOW + MX_STAB_ABOVE
@@ -110,37 +110,19 @@ USBDB_R		= 1.0
 USBDB_Y		= TOTAL_DEPTH/2 - USBDB_DEPTH/2 - USB_CLEAR/2 - USB_INSET
 
 class plate_cutout:
-    k100 = Rectangle(MX_PLATE_HOLE, MX_PLATE_HOLE)
 
     stab = Rectangle(MX_STAB_WIDTH, MX_STAB_DEPTH)
     def stabs(stab, width):
-        return (Location((-ku(width - 1) / 2, MX_STAB_Y)) * stab +
-                Location((+ku(width - 1) / 2, MX_STAB_Y)) * stab)
+        sign = -1 if width < 0 else +1
+        return (Location((-ku(sign*width - 1) / 2, sign*MX_STAB_Y)) * stab +
+                Location((+ku(sign*width - 1) / 2, sign*MX_STAB_Y)) * stab)
 
-    # paired holes under space bar
-    small = Rectangle(MX_PLATE_HOLE, MX_PLATE_HOLE/2)
-    def space(small, width):
-        return (Location((-ku(width), 0)) * small +
-                Location((+ku(width), 0)) * small)
-
-    def hole(size, body=1):
-        sign = +1 if size > 0 else -1
-        width = ku(sign*size - body)/2 - MX_PLATE_RIB
-        pos = sign * (ku(body) + MX_PLATE_RIB + width)/2
-        return Location((pos, 0)) * Rectangle(width, MX_PLATE_HOLE)
-
+    k100 = Rectangle(MX_PLATE_HOLE, MX_PLATE_HOLE)
     k125 = k100
     k150 = k100
-    k175 = k100 + hole(-1.75) + hole(+1.75)
-    k225 = k100 + stabs(stab, 2.25)
-    k700 = k100 + space(small, 1) + space(small, 2) + stabs(stab, 7.00)
-    # add holes between main key block and function blocks
-    ktab = k100 + hole(-2.0)
-    kdel = k100 + hole(+2.0)
-    klfn = k100 + hole(-1.75)
-    krfn = k100 + hole(+1.75)
-    # cmd is 1.5u but it has wider keys to either side
-    kcmd = k175
+    k175 = k100
+    k225 = k100 + stabs(stab, +2.25)
+    k700 = k100 + stabs(stab, -7.00)
 
 class keycaps:
 
@@ -149,16 +131,10 @@ class keycaps:
 
     k100 = keycap(1.00)
     k125 = keycap(1.25)
-    klfn = k125
-    krfn = k125
     k150 = keycap(1.50)
-    ktab = k150
-    kdel = k150
-    kcmd = k150
     k175 = keycap(1.75)
     k225 = keycap(2.25)
     k700 = keycap(7.00)
-    small = k100
 
 def key_matrix(keys, top=False):
 
@@ -201,30 +177,25 @@ def key_matrix(keys, top=False):
     key_lo = Location((+FUN_X, FUN_Y2 - ku(0.5))) * keys.k100
     arrows = [key_hi] + [ loc * key_lo for loc in key_row(3) ]
 
-    spares = [ Location((+FUN_X - ku(1), FUN_Y1 + ku(1.5))) * keys.k100,
-               Location((-FUN_X + ku(1), FUN_Y1 + ku(1.5))) * keys.k100,
-               Location((+FUN_X - ku(1), FUN_Y2 - ku(1.25))) * keys.small,
-               Location((-FUN_X + ku(1), FUN_Y2 - ku(1.25))) * keys.small ]
-
-    funs = fun1 + fun2 + fun3 + (arrows if top else fun4 + spares)
+    funs = fun1 + fun2 + fun3 + (arrows if top else fun4)
 
     l = -MAIN_WIDTH / 2
     r = +MAIN_WIDTH / 2
 
     modifiers = [
-        Location((l + ku(1.50/2), MAIN_Y + ku(1))) * keys.ktab,
+        Location((l + ku(1.50/2), MAIN_Y + ku(1))) * keys.k150,
         Location((l + ku(1.75/2), MAIN_Y + ku(0))) * keys.k175,
         Location((l + ku(2.25/2), MAIN_Y - ku(1))) * keys.k225,
-        Location((l + ku(1.25/2), MAIN_Y - ku(2))) * keys.klfn,
+        Location((l + ku(1.25/2), MAIN_Y - ku(2))) * keys.k125,
         Location((l + ku(1.25/2 + 1.25), MAIN_Y - ku(2))) * keys.k125,
-        Location((l + ku(1.50/2 + 2.50), MAIN_Y - ku(2))) * keys.kcmd,
-        Location((r - ku(1.50/2), MAIN_Y + ku(1))) * keys.kdel,
+        Location((l + ku(1.50/2 + 2.50), MAIN_Y - ku(2))) * keys.k150,
+        Location((r - ku(1.50/2), MAIN_Y + ku(1))) * keys.k150,
         Location((r - ku(2.25/2), MAIN_Y + ku(0))) * keys.k225,
         Location((r - ku(1.00/2), MAIN_Y - ku(1))) * keys.k100,
-        Location((r - ku(1.25/2), MAIN_Y - ku(2))) * keys.krfn,
+        Location((r - ku(1.25/2), MAIN_Y - ku(2))) * keys.k125,
         Location((r - ku(1.75/2 + 1.00), MAIN_Y - ku(1))) * keys.k175,
         Location((r - ku(1.25/2 + 1.25), MAIN_Y - ku(2))) * keys.k125,
-        Location((r - ku(1.50/2 + 2.50), MAIN_Y - ku(2))) * keys.kcmd,
+        Location((r - ku(1.50/2 + 2.50), MAIN_Y - ku(2))) * keys.k150,
     ]
 
     matrix = space + modifiers + rows + funs
