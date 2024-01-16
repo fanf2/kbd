@@ -51,6 +51,7 @@ CASE_REAR	= ku( 7/6 )
 
 WALL_THICK	= ku( 0.25 )
 SIDE_THICK	= PERSPEX_THICK * 3
+SIDE_RADIUS	= 1
 
 TOTAL_WIDTH	= MAIN_WIDTH + (BLOCK_GAP + FUN_WIDTH + CASE_SIDE) * 2
 TOTAL_DEPTH	= MAIN_DEPTH + CASE_FRONT + CASE_REAR
@@ -102,6 +103,11 @@ def multiocular_vertices(shape):
     pupil = [ c * Circle(1) for c in cs ]
     return Sketch() + iris - pupil
 
+def mirror_mirror(shape):
+    shape += mirror(shape, Plane.XZ)
+    shape += mirror(shape, Plane.YZ)
+    return shape
+
 def meniscus(shape, vertex, radius):
     vertex = vertex.center()
     circle = Location(vertex) * Circle(radius)
@@ -131,11 +137,6 @@ def meniscus(shape, vertex, radius):
         meniscus = circle - meniscus
     return meniscus
 
-def quadrants(shape):
-    shape += mirror(shape, Plane.XZ)
-    shape += mirror(shape, Plane.YZ)
-    return shape
-
 def case_outline():
     middle = Rectangle(MIDDLE_WIDTH, TOTAL_DEPTH)
 
@@ -157,34 +158,44 @@ def side_depth(outline):
     side = outline.edges().sort_by(Axis.X)[0]
     return side.length - WALL_THICK * 2
 
-def case_walls(outline):
-    inset = offset(outline, amount=-WALL_THICK)
+def side_inset():
+    inset = Rectangle(SIDE_INSET_W, SIDE_DEPTH)
+    insets = (Location((-SIDE_INSET_X, 0)) * inset +
+              Location((+SIDE_INSET_X, 0)) * inset)
+    return insets
+
+def case_wall(outline, side_inset):
+    hole = offset(outline, amount=-WALL_THICK)
     # side walls are thicker
-    inset = inset & Rectangle(TOTAL_WIDTH - SIDE_THICK * 2, CLIP_DEPTH)
+    hole = hole & Rectangle(TOTAL_WIDTH - SIDE_THICK * 2, CLIP_DEPTH)
 
-    ring = outline - inset
+    walls = outline - hole - side_inset
+    # pick one wall (dunno why it isn't already a ShapeList)
+    wall = ShapeList(walls.get_type(Face)).sort_by(Axis.Y)[-1]
 
-    v = ring.vertices().group_by(Axis.X)[-2].sort_by(Axis.Y)[-1]
-    inner = quadrants(meniscus(ring, v, WALL_THICK / 2))
+    # round off sharp corners
+    vs = wall.vertices().sort_by(Axis.Y).group_by(Axis.X)
+    chomp = ( Sketch()
+              + [ meniscus(wall, v, SIDE_RADIUS) for v in vs[-1] ]
+              + meniscus(wall, vs[-2][0], SIDE_RADIUS) )
+    wall -= chomp
+    # stop it from turning into a one-face compound
+    [wall] = wall.get_type(Face)
 
-    side = Rectangle(SIDE_INSET_W, SIDE_DEPTH)
-    sides = (Location((-SIDE_INSET_X, 0)) * side +
-             Location((+SIDE_INSET_X, 0)) * side)
+    # strengthen inner corners
+    v = vs[-2].sort_by(Axis.Y)[-1]
+    inner = meniscus(wall, v, WALL_THICK / 2)
+    wall += inner + mirror(inner, Plane.YZ)
 
-    walls = ring + inner
-
-    vs = walls.vertices().group_by(Axis.X)[0]
-    outer = quadrants(meniscus(ring, vs[0], WALL_THICK / 4) +
-                      meniscus(ring, vs[1], WALL_THICK / 4))
-
-    return walls - outer - sides
+    return wall
 
 CASE_OUTLINE = case_outline()
 
 SIDE_DEPTH = side_depth(CASE_OUTLINE)
+SIDE_INSET = side_inset();
 
-WALLS = case_walls(CASE_OUTLINE)
+WALL = case_wall(CASE_OUTLINE, SIDE_INSET)
 
-log.info(WALLS.show_topology())
+log.info(WALL.show_topology())
 
-show_object(WALLS)
+show_object(WALL)
