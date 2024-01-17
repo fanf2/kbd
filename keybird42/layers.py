@@ -64,11 +64,13 @@ CLIP_DEPTH	= TOTAL_DEPTH + 1 # a little clearance
 
 # round off sharp corners
 SIDE_RADIUS	= 0.5
-# accent notch corners form an s-bend
-SIDE_NOTCH	= SIDE_RADIUS * 2
 
-SIDE_DEPTH	= ku(1) # placeholder
-SIDE_DEEPER	= SIDE_DEPTH + SIDE_NOTCH*2 # placeholder
+# visible extent of side accent
+SIDE_DEPTH	= 1 # placeholder
+# depth of cutout for side accent
+SIDE_NOTCH_D	= 1 # placeholder
+# side accent sized to fit notches
+SIDE_ACCENT_D	= 1 # placeholder
 
 # this cutout rectangle sticks out by MX_PLATE_RIB/2
 SIDE_INSET_W	= CASE_SIDE
@@ -166,18 +168,19 @@ def case_outline():
 def set_side_depth(outline):
     side = outline.edges().sort_by(Axis.X)[0]
     global SIDE_DEPTH
-    global SIDE_DEEPER
+    global SIDE_NOTCH_D
+    global SIDE_ACCENT_D
     SIDE_DEPTH = side.length - WALL_THICK*2
-    SIDE_DEEPER = SIDE_DEPTH + SIDE_NOTCH*2
+    # notch depth comes from corner s-bend
+    SIDE_ACCENT_D = SIDE_DEPTH + SIDE_RADIUS*2
+    SIDE_NOTCH_D = SIDE_ACCENT_D + SIDE_RADIUS*2
 
 def side_inset():
     inset = Rectangle(SIDE_INSET_W, SIDE_DEPTH)
     insets = (Location((-SIDE_INSET_X, 0)) * inset +
               Location((+SIDE_INSET_X, 0)) * inset)
     accent = RectangleRounded(
-        PERSPEX_THICK + ACCENT_CLEAR,
-        SIDE_DEEPER + ACCENT_CLEAR,
-        SIDE_RADIUS)
+        PERSPEX_THICK + ACCENT_CLEAR, SIDE_NOTCH_D, SIDE_RADIUS)
     accents = (Location((-SIDE_ACCENT_X, 0)) * accent +
                Location((+SIDE_ACCENT_X, 0)) * accent)
     return insets + accents
