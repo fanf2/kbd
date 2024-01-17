@@ -60,7 +60,9 @@ TOTAL_DEPTH	= MAIN_DEPTH + CASE_FRONT + CASE_REAR
 MIDDLE_WIDTH	= MAIN_WIDTH - ku(2.0)
 ELLIPSE_AXIS	= ku(7.0)
 
-CLIP_DEPTH	= TOTAL_DEPTH + 1 # a little clearance
+# a little clearance
+CLIP_WIDTH	= TOTAL_WIDTH + 1
+CLIP_DEPTH	= TOTAL_DEPTH + 1
 
 # round off sharp corners
 SIDE_RADIUS	= 0.5
@@ -90,12 +92,13 @@ FUN_Y2		= FUN_Y1 - BLOCK_GAP - FUN_DEPTH
 
 HOLE_SMALL	= 3.2 # m3 screw diameter
 HOLE_BIG	= 5.2 # m3 rivnut barrel
-HOLE_SUPPORT	= 2 * WALL_THICK
+HOLE_SUPPORT	= WALL_THICK*2
+HOLE_MENISCUS	= WALL_THICK/2
 
 HOLE_X1		= ku( 3.50 )
 HOLE_X2		= ku( 9.25 )
 
-HOLE_Y1		= 0 # placeholder
+HOLE_Y1		= TOTAL_DEPTH/2 - WALL_THICK
 HOLE_Y2		= 0 # placeholder
 
 # connector holes
@@ -108,16 +111,19 @@ USBDB_DEPTH	= 18
 USBDB_R		= 1.0
 USBDB_Y		= TOTAL_DEPTH/2 - USBDB_DEPTH/2 - USB_CLEAR/2 - USB_INSET
 
-def multiocular_vertices(shape):
-    cs = [ Location(v.center()) for v in shape.vertices() ]
+def multiocular_vertices(vertices):
+    cs = [ Location(v.center()) for v in vertices ]
     iris = [ c * Circle(2) for c in cs ]
     pupil = [ c * Circle(1) for c in cs ]
     return Sketch() + iris - pupil
 
-def mirror_mirror(shape):
-    shape += mirror(shape, Plane.XZ)
-    shape += mirror(shape, Plane.YZ)
-    return shape
+def side_length(shape):
+    return shape.edges().sort_by(Axis.X)[0].length
+
+def classify_vertex(shape, vertex):
+    circle = Location(vertex.center()) * Circle(0.25)
+    chomp = shape & circle
+    return chomp.area / circle.area
 
 def meniscus(shape, vertex, radius):
     vertex = vertex.center()
@@ -135,7 +141,7 @@ def meniscus(shape, vertex, radius):
             edges += [e]
     if len(radii) != 2:
         log.info("meniscus requires 2 radial edges")
-        log.info(chomp.show_topology())
+        log.info(vertex)
         log.info(radius)
         log.info(radii)
         return
@@ -165,15 +171,29 @@ def case_outline():
 
     return oval & clip
 
+def case_interior(outline):
+    interior = offset(outline, amount=-WALL_THICK)
+    # re-clip so that the side walls are thicker
+    return interior & Rectangle(TOTAL_WIDTH - SIDE_THICK * 2, CLIP_DEPTH)
+
 def set_side_depth(outline):
-    side = outline.edges().sort_by(Axis.X)[0]
     global SIDE_DEPTH
     global SIDE_NOTCH_D
     global SIDE_ACCENT_D
-    SIDE_DEPTH = side.length - WALL_THICK*2
+    SIDE_DEPTH = side_length(outline) - WALL_THICK*2
     # notch depth comes from corner s-bend
     SIDE_ACCENT_D = SIDE_DEPTH + SIDE_RADIUS*2
     SIDE_NOTCH_D = SIDE_ACCENT_D + SIDE_RADIUS*2
+
+def hole_positions(interior):
+    global HOLE_Y2
+    clip = Rectangle(HOLE_X2 * 2, CLIP_DEPTH)
+    HOLE_Y2 = side_length(interior & clip) / 2
+    return [ Location(p) for p in [
+        (-HOLE_X2, HOLE_Y2),
+        (-HOLE_X1, HOLE_Y1),
+        (+HOLE_X1, HOLE_Y1),
+        (+HOLE_X2, HOLE_Y2) ]]
 
 def side_inset():
     inset = Rectangle(SIDE_INSET_W, SIDE_DEPTH)
@@ -185,33 +205,43 @@ def side_inset():
                Location((+SIDE_ACCENT_X, 0)) * accent)
     return insets + accents
 
-def case_wall(outline, side_inset):
-    hole = offset(outline, amount=-WALL_THICK)
-    # re-clip so that the side walls are thicker
-    hole = hole & Rectangle(TOTAL_WIDTH - SIDE_THICK * 2, CLIP_DEPTH)
+def basic_wall(outline, interior, holepos, side_inset):
+    walls = outline - interior - side_inset
 
-    walls = outline - hole - side_inset
-    # pick rear wall (dunno why it isn't already a ShapeList)
+    choose = Location((0, CLIP_DEPTH/2)) * Rectangle(CLIP_WIDTH, CLIP_DEPTH/2)
     wall = ShapeList(walls.get_type(Face)).sort_by(Axis.Y)[-1]
 
-    vs = wall.vertices()
+    hole = Circle(HOLE_SUPPORT / 2)
+    holes = [ pos * hole for pos in holepos ]
 
-    # round off sharp corners
-    corner = vs.group_by(Axis.X)[-1].sort_by(Axis.Y)[-1]
-    cutty = meniscus(wall, corner, SIDE_RADIUS)
-    chomp = (Sketch() + cutty + mirror(cutty, Plane.YZ) +
-             [ meniscus(wall, v, SIDE_RADIUS) for v in vs.group_by(Axis.Y)[0] ])
+    return wall + holes
 
-    return wall - chomp
+# round off vertices
+def wall_rounded(wall):
+    mouths = []
+    ears = []
+    for v in wall.vertices():
+        kind = classify_vertex(wall, v)
+        if kind < 0.33:
+            m = meniscus(wall, v, SIDE_RADIUS)
+            if m: ears.append(m)
+        elif kind > 0.66:
+            m = meniscus(wall, v, HOLE_MENISCUS)
+            if m: mouths.append(m)
+    show_object(Sketch() + ears)
+    show_object(Sketch() + mouths)
 
 CASE_OUTLINE = case_outline()
+CASE_INTERIOR = case_interior(CASE_OUTLINE)
+HOLE_POSITIONS = hole_positions(CASE_INTERIOR)
 
 set_side_depth(CASE_OUTLINE)
-
 SIDE_INSET = side_inset()
 
-WALL = case_wall(CASE_OUTLINE, SIDE_INSET)
+WALL = basic_wall(CASE_OUTLINE, CASE_INTERIOR, HOLE_POSITIONS, SIDE_INSET)
 
 log.info(WALL.show_topology())
 
 show_object(WALL)
+
+wall_rounded(WALL)
