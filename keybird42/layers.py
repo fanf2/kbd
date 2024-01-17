@@ -6,8 +6,8 @@ log = build123d.logging.getLogger("build123d")
 
 log.info("hello!")
 
-MODE = "perspex"
-#MODE = "plate"
+#MODE = "perspex"
+MODE = "plate"
 #MODE = 1.001
 #MODE = 5
 
@@ -96,6 +96,7 @@ FUN_Y2a		= FUN_Y2 - ku(0.5)
 
 # fasteners
 
+HOLE_TINY	= 2.2 # m2 screw diameter
 HOLE_SMALL	= 3.2 # m3 screw diameter
 HOLE_LARGE	= 5.2 # m3 rivnut barrel
 HOLE_SUPPORT	= WALL_THICK*2
@@ -179,13 +180,13 @@ def rounded_vertices(shape, mouth_r, ear_r=None):
             if m: mouths.append(m)
             else: log.info("wat")
         elif kind < 0.33:
-            m = meniscus(shape, v, ear_r)
-            if m: ears.append(m)
+            e = meniscus(shape, v, ear_r)
+            if e: ears.append(e)
             else: log.info("wat")
     # still puzzled why it doesn't work in 2D
-    sheet = (extrude(shape, amount=-1)
-             + extrude(Sketch() + mouths, amount=-1)
-             - extrude(Sketch() + ears, amount=-1))
+    sheet = extrude(shape, amount=-1)
+    if mouths: sheet += extrude(Sketch() + mouths, amount=-1)
+    if ears: sheet -= extrude(Sketch() + ears, amount=-1)
     # extract the 2d face we wanted
     # extrude downwards so we return the top face
     return sheet.faces().sort_by(Axis.Z)[-1]
@@ -242,7 +243,7 @@ def set_hole_positions(interior):
     HOLE_Y2 = side_length(interior & clip) / 2
     HOLE_POSITIONS = [ Location(p)
                        for i in [-1,+1]
-                       for j in [-1,+1]
+                       for j in [+1]
                        for p in [(i*HOLE_X1, j*HOLE_Y1),
                                  (i*HOLE_X2, j*HOLE_Y2)] ]
 
@@ -276,6 +277,12 @@ def wall_socket(wall):
     bottom = thick.faces().group_by(Axis.Z)[-1]
     return bottom[0] + bottom[1]
 
+def daughterboard_holes():
+    holes = Sketch() + [ loc * Circle(HOLE_TINY/2) for loc in
+                         GridLocations(14, 14, 2, 2) ]
+    return Location((0, USBDB_Y)) * holes
+
+
 CASE_OUTLINE = case_outline()
 CASE_INTERIOR = case_interior(CASE_OUTLINE)
 
@@ -291,8 +298,12 @@ WALL = rounded_vertices(WALLS & rear_half(), HOLE_MENISCUS, SIDE_RADIUS)
 HOLES_SMALL = holes(HOLE_SMALL)
 HOLES_LARGE = holes(HOLE_LARGE)
 
-TOP_LAYER = (rounded_vertices(case_top(CASE_OUTLINE), KEYBLOCK_RADIUS) -
-             HOLES_SMALL)
+TOP_LAYER = (rounded_vertices(case_top(CASE_OUTLINE), KEYBLOCK_RADIUS)
+             - HOLES_SMALL)
+
+BASE_LAYER = (rounded_vertices(CASE_OUTLINE, SIDE_RADIUS) -
+              (HOLES_SMALL + mirror(HOLES_LARGE, Plane.XZ)
+               + daughterboard_holes()))
 
 # perspex walls: 1 above switch plate, 2 below
 # plate walls: 1 above switch plate, 1 below
@@ -313,17 +324,18 @@ layers = [
     (FRONT_LARGE, REAR_SMALL), # 4
     (FRONT_LARGE, REAR_SOCKET), # 5
     (FRONT_LARGE, REAR_SOCKET), # 6
+    (BASE_LAYER,), # 7
 ]
 
 spread = Part()
 
 if MODE == "perspex":
     for i in range(len(layers)):
-        if i % 2 != 0:
+        if i % 2 == 1:
             pass
         elif len(layers[i]) == 2:
             (front, rear) = layers[i]
-            move = SPREAD * i / 2
+            move = SPREAD * (i / 2)
             spread += (Location((0, +move)) *
                        extrude(rear, amount=PERSPEX_THICK) +
                        Location((0, -move)) *
@@ -332,11 +344,17 @@ if MODE == "perspex":
             spread += extrude(layers[i][0], amount=PERSPEX_THICK)
 
 elif MODE == "plate":
-
-    walls = [
-    ]
-    spread += [ Location((0, SPREAD * i)) *
-                extrude(walls[i], amount=PLATE_THICK)
-                for i in range(len(walls)) ]
+    for i in range(len(layers)):
+        if i % 2 == 0:
+            pass
+        elif len(layers[i]) == 2:
+            (front, rear) = layers[i]
+            move = SPREAD * (i / 4 + 0.75)
+            spread += (Location((0, +move)) *
+                       extrude(rear, amount=PLATE_THICK) +
+                       Location((0, -move)) *
+                       extrude(front, amount=PLATE_THICK))
+        elif len(layers[i]) == 1:
+            spread += extrude(layers[i][0], amount=PLATE_THICK)
 
 show_object(spread)
