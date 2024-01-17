@@ -51,7 +51,8 @@ CASE_REAR	= ku( 7/6 )
 
 WALL_THICK	= ku( 0.25 )
 SIDE_THICK	= PERSPEX_THICK * 3
-SIDE_RADIUS	= 1
+
+ACCENT_CLEAR	= 0.2
 
 TOTAL_WIDTH	= MAIN_WIDTH + (BLOCK_GAP + FUN_WIDTH + CASE_SIDE) * 2
 TOTAL_DEPTH	= MAIN_DEPTH + CASE_FRONT + CASE_REAR
@@ -61,11 +62,19 @@ ELLIPSE_AXIS	= ku(7.0)
 
 CLIP_DEPTH	= TOTAL_DEPTH + 1 # a little clearance
 
-SIDE_DEPTH	= ku(1) # placeholder
+# round off sharp corners
+SIDE_RADIUS	= 0.5
+# accent notch corners form an s-bend
+SIDE_NOTCH	= SIDE_RADIUS * 2
 
-# the cutout rectangle sticks out by MX_PLATE_RIB/2
+SIDE_DEPTH	= ku(1) # placeholder
+SIDE_DEEPER	= SIDE_DEPTH + SIDE_NOTCH*2 # placeholder
+
+# this cutout rectangle sticks out by MX_PLATE_RIB/2
 SIDE_INSET_W	= CASE_SIDE
 SIDE_INSET_X	= TOTAL_WIDTH/2 + MX_PLATE_RIB/2 - SIDE_INSET_W/2
+
+SIDE_ACCENT_X	= TOTAL_WIDTH/2 - SIDE_THICK/2
 
 # key block positions
 
@@ -77,8 +86,8 @@ FUN_Y2		= FUN_Y1 - BLOCK_GAP - FUN_DEPTH
 
 # fasteners
 
-HOLE_SMALL	= 3.2
-HOLE_BIG	= 5.2
+HOLE_SMALL	= 3.2 # m3 screw diameter
+HOLE_BIG	= 5.2 # m3 rivnut barrel
 HOLE_SUPPORT	= 2 * WALL_THICK
 
 HOLE_X1		= ku( 3.50 )
@@ -162,39 +171,38 @@ def side_inset():
     inset = Rectangle(SIDE_INSET_W, SIDE_DEPTH)
     insets = (Location((-SIDE_INSET_X, 0)) * inset +
               Location((+SIDE_INSET_X, 0)) * inset)
-    return insets
+    accent = RectangleRounded(
+        PERSPEX_THICK + ACCENT_CLEAR,
+        SIDE_DEEPER + ACCENT_CLEAR,
+        SIDE_RADIUS)
+    accents = (Location((-SIDE_ACCENT_X, 0)) * accent +
+               Location((+SIDE_ACCENT_X, 0)) * accent)
+    return insets + accents
 
 def case_wall(outline, side_inset):
     hole = offset(outline, amount=-WALL_THICK)
-    # side walls are thicker
+    # re-clip so that the side walls are thicker
     hole = hole & Rectangle(TOTAL_WIDTH - SIDE_THICK * 2, CLIP_DEPTH)
 
     walls = outline - hole - side_inset
     # pick rear wall (dunno why it isn't already a ShapeList)
     wall = ShapeList(walls.get_type(Face)).sort_by(Axis.Y)[-1]
 
-    vs = wall.vertices().sort_by(Axis.Y).group_by(Axis.X)
+    vs = wall.vertices()
 
     # round off sharp corners
-    chomp = ( Sketch()
-              + [ meniscus(wall, v, SIDE_RADIUS) for v in vs[-1] ]
-              + meniscus(wall, vs[-2][0], SIDE_RADIUS) )
-    wall -= chomp + mirror(chomp, Plane.YZ)
+    corner = vs.group_by(Axis.X)[-1].sort_by(Axis.Y)[-1]
+    cutty = meniscus(wall, corner, SIDE_RADIUS)
+    chomp = (Sketch() + cutty + mirror(cutty, Plane.YZ) +
+             [ meniscus(wall, v, SIDE_RADIUS) for v in vs.group_by(Axis.Y)[0] ])
 
-    # extract the unique face from the compound
-    # so that the wall knows it is 2-dimensional
-    [wall] = wall.get_type(Face)
-
-    # strengthen inner corners
-    inner = meniscus(wall, vs[-2].sort_by(Axis.Y)[-1], WALL_THICK / 2)
-    wall += inner + mirror(inner, Plane.YZ)
-
-    return wall
+    return wall - chomp
 
 CASE_OUTLINE = case_outline()
 
 SIDE_DEPTH = side_depth(CASE_OUTLINE)
-SIDE_INSET = side_inset();
+SIDE_DEEPER = SIDE_DEPTH + SIDE_NOTCH*2
+SIDE_INSET = side_inset()
 
 WALL = case_wall(CASE_OUTLINE, SIDE_INSET)
 
