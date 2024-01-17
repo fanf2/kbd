@@ -163,9 +163,12 @@ def case_outline():
 
     return oval & clip
 
-def side_depth(outline):
+def set_side_depth(outline):
     side = outline.edges().sort_by(Axis.X)[0]
-    return side.length - WALL_THICK * 2
+    global SIDE_DEPTH
+    global SIDE_DEEPER
+    SIDE_DEPTH = side.length - WALL_THICK*2
+    SIDE_DEEPER = SIDE_DEPTH + SIDE_NOTCH*2
 
 def side_inset():
     inset = Rectangle(SIDE_INSET_W, SIDE_DEPTH)
@@ -200,8 +203,8 @@ def case_wall(outline, side_inset):
 
 CASE_OUTLINE = case_outline()
 
-SIDE_DEPTH = side_depth(CASE_OUTLINE)
-SIDE_DEEPER = SIDE_DEPTH + SIDE_NOTCH*2
+set_side_depth(CASE_OUTLINE)
+
 SIDE_INSET = side_inset()
 
 WALL = case_wall(CASE_OUTLINE, SIDE_INSET)
