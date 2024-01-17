@@ -299,31 +299,41 @@ TOP_LAYER = (rounded_vertices(case_top(CASE_OUTLINE), KEYBLOCK_RADIUS) -
 # front walls below plate use large holes, rest are small
 # one perspex wall and one plate wall have USB cutouts
 
-WALL_SMALL = WALL - HOLES_SMALL
-WALL_LARGE = WALL - HOLES_LARGE
+REAR_SMALL = WALL - HOLES_SMALL
+REAR_SOCKET = wall_socket(REAR_SMALL)
 
-# all rear walls have small holes
-WALL_SOCKET = wall_socket(WALL_SMALL)
+FRONT_SMALL = mirror(REAR_SMALL, Plane.XZ)
+FRONT_LARGE = mirror(WALL - HOLES_LARGE, Plane.XZ)
+
+layers = [
+    (TOP_LAYER,), # 0
+    (FRONT_SMALL, REAR_SMALL), # 1
+    (FRONT_SMALL, REAR_SMALL), # 2
+    [], # 3
+    (FRONT_LARGE, REAR_SMALL), # 4
+    (FRONT_LARGE, REAR_SOCKET), # 5
+    (FRONT_LARGE, REAR_SOCKET), # 6
+]
 
 spread = Part()
 
 if MODE == "perspex":
-    walls = [
-        WALL_SMALL, WALL_SMALL,  # layer 2
-        WALL_LARGE, WALL_SMALL,  # layer 4
-        WALL_LARGE, WALL_SOCKET, # layer 6
-    ]
-    spread += [ Location((0, SPREAD * (i + 1))) *
-                extrude(walls[i], amount=PERSPEX_THICK)
-                for i in range(len(walls)) ]
-
-    spread += extrude(TOP_LAYER, amount=PERSPEX_THICK)
+    for i in range(len(layers)):
+        if i % 2 != 0:
+            pass
+        elif len(layers[i]) == 2:
+            (front, rear) = layers[i]
+            move = SPREAD * i / 2
+            spread += (Location((0, +move)) *
+                       extrude(rear, amount=PERSPEX_THICK) +
+                       Location((0, -move)) *
+                       extrude(front, amount=PERSPEX_THICK))
+        elif len(layers[i]) == 1:
+            spread += extrude(layers[i][0], amount=PERSPEX_THICK)
 
 elif MODE == "plate":
 
     walls = [
-        WALL_SMALL, WALL_SMALL,  # layer 1
-        WALL_LARGE, WALL_SOCKET, # layer 5
     ]
     spread += [ Location((0, SPREAD * i)) *
                 extrude(walls[i], amount=PLATE_THICK)
