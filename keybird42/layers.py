@@ -101,6 +101,8 @@ HOLE_X2		= ku( 9.25 )
 HOLE_Y1		= TOTAL_DEPTH/2 - WALL_THICK
 HOLE_Y2		= 0 # placeholder
 
+HOLE_POSITIONS	= [] # placeholder
+
 # connector holes
 
 USB_INSET	= 1.0
@@ -177,6 +179,9 @@ def case_outline():
 
     return oval & clip
 
+def rear_half():
+    return Location((0, CLIP_DEPTH/2)) * Rectangle(CLIP_WIDTH, CLIP_DEPTH/2)
+
 def case_interior(outline):
     interior = offset(outline, amount=-WALL_THICK)
     # re-clip so that the side walls are thicker
@@ -191,15 +196,20 @@ def set_side_depth(outline):
     SIDE_ACCENT_D = SIDE_DEPTH + SIDE_RADIUS*2
     SIDE_NOTCH_D = SIDE_ACCENT_D + SIDE_RADIUS*2
 
-def hole_positions(interior):
+def set_hole_positions(interior):
     global HOLE_Y2
+    global HOLE_POSITIONS
     clip = Rectangle(HOLE_X2 * 2, CLIP_DEPTH)
     HOLE_Y2 = side_length(interior & clip) / 2
-    return [ Location(p) for p in [
-        (-HOLE_X2, HOLE_Y2),
-        (-HOLE_X1, HOLE_Y1),
-        (+HOLE_X1, HOLE_Y1),
-        (+HOLE_X2, HOLE_Y2) ]]
+    HOLE_POSITIONS = [ Location(p)
+                       for i in [-1,+1]
+                       for j in [-1,+1]
+                       for p in [(i*HOLE_X1, j*HOLE_Y1),
+                                 (i*HOLE_X2, j*HOLE_Y2)] ]
+
+def holes(diameter):
+    hole = Circle(diameter / 2)
+    return [ pos * hole for pos in HOLE_POSITIONS ]
 
 def side_inset():
     inset = Rectangle(SIDE_INSET_W, SIDE_DEPTH)
@@ -210,17 +220,6 @@ def side_inset():
     accents = (Location((-SIDE_ACCENT_X, 0)) * accent +
                Location((+SIDE_ACCENT_X, 0)) * accent)
     return insets + accents
-
-def basic_wall(outline, interior, holepos, side_inset):
-    walls = outline - interior - side_inset
-
-    choose = Location((0, CLIP_DEPTH/2)) * Rectangle(CLIP_WIDTH, CLIP_DEPTH/2)
-    wall = ShapeList(walls.get_type(Face)).sort_by(Axis.Y)[-1]
-
-    hole = Circle(HOLE_SUPPORT / 2)
-    holes = [ pos * hole for pos in holepos ]
-
-    return wall + holes
 
 # round off vertices
 def wall_rounded(wall):
@@ -234,25 +233,23 @@ def wall_rounded(wall):
         elif kind > 0.66:
             m = meniscus(wall, v, HOLE_MENISCUS)
             if m: mouths.append(m)
-    return (Sketch() + mouths, Sketch() + ears)
+    # still puzzled why it doesn't work in 2D
+    w = (extrude(wall, amount=1)
+         + extrude(Sketch() + mouths, amount=1)
+         - extrude(Sketch() + ears, amount=1))
+    # extract the 2d face we wanted
+    return w.faces().sort_by(Axis.Z)[0]
 
 CASE_OUTLINE = case_outline()
 CASE_INTERIOR = case_interior(CASE_OUTLINE)
-HOLE_POSITIONS = hole_positions(CASE_INTERIOR)
 
+set_hole_positions(CASE_INTERIOR)
 set_side_depth(CASE_OUTLINE)
+
 SIDE_INSET = side_inset()
 
-WALL = basic_wall(CASE_OUTLINE, CASE_INTERIOR, HOLE_POSITIONS, SIDE_INSET)
+WALLS = CASE_OUTLINE - CASE_INTERIOR - SIDE_INSET + holes(HOLE_SUPPORT)
 
-log.info(WALL.show_topology())
+WALL = wall_rounded(WALLS & rear_half())
 
-(mouths, ears) = wall_rounded(WALL)
-
-w = extrude(WALL, amount=1)
-m = extrude(mouths, amount=1)
-e = extrude(ears, amount=1)
-
-show_object(w)
-show_object(m)
-show_object(e)
+show_object(WALL)
