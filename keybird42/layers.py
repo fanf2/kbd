@@ -129,8 +129,7 @@ def meniscus(shape, vertex, radius):
     vertex = vertex.center()
     circle = Location(vertex) * Circle(radius)
     chomp = shape & circle
-    edges = []
-    radii = []
+    (edges, radii) = ([],[])
     for e in chomp.edges():
         # control point tangents are scaled and point towards vertex
         if e @ 1 == vertex:
@@ -141,18 +140,25 @@ def meniscus(shape, vertex, radius):
             edges += [e]
     if len(radii) != 2:
         log.info("meniscus requires 2 radial edges")
-        log.info(vertex)
-        log.info(radius)
-        log.info(radii)
         return
     (p0, t0) = radii[0]
     (p1, t1) = radii[1]
-    e = Bezier(p0, p0 + t0, p1 + t1, p1)
-    edges = Curve() + e + edges
-    meniscus = make_face(edges)
-    if chomp.area * 2 < circle.area:
-        meniscus = make_face(circle - meniscus)
-    return meniscus
+    curve = Edge() + edges
+    # ensure edges are in a consistent order
+    # so that the resulting face points in the correct direction
+    (start, end) = (curve.start_point(), curve.end_point())
+    if start == p1 and end == p0:
+        curve += Bezier(p0, p0 + t0, p1 + t1, p1)
+    elif start == p0 and end == p1:
+        curve += Bezier(p1, p1 + t1, p0 + t0, p0)
+    else:
+        log.info("mismatched endpoints in meniscus")
+        return
+    curve = make_face(curve)
+    if chomp.area / circle.area > 0.5:
+        return curve
+    else:
+        return circle - curve
 
 def case_outline():
     middle = Rectangle(MIDDLE_WIDTH, TOTAL_DEPTH)
@@ -228,8 +234,7 @@ def wall_rounded(wall):
         elif kind > 0.66:
             m = meniscus(wall, v, HOLE_MENISCUS)
             if m: mouths.append(m)
-    show_object(Sketch() + ears)
-    show_object(Sketch() + mouths)
+    return (Sketch() + mouths, Sketch() + ears)
 
 CASE_OUTLINE = case_outline()
 CASE_INTERIOR = case_interior(CASE_OUTLINE)
@@ -242,6 +247,12 @@ WALL = basic_wall(CASE_OUTLINE, CASE_INTERIOR, HOLE_POSITIONS, SIDE_INSET)
 
 log.info(WALL.show_topology())
 
-show_object(WALL)
+(mouths, ears) = wall_rounded(WALL)
 
-wall_rounded(WALL)
+w = extrude(WALL, amount=1)
+m = extrude(mouths, amount=1)
+e = extrude(ears, amount=1)
+
+show_object(w)
+show_object(m)
+show_object(e)
