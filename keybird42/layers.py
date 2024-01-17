@@ -134,7 +134,7 @@ def meniscus(shape, vertex, radius):
     edges = Curve() + e + edges
     meniscus = make_face(edges)
     if chomp.area * 2 < circle.area:
-        meniscus = circle - meniscus
+        meniscus = make_face(circle - meniscus)
     return meniscus
 
 def case_outline():
@@ -170,21 +170,23 @@ def case_wall(outline, side_inset):
     hole = hole & Rectangle(TOTAL_WIDTH - SIDE_THICK * 2, CLIP_DEPTH)
 
     walls = outline - hole - side_inset
-    # pick one wall (dunno why it isn't already a ShapeList)
+    # pick rear wall (dunno why it isn't already a ShapeList)
     wall = ShapeList(walls.get_type(Face)).sort_by(Axis.Y)[-1]
 
-    # round off sharp corners
     vs = wall.vertices().sort_by(Axis.Y).group_by(Axis.X)
+
+    # round off sharp corners
     chomp = ( Sketch()
               + [ meniscus(wall, v, SIDE_RADIUS) for v in vs[-1] ]
               + meniscus(wall, vs[-2][0], SIDE_RADIUS) )
-    wall -= chomp
-    # stop it from turning into a one-face compound
+    wall -= chomp + mirror(chomp, Plane.YZ)
+
+    # extract the unique face from the compound
+    # so that the wall knows it is 2-dimensional
     [wall] = wall.get_type(Face)
 
     # strengthen inner corners
-    v = vs[-2].sort_by(Axis.Y)[-1]
-    inner = meniscus(wall, v, WALL_THICK / 2)
+    inner = meniscus(wall, vs[-2].sort_by(Axis.Y)[-1], WALL_THICK / 2)
     wall += inner + mirror(inner, Plane.YZ)
 
     return wall
