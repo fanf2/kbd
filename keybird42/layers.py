@@ -6,7 +6,10 @@ log = build123d.logging.getLogger("build123d")
 
 log.info("hello!")
 
-EXPLODE = 5
+MODE = "perspex"
+#MODE = "plate"
+#MODE = 1.001
+#MODE = 5
 
 SPREAD = 10
 
@@ -277,21 +280,32 @@ WALL = wall_rounded(WALLS & rear_half())
 # front walls below plate use large holes, rest are small
 # one perspex wall and one plate wall have USB cutouts
 
-WALL_UPPER = WALL - holes(HOLE_SMALL)
-WALL_LOWER = WALL - holes(HOLE_LARGE)
+WALL_SMALL = WALL - holes(HOLE_SMALL)
+WALL_LARGE = WALL - holes(HOLE_LARGE)
 
 # all rear walls have small holes
-WALL_BOTTOM = wall_socket(WALL_UPPER)
+WALL_SOCKET = wall_socket(WALL_SMALL)
 
-if True:
+spread = Part()
+
+if MODE == "perspex":
     walls = [
-        WALL_UPPER, # front above
-        WALL_LOWER, # front below
-        WALL_LOWER, # front below
-        WALL_UPPER, # rear above
-        WALL_UPPER, # rear below
-        WALL_BOTTOM, # rear below
+        WALL_SMALL, WALL_SMALL,  # layer 2
+        WALL_LARGE, WALL_SMALL,  # layer 4
+        WALL_LARGE, WALL_SOCKET, # layer 6
     ]
-    spread = [ Location((0, SPREAD * i)) * extrude(walls[i], amount=1)
-               for i in range(len(walls)) ]
-    show_object(Part() + spread)
+    spread += [ Location((0, SPREAD * i)) *
+                extrude(walls[i], amount=PERSPEX_THICK)
+                for i in range(len(walls)) ]
+
+elif MODE == "plate":
+
+    walls = [
+        WALL_SMALL, WALL_SMALL,  # layer 1
+        WALL_LARGE, WALL_SOCKET, # layer 5
+    ]
+    spread += [ Location((0, SPREAD * i)) *
+                extrude(walls[i], amount=PLATE_THICK)
+                for i in range(len(walls)) ]
+
+show_object(spread)
