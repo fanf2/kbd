@@ -70,6 +70,7 @@ CLIP_DEPTH	= TOTAL_DEPTH + 1
 
 # round off sharp corners
 SIDE_RADIUS	= 0.5
+KEYBLOCK_RADIUS	= 0.5
 
 # visible extent of side accent
 SIDE_DEPTH	= 1 # placeholder
@@ -91,6 +92,7 @@ MAIN_Y		= CASE_FRONT / 2 - CASE_REAR / 2
 FUN_X		= MAIN_WIDTH / 2 + BLOCK_GAP + FUN_WIDTH / 2
 FUN_Y1		= MAIN_Y + MAIN_DEPTH / 2 - BLOCK_GAP - FUN_DEPTH / 2
 FUN_Y2		= FUN_Y1 - BLOCK_GAP - FUN_DEPTH
+FUN_Y2a		= FUN_Y2 - ku(0.5)
 
 # fasteners
 
@@ -166,6 +168,28 @@ def meniscus(shape, vertex, radius):
     else:
         return circle - curve
 
+def rounded_vertices(shape, mouth_r, ear_r=None):
+    ear_r = ear_r or mouth_r
+    mouths = []
+    ears = []
+    for v in shape.vertices():
+        kind = classify_vertex(shape, v)
+        if kind > 0.66:
+            m = meniscus(shape, v, mouth_r)
+            if m: mouths.append(m)
+            else: log.info("wat")
+        elif kind < 0.33:
+            m = meniscus(shape, v, ear_r)
+            if m: ears.append(m)
+            else: log.info("wat")
+    # still puzzled why it doesn't work in 2D
+    sheet = (extrude(shape, amount=-1)
+             + extrude(Sketch() + mouths, amount=-1)
+             - extrude(Sketch() + ears, amount=-1))
+    # extract the 2d face we wanted
+    # extrude downwards so we return the top face
+    return sheet.faces().sort_by(Axis.Z)[-1]
+
 def case_outline():
     middle = Rectangle(MIDDLE_WIDTH, TOTAL_DEPTH)
 
@@ -182,6 +206,17 @@ def case_outline():
     clip = Rectangle(TOTAL_WIDTH, CLIP_DEPTH)
 
     return oval & clip
+
+def case_top(outline):
+    main = (Location((0, MAIN_Y)) *
+            Rectangle(MAIN_WIDTH, MAIN_DEPTH))
+    fun = Rectangle(FUN_WIDTH, FUN_DEPTH)
+    fun1 = Location((-FUN_X, FUN_Y1)) * fun
+    fun2 = Location((-FUN_X, FUN_Y2)) * fun
+    fun3 = Location((+FUN_X, FUN_Y1)) * fun
+    fun4b = Location((FUN_X, FUN_Y2)) * Rectangle(ku(1), FUN_DEPTH)
+    fun4a = Location((FUN_X, FUN_Y2a)) * Rectangle(FUN_WIDTH, ku(1))
+    return outline - [ main, fun1, fun2, fun3, fun4a, fun4b ]
 
 def rear_half():
     return Location((0, CLIP_DEPTH/2)) * Rectangle(CLIP_WIDTH, CLIP_DEPTH/2)
@@ -213,7 +248,7 @@ def set_hole_positions(interior):
 
 def holes(diameter):
     hole = Circle(diameter / 2)
-    return [ pos * hole for pos in HOLE_POSITIONS ]
+    return Sketch() + [ pos * hole for pos in HOLE_POSITIONS ]
 
 def side_inset():
     inset = Rectangle(SIDE_INSET_W, SIDE_DEPTH)
@@ -231,36 +266,14 @@ def perspex(shape):
 def plate(shape):
     return extrude(shape, amount=PLATE_THICK)
 
-# round off vertices
-def wall_rounded(wall):
-    mouths = []
-    ears = []
-    for v in wall.vertices():
-        kind = classify_vertex(wall, v)
-        if kind < 0.33:
-            m = meniscus(wall, v, SIDE_RADIUS)
-            if m: ears.append(m)
-            else: log.info("wat")
-        elif kind > 0.66:
-            m = meniscus(wall, v, HOLE_MENISCUS)
-            if m: mouths.append(m)
-            else: log.info("wat")
-    # still puzzled why it doesn't work in 2D
-    w = (extrude(wall, amount=1)
-         + extrude(Sketch() + mouths, amount=1)
-         - extrude(Sketch() + ears, amount=1))
-    # extract the 2d face we wanted
-    return w.faces().sort_by(Axis.Z)[0]
-
-# round off vertices
 def wall_socket(wall):
     usbdb = RectangleRounded(USBDB_WIDTH, USBDB_DEPTH, USBDB_R)
     inset = Rectangle(USB_WIDTH, USB_INSET*2)
     cutout = (Location((0, USBDB_Y)) * offset(usbdb, USB_CLEAR)
               + Location((0, TOTAL_DEPTH/2)) * inset)
     # yet again it doesn't work in 2D
-    thick = extrude(wall, amount=1) - extrude(cutout, amount=2, both=True)
-    bottom = thick.faces().group_by(Axis.Z)[0]
+    thick = extrude(wall, amount=-1) - extrude(cutout, amount=2, both=True)
+    bottom = thick.faces().group_by(Axis.Z)[-1]
     return bottom[0] + bottom[1]
 
 CASE_OUTLINE = case_outline()
@@ -273,15 +286,21 @@ SIDE_INSET = side_inset()
 
 WALLS = CASE_OUTLINE - CASE_INTERIOR - SIDE_INSET + holes(HOLE_SUPPORT)
 
-WALL = wall_rounded(WALLS & rear_half())
+WALL = rounded_vertices(WALLS & rear_half(), HOLE_MENISCUS, SIDE_RADIUS)
+
+HOLES_SMALL = holes(HOLE_SMALL)
+HOLES_LARGE = holes(HOLE_LARGE)
+
+TOP_LAYER = (rounded_vertices(case_top(CASE_OUTLINE), KEYBLOCK_RADIUS) -
+             HOLES_SMALL)
 
 # perspex walls: 1 above switch plate, 2 below
 # plate walls: 1 above switch plate, 1 below
 # front walls below plate use large holes, rest are small
 # one perspex wall and one plate wall have USB cutouts
 
-WALL_SMALL = WALL - holes(HOLE_SMALL)
-WALL_LARGE = WALL - holes(HOLE_LARGE)
+WALL_SMALL = WALL - HOLES_SMALL
+WALL_LARGE = WALL - HOLES_LARGE
 
 # all rear walls have small holes
 WALL_SOCKET = wall_socket(WALL_SMALL)
@@ -294,9 +313,11 @@ if MODE == "perspex":
         WALL_LARGE, WALL_SMALL,  # layer 4
         WALL_LARGE, WALL_SOCKET, # layer 6
     ]
-    spread += [ Location((0, SPREAD * i)) *
+    spread += [ Location((0, SPREAD * (i + 1))) *
                 extrude(walls[i], amount=PERSPEX_THICK)
                 for i in range(len(walls)) ]
+
+    spread += extrude(TOP_LAYER, amount=PERSPEX_THICK)
 
 elif MODE == "plate":
 
