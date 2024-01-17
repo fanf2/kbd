@@ -8,6 +8,8 @@ log.info("hello!")
 
 EXPLODE = 5
 
+SPREAD = 10
+
 # vertical measurements in mm
 
 PERSPEX_THICK = 3.0
@@ -28,7 +30,6 @@ MX_PLATE_RIB	= KEY_UNIT - MX_PLATE_HOLE
 
 MX_STAB_WIDTH	= 7
 MX_STAB_DEPTH	= 16
-
 
 # key block layout
 
@@ -91,7 +92,7 @@ FUN_Y2		= FUN_Y1 - BLOCK_GAP - FUN_DEPTH
 # fasteners
 
 HOLE_SMALL	= 3.2 # m3 screw diameter
-HOLE_BIG	= 5.2 # m3 rivnut barrel
+HOLE_LARGE	= 5.2 # m3 rivnut barrel
 HOLE_SUPPORT	= WALL_THICK*2
 HOLE_MENISCUS	= WALL_THICK/2
 
@@ -106,12 +107,12 @@ HOLE_POSITIONS	= [] # placeholder
 # connector holes
 
 USB_INSET	= 1.0
-USB_WIDTH	= 8.5 # spec says 8.34
+USB_WIDTH	= 9.0 # spec says 8.34
 USB_CLEAR	= 0.5
 USBDB_WIDTH	= 18
 USBDB_DEPTH	= 18
 USBDB_R		= 1.0
-USBDB_Y		= TOTAL_DEPTH/2 - USBDB_DEPTH/2 - USB_CLEAR/2 - USB_INSET
+USBDB_Y		= TOTAL_DEPTH/2 - USBDB_DEPTH/2 - USB_CLEAR - USB_INSET
 
 def multiocular_vertices(vertices):
     cs = [ Location(v.center()) for v in vertices ]
@@ -221,6 +222,12 @@ def side_inset():
                Location((+SIDE_ACCENT_X, 0)) * accent)
     return insets + accents
 
+def perspex(shape):
+    return extrude(shape, amount=PERSPEX_THICK)
+
+def plate(shape):
+    return extrude(shape, amount=PLATE_THICK)
+
 # round off vertices
 def wall_rounded(wall):
     mouths = []
@@ -230,15 +237,28 @@ def wall_rounded(wall):
         if kind < 0.33:
             m = meniscus(wall, v, SIDE_RADIUS)
             if m: ears.append(m)
+            else: log.info("wat")
         elif kind > 0.66:
             m = meniscus(wall, v, HOLE_MENISCUS)
             if m: mouths.append(m)
+            else: log.info("wat")
     # still puzzled why it doesn't work in 2D
     w = (extrude(wall, amount=1)
          + extrude(Sketch() + mouths, amount=1)
          - extrude(Sketch() + ears, amount=1))
     # extract the 2d face we wanted
     return w.faces().sort_by(Axis.Z)[0]
+
+# round off vertices
+def wall_socket(wall):
+    usbdb = RectangleRounded(USBDB_WIDTH, USBDB_DEPTH, USBDB_R)
+    inset = Rectangle(USB_WIDTH, USB_INSET*2)
+    cutout = (Location((0, USBDB_Y)) * offset(usbdb, USB_CLEAR)
+              + Location((0, TOTAL_DEPTH/2)) * inset)
+    # yet again it doesn't work in 2D
+    thick = extrude(wall, amount=1) - extrude(cutout, amount=2, both=True)
+    bottom = thick.faces().group_by(Axis.Z)[0]
+    return bottom[0] + bottom[1]
 
 CASE_OUTLINE = case_outline()
 CASE_INTERIOR = case_interior(CASE_OUTLINE)
@@ -252,4 +272,26 @@ WALLS = CASE_OUTLINE - CASE_INTERIOR - SIDE_INSET + holes(HOLE_SUPPORT)
 
 WALL = wall_rounded(WALLS & rear_half())
 
-show_object(WALL)
+# perspex walls: 1 above switch plate, 2 below
+# plate walls: 1 above switch plate, 1 below
+# front walls below plate use large holes, rest are small
+# one perspex wall and one plate wall have USB cutouts
+
+WALL_UPPER = WALL - holes(HOLE_SMALL)
+WALL_LOWER = WALL - holes(HOLE_LARGE)
+
+# all rear walls have small holes
+WALL_BOTTOM = wall_socket(WALL_UPPER)
+
+if True:
+    walls = [
+        WALL_UPPER, # front above
+        WALL_LOWER, # front below
+        WALL_LOWER, # front below
+        WALL_UPPER, # rear above
+        WALL_UPPER, # rear below
+        WALL_BOTTOM, # rear below
+    ]
+    spread = [ Location((0, SPREAD * i)) * extrude(walls[i], amount=1)
+               for i in range(len(walls)) ]
+    show_object(Part() + spread)
