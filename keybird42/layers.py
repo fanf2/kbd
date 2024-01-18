@@ -34,6 +34,9 @@ MX_PLATE_RIB	= KEY_UNIT - MX_PLATE_HOLE
 MX_STAB_WIDTH	= 7
 MX_STAB_DEPTH	= 16
 
+MX_RADIUS	= 1
+MX_RELIEF	= MX_PLATE_HOLE - MX_RADIUS * 4/3 # slightly less than sqrt(2)
+
 # key block layout
 
 BLOCK_GAP	= ku( 0.25 )
@@ -120,11 +123,21 @@ USBDB_DEPTH	= 18
 USBDB_R		= 1.0
 USBDB_Y		= TOTAL_DEPTH/2 - USBDB_DEPTH/2 - USB_CLEAR - USB_INSET
 
+# for debugging
 def multiocular_vertices(vertices):
     cs = [ Location(v.center()) for v in vertices ]
     iris = [ c * Circle(2) for c in cs ]
     pupil = [ c * Circle(1) for c in cs ]
     return Sketch() + iris - pupil
+
+def perspex(shape):
+    return extrude(shape, amount=PERSPEX_THICK)
+
+def plate(shape):
+    return extrude(shape, amount=PLATE_THICK)
+
+def rear_half():
+    return Location((0, CLIP_DEPTH/2)) * Rectangle(CLIP_WIDTH, CLIP_DEPTH/2)
 
 def side_length(shape):
     return shape.edges().sort_by(Axis.X)[0].length
@@ -175,14 +188,16 @@ def rounded_vertices(shape, mouth_r, ear_r=None):
     ears = []
     for v in shape.vertices():
         kind = classify_vertex(shape, v)
-        if kind > 0.66:
+        if kind > 0.6:
             m = meniscus(shape, v, mouth_r)
             if m: mouths.append(m)
             else: log.info("wat")
-        elif kind < 0.33:
+        elif kind < 0.4:
             e = meniscus(shape, v, ear_r)
             if e: ears.append(e)
             else: log.info("wat")
+        else:
+            log.info(f"flat {kind} {mouth_r} {ear_r}")
     # still puzzled why it doesn't work in 2D
     sheet = extrude(shape, amount=-1)
     if mouths: sheet += extrude(Sketch() + mouths, amount=-1)
@@ -190,6 +205,24 @@ def rounded_vertices(shape, mouth_r, ear_r=None):
     # extract the 2d face we wanted
     # extrude downwards so we return the top face
     return sheet.faces().sort_by(Axis.Z)[-1]
+
+class plate_cutout:
+
+    stab = RectangleRounded(MX_STAB_WIDTH, MX_STAB_DEPTH, MX_RADIUS)
+    def stabs(stab, width):
+        return (Location((-ku(width - 1) / 2, 0)) * stab +
+                Location((+ku(width - 1) / 2, 0)) * stab)
+
+    switch = Rectangle(MX_PLATE_HOLE, MX_PLATE_HOLE)
+    relief = [ loc * Circle(MX_RADIUS) for loc in
+               GridLocations(MX_RELIEF, MX_RELIEF, 2, 2) ]
+
+    k100 = rounded_vertices(switch + relief, MX_RADIUS * 1.25)
+    k125 = k100
+    k150 = k100
+    k175 = k100
+    k225 = k100 + stabs(stab, 2.25)
+    k700 = k100 + stabs(stab, 7.00)
 
 def case_outline():
     middle = Rectangle(MIDDLE_WIDTH, TOTAL_DEPTH)
@@ -218,9 +251,6 @@ def case_top(outline):
     fun4b = Location((FUN_X, FUN_Y2)) * Rectangle(ku(1), FUN_DEPTH)
     fun4a = Location((FUN_X, FUN_Y2a)) * Rectangle(FUN_WIDTH, ku(1))
     return outline - [ main, fun1, fun2, fun3, fun4a, fun4b ]
-
-def rear_half():
-    return Location((0, CLIP_DEPTH/2)) * Rectangle(CLIP_WIDTH, CLIP_DEPTH/2)
 
 def case_interior(outline):
     interior = offset(outline, amount=-WALL_THICK)
@@ -261,12 +291,6 @@ def side_inset():
                Location((+SIDE_ACCENT_X, 0)) * accent)
     return insets + accents
 
-def perspex(shape):
-    return extrude(shape, amount=PERSPEX_THICK)
-
-def plate(shape):
-    return extrude(shape, amount=PLATE_THICK)
-
 def wall_socket(wall):
     usbdb = RectangleRounded(USBDB_WIDTH, USBDB_DEPTH, USBDB_R)
     inset = Rectangle(USB_WIDTH, USB_INSET*2)
@@ -298,23 +322,18 @@ WALL = rounded_vertices(WALLS & rear_half(), HOLE_MENISCUS, SIDE_RADIUS)
 HOLES_SMALL = holes(HOLE_SMALL)
 HOLES_LARGE = holes(HOLE_LARGE)
 
+REAR_SMALL = WALL - HOLES_SMALL
+REAR_SOCKET = wall_socket(REAR_SMALL)
+
+FRONT_SMALL = mirror(REAR_SMALL, Plane.XZ)
+FRONT_LARGE = mirror(WALL - HOLES_LARGE, Plane.XZ)
+
 TOP_LAYER = (rounded_vertices(case_top(CASE_OUTLINE), KEYBLOCK_RADIUS)
              - HOLES_SMALL)
 
 BASE_LAYER = (rounded_vertices(CASE_OUTLINE, SIDE_RADIUS) -
               (HOLES_SMALL + mirror(HOLES_LARGE, Plane.XZ)
                + daughterboard_holes()))
-
-# perspex walls: 1 above switch plate, 2 below
-# plate walls: 1 above switch plate, 1 below
-# front walls below plate use large holes, rest are small
-# one perspex wall and one plate wall have USB cutouts
-
-REAR_SMALL = WALL - HOLES_SMALL
-REAR_SOCKET = wall_socket(REAR_SMALL)
-
-FRONT_SMALL = mirror(REAR_SMALL, Plane.XZ)
-FRONT_LARGE = mirror(WALL - HOLES_LARGE, Plane.XZ)
 
 layers = [
     (TOP_LAYER,), # 0
