@@ -1,3 +1,4 @@
+import time
 from build123d import *
 
 # dunno why it can't find `logging` via the previous import
@@ -7,8 +8,8 @@ log = build123d.logging.getLogger("build123d")
 log.info("hello!")
 
 #MODE = "test"
-MODE = "perspex"
-#MODE = "plate"
+#MODE = "perspex"
+MODE = "plate"
 #MODE = 1.001
 #MODE = 5
 
@@ -170,10 +171,10 @@ def thick(shape):
 HALF_BOX = Box(CLIP_WIDTH, CLIP_DEPTH/2, THICK*3)
 
 def rear_half(shape):
-    return shape & Location((0, +CLIP_DEPTH/2)) * HALF_BOX
+    return Location((0, +CLIP_DEPTH/2)) * HALF_BOX & shape
 
 def front_half(shape):
-    return shape & Location((0, -CLIP_DEPTH/2)) * HALF_BOX
+    return Location((0, -CLIP_DEPTH/2)) * HALF_BOX & shape
 
 def side_length(shape):
     return shape.edges().sort_by(Axis.X)[0].length
@@ -275,7 +276,7 @@ def plate_cutouts():
         return (row,pos)
 
     def key_grid(x, y, w, h):
-        key = Location((x, y)) * hole[100]
+        key = Location((x, y)) * switch
         return [] if w == 0 or h == 0 else [
             loc * key for loc in GridLocations(ku(1), ku(1), w, h) ]
 
@@ -289,16 +290,15 @@ def plate_cutouts():
     tsangan = [ 150, 100, 150, 700, 150, 100, 150 ]
     keybird = [ 125, 125, 150, 700, 150, 125, 125 ]
 
-    return Part() + (
-        key_grid(-FUN_X, FUN_Y1, 3, 2) +
-        key_grid(-FUN_X, FUN_Y2, 3, 2) +
-        key_grid(+FUN_X, FUN_Y1, 3, 2) +
-        key_grid(+FUN_X, FUN_Y2, 3, 2) +
-        key_row(MAIN_Y + ku(+2), [], 15, []) +
-        key_row(MAIN_Y + ku(+1), [150], 12, [150]) +
-        key_row(MAIN_Y + ku(00), [175], 11, [225]) +
-        key_row(MAIN_Y + ku(-1), [225], 10, [175, 100]) +
-        key_row(MAIN_Y + ku(-2), [], 0, keybird))
+    return (key_grid(-FUN_X, FUN_Y1, 3, 2) +
+            key_grid(-FUN_X, FUN_Y2, 3, 2) +
+            key_grid(+FUN_X, FUN_Y1, 3, 2) +
+            key_grid(+FUN_X, FUN_Y2, 3, 2) +
+            key_row(MAIN_Y + ku(+2), [], 15, []) +
+            key_row(MAIN_Y + ku(+1), [150], 12, [150]) +
+            key_row(MAIN_Y + ku(00), [175], 11, [225]) +
+            key_row(MAIN_Y + ku(-1), [225], 10, [175, 100]) +
+            key_row(MAIN_Y + ku(-2), [], 0, keybird))
 
 def top_cutouts():
     main = (Location((0, MAIN_Y)) *
@@ -312,7 +312,7 @@ def top_cutouts():
     brow = (Location((0, SLOT_Y)) *
             RectangleRounded(SLOT_WIDTH, SLOT_DEPTH, SLOT_RADIUS))
     holes = Sketch() + [ main, fun1, fun2, fun3, fun4a, fun4b, brow ]
-    return roundoff(holes, KEYBLOCK_RADIUS)
+    return [ roundoff(holes, KEYBLOCK_RADIUS) ]
 
 def case_outline_2d():
     middle = Rectangle(MIDDLE_WIDTH, TOTAL_DEPTH)
@@ -362,25 +362,24 @@ def holes(diameter):
                            for i in [-1,+1] for j in [-1,+1]
                            for p in [(i*HOLE_X1, j*HOLE_Y1, 0),
                                      (i*HOLE_X2, j*HOLE_Y2, 0)] ]
-    hole = Circle(diameter / 2)
-    return thick(Sketch() + [ pos * hole for pos in HOLE_POSITIONS ])
+    hole = thick(Circle(diameter / 2))
+    return [ pos * hole for pos in HOLE_POSITIONS ]
 
-def notch_cutout():
+def notch_cutouts():
     depth = SIDE_DEPTH + NOTCH_DEPTH*2
-    notch = RectangleRounded(NOTCH_WIDTH, depth, NOTCH_RADIUS)
-    return thick(Location((-NOTCH_X, 0)) * notch +
-                 Location((+NOTCH_X, 0)) * notch)
+    notch = thick(RectangleRounded(NOTCH_WIDTH, depth, NOTCH_RADIUS))
+    return [ Location((-NOTCH_X, 0)) * notch,
+             Location((+NOTCH_X, 0)) * notch ]
 
-def socket_cutout():
-    usbdb = RectangleRounded(USBDB_WIDTH, USBDB_DEPTH, USBDB_R)
-    inset = Rectangle(USB_WIDTH, USB_INSET*2)
-    return thick(Location((0, USBDB_Y)) * offset(usbdb, USB_CLEAR) +
-                 Location((0, TOTAL_DEPTH/2)) * inset)
+def socket_cutouts():
+    usbdb = thick(RectangleRounded(USBDB_WIDTH, USBDB_DEPTH, USBDB_R))
+    inset = thick(Rectangle(USB_WIDTH, USB_INSET*2))
+    return [ Location((0, USBDB_Y)) * offset(usbdb, USB_CLEAR),
+             Location((0, TOTAL_DEPTH/2)) * inset ]
 
 def daughterboard_holes():
-    holes = Sketch() + [ loc * Circle(HOLE_TINY/2) for loc in
-                         GridLocations(14, 14, 2, 2) ]
-    return thick(Location((0, USBDB_Y)) * holes)
+    hole = Location((0, USBDB_Y)) * thick(Circle(HOLE_TINY/2))
+    return [ loc * hole for loc in GridLocations(14, 14, 2, 2) ]
 
 
 FLAT_OUTLINE = case_outline_2d()
@@ -388,29 +387,32 @@ FLAT_INTERIOR = case_interior_2d(FLAT_OUTLINE)
 CASE_OUTLINE = roundoff(FLAT_OUTLINE, SIDE_RADIUS)
 
 SIDE_INSET = side_inset_2d()
-NOTCH_CUTOUT = notch_cutout()
-SOCKET_CUTOUT = socket_cutout()
+NOTCH_CUTOUTS = notch_cutouts()
+SOCKET_CUTOUTS = socket_cutouts()
 
 HOLES_SCREW = holes(HOLE_SCREW)
 HOLES_RIVNUT = holes(HOLE_RIVNUT)
 
-TOP_LAYER = CASE_OUTLINE - top_cutouts() - HOLES_SCREW
+TOP_CUTOUTS = top_cutouts() + HOLES_SCREW
+TOP_LAYER = CASE_OUTLINE - TOP_CUTOUTS
 
-SWITCH_PLATE = (roundoff(FLAT_OUTLINE - SIDE_INSET, SIDE_RADIUS)
-                - NOTCH_CUTOUT - HOLES_SCREW) # - plate_cutouts())
+t = time.perf_counter()
+PLATE_CUTOUTS = plate_cutouts() + NOTCH_CUTOUTS + HOLES_SCREW
+SWITCH_PLATE = roundoff(FLAT_OUTLINE - SIDE_INSET, SIDE_RADIUS) - PLATE_CUTOUTS
+t_plate = time.perf_counter() - t
 
 HOLES_SCREW_RIVNUT = rear_half(HOLES_SCREW) + front_half(HOLES_RIVNUT)
 BASE_LAYER = CASE_OUTLINE - daughterboard_holes() - HOLES_SCREW_RIVNUT
 
 FLAT_WALLS = FLAT_OUTLINE - FLAT_INTERIOR - SIDE_INSET + hole_support_2d()
-WALLS = roundoff(FLAT_WALLS, HOLE_MENISCUS, SIDE_RADIUS) - NOTCH_CUTOUT
+WALLS = roundoff(FLAT_WALLS, HOLE_MENISCUS, SIDE_RADIUS) - NOTCH_CUTOUTS
 
 WALLS_SCREW = WALLS - HOLES_SCREW
 WALLS_RIVNUT = WALLS - HOLES_RIVNUT
 FRONT_WALL_SCREW = front_half(WALLS_SCREW)
 FRONT_WALL_RIVNUT = front_half(WALLS_RIVNUT)
 REAR_WALL_SCREW = rear_half(WALLS_SCREW)
-REAR_WALL_SOCKET = REAR_WALL_SCREW - SOCKET_CUTOUT
+REAR_WALL_SOCKET = REAR_WALL_SCREW - SOCKET_CUTOUTS
 
 layers = [
     (TOP_LAYER,), # 0
@@ -454,4 +456,9 @@ elif MODE == "plate":
         elif i == 7:
             spread += [ Location((0, +CLIP_DEPTH/2)) * layers[i][0] ]
 
+t = time.perf_counter()
 show_object(spread)
+t_show = time.perf_counter() - t
+
+log.info(f"{t_plate=}")
+log.info(f"{t_show=}")
