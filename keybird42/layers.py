@@ -28,14 +28,15 @@ def ku(n):
     return KEY_UNIT * n
 
 MX_PLATE_HOLE	= 14.0
+MX_HOLE_RADIUS	= 0.5**0.5
+MX_HOLE_RELIEF	= MX_HOLE_RADIUS * (2**0.5)
+MX_RELIEF_POS	= MX_PLATE_HOLE - MX_HOLE_RELIEF
 
 MX_PLATE_RIB	= KEY_UNIT - MX_PLATE_HOLE
 
 MX_STAB_WIDTH	= 7
 MX_STAB_DEPTH	= 16
-
-MX_RADIUS	= 1
-MX_RELIEF	= MX_PLATE_HOLE - MX_RADIUS * 4/3 # slightly less than sqrt(2)
+MX_STAB_RADIUS	= 1
 
 # key block layout
 
@@ -208,16 +209,16 @@ def rounded_vertices(shape, mouth_r, ear_r=None):
 
 class plate_cutout:
 
-    stab = RectangleRounded(MX_STAB_WIDTH, MX_STAB_DEPTH, MX_RADIUS)
+    stab = RectangleRounded(MX_STAB_WIDTH, MX_STAB_DEPTH, MX_STAB_RADIUS)
     def stabs(stab, width):
         return (Location((-ku(width - 1) / 2, 0)) * stab +
                 Location((+ku(width - 1) / 2, 0)) * stab)
 
     switch = Rectangle(MX_PLATE_HOLE, MX_PLATE_HOLE)
-    relief = [ loc * Circle(MX_RADIUS) for loc in
-               GridLocations(MX_RELIEF, MX_RELIEF, 2, 2) ]
+    relief = [ loc * Circle(MX_HOLE_RADIUS) for loc in
+               GridLocations(MX_RELIEF_POS, MX_RELIEF_POS, 2, 2) ]
 
-    k100 = rounded_vertices(switch + relief, MX_RADIUS * 1.25)
+    k100 = rounded_vertices(switch + relief, MX_HOLE_RELIEF)
     k125 = k100
     k150 = k100
     k175 = k100
@@ -376,4 +377,5 @@ elif MODE == "plate":
         elif len(layers[i]) == 1:
             spread += extrude(layers[i][0], amount=PLATE_THICK)
 
-show_object(spread)
+#show_object(spread)
+show_object(plate_cutout.k225)
