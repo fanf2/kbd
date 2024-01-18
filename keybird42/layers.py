@@ -1,5 +1,9 @@
+import math
 import time
 from build123d import *
+
+def typing_angle(foot_height, foot_depth):
+    return math.atan2(foot_height, foot_depth) * 360 / math.tau
 
 # dunno why it can't find `logging` via the previous import
 import build123d
@@ -7,12 +11,13 @@ log = build123d.logging.getLogger("build123d")
 
 log.info("hello!")
 
-MODE = "stack"
-#MODE = "perspex"
+#MODE = "stack"
+MODE = "perspex"
 #MODE = "plate"
 #MODE = 1.001
 #MODE = 5
 
+EXPLODE = 5
 SPREAD = 10
 
 # plastic basics
@@ -142,6 +147,8 @@ HOLE_Y2		= 0 # placeholder
 
 HOLE_POSITIONS	= [] # placeholder
 
+FOOT_DEPTH	= 1 # placeholder
+
 # connector holes
 
 USB_INSET	= 1.0
@@ -159,22 +166,8 @@ def multiocular_vertices(vertices):
     pupil = [ c * Circle(1) for c in cs ]
     return Sketch() + iris - pupil
 
-def perspex(shape):
-    return extrude(shape, amount=PERSPEX_THICK)
-
-def plate(shape):
-    return extrude(shape, amount=PLATE_THICK)
-
 def thick(shape):
     return extrude(shape, amount=THICK)
-
-HALF_BOX = Box(CLIP_WIDTH, CLIP_DEPTH/2, THICK*3)
-
-def rear_half(shape):
-    return Location((0, +CLIP_DEPTH/2)) * HALF_BOX & shape
-
-def front_half(shape):
-    return Location((0, -CLIP_DEPTH/2)) * HALF_BOX & shape
 
 def side_length(shape):
     return shape.edges().sort_by(Axis.X)[0].length
@@ -342,8 +335,40 @@ def case_interior_2d(outline):
     global HOLE_Y2
     holeclip = Rectangle(HOLE_X2 * 2, CLIP_DEPTH)
     HOLE_Y2 = side_length(interior & holeclip) / 2
-
     return interior
+
+# A circle of diameter `HOLE_SUPPORT` does not touch the edge of the
+# case at HOLE_X2, so it leaves a slight indentation in the foot; a
+# circle of diameter `heel_width` sticks out slightly, so it doesn't
+# meet the rear of the foot at a tangent, but it's close enough.
+#
+def feet(outline):
+    global FOOT_DEPTH
+
+    holeclip = Rectangle(HOLE_X2 * 2, CLIP_DEPTH)
+    # baseline of foot
+    foot_y0 = HOLE_Y2 - HOLE_SUPPORT/2
+    # this is slightly more than foot_y0 + HOLE_SUPPORT
+    foot_y1 = side_length(outline & holeclip) / 2
+
+    foot_width = HOLE_X2 - HOLE_X1
+    foot_depth = TOTAL_DEPTH/2 - foot_y0
+    heel_depth = foot_y1 - foot_y0
+
+    foot_x = HOLE_X1/2 + HOLE_X2/2
+    foot_y = foot_y0 + foot_depth/2
+    heel_y = foot_y0 + heel_depth/2
+
+    arch = Location((foot_x, foot_y)) * Rectangle(foot_width, foot_depth)
+    toes = Location((HOLE_X1, foot_y)) * Circle(foot_depth/2)
+    heel = Location((HOLE_X2, heel_y)) * Circle(heel_depth/2)
+
+    foot = heel + arch + toes
+    feet = foot + mirror(foot, Plane.YZ)
+
+    FOOT_DEPTH = foot_depth
+
+    return thick(feet & outline)
 
 def side_inset_2d():
     inset = Rectangle(SIDE_INSET_W, SIDE_DEPTH)
@@ -381,6 +406,20 @@ def daughterboard_holes():
     hole = Location((0, USBDB_Y)) * thick(Circle(HOLE_TINY/2))
     return [ loc * hole for loc in GridLocations(14, 14, 2, 2) ]
 
+HALF_WALL = Box(CLIP_WIDTH, CLIP_DEPTH/2, THICK*3)
+HALF_FOOT = Box(CLIP_WIDTH/2, CLIP_DEPTH, THICK*3)
+
+def rear_wall(shape):
+    return Location((0, +CLIP_DEPTH/4)) * HALF_WALL & shape
+
+def front_wall(shape):
+    return Location((0, -CLIP_DEPTH/4)) * HALF_WALL & shape
+
+def left_foot(shape):
+    return Location((-CLIP_WIDTH/4, 0)) * HALF_FOOT & shape
+
+def right_foot(shape):
+    return Location((+CLIP_WIDTH/4, 0)) * HALF_FOOT & shape
 
 FLAT_OUTLINE = case_outline_2d()
 FLAT_INTERIOR = case_interior_2d(FLAT_OUTLINE)
@@ -397,72 +436,77 @@ TOP_CUTOUTS = top_cutouts() + HOLES_SCREW
 TOP_LAYER = CASE_OUTLINE - TOP_CUTOUTS
 
 t = time.perf_counter()
-PLATE_CUTOUTS = plate_cutouts() + NOTCH_CUTOUTS + HOLES_SCREW
+PLATE_CUTOUTS = NOTCH_CUTOUTS + HOLES_SCREW #+ plate_cutouts()
 SWITCH_PLATE = roundoff(FLAT_OUTLINE - SIDE_INSET, SIDE_RADIUS) - PLATE_CUTOUTS
 t_plate = time.perf_counter() - t
 
-HOLES_SCREW_RIVNUT = rear_half(HOLES_SCREW) + front_half(HOLES_RIVNUT)
-BASE_LAYER = CASE_OUTLINE - daughterboard_holes() - HOLES_SCREW_RIVNUT
+HOLES_SCREW_RIVNUT = rear_wall(HOLES_SCREW) + front_wall(HOLES_RIVNUT)
+BASE_PLATE = CASE_OUTLINE - daughterboard_holes() - HOLES_SCREW_RIVNUT
 
 FLAT_WALLS = FLAT_OUTLINE - FLAT_INTERIOR - SIDE_INSET + hole_support_2d()
 WALLS = roundoff(FLAT_WALLS, HOLE_MENISCUS, SIDE_RADIUS) - NOTCH_CUTOUTS
 
 WALLS_SCREW = WALLS - HOLES_SCREW
-WALLS_RIVNUT = WALLS - HOLES_RIVNUT
-FRONT_WALL_SCREW = front_half(WALLS_SCREW)
-FRONT_WALL_RIVNUT = front_half(WALLS_RIVNUT)
-REAR_WALL_SCREW = rear_half(WALLS_SCREW)
-REAR_WALL_SOCKET = REAR_WALL_SCREW - SOCKET_CUTOUTS
+WALLS_RIVNUT = WALLS - HOLES_SCREW_RIVNUT
+WALLS_SOCKET = WALLS_RIVNUT - SOCKET_CUTOUTS
+
+FEET = feet(FLAT_OUTLINE)
+FEET_SCREW = FEET - HOLES_SCREW
+FEET_RIVNUT = FEET - HOLES_RIVNUT
 
 layers = [
-    (TOP_LAYER,), # 0
-    (FRONT_WALL_SCREW, REAR_WALL_SCREW), # 1
-    (FRONT_WALL_SCREW, REAR_WALL_SCREW), # 2
-    (SWITCH_PLATE,), # 3
-    (FRONT_WALL_RIVNUT, REAR_WALL_SCREW), # 4
-    (FRONT_WALL_RIVNUT, REAR_WALL_SOCKET), # 5
-    (FRONT_WALL_RIVNUT, REAR_WALL_SOCKET), # 6
-    (BASE_LAYER,), # 7
+    TOP_LAYER,
+    WALLS_SCREW,
+    WALLS_SCREW,
+    SWITCH_PLATE,
+    WALLS_RIVNUT,
+    WALLS_SOCKET,
+    WALLS_SOCKET,
+    BASE_PLATE,
+    FEET_SCREW,
+    FEET_SCREW,
+    FEET_SCREW,
+    FEET_RIVNUT,
+    FEET_RIVNUT,
+    FEET_RIVNUT,
 ]
 
 objects = []
 
 if MODE == "stack":
+    z = 0
     for i in range(len(layers)):
-        stretch = (1, 1, PLATE_THICK if i % 2 else PERSPEX_THICK)
-        loc = Location((0,0,-i*5))
-        if len(layers[i]) == 2:
-            (front, rear) = layers[i]
-            objects += [ loc * scale(rear, stretch),
-                         loc * scale(front, stretch) ]
-        else:
-            objects += [ loc * scale(layers[i][0], stretch) ]
+        stretch = PLATE_THICK if i < 8 and i % 2 else PERSPEX_THICK
+        z -= stretch + EXPLODE
+        loc = Location((0,0,z))
+        objects += [ loc * scale(layers[i], (1, 1, stretch)) ]
 
 elif MODE == "perspex":
     for i in range(len(layers)):
-        if i % 2 == 1:
-            pass
-        elif len(layers[i]) == 2:
-            (front, rear) = layers[i]
+        if i == 0:
+            objects += [ layers[i] ]
+        elif i > 7:
+            move_y = (8 - i) * (FOOT_DEPTH + 0.75) - CASE_REAR - 1
+            move_x = HOLE_X1 - FOOT_DEPTH/2 - 1
+            objects += [ Location((+move_x, move_y)) * left_foot(layers[i]),
+                         Location((-move_x, move_y)) * right_foot(layers[i]) ]
+        elif i % 2 == 0:
             move = SPREAD * (i / 2)
-            objects += [ Location((0, +move)) * rear,
-                       Location((0, -move)) * front ]
-        elif i == 0:
-            objects += [ layers[i][0] ]
+            objects += [ Location((0, +move)) * rear_wall(layers[i]),
+                         Location((0, -move)) * front_wall(layers[i]) ]
 
 elif MODE == "plate":
     for i in range(len(layers)):
-        if i % 2 == 0:
-            pass
-        elif len(layers[i]) == 2:
-            (front, rear) = layers[i]
-            move = SPREAD * (i / 4 + 0.75) + CLIP_DEPTH/2
-            objects += [ Location((0, +move)) * rear,
-                        Location((0, -move)) * front ]
+        if i >= 8:
+            pass # feet
         elif i == 3:
             objects += [ Location((0, -CLIP_DEPTH/2)) * layers[i][0] ]
         elif i == 7:
             objects += [ Location((0, +CLIP_DEPTH/2)) * layers[i][0] ]
+        elif i % 2:
+            move = SPREAD * (i / 4 + 0.75) + CLIP_DEPTH/2
+            objects += [ Location((0, +move)) * rear_wall(layers[i]),
+                         Location((0, -move)) * front_wall(layers[i]) ]
 
 t = time.perf_counter()
 show_object(objects)
