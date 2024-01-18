@@ -11,10 +11,6 @@ log = build123d.logging.getLogger("build123d")
 
 log.info("hello!")
 
-MODE = "stack"
-#MODE = "perspex"
-#MODE = "plate"
-
 EXPLODE = 0
 
 # plastic basics
@@ -30,6 +26,8 @@ log.info(f"{ACCENT_CLEAR=}")
 
 # space between laser cut pieces
 SPREAD_CLEAR = 0.75
+
+SVG_MARGIN = 10
 
 # For most of the time we work with plates this thick, then re-adjust
 # to the desired thickness right at the end. This avoids problems when
@@ -472,61 +470,76 @@ layers = [
     FEET_RIVNUT,
 ]
 
-objects = []
+# 3d view of assembled or exploded board
 
-if MODE == "stack":
-    z = 0
-    for i in range(len(layers)):
-        stretch = PLATE_THICK if i < 8 and i % 2 else PERSPEX_THICK
-        z -= stretch + EXPLODE
-        if i == 3: accent_z = z
-        loc = Location((0,0,z))
-        objects += [ loc * scale(layers[i], (1, 1, stretch)) ]
+stack = []
 
-    brow_base = accent_z + PLATE_THICK + ACCENT_CLEAR/2 + EXPLODE
-    brow_z = brow_base + BROW_HEIGHT/2
-    lobrow_z = brow_base + LOBROW_HEIGHT/2
-    brow = Box(BROW_WIDTH, BROW_DEPTH, BROW_HEIGHT)
-    lobrow = Box(LOBROW_WIDTH, BROW_DEPTH, LOBROW_HEIGHT)
-    objects += [( Location((0, SLOT_Y, brow_z)) * brow +
-                  Location((0, SLOT_Y, lobrow_z)) * lobrow )] # one piece
+z = 0
+for i in range(len(layers)):
+    stretch = PLATE_THICK if i < 8 and i % 2 else PERSPEX_THICK
+    z -= stretch + EXPLODE
+    if i == 3: accent_z = z
+    loc = Location((0,0,z))
+    stack += [ loc * scale(layers[i], (1, 1, stretch)) ]
 
-    # off-centre due to difference between top layer and base plate
-    cheek_z = accent_z - (PERSPEX_THICK - PLATE_THICK)/2
-    cheek = Box(CHEEK_WIDTH, CHEEK_DEPTH, CHEEK_HEIGHT)
-    objects += [ Location((-NOTCH_X, 0, cheek_z)) * cheek,
-                 Location((+NOTCH_X, 0, cheek_z)) * cheek ]
+brow_base = accent_z + PLATE_THICK + ACCENT_CLEAR/2 + EXPLODE
+brow_z = brow_base + BROW_HEIGHT/2
+lobrow_z = brow_base + LOBROW_HEIGHT/2
+brow = Box(BROW_WIDTH, BROW_DEPTH, BROW_HEIGHT)
+lobrow = Box(LOBROW_WIDTH, BROW_DEPTH, LOBROW_HEIGHT)
+stack += [( Location((0, SLOT_Y, brow_z)) * brow +
+              Location((0, SLOT_Y, lobrow_z)) * lobrow )] # one piece
 
-elif MODE == "perspex":
-    for i in range(len(layers)):
-        if i == 0:
-            objects += [ layers[i] ]
-        elif i > 7:
-            move_y = (8 - i) * (FOOT_DEPTH + SPREAD_CLEAR) - CASE_REAR - 1
-            move_x = HOLE_X1 - FOOT_DEPTH/2 - 1
-            objects += [ Location((+move_x, move_y)) * left_foot(layers[i]),
-                         Location((-move_x, move_y)) * right_foot(layers[i]) ]
-        elif i % 2 == 0:
-            move = (i / 2) * (HOLE_SUPPORT + SPREAD_CLEAR)
-            objects += [ Location((0, +move)) * rear_wall(layers[i]),
-                         Location((0, -move)) * front_wall(layers[i]) ]
+# off-centre due to difference between top layer and base plate
+cheek_z = accent_z - (PERSPEX_THICK - PLATE_THICK)/2
+cheek = Box(CHEEK_WIDTH, CHEEK_DEPTH, CHEEK_HEIGHT)
+stack += [ Location((-NOTCH_X, 0, cheek_z)) * cheek,
+             Location((+NOTCH_X, 0, cheek_z)) * cheek ]
 
-elif MODE == "plate":
-    for i in range(len(layers)):
-        if i >= 8:
-            pass # feet
-        elif i == 3:
-            objects += [ Location((0, -CLIP_DEPTH/2)) * layers[i] ]
-        elif i == 7:
-            objects += [ Location((0, +CLIP_DEPTH/2)) * layers[i] ]
-        elif i % 2:
-            move = (i / 4 + 0.75) * (HOLE_SUPPORT + SPREAD_CLEAR) + CLIP_DEPTH/2
-            objects += [ Location((0, +move)) * rear_wall(layers[i]),
-                         Location((0, -move)) * front_wall(layers[i]) ]
+# export layouts for cutting
+
+perspex = []
+plates = []
+for i in range(len(layers)):
+    if i == 0:
+        perspex += [ layers[i] ]
+    elif i == 3:
+        plates += [ Location((0, -CLIP_DEPTH/2)) * layers[i] ]
+    elif i == 7:
+        plates += [ Location((0, +CLIP_DEPTH/2)) * layers[i] ]
+    elif i >= 8:
+        move_y = (8 - i) * (FOOT_DEPTH + SPREAD_CLEAR) - CASE_REAR - 1
+        move_x = HOLE_X1 - FOOT_DEPTH/2 - 1
+        perspex += [ Location((+move_x, move_y)) * left_foot(layers[i]),
+                     Location((-move_x, move_y)) * right_foot(layers[i]) ]
+    elif i % 2:
+        move = (i / 4 + 0.75) * (HOLE_SUPPORT + SPREAD_CLEAR) + CLIP_DEPTH/2
+        plates += [ Location((0, +move)) * rear_wall(layers[i]),
+                    Location((0, -move)) * front_wall(layers[i]) ]
+    else:
+        move = (i / 2) * (HOLE_SUPPORT + SPREAD_CLEAR)
+        perspex += [ Location((0, +move)) * rear_wall(layers[i]),
+                     Location((0, -move)) * front_wall(layers[i]) ]
+
+def export(name, shape):
+    flat = section(Part() + shape, Plane.XY, THICK/2)
+    exporter = ExportSVG(margin=SPREAD_CLEAR)
+    exporter.add_shape(flat)
+    exporter.write(name + ".svg")
 
 t = time.perf_counter()
-show_object(objects)
+export("perspex", perspex)
+tx_perspex = time.perf_counter() - t
+
+t = time.perf_counter()
+export("plates", plates)
+tx_plates = time.perf_counter() - t
+
+t = time.perf_counter()
+show_object(stack)
 t_show = time.perf_counter() - t
 
 log.info(f"{t_plate=}")
+log.info(f"{tx_perspex=}")
+log.info(f"{tx_plates=}")
 log.info(f"{t_show=}")
