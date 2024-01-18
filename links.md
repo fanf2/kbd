@@ -67,6 +67,10 @@ plastics
 
     https://www.plasticstockist.com/Polypropylene-Sheet/Black-Polypropylene-Co-Polymer-Sheet.aspx
 
+  * clear polycarbonate - £26
+
+    https://www.plasticstockist.com/Polycarbonate-Sheet/Palsun-Polycarbonate-Sheet-With-Uv-Protection-On-One-Side.aspx
+
 3mm
 
   * midnight black frost S2 9221 - £42
