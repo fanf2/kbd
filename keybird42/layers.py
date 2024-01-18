@@ -12,13 +12,10 @@ log = build123d.logging.getLogger("build123d")
 log.info("hello!")
 
 #MODE = "stack"
-MODE = "perspex"
-#MODE = "plate"
-#MODE = 1.001
-#MODE = 5
+#MODE = "perspex"
+MODE = "plate"
 
 EXPLODE = 5
-SPREAD = 10
 
 # plastic basics
 
@@ -30,6 +27,9 @@ PLATE_THICK = 1.5   # 0.06 in
 # https://www.theplasticshop.co.uk/perspex-faqs.html#21
 ACCENT_CLEAR = PERSPEX_THICK * 0.1 + 0.4
 log.info(f"{ACCENT_CLEAR=}")
+
+# space between laser cut pieces
+SPREAD_CLEAR = 0.75
 
 # For most of the time we work with plates this thick, then re-adjust
 # to the desired thickness right at the end. This avoids problems when
@@ -486,12 +486,12 @@ elif MODE == "perspex":
         if i == 0:
             objects += [ layers[i] ]
         elif i > 7:
-            move_y = (8 - i) * (FOOT_DEPTH + 0.75) - CASE_REAR - 1
+            move_y = (8 - i) * (FOOT_DEPTH + SPREAD_CLEAR) - CASE_REAR - 1
             move_x = HOLE_X1 - FOOT_DEPTH/2 - 1
             objects += [ Location((+move_x, move_y)) * left_foot(layers[i]),
                          Location((-move_x, move_y)) * right_foot(layers[i]) ]
         elif i % 2 == 0:
-            move = SPREAD * (i / 2)
+            move = (i / 2) * (HOLE_SUPPORT + SPREAD_CLEAR)
             objects += [ Location((0, +move)) * rear_wall(layers[i]),
                          Location((0, -move)) * front_wall(layers[i]) ]
 
@@ -500,11 +500,11 @@ elif MODE == "plate":
         if i >= 8:
             pass # feet
         elif i == 3:
-            objects += [ Location((0, -CLIP_DEPTH/2)) * layers[i][0] ]
+            objects += [ Location((0, -CLIP_DEPTH/2)) * layers[i] ]
         elif i == 7:
-            objects += [ Location((0, +CLIP_DEPTH/2)) * layers[i][0] ]
+            objects += [ Location((0, +CLIP_DEPTH/2)) * layers[i] ]
         elif i % 2:
-            move = SPREAD * (i / 4 + 0.75) + CLIP_DEPTH/2
+            move = (i / 4 + 0.75) * (HOLE_SUPPORT + SPREAD_CLEAR) + CLIP_DEPTH/2
             objects += [ Location((0, +move)) * rear_wall(layers[i]),
                          Location((0, -move)) * front_wall(layers[i]) ]
 
