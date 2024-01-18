@@ -7,9 +7,9 @@ log = build123d.logging.getLogger("build123d")
 
 log.info("hello!")
 
-#MODE = "test"
+MODE = "stack"
 #MODE = "perspex"
-MODE = "plate"
+#MODE = "plate"
 #MODE = 1.001
 #MODE = 5
 
@@ -67,7 +67,7 @@ FUN_DEPTH	= ku( 2.00 )
 
 CASE_SIDE	= ku( 1.00 ) - BLOCK_GAP
 CASE_FRONT	= ku( 0.50 )
-CASE_REAR	= ku( 7/6 )
+CASE_REAR	= ku( 4/3 )
 
 WALL_THICK	= ku( 0.25 )
 SIDE_THICK	= PERSPEX_THICK * 3
@@ -425,10 +425,18 @@ layers = [
     (BASE_LAYER,), # 7
 ]
 
-spread = []
+objects = []
 
-if MODE == "test":
-    pass
+if MODE == "stack":
+    for i in range(len(layers)):
+        stretch = (1, 1, PLATE_THICK if i % 2 else PERSPEX_THICK)
+        loc = Location((0,0,-i*5))
+        if len(layers[i]) == 2:
+            (front, rear) = layers[i]
+            objects += [ loc * scale(rear, stretch),
+                         loc * scale(front, stretch) ]
+        else:
+            objects += [ loc * scale(layers[i][0], stretch) ]
 
 elif MODE == "perspex":
     for i in range(len(layers)):
@@ -437,10 +445,10 @@ elif MODE == "perspex":
         elif len(layers[i]) == 2:
             (front, rear) = layers[i]
             move = SPREAD * (i / 2)
-            spread += [ Location((0, +move)) * rear,
+            objects += [ Location((0, +move)) * rear,
                        Location((0, -move)) * front ]
         elif i == 0:
-            spread += [ layers[i][0] ]
+            objects += [ layers[i][0] ]
 
 elif MODE == "plate":
     for i in range(len(layers)):
@@ -449,15 +457,15 @@ elif MODE == "plate":
         elif len(layers[i]) == 2:
             (front, rear) = layers[i]
             move = SPREAD * (i / 4 + 0.75) + CLIP_DEPTH/2
-            spread += [ Location((0, +move)) * rear,
+            objects += [ Location((0, +move)) * rear,
                         Location((0, -move)) * front ]
         elif i == 3:
-            spread += [ Location((0, -CLIP_DEPTH/2)) * layers[i][0] ]
+            objects += [ Location((0, -CLIP_DEPTH/2)) * layers[i][0] ]
         elif i == 7:
-            spread += [ Location((0, +CLIP_DEPTH/2)) * layers[i][0] ]
+            objects += [ Location((0, +CLIP_DEPTH/2)) * layers[i][0] ]
 
 t = time.perf_counter()
-show_object(spread)
+show_object(objects)
 t_show = time.perf_counter() - t
 
 log.info(f"{t_plate=}")
