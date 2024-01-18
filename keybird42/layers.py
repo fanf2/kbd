@@ -6,6 +6,7 @@ log = build123d.logging.getLogger("build123d")
 
 log.info("hello!")
 
+#MODE = "test"
 #MODE = "perspex"
 MODE = "plate"
 #MODE = 1.001
@@ -13,14 +14,24 @@ MODE = "plate"
 
 SPREAD = 10
 
-# vertical measurements in mm
+# plastic basics
 
 PERSPEX_THICK = 3.0
 PLATE_THICK = 1.5   # 0.06 in
-PCB_THICK = 1.6     # 1.2 is minimum allowed by kailh socket knobs
-COMPONENTS_THICK = 2.0
 
-# horizontal measurements in mm
+# accent pieces are inserted at right-angles
+# cast perspex tolerance is +/-10% plus 0.4mm
+# https://www.theplasticshop.co.uk/perspex-faqs.html#21
+ACCENT_CLEAR = PERSPEX_THICK * 0.1 + 0.4
+log.info(f"{ACCENT_CLEAR=}")
+
+# For most of the time we work with plates this thick, then re-adjust
+# to the desired thickness right at the end. This avoids problems when
+# the cad system refuses to work in pure 2d (for reasons that are
+# unclear to me).
+THICK = 1
+
+# key switch basics
 
 KEY_UNIT = 19.05
 
@@ -36,7 +47,7 @@ MX_PLATE_RIB	= KEY_UNIT - MX_PLATE_HOLE
 
 MX_STAB_WIDTH	= 7
 MX_STAB_DEPTH	= 16
-MX_STAB_RADIUS	= 1
+MX_STAB_RADIUS	= 2
 
 # key block layout
 
@@ -60,8 +71,6 @@ CASE_REAR	= ku( 7/6 )
 WALL_THICK	= ku( 0.25 )
 SIDE_THICK	= PERSPEX_THICK * 3
 
-ACCENT_CLEAR	= 0.2
-
 TOTAL_WIDTH	= MAIN_WIDTH + (BLOCK_GAP + FUN_WIDTH + CASE_SIDE) * 2
 TOTAL_DEPTH	= MAIN_DEPTH + CASE_FRONT + CASE_REAR
 
@@ -73,21 +82,8 @@ CLIP_WIDTH	= TOTAL_WIDTH + 1
 CLIP_DEPTH	= TOTAL_DEPTH + 1
 
 # round off sharp corners
-SIDE_RADIUS	= 0.5
+SIDE_RADIUS	= 1.0
 KEYBLOCK_RADIUS	= 0.5
-
-# visible extent of side accent
-SIDE_DEPTH	= 1 # placeholder
-# depth of cutout for side accent
-SIDE_NOTCH_D	= 1 # placeholder
-# side accent sized to fit notches
-SIDE_ACCENT_D	= 1 # placeholder
-
-# this cutout rectangle sticks out by MX_PLATE_RIB/2
-SIDE_INSET_W	= CASE_SIDE
-SIDE_INSET_X	= TOTAL_WIDTH/2 + MX_PLATE_RIB/2 - SIDE_INSET_W/2
-
-SIDE_ACCENT_X	= TOTAL_WIDTH/2 - SIDE_THICK/2
 
 # key block positions
 
@@ -96,13 +92,44 @@ MAIN_Y		= CASE_FRONT / 2 - CASE_REAR / 2
 FUN_X		= MAIN_WIDTH / 2 + BLOCK_GAP + FUN_WIDTH / 2
 FUN_Y1		= MAIN_Y + MAIN_DEPTH / 2 - BLOCK_GAP - FUN_DEPTH / 2
 FUN_Y2		= FUN_Y1 - BLOCK_GAP - FUN_DEPTH
-FUN_Y2a		= FUN_Y2 - ku(0.5)
+FUN_Y2a		= FUN_Y2 - ku(0.5) # lower arrows
+
+# accent positions
+
+SIDE_DEPTH	= 1 # placeholder
+
+# this cutout rectangle sticks out by MX_PLATE_RIB/2
+SIDE_INSET_W	= CASE_SIDE # wider than needed
+SIDE_INSET_X	= TOTAL_WIDTH/2 + MX_PLATE_RIB/2 - SIDE_INSET_W/2
+
+# holder for side accents
+NOTCH_DEPTH	= 1
+NOTCH_RADIUS	= NOTCH_DEPTH/2
+NOTCH_WIDTH	= PERSPEX_THICK + ACCENT_CLEAR
+NOTCH_X		= TOTAL_WIDTH/2 - SIDE_THICK/2
+
+# side accents
+CHEEK_DEPTH	= SIDE_DEPTH + NOTCH_DEPTH # placeholder
+CHEEK_WIDTH	= PERSPEX_THICK
+CHEEK_HEIGHT	= PERSPEX_THICK * 3 + PLATE_THICK * 3
+
+# holder for penrest accent
+SLOT_WIDTH	= MAIN_WIDTH
+SLOT_DEPTH	= PERSPEX_THICK + ACCENT_CLEAR
+SLOT_RADIUS	= ACCENT_CLEAR/2
+SLOT_Y		= MAIN_Y + MAIN_DEPTH/2 + BLOCK_GAP + SLOT_DEPTH/2
+
+# penrest accent
+BROW_WIDTH	= SLOT_WIDTH - ACCENT_CLEAR
+BROW_HEIGHT	= PERSPEX_THICK * 3 + PLATE_THICK
+LOBROW_WIDTH	= BROW_WIDTH + PERSPEX_THICK * 2
+LOBROW_HEIGHT	= BROW_HEIGHT - PERSPEX_THICK * 2 - ACCENT_CLEAR
 
 # fasteners
 
 HOLE_TINY	= 2.2 # m2 screw diameter
-HOLE_SMALL	= 3.2 # m3 screw diameter
-HOLE_LARGE	= 5.2 # m3 rivnut barrel
+HOLE_SCREW	= 3.2 # m3 screw diameter
+HOLE_RIVNUT	= 5.2 # m3 rivnut barrel
 HOLE_SUPPORT	= WALL_THICK*2
 HOLE_MENISCUS	= WALL_THICK/2
 
@@ -137,21 +164,31 @@ def perspex(shape):
 def plate(shape):
     return extrude(shape, amount=PLATE_THICK)
 
+def thick(shape):
+    return extrude(shape, amount=THICK)
+
 def rear_half():
-    return Location((0, CLIP_DEPTH/2)) * Rectangle(CLIP_WIDTH, CLIP_DEPTH/2)
+    return Location((0, +CLIP_DEPTH/2)) * Rectangle(CLIP_WIDTH, CLIP_DEPTH/2)
+
+def front_half():
+    return Location((0, -CLIP_DEPTH/2)) * Rectangle(CLIP_WIDTH, CLIP_DEPTH/2)
 
 def side_length(shape):
     return shape.edges().sort_by(Axis.X)[0].length
 
-def classify_vertex(shape, vertex):
-    circle = Location(vertex.center()) * Circle(0.25)
-    chomp = shape & circle
+def top_faces(shape):
+    faces = Sketch() + shape.faces().group_by(Axis.Z)[-1]
+    return Location((0,0,-faces.center().Z)) * faces
+
+def classify_vertex(shape2d, vertex):
+    circle = Location(vertex.center()) * Circle(0.1)
+    chomp = shape2d & circle
     return chomp.area / circle.area
 
-def meniscus(shape, vertex, radius):
+def meniscus(shape2d, vertex, radius):
     vertex = vertex.center()
     circle = Location(vertex) * Circle(radius)
-    chomp = shape & circle
+    chomp = shape2d & circle
     (edges, radii) = ([],[])
     for e in chomp.edges():
         # control point tangents are scaled and point towards vertex
@@ -163,7 +200,10 @@ def meniscus(shape, vertex, radius):
             edges += [e]
     if len(radii) != 2:
         log.info("meniscus requires 2 radial edges")
-        return
+        return []
+    if len(edges) == 0:
+        log.info("meniscus could not make a closed curve")
+        return []
     (p0, t0) = radii[0]
     (p1, t1) = radii[1]
     curve = Edge() + edges
@@ -176,73 +216,89 @@ def meniscus(shape, vertex, radius):
         curve += Bezier(p1, p1 + t1, p0 + t0, p0)
     else:
         log.info("mismatched endpoints in meniscus")
-        return
+        return []
     curve = make_face(curve)
     if chomp.area / circle.area > 0.5:
-        return curve
+        return [curve]
     else:
-        return circle - curve
+        return [circle - curve]
 
-def rounded_vertices(shape, mouth_r, ear_r=None):
+def roundoff(shape2d, mouth_r, ear_r=None):
     ear_r = ear_r or mouth_r
     mouths = []
     ears = []
-    for v in shape.vertices():
-        kind = classify_vertex(shape, v)
+    for v in shape2d.vertices():
+        kind = classify_vertex(shape2d, v)
         if kind > 0.6:
-            m = meniscus(shape, v, mouth_r)
-            if m: mouths.append(m)
-            else: log.info("wat")
+            mouths += meniscus(shape2d, v, mouth_r)
         elif kind < 0.4:
-            e = meniscus(shape, v, ear_r)
-            if e: ears.append(e)
-            else: log.info("wat")
+            ears += meniscus(shape2d, v, ear_r)
         else:
-            log.info(f"flat {kind} {mouth_r} {ear_r}")
-    # still puzzled why it doesn't work in 2D
-    sheet = extrude(shape, amount=-1)
-    if mouths: sheet += extrude(Sketch() + mouths, amount=-1)
-    if ears: sheet -= extrude(Sketch() + ears, amount=-1)
-    # extract the 2d face we wanted
-    # extrude downwards so we return the top face
-    return sheet.faces().sort_by(Axis.Z)[-1]
+            log.info(f"flat {mouth_r=} {ear_r=} {kind=}")
+    shape3d = thick(shape2d)
+    if mouths: shape3d += thick(Sketch() + mouths)
+    if ears: shape3d -= thick(Sketch() + ears)
+    return shape3d
 
-class plate_cutout:
+def plate_cutouts():
+    square = Rectangle(MX_PLATE_HOLE, MX_PLATE_HOLE)
+    relief = [ loc * Circle(MX_HOLE_RADIUS) for loc in
+               GridLocations(MX_RELIEF_POS, MX_RELIEF_POS, 2, 2) ]
+    switch = roundoff(square + relief, MX_HOLE_RELIEF)
 
-    stab = RectangleRounded(MX_STAB_WIDTH, MX_STAB_DEPTH, MX_STAB_RADIUS)
-    def stabs(stab, width):
+    stab = thick(RectangleRounded(
+        MX_STAB_WIDTH, MX_STAB_DEPTH, MX_STAB_RADIUS))
+    def stabs(width):
         return (Location((-ku(width - 1) / 2, 0)) * stab +
                 Location((+ku(width - 1) / 2, 0)) * stab)
 
-    switch = Rectangle(MX_PLATE_HOLE, MX_PLATE_HOLE)
-    relief = [ loc * Circle(MX_HOLE_RADIUS) for loc in
-               GridLocations(MX_RELIEF_POS, MX_RELIEF_POS, 2, 2) ]
+    hole = [None] * 1000
+    hole[100] = switch
+    hole[125] = switch
+    hole[150] = switch
+    hole[175] = switch
+    hole[200] = switch + stabs(2.25) # sic
+    hole[225] = switch + stabs(2.25)
+    hole[275] = switch + stabs(2.75)
+    hole[625] = switch + stabs(6.25)
+    hole[700] = switch + stabs(7.00)
 
-    k100 = rounded_vertices(switch + relief, MX_HOLE_RELIEF)
-    k125 = k100
-    k150 = k100
-    k175 = k100
-    k225 = k100 + stabs(stab, 2.25)
-    k700 = k100 + stabs(stab, 7.00)
+    def adjacent(y, keys, sign):
+        row = []
+        pos = -sign * MAIN_WIDTH / 2
+        for k in keys:
+            width = sign * ku(k/100)
+            row.append(Location((pos + width/2, y)) * hole[k])
+            pos += width
+        return (row,pos)
 
-def case_outline():
-    middle = Rectangle(MIDDLE_WIDTH, TOTAL_DEPTH)
+    def key_grid(x, y, w, h):
+        key = Location((x, y)) * hole[100]
+        return [] if w == 0 or h == 0 else [
+            loc * key for loc in GridLocations(ku(1), ku(1), w, h) ]
 
-    # dunno why i need to explicitly convert these to locations
-    edges = middle.edges()
-    left = Location(edges[0].center())
-    right = Location(edges[2].center())
+    def key_row(y, left_keys, middle, right_keys):
+        (left_row, left_pos) = adjacent(y, left_keys, +1)
+        (right_row, right_pos) = adjacent(y, reversed(right_keys), -1)
+        middle_row = key_grid((left_pos + right_pos)/2, y, middle, 1)
+        return left_row + middle_row + right_row
 
-    ellipse = Ellipse(ELLIPSE_AXIS, TOTAL_DEPTH / 2)
-    left = left * ellipse
-    right = right * ellipse
-    oval = left + middle + right
+    microsoft = [ 125, 125, 125, 625, 125, 125, 125, 125 ]
+    tsangan = [ 150, 100, 150, 700, 150, 100, 150 ]
+    keybird = [ 125, 125, 150, 700, 150, 125, 125 ]
 
-    clip = Rectangle(TOTAL_WIDTH, CLIP_DEPTH)
+    return Part() + (
+        key_grid(-FUN_X, FUN_Y1, 3, 2) +
+        key_grid(-FUN_X, FUN_Y2, 3, 2) +
+        key_grid(+FUN_X, FUN_Y1, 3, 2) +
+        key_grid(+FUN_X, FUN_Y2, 3, 2) +
+        key_row(MAIN_Y + ku(+2), [], 15, []) +
+        key_row(MAIN_Y + ku(+1), [150], 12, [150]) +
+        key_row(MAIN_Y + ku(00), [175], 11, [225]) +
+        key_row(MAIN_Y + ku(-1), [225], 10, [175, 100]) +
+        key_row(MAIN_Y + ku(-2), [], 0, keybird))
 
-    return oval & clip
-
-def case_top(outline):
+def top_cutouts():
     main = (Location((0, MAIN_Y)) *
             Rectangle(MAIN_WIDTH, MAIN_DEPTH))
     fun = Rectangle(FUN_WIDTH, FUN_DEPTH)
@@ -251,131 +307,158 @@ def case_top(outline):
     fun3 = Location((+FUN_X, FUN_Y1)) * fun
     fun4b = Location((FUN_X, FUN_Y2)) * Rectangle(ku(1), FUN_DEPTH)
     fun4a = Location((FUN_X, FUN_Y2a)) * Rectangle(FUN_WIDTH, ku(1))
-    return outline - [ main, fun1, fun2, fun3, fun4a, fun4b ]
+    brow = (Location((0, SLOT_Y)) *
+            RectangleRounded(SLOT_WIDTH, SLOT_DEPTH, SLOT_RADIUS))
+    holes = Sketch() + [ main, fun1, fun2, fun3, fun4a, fun4b, brow ]
+    return roundoff(holes, KEYBLOCK_RADIUS)
+
+def case_outline_2d():
+    middle = Rectangle(MIDDLE_WIDTH, TOTAL_DEPTH)
+    edges = middle.edges()
+
+    ellipse = Ellipse(ELLIPSE_AXIS, TOTAL_DEPTH / 2)
+    left = Location(edges[0] @ 0.5) * ellipse
+    right = Location(edges[2] @ 0.5) * ellipse
+
+    oval = left + middle + right
+    clip = Rectangle(TOTAL_WIDTH, CLIP_DEPTH)
+    outline = oval & clip
+
+    global SIDE_DEPTH
+    global CHEEK_DEPTH
+    SIDE_DEPTH = side_length(outline) - WALL_THICK*2
+    CHEEK_DEPTH = SIDE_DEPTH + NOTCH_DEPTH
+
+    return outline
 
 def case_interior(outline):
-    interior = offset(outline, amount=-WALL_THICK)
+    uniform = offset(outline, amount=-WALL_THICK)
     # re-clip so that the side walls are thicker
-    return interior & Rectangle(TOTAL_WIDTH - SIDE_THICK * 2, CLIP_DEPTH)
+    sideclip = Rectangle(TOTAL_WIDTH - SIDE_THICK * 2, CLIP_DEPTH)
+    interior = uniform & sideclip
 
-def set_side_depth(outline):
-    global SIDE_DEPTH
-    global SIDE_NOTCH_D
-    global SIDE_ACCENT_D
-    SIDE_DEPTH = side_length(outline) - WALL_THICK*2
-    # notch depth comes from corner s-bend
-    SIDE_ACCENT_D = SIDE_DEPTH + SIDE_RADIUS*2
-    SIDE_NOTCH_D = SIDE_ACCENT_D + SIDE_RADIUS*2
-
-def set_hole_positions(interior):
     global HOLE_Y2
-    global HOLE_POSITIONS
-    clip = Rectangle(HOLE_X2 * 2, CLIP_DEPTH)
-    HOLE_Y2 = side_length(interior & clip) / 2
-    HOLE_POSITIONS = [ Location(p)
-                       for i in [-1,+1]
-                       for j in [+1]
-                       for p in [(i*HOLE_X1, j*HOLE_Y1),
-                                 (i*HOLE_X2, j*HOLE_Y2)] ]
+    holeclip = Rectangle(HOLE_X2 * 2, CLIP_DEPTH)
+    HOLE_Y2 = side_length(interior & holeclip) / 2
+
+    return thick(interior)
 
 def holes(diameter):
+    global HOLE_POSITIONS
+    if not HOLE_POSITIONS:
+        log.info(f"{HOLE_X1=} {HOLE_Y1=} {HOLE_X2=} {HOLE_Y2=}")
+        HOLE_POSITIONS = [ Location(p)
+                           for i in [-1,+1] for j in [-1,+1]
+                           for p in [(i*HOLE_X1, j*HOLE_Y1, 0),
+                                     (i*HOLE_X2, j*HOLE_Y2, 0)] ]
     hole = Circle(diameter / 2)
-    return Sketch() + [ pos * hole for pos in HOLE_POSITIONS ]
+    return thick(Sketch() + [ pos * hole for pos in HOLE_POSITIONS ])
 
-def side_inset():
+def side_inset_2d():
     inset = Rectangle(SIDE_INSET_W, SIDE_DEPTH)
-    insets = (Location((-SIDE_INSET_X, 0)) * inset +
-              Location((+SIDE_INSET_X, 0)) * inset)
-    accent = RectangleRounded(
-        PERSPEX_THICK + ACCENT_CLEAR, SIDE_NOTCH_D, SIDE_RADIUS)
-    accents = (Location((-SIDE_ACCENT_X, 0)) * accent +
-               Location((+SIDE_ACCENT_X, 0)) * accent)
-    return insets + accents
+    return (Location((-SIDE_INSET_X, 0)) * inset +
+            Location((+SIDE_INSET_X, 0)) * inset)
 
-def wall_socket(wall):
+def notch_cutout():
+    depth = SIDE_DEPTH + NOTCH_DEPTH*2
+    notch = RectangleRounded(NOTCH_WIDTH, depth, NOTCH_RADIUS)
+    return thick(Location((-NOTCH_X, 0)) * notch +
+                 Location((+NOTCH_X, 0)) * notch)
+
+def socket_cutout():
     usbdb = RectangleRounded(USBDB_WIDTH, USBDB_DEPTH, USBDB_R)
     inset = Rectangle(USB_WIDTH, USB_INSET*2)
-    cutout = (Location((0, USBDB_Y)) * offset(usbdb, USB_CLEAR)
-              + Location((0, TOTAL_DEPTH/2)) * inset)
-    # yet again it doesn't work in 2D
-    thick = extrude(wall, amount=-1) - extrude(cutout, amount=2, both=True)
-    bottom = thick.faces().group_by(Axis.Z)[-1]
-    return bottom[0] + bottom[1]
+    return thick(Location((0, USBDB_Y)) * offset(usbdb, USB_CLEAR) +
+                 Location((0, TOTAL_DEPTH/2)) * inset)
 
 def daughterboard_holes():
     holes = Sketch() + [ loc * Circle(HOLE_TINY/2) for loc in
                          GridLocations(14, 14, 2, 2) ]
-    return Location((0, USBDB_Y)) * holes
+    return thick(Location((0, USBDB_Y)) * holes)
 
 
-CASE_OUTLINE = case_outline()
-CASE_INTERIOR = case_interior(CASE_OUTLINE)
+FLAT_OUTLINE = case_outline_2d()
+SHARP_OUTLINE = thick(FLAT_OUTLINE)
+CASE_OUTLINE = roundoff(FLAT_OUTLINE, SIDE_RADIUS)
+CASE_INTERIOR = case_interior(FLAT_OUTLINE)
 
-set_hole_positions(CASE_INTERIOR)
-set_side_depth(CASE_OUTLINE)
+SIDE_INSET = side_inset_2d()
+NOTCH_CUTOUT = notch_cutout()
+SOCKET_CUTOUT = socket_cutout()
 
-SIDE_INSET = side_inset()
+HOLES_SCREW = holes(HOLE_SCREW)
+HOLES_RIVNUT = holes(HOLE_RIVNUT)
 
-WALLS = CASE_OUTLINE - CASE_INTERIOR - SIDE_INSET + holes(HOLE_SUPPORT)
+#TOP_LAYER = CASE_OUTLINE - top_cutouts() - HOLES_SCREW
 
-WALL = rounded_vertices(WALLS & rear_half(), HOLE_MENISCUS, SIDE_RADIUS)
+SWITCH_PLATE = (roundoff(FLAT_OUTLINE - SIDE_INSET, SIDE_RADIUS)
+                - plate_cutouts() - NOTCH_CUTOUT - HOLES_SCREW)
 
-HOLES_SMALL = holes(HOLE_SMALL)
-HOLES_LARGE = holes(HOLE_LARGE)
+show_object(SWITCH_PLATE)
 
-REAR_SMALL = WALL - HOLES_SMALL
-REAR_SOCKET = wall_socket(REAR_SMALL)
+"""
 
-FRONT_SMALL = mirror(REAR_SMALL, Plane.XZ)
-FRONT_LARGE = mirror(WALL - HOLES_LARGE, Plane.XZ)
+HOLES_SCREW_RIVNUT = rear_half(HOLES_SCREW) + front_half(HOLES_RIVNUT)
+BASE_LAYER = CASE_OUTLINE - daughterboard_holes() - HOLES_SCREW_RIVNUT
 
-TOP_LAYER = (rounded_vertices(case_top(CASE_OUTLINE), KEYBLOCK_RADIUS)
-             - HOLES_SMALL)
+SHARP_WALLS = SHARP_OUTLINE - CASE_INTERIOR - SIDE_CUTOUT + holes(HOLE_SUPPORT)
+WALLS = roundoff3d(SHARP_WALLS, HOLE_MENISCUS, SIDE_RADIUS) - NOTCH_CUTOUT
 
-BASE_LAYER = (rounded_vertices(CASE_OUTLINE, SIDE_RADIUS) -
-              (HOLES_SMALL + mirror(HOLES_LARGE, Plane.XZ)
-               + daughterboard_holes()))
+WALLS_SCREW = WALLS - HOLES_SCREW
+WALLS_RIVNUT = WALLS - HOLES_RIVNUT
+FRONT_WALL_SCREW = front_half(WALLS_SCREW)
+FRONT_WALL_RIVNUT = front_half(WALLS_RIVNUT)
+REAR_WALL_SCREW = rear_half(WALLS_SCREW)
+REAR_WALL_SOCKET = REAR_WALL_SCREW - SOCKET_CUTOUT
 
 layers = [
     (TOP_LAYER,), # 0
-    (FRONT_SMALL, REAR_SMALL), # 1
-    (FRONT_SMALL, REAR_SMALL), # 2
-    [], # 3
-    (FRONT_LARGE, REAR_SMALL), # 4
-    (FRONT_LARGE, REAR_SOCKET), # 5
-    (FRONT_LARGE, REAR_SOCKET), # 6
+    (FRONT_WALL_SCREW, REAR_WALL_SCREW), # 1
+    (FRONT_WALL_SCREW, REAR_WALL_SCREW), # 2
+    (SWITCH_PLATE,), # 3
+    (FRONT_WALL_RIVNUT, REAR_WALL_SCREW), # 4
+    (FRONT_WALL_RIVNUT, REAR_WALL_SOCKET), # 5
+    (FRONT_WALL_RIVNUT, REAR_WALL_SOCKET), # 6
     (BASE_LAYER,), # 7
 ]
 
-spread = Part()
+spread = []
 
-if MODE == "perspex":
+if MODE == "test":
+    spread = SWITCH_PLATE
+
+elif MODE == "perspex":
     for i in range(len(layers)):
         if i % 2 == 1:
             pass
         elif len(layers[i]) == 2:
             (front, rear) = layers[i]
             move = SPREAD * (i / 2)
-            spread += (Location((0, +move)) *
-                       extrude(rear, amount=PERSPEX_THICK) +
+            spread = [ Location((0, +move)) *
+                       extrude(rear, amount=PERSPEX_THICK),
                        Location((0, -move)) *
-                       extrude(front, amount=PERSPEX_THICK))
-        elif len(layers[i]) == 1:
-            spread += extrude(layers[i][0], amount=PERSPEX_THICK)
+                       extrude(front, amount=PERSPEX_THICK) ]
+        elif i == 0:
+            spread += [ layers[i][0] ]
 
 elif MODE == "plate":
     for i in range(len(layers)):
         if i % 2 == 0:
             pass
         elif len(layers[i]) == 2:
+            log.info(f"two {i}")
             (front, rear) = layers[i]
             move = SPREAD * (i / 4 + 0.75)
-            spread += (Location((0, +move)) *
-                       extrude(rear, amount=PLATE_THICK) +
-                       Location((0, -move)) *
-                       extrude(front, amount=PLATE_THICK))
-        elif len(layers[i]) == 1:
-            spread += extrude(layers[i][0], amount=PLATE_THICK)
+            spread += [ Location((0, +move)) *
+                        extrude(rear, amount=PLATE_THICK),
+                        Location((0, -move)) *
+                        extrude(front, amount=PLATE_THICK) ]
+        elif i == 3:
+            log.info(f"three")
+            spread += [ layers[i][0] ]
+        elif i == 7:
+            log.info(f"three")
+            spread += [ Location((0, SPREAD * 15)) * layers[i][0] ]
 
-#show_object(spread)
-show_object(plate_cutout.k225)
+show_object(spread)
+"""
