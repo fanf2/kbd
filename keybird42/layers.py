@@ -11,11 +11,11 @@ log = build123d.logging.getLogger("build123d")
 
 log.info("hello!")
 
-#MODE = "stack"
+MODE = "stack"
 #MODE = "perspex"
-MODE = "plate"
+#MODE = "plate"
 
-EXPLODE = 5
+EXPLODE = 0
 
 # plastic basics
 
@@ -117,7 +117,7 @@ NOTCH_X		= TOTAL_WIDTH/2 - SIDE_THICK/2
 # side accents
 CHEEK_DEPTH	= SIDE_DEPTH + NOTCH_DEPTH # placeholder
 CHEEK_WIDTH	= PERSPEX_THICK
-CHEEK_HEIGHT	= PERSPEX_THICK * 3 + PLATE_THICK * 3
+CHEEK_HEIGHT	= PERSPEX_THICK * 3 + PLATE_THICK * 3 - ACCENT_CLEAR
 
 # holder for penrest accent
 SLOT_WIDTH	= MAIN_WIDTH
@@ -126,6 +126,7 @@ SLOT_RADIUS	= ACCENT_CLEAR/2
 SLOT_Y		= MAIN_Y + MAIN_DEPTH/2 + BLOCK_GAP + SLOT_DEPTH/2
 
 # penrest accent
+BROW_DEPTH	= PERSPEX_THICK
 BROW_WIDTH	= SLOT_WIDTH - ACCENT_CLEAR
 BROW_HEIGHT	= PERSPEX_THICK * 3 + PLATE_THICK
 LOBROW_WIDTH	= BROW_WIDTH + PERSPEX_THICK * 2
@@ -436,7 +437,7 @@ TOP_CUTOUTS = top_cutouts() + HOLES_SCREW
 TOP_LAYER = CASE_OUTLINE - TOP_CUTOUTS
 
 t = time.perf_counter()
-PLATE_CUTOUTS = NOTCH_CUTOUTS + HOLES_SCREW #+ plate_cutouts()
+PLATE_CUTOUTS = NOTCH_CUTOUTS + HOLES_SCREW + plate_cutouts()
 SWITCH_PLATE = roundoff(FLAT_OUTLINE - SIDE_INSET, SIDE_RADIUS) - PLATE_CUTOUTS
 t_plate = time.perf_counter() - t
 
@@ -478,8 +479,23 @@ if MODE == "stack":
     for i in range(len(layers)):
         stretch = PLATE_THICK if i < 8 and i % 2 else PERSPEX_THICK
         z -= stretch + EXPLODE
+        if i == 3: accent_z = z
         loc = Location((0,0,z))
         objects += [ loc * scale(layers[i], (1, 1, stretch)) ]
+
+    brow_base = accent_z + PLATE_THICK + ACCENT_CLEAR/2 + EXPLODE
+    brow_z = brow_base + BROW_HEIGHT/2
+    lobrow_z = brow_base + LOBROW_HEIGHT/2
+    brow = Box(BROW_WIDTH, BROW_DEPTH, BROW_HEIGHT)
+    lobrow = Box(LOBROW_WIDTH, BROW_DEPTH, LOBROW_HEIGHT)
+    objects += [( Location((0, SLOT_Y, brow_z)) * brow +
+                  Location((0, SLOT_Y, lobrow_z)) * lobrow )] # one piece
+
+    # off-centre due to difference between top layer and base plate
+    cheek_z = accent_z - (PERSPEX_THICK - PLATE_THICK)/2
+    cheek = Box(CHEEK_WIDTH, CHEEK_DEPTH, CHEEK_HEIGHT)
+    objects += [ Location((-NOTCH_X, 0, cheek_z)) * cheek,
+                 Location((+NOTCH_X, 0, cheek_z)) * cheek ]
 
 elif MODE == "perspex":
     for i in range(len(layers)):
