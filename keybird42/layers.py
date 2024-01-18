@@ -7,8 +7,8 @@ log = build123d.logging.getLogger("build123d")
 log.info("hello!")
 
 #MODE = "test"
-#MODE = "perspex"
-MODE = "plate"
+MODE = "perspex"
+#MODE = "plate"
 #MODE = 1.001
 #MODE = 5
 
@@ -167,11 +167,13 @@ def plate(shape):
 def thick(shape):
     return extrude(shape, amount=THICK)
 
-def rear_half():
-    return Location((0, +CLIP_DEPTH/2)) * Rectangle(CLIP_WIDTH, CLIP_DEPTH/2)
+HALF_BOX = Box(CLIP_WIDTH, CLIP_DEPTH/2, THICK*3)
 
-def front_half():
-    return Location((0, -CLIP_DEPTH/2)) * Rectangle(CLIP_WIDTH, CLIP_DEPTH/2)
+def rear_half(shape):
+    return shape & Location((0, +CLIP_DEPTH/2)) * HALF_BOX
+
+def front_half(shape):
+    return shape & Location((0, -CLIP_DEPTH/2)) * HALF_BOX
 
 def side_length(shape):
     return shape.edges().sort_by(Axis.X)[0].length
@@ -331,7 +333,7 @@ def case_outline_2d():
 
     return outline
 
-def case_interior(outline):
+def case_interior_2d(outline):
     uniform = offset(outline, amount=-WALL_THICK)
     # re-clip so that the side walls are thicker
     sideclip = Rectangle(TOTAL_WIDTH - SIDE_THICK * 2, CLIP_DEPTH)
@@ -341,7 +343,16 @@ def case_interior(outline):
     holeclip = Rectangle(HOLE_X2 * 2, CLIP_DEPTH)
     HOLE_Y2 = side_length(interior & holeclip) / 2
 
-    return thick(interior)
+    return interior
+
+def side_inset_2d():
+    inset = Rectangle(SIDE_INSET_W, SIDE_DEPTH)
+    return (Location((-SIDE_INSET_X, 0)) * inset +
+            Location((+SIDE_INSET_X, 0)) * inset)
+
+def hole_support_2d():
+    support = Circle(HOLE_SUPPORT / 2)
+    return Sketch() + [ pos * support for pos in HOLE_POSITIONS ]
 
 def holes(diameter):
     global HOLE_POSITIONS
@@ -353,11 +364,6 @@ def holes(diameter):
                                      (i*HOLE_X2, j*HOLE_Y2, 0)] ]
     hole = Circle(diameter / 2)
     return thick(Sketch() + [ pos * hole for pos in HOLE_POSITIONS ])
-
-def side_inset_2d():
-    inset = Rectangle(SIDE_INSET_W, SIDE_DEPTH)
-    return (Location((-SIDE_INSET_X, 0)) * inset +
-            Location((+SIDE_INSET_X, 0)) * inset)
 
 def notch_cutout():
     depth = SIDE_DEPTH + NOTCH_DEPTH*2
@@ -378,9 +384,8 @@ def daughterboard_holes():
 
 
 FLAT_OUTLINE = case_outline_2d()
-SHARP_OUTLINE = thick(FLAT_OUTLINE)
+FLAT_INTERIOR = case_interior_2d(FLAT_OUTLINE)
 CASE_OUTLINE = roundoff(FLAT_OUTLINE, SIDE_RADIUS)
-CASE_INTERIOR = case_interior(FLAT_OUTLINE)
 
 SIDE_INSET = side_inset_2d()
 NOTCH_CUTOUT = notch_cutout()
@@ -389,20 +394,16 @@ SOCKET_CUTOUT = socket_cutout()
 HOLES_SCREW = holes(HOLE_SCREW)
 HOLES_RIVNUT = holes(HOLE_RIVNUT)
 
-#TOP_LAYER = CASE_OUTLINE - top_cutouts() - HOLES_SCREW
+TOP_LAYER = CASE_OUTLINE - top_cutouts() - HOLES_SCREW
 
 SWITCH_PLATE = (roundoff(FLAT_OUTLINE - SIDE_INSET, SIDE_RADIUS)
-                - plate_cutouts() - NOTCH_CUTOUT - HOLES_SCREW)
-
-show_object(SWITCH_PLATE)
-
-"""
+                - NOTCH_CUTOUT - HOLES_SCREW) # - plate_cutouts())
 
 HOLES_SCREW_RIVNUT = rear_half(HOLES_SCREW) + front_half(HOLES_RIVNUT)
 BASE_LAYER = CASE_OUTLINE - daughterboard_holes() - HOLES_SCREW_RIVNUT
 
-SHARP_WALLS = SHARP_OUTLINE - CASE_INTERIOR - SIDE_CUTOUT + holes(HOLE_SUPPORT)
-WALLS = roundoff3d(SHARP_WALLS, HOLE_MENISCUS, SIDE_RADIUS) - NOTCH_CUTOUT
+FLAT_WALLS = FLAT_OUTLINE - FLAT_INTERIOR - SIDE_INSET + hole_support_2d()
+WALLS = roundoff(FLAT_WALLS, HOLE_MENISCUS, SIDE_RADIUS) - NOTCH_CUTOUT
 
 WALLS_SCREW = WALLS - HOLES_SCREW
 WALLS_RIVNUT = WALLS - HOLES_RIVNUT
@@ -425,7 +426,7 @@ layers = [
 spread = []
 
 if MODE == "test":
-    spread = SWITCH_PLATE
+    pass
 
 elif MODE == "perspex":
     for i in range(len(layers)):
@@ -434,10 +435,8 @@ elif MODE == "perspex":
         elif len(layers[i]) == 2:
             (front, rear) = layers[i]
             move = SPREAD * (i / 2)
-            spread = [ Location((0, +move)) *
-                       extrude(rear, amount=PERSPEX_THICK),
-                       Location((0, -move)) *
-                       extrude(front, amount=PERSPEX_THICK) ]
+            spread += [ Location((0, +move)) * rear,
+                       Location((0, -move)) * front ]
         elif i == 0:
             spread += [ layers[i][0] ]
 
@@ -446,19 +445,13 @@ elif MODE == "plate":
         if i % 2 == 0:
             pass
         elif len(layers[i]) == 2:
-            log.info(f"two {i}")
             (front, rear) = layers[i]
-            move = SPREAD * (i / 4 + 0.75)
-            spread += [ Location((0, +move)) *
-                        extrude(rear, amount=PLATE_THICK),
-                        Location((0, -move)) *
-                        extrude(front, amount=PLATE_THICK) ]
+            move = SPREAD * (i / 4 + 0.75) + CLIP_DEPTH/2
+            spread += [ Location((0, +move)) * rear,
+                        Location((0, -move)) * front ]
         elif i == 3:
-            log.info(f"three")
-            spread += [ layers[i][0] ]
+            spread += [ Location((0, -CLIP_DEPTH/2)) * layers[i][0] ]
         elif i == 7:
-            log.info(f"three")
-            spread += [ Location((0, SPREAD * 15)) * layers[i][0] ]
+            spread += [ Location((0, +CLIP_DEPTH/2)) * layers[i][0] ]
 
 show_object(spread)
-"""
