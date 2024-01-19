@@ -100,6 +100,8 @@ FUN_Y2a		= FUN_Y2 - ku(0.5) # lower arrows
 
 # accent positions
 
+ACCENT_RADIUS	= ACCENT_CLEAR
+
 SIDE_DEPTH	= 1 # placeholder
 
 # this cutout rectangle sticks out by MX_PLATE_RIB/2
@@ -118,7 +120,7 @@ CHEEK_WIDTH	= PERSPEX_THICK
 CHEEK_HEIGHT	= PERSPEX_THICK * 3 + PLATE_THICK * 3 - ACCENT_CLEAR
 
 # holder for penrest accent
-SLOT_WIDTH	= MAIN_WIDTH
+SLOT_WIDTH	= MAIN_WIDTH + ku(2)
 SLOT_DEPTH	= PERSPEX_THICK + ACCENT_CLEAR
 SLOT_RADIUS	= ACCENT_CLEAR/2
 SLOT_Y		= MAIN_Y + MAIN_DEPTH/2 + BLOCK_GAP + SLOT_DEPTH/2
@@ -405,6 +407,45 @@ def daughterboard_holes():
     hole = Location((0, USBDB_Y)) * thick(Circle(HOLE_TINY/2))
     return [ loc * hole for loc in GridLocations(14, 14, 2, 2) ]
 
+def brow():
+    flat = (
+        Location((0, BROW_HEIGHT/2)) * Rectangle(BROW_WIDTH, BROW_HEIGHT) +
+        Location((0, LOBROW_HEIGHT/2)) * Rectangle(LOBROW_WIDTH, LOBROW_HEIGHT))
+    return roundoff(flat, ACCENT_RADIUS)
+
+def cheek():
+    return thick(RectangleRounded(CHEEK_DEPTH, CHEEK_HEIGHT, ACCENT_RADIUS))
+
+def cheek_accents(cheek):
+    cheek_x = SPREAD_CLEAR/2 + CHEEK_DEPTH/2
+    cheek_y = SPREAD_CLEAR + CHEEK_HEIGHT/2
+    return [ Location((+cheek_x*3, -cheek_y)) * cheek,
+             Location((+cheek_x*1, -cheek_y)) * cheek,
+             Location((-cheek_x*1, -cheek_y)) * cheek,
+             Location((-cheek_x*3, -cheek_y)) * cheek ]
+
+def cheek_perspex(cheek):
+    rotated = cheek.rotate(Axis.Z, 90)
+    cheek_x = MAIN_WIDTH/2 - CHEEK_HEIGHT/2 - SPREAD_CLEAR*3
+    return [ Location((+cheek_x, MAIN_Y)) * rotated,
+             Location((-cheek_x, MAIN_Y)) * rotated ]
+
+def thicken_accent(accent):
+    thickened = scale(accent, (1,1, PERSPEX_THICK / THICK))
+    return Location((0,0, -PERSPEX_THICK/2)) * thickened
+
+def brow_vertical(brow, accent_z):
+    rotated = thicken_accent(brow).rotate(Axis.X, 90)
+    brow_z = accent_z + PLATE_THICK + ACCENT_CLEAR/2 + EXPLODE
+    return [ Location((0, SLOT_Y, brow_z)) * rotated ]
+
+def cheek_vertical(cheek, accent_z):
+    rotated = thicken_accent(cheek).rotate(Axis.Z, 90).rotate(Axis.Y, 90)
+    # off-centre due to difference between top layer and base plate
+    cheek_z = accent_z - (PERSPEX_THICK - PLATE_THICK)/2
+    return [ Location((-NOTCH_X, 0, cheek_z)) * rotated,
+             Location((+NOTCH_X, 0, cheek_z)) * rotated ]
+
 HALF_WALL = Box(CLIP_WIDTH, CLIP_DEPTH/2, THICK*3)
 HALF_FOOT = Box(CLIP_WIDTH/2, CLIP_DEPTH, THICK*3)
 
@@ -444,7 +485,7 @@ TOP_LAYER = CASE_OUTLINE - TOP_CUTOUTS
 
 stamp("switch plate")
 
-PLATE_CUTOUTS = NOTCH_CUTOUTS + HOLES_SCREW #+ plate_cutouts()
+PLATE_CUTOUTS = NOTCH_CUTOUTS + HOLES_SCREW + plate_cutouts()
 SWITCH_PLATE = roundoff(FLAT_OUTLINE - SIDE_INSET, SIDE_RADIUS) - PLATE_CUTOUTS
 
 stamp("base plate")
@@ -465,6 +506,11 @@ stamp("feet")
 FEET = feet(FLAT_OUTLINE)
 # include some little donuts to use as shims
 FEET_RIVNUT = FEET - HOLES_RIVNUT + rear_wall(HOLES_SCREW)
+
+stamp("accents")
+
+CHEEK = cheek()
+BROW = brow()
 
 layers = [
     TOP_LAYER,
@@ -490,25 +536,14 @@ stack = []
 z = 0
 for i in range(len(layers)):
     stamp(f"stack {i}")
-    stretch = PLATE_THICK if i < 8 and i % 2 else PERSPEX_THICK
-    z -= stretch + EXPLODE
+    thickness = PLATE_THICK if i < 8 and i % 2 else PERSPEX_THICK
+    z -= thickness + EXPLODE
     if i == 3: accent_z = z
     loc = Location((0,0,z))
-    stack += [ loc * scale(layers[i], (1, 1, stretch)) ]
+    stack += [ loc * scale(layers[i], (1, 1, thickness / THICK)) ]
 
-brow_base = accent_z + PLATE_THICK + ACCENT_CLEAR/2 + EXPLODE
-brow_z = brow_base + BROW_HEIGHT/2
-lobrow_z = brow_base + LOBROW_HEIGHT/2
-brow = Box(BROW_WIDTH, BROW_DEPTH, BROW_HEIGHT)
-lobrow = Box(LOBROW_WIDTH, BROW_DEPTH, LOBROW_HEIGHT)
-stack += [( Location((0, SLOT_Y, brow_z)) * brow +
-              Location((0, SLOT_Y, lobrow_z)) * lobrow )] # one piece
-
-# off-centre due to difference between top layer and base plate
-cheek_z = accent_z - (PERSPEX_THICK - PLATE_THICK)/2
-cheek = Box(CHEEK_WIDTH, CHEEK_DEPTH, CHEEK_HEIGHT)
-stack += [ Location((-NOTCH_X, 0, cheek_z)) * cheek,
-             Location((+NOTCH_X, 0, cheek_z)) * cheek ]
+stack += brow_vertical(BROW, accent_z)
+stack += cheek_vertical(CHEEK, accent_z)
 
 # export layouts for cutting
 
@@ -536,26 +571,10 @@ for i in range(len(layers)):
         perspex += [ Location((0, +move)) * rear_wall(layers[i]),
                      Location((0, -move)) * front_wall(layers[i]) ]
 
-hibrow_y = TOTAL_DEPTH/2 + HOLE_SUPPORT*3 + SPREAD_CLEAR*4
-lobrow_y = hibrow_y + LOBROW_HEIGHT/2
-brow_y = hibrow_y + BROW_HEIGHT/2
-cheek_x = MAIN_WIDTH/2 - CHEEK_HEIGHT/2 - SPREAD_CLEAR*3
-perspex += [
-    Location((0, brow_y)) * Box(BROW_WIDTH, BROW_HEIGHT, THICK) +
-    Location((0, lobrow_y)) * Box(LOBROW_WIDTH, LOBROW_HEIGHT, THICK),
-    Location((+cheek_x, MAIN_Y)) * Box(CHEEK_HEIGHT, CHEEK_DEPTH, THICK),
-    Location((-cheek_x, MAIN_Y)) * Box(CHEEK_HEIGHT, CHEEK_DEPTH, THICK),
-]
+perspex += cheek_perspex(CHEEK) + [
+    Location((0, TOTAL_DEPTH/2 + HOLE_SUPPORT*3 + SPREAD_CLEAR*4)) * BROW ]
 
-lobrow_y = SPREAD_CLEAR + LOBROW_HEIGHT/2
-brow_y = SPREAD_CLEAR + BROW_HEIGHT/2
-cheek_x = SPREAD_CLEAR + CHEEK_DEPTH
-cheek_y = SPREAD_CLEAR + CHEEK_HEIGHT/2
-accents = [
-    Location((0, brow_y)) * Box(BROW_WIDTH, BROW_HEIGHT, THICK) +
-    Location((0, lobrow_y)) * Box(LOBROW_WIDTH, LOBROW_HEIGHT, THICK),
-    Location((+cheek_x, -cheek_y)) * Box(CHEEK_DEPTH, CHEEK_HEIGHT, THICK),
-    Location((-cheek_x, -cheek_y)) * Box(CHEEK_DEPTH, CHEEK_HEIGHT, THICK) ]
+accents = [BROW] + cheek_accents(CHEEK)
 
 def export(name, shape):
     stamp(f"flatten {name}")
