@@ -283,9 +283,10 @@ def pcba():
     keepout = offset(outline, amount=-PCB_INSET)
     screws = (Location((+PCB_STAB, front)) * Circle(PCB_INSET) +
               Location((-PCB_STAB, front)) * Circle(PCB_INSET))
-    board = thick(outline, PCB_THICK)
-    components = Location((0,0,-PCB_THICK)) * thick(keepout, COMPONENTS_THICK)
-    return board + components
+    components = Location((0,0,-PCB_THICK)) * (
+        thick(keepout, COMPONENTS_THICK) +
+        thick(screws, -COMPONENTS_THICK) )
+    return thick(outline, PCB_THICK) + components
 
 def plate_cutouts():
     if SPEED > 1:
