@@ -57,7 +57,7 @@ I called it keybird42 because:
   * 84 keys total (42 * 2)
   * 5 keys deep (fnord)
   * 23 key unit wide case (fnord)
-  * 123 mm deep case
+  * 6.666 key unit deep case (devilish)
 
 
 window placement
