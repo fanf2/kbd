@@ -25,7 +25,7 @@ ACCENT_CLEAR = PERSPEX_THICK * 0.1 + 0.4
 log.info(f"{ACCENT_CLEAR=}")
 
 # space between laser cut pieces
-SPREAD_CLEAR = 0.75
+SPREAD_CLEAR = 1
 
 SVG_MARGIN = 10
 
@@ -70,7 +70,7 @@ FUN_DEPTH	= ku( 2.00 )
 
 CASE_SIDE	= ku( 1.00 ) - BLOCK_GAP
 CASE_FRONT	= ku( 0.50 )
-CASE_REAR	= ku( 4/3 )
+CASE_REAR	= ku( 7/6 ) # total depth 6.6666
 
 WALL_THICK	= ku( 0.25 )
 SIDE_THICK	= PERSPEX_THICK * 3
@@ -152,11 +152,11 @@ FOOT_DEPTH	= 1 # placeholder
 
 USB_INSET	= 1.0
 USB_WIDTH	= 9.0 # spec says 8.34
-USB_CLEAR	= 0.5
 USBDB_WIDTH	= 18
 USBDB_DEPTH	= 18
+USBDB_CLEAR	= 0.5
 USBDB_R		= 1.0
-USBDB_Y		= TOTAL_DEPTH/2 - USBDB_DEPTH/2 - USB_CLEAR - USB_INSET
+USBDB_Y		= TOTAL_DEPTH/2 - USBDB_DEPTH/2 - USBDB_CLEAR - USB_INSET
 
 # for debugging
 def multiocular_vertices(vertices):
@@ -397,8 +397,8 @@ def notch_cutouts():
 
 def socket_cutouts():
     usbdb = thick(RectangleRounded(USBDB_WIDTH, USBDB_DEPTH, USBDB_R))
-    inset = thick(Rectangle(USB_WIDTH, USB_INSET*2))
-    return [ Location((0, USBDB_Y)) * offset(usbdb, USB_CLEAR),
+    inset = thick(Rectangle(USB_WIDTH, USB_INSET*3))
+    return [ Location((0, USBDB_Y)) * offset(usbdb, USBDB_CLEAR),
              Location((0, TOTAL_DEPTH/2)) * inset ]
 
 def daughterboard_holes():
@@ -449,7 +449,6 @@ SWITCH_PLATE = roundoff(FLAT_OUTLINE - SIDE_INSET, SIDE_RADIUS) - PLATE_CUTOUTS
 
 stamp("base plate")
 
-#HOLES_SCREW_RIVNUT = rear_wall(HOLES_SCREW) + front_wall(HOLES_RIVNUT)
 BASE_PLATE = CASE_OUTLINE - daughterboard_holes() - HOLES_RIVNUT
 
 stamp("walls")
@@ -464,7 +463,6 @@ WALLS_SOCKET = WALLS_RIVNUT - SOCKET_CUTOUTS
 stamp("feet")
 
 FEET = feet(FLAT_OUTLINE)
-#FEET_SCREW = FEET - HOLES_SCREW
 # include some little donuts to use as shims
 FEET_RIVNUT = FEET - HOLES_RIVNUT + rear_wall(HOLES_SCREW)
 
@@ -521,9 +519,9 @@ for i in range(len(layers)):
     if i == 0:
         perspex += [ layers[i] ]
     elif i == 3:
-        plates += [ Location((0, -CLIP_DEPTH/2)) * layers[i] ]
-    elif i == 7:
         plates += [ Location((0, +CLIP_DEPTH/2)) * layers[i] ]
+    elif i == 7:
+        plates += [ Location((0, -CLIP_DEPTH/2)) * layers[i] ]
     elif i >= 8:
         move_y = (8 - i) * (FOOT_DEPTH + SPREAD_CLEAR) - CASE_REAR - 1
         move_x = HOLE_X1 - FOOT_DEPTH/2 - 1
