@@ -11,7 +11,16 @@ log = build123d.logging.getLogger("build123d")
 
 log.info("hello!")
 
-EXPLODE = 0
+EXPLODE = 1
+
+# simplified plate cutouts? (0/1/2)
+SPEED = 1
+
+# For most of the time we work with plates this thick, then re-adjust
+# to the desired thickness right at the end. This avoids problems when
+# the cad system refuses to work in pure 2d (for reasons that are
+# unclear to me).
+THICK = 1
 
 # plastic basics
 
@@ -29,12 +38,6 @@ SPREAD_CLEAR = 1
 
 SVG_MARGIN = 10
 
-# For most of the time we work with plates this thick, then re-adjust
-# to the desired thickness right at the end. This avoids problems when
-# the cad system refuses to work in pure 2d (for reasons that are
-# unclear to me).
-THICK = 1
-
 # key switch basics
 
 KEY_UNIT = 19.05
@@ -43,6 +46,7 @@ def ku(n):
     return KEY_UNIT * n
 
 MX_PLATE_HOLE	= 14.0
+MX_TIGHT_RADIUS	= 0.3
 MX_HOLE_RADIUS	= 0.5**0.5
 MX_HOLE_RELIEF	= MX_HOLE_RADIUS * (2**0.5)
 MX_RELIEF_POS	= MX_PLATE_HOLE - MX_HOLE_RELIEF
@@ -248,10 +252,16 @@ def roundoff(shape2d, mouth_r, ear_r=None):
     return shape3d
 
 def plate_cutouts():
-    square = Rectangle(MX_PLATE_HOLE, MX_PLATE_HOLE)
-    relief = [ loc * Circle(MX_HOLE_RADIUS) for loc in
-               GridLocations(MX_RELIEF_POS, MX_RELIEF_POS, 2, 2) ]
-    switch = roundoff(square + relief, MX_HOLE_RELIEF)
+    if SPEED > 1:
+        switch = thick(Rectangle(MX_PLATE_HOLE, MX_PLATE_HOLE))
+    elif SPEED > 0:
+        switch = thick(RectangleRounded(
+            MX_PLATE_HOLE, MX_PLATE_HOLE, MX_TIGHT_RADIUS))
+    else:
+        square = Rectangle(MX_PLATE_HOLE, MX_PLATE_HOLE)
+        relief = [ loc * Circle(MX_HOLE_RADIUS) for loc in
+                   GridLocations(MX_RELIEF_POS, MX_RELIEF_POS, 2, 2) ]
+        switch = roundoff(square + relief, MX_HOLE_RELIEF)
 
     stab = thick(RectangleRounded(
         MX_STAB_WIDTH, MX_STAB_DEPTH, MX_STAB_RADIUS))
