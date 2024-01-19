@@ -126,8 +126,8 @@ SIDE_INSET_W	= CASE_SIDE # wider than needed
 SIDE_INSET_X	= TOTAL_WIDTH/2 + MX_PLATE_RIB/2 - SIDE_INSET_W/2
 
 # holder for side accents
-NOTCH_DEPTH	= ACCENT_CLEAR*2
-NOTCH_RADIUS	= NOTCH_DEPTH/2
+NOTCH_RADIUS	= ACCENT_CLEAR
+NOTCH_DEPTH	= PERSPEX_THICK - ACCENT_CLEAR
 NOTCH_WIDTH	= PERSPEX_THICK + ACCENT_CLEAR
 NOTCH_X		= TOTAL_WIDTH/2 - SIDE_THICK/2
 
@@ -446,7 +446,7 @@ def holes(diameter):
     return [ pos * hole for pos in HOLE_POSITIONS ]
 
 def notch_cutouts():
-    depth = SIDE_DEPTH + NOTCH_DEPTH*2
+    depth = CHEEK_DEPTH + ACCENT_CLEAR
     notch = thick(RectangleRounded(NOTCH_WIDTH, depth, NOTCH_RADIUS))
     return [ Location((-NOTCH_X, 0)) * notch,
              Location((+NOTCH_X, 0)) * notch ]
