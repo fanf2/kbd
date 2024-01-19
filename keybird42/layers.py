@@ -420,9 +420,15 @@ def left_foot(shape):
 def right_foot(shape):
     return Location((+CLIP_WIDTH/4, 0)) * HALF_FOOT & shape
 
+START = time.perf_counter()
+def stamp(msg):
+    print(f"{time.perf_counter() - START :6.3f} {msg}")
+
 FLAT_OUTLINE = case_outline_2d()
 FLAT_INTERIOR = case_interior_2d(FLAT_OUTLINE)
 CASE_OUTLINE = roundoff(FLAT_OUTLINE, SIDE_RADIUS)
+
+stamp("basic cutouts")
 
 SIDE_INSET = side_inset_2d()
 NOTCH_CUTOUTS = notch_cutouts()
@@ -431,16 +437,22 @@ SOCKET_CUTOUTS = socket_cutouts()
 HOLES_SCREW = holes(HOLE_SCREW)
 HOLES_RIVNUT = holes(HOLE_RIVNUT)
 
+stamp("top layer")
+
 TOP_CUTOUTS = top_cutouts() + HOLES_SCREW
 TOP_LAYER = CASE_OUTLINE - TOP_CUTOUTS
 
-t = time.perf_counter()
+stamp("switch plate")
+
 PLATE_CUTOUTS = NOTCH_CUTOUTS + HOLES_SCREW + plate_cutouts()
 SWITCH_PLATE = roundoff(FLAT_OUTLINE - SIDE_INSET, SIDE_RADIUS) - PLATE_CUTOUTS
-t_plate = time.perf_counter() - t
+
+stamp("base plate")
 
 HOLES_SCREW_RIVNUT = rear_wall(HOLES_SCREW) + front_wall(HOLES_RIVNUT)
 BASE_PLATE = CASE_OUTLINE - daughterboard_holes() - HOLES_SCREW_RIVNUT
+
+stamp("walls")
 
 FLAT_WALLS = FLAT_OUTLINE - FLAT_INTERIOR - SIDE_INSET + hole_support_2d()
 WALLS = roundoff(FLAT_WALLS, HOLE_MENISCUS, SIDE_RADIUS) - NOTCH_CUTOUTS
@@ -448,6 +460,8 @@ WALLS = roundoff(FLAT_WALLS, HOLE_MENISCUS, SIDE_RADIUS) - NOTCH_CUTOUTS
 WALLS_SCREW = WALLS - HOLES_SCREW
 WALLS_RIVNUT = WALLS - HOLES_SCREW_RIVNUT
 WALLS_SOCKET = WALLS_RIVNUT - SOCKET_CUTOUTS
+
+stamp("feet")
 
 FEET = feet(FLAT_OUTLINE)
 FEET_SCREW = FEET - HOLES_SCREW
@@ -476,6 +490,7 @@ stack = []
 
 z = 0
 for i in range(len(layers)):
+    stamp(f"stack {i}")
     stretch = PLATE_THICK if i < 8 and i % 2 else PERSPEX_THICK
     z -= stretch + EXPLODE
     if i == 3: accent_z = z
@@ -501,6 +516,7 @@ stack += [ Location((-NOTCH_X, 0, cheek_z)) * cheek,
 perspex = []
 plates = []
 for i in range(len(layers)):
+    stamp(f"spread {i}")
     if i == 0:
         perspex += [ layers[i] ]
     elif i == 3:
@@ -522,24 +538,18 @@ for i in range(len(layers)):
                      Location((0, -move)) * front_wall(layers[i]) ]
 
 def export(name, shape):
-    flat = section(Part() + shape, Plane.XY, THICK/2)
+    stamp(f"flatten {name}")
     exporter = ExportSVG(margin=SPREAD_CLEAR)
+    flat = section(Part() + shape, Plane.XY)
+    stamp(f"export {name}")
     exporter.add_shape(flat)
     exporter.write(name + ".svg")
 
-t = time.perf_counter()
 export("perspex", perspex)
-tx_perspex = time.perf_counter() - t
-
-t = time.perf_counter()
 export("plates", plates)
-tx_plates = time.perf_counter() - t
 
-t = time.perf_counter()
+stamp("show")
+
 show_object(stack)
-t_show = time.perf_counter() - t
 
-log.info(f"{t_plate=}")
-log.info(f"{tx_perspex=}")
-log.info(f"{tx_plates=}")
-log.info(f"{t_show=}")
+stamp("done")
