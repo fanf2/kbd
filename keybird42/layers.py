@@ -444,7 +444,7 @@ TOP_LAYER = CASE_OUTLINE - TOP_CUTOUTS
 
 stamp("switch plate")
 
-PLATE_CUTOUTS = NOTCH_CUTOUTS + HOLES_SCREW + plate_cutouts()
+PLATE_CUTOUTS = NOTCH_CUTOUTS + HOLES_SCREW #+ plate_cutouts()
 SWITCH_PLATE = roundoff(FLAT_OUTLINE - SIDE_INSET, SIDE_RADIUS) - PLATE_CUTOUTS
 
 stamp("base plate")
@@ -536,6 +536,27 @@ for i in range(len(layers)):
         perspex += [ Location((0, +move)) * rear_wall(layers[i]),
                      Location((0, -move)) * front_wall(layers[i]) ]
 
+hibrow_y = TOTAL_DEPTH/2 + HOLE_SUPPORT*3 + SPREAD_CLEAR*4
+lobrow_y = hibrow_y + LOBROW_HEIGHT/2
+brow_y = hibrow_y + BROW_HEIGHT/2
+cheek_x = MAIN_WIDTH/2 - CHEEK_HEIGHT/2 - SPREAD_CLEAR*3
+perspex += [
+    Location((0, brow_y)) * Box(BROW_WIDTH, BROW_HEIGHT, THICK) +
+    Location((0, lobrow_y)) * Box(LOBROW_WIDTH, LOBROW_HEIGHT, THICK),
+    Location((+cheek_x, MAIN_Y)) * Box(CHEEK_HEIGHT, CHEEK_DEPTH, THICK),
+    Location((-cheek_x, MAIN_Y)) * Box(CHEEK_HEIGHT, CHEEK_DEPTH, THICK),
+]
+
+lobrow_y = SPREAD_CLEAR + LOBROW_HEIGHT/2
+brow_y = SPREAD_CLEAR + BROW_HEIGHT/2
+cheek_x = SPREAD_CLEAR + CHEEK_DEPTH
+cheek_y = SPREAD_CLEAR + CHEEK_HEIGHT/2
+accents = [
+    Location((0, brow_y)) * Box(BROW_WIDTH, BROW_HEIGHT, THICK) +
+    Location((0, lobrow_y)) * Box(LOBROW_WIDTH, LOBROW_HEIGHT, THICK),
+    Location((+cheek_x, -cheek_y)) * Box(CHEEK_DEPTH, CHEEK_HEIGHT, THICK),
+    Location((-cheek_x, -cheek_y)) * Box(CHEEK_DEPTH, CHEEK_HEIGHT, THICK) ]
+
 def export(name, shape):
     stamp(f"flatten {name}")
     exporter = ExportSVG(margin=SVG_MARGIN)
@@ -544,6 +565,7 @@ def export(name, shape):
     exporter.add_shape(flat)
     exporter.write(name + ".svg")
 
+export("accents", accents)
 export("perspex", perspex)
 export("plates", plates)
 
