@@ -55,7 +55,7 @@ MX_STAB_RADIUS	= 2
 
 # key block layout
 
-BLOCK_GAP	= ku( 0.25 )
+KEYBLOCK_GAP	= ku( 0.25 )
 
 KEYS_WIDE	= 15
 KEYS_DEEP	= 5
@@ -68,14 +68,14 @@ FUN_DEPTH	= ku( 2.00 )
 
 # enclosure outline
 
-CASE_SIDE	= ku( 1.00 ) - BLOCK_GAP
+CASE_SIDE	= ku( 1.00 ) - KEYBLOCK_GAP
 CASE_FRONT	= ku( 0.50 )
 CASE_REAR	= ku( 7/6 ) # total depth 6.6666
 
 WALL_THICK	= ku( 0.25 )
 SIDE_THICK	= PERSPEX_THICK * 3
 
-TOTAL_WIDTH	= MAIN_WIDTH + (BLOCK_GAP + FUN_WIDTH + CASE_SIDE) * 2
+TOTAL_WIDTH	= MAIN_WIDTH + (KEYBLOCK_GAP + FUN_WIDTH + CASE_SIDE) * 2
 TOTAL_DEPTH	= MAIN_DEPTH + CASE_FRONT + CASE_REAR
 
 MIDDLE_WIDTH	= MAIN_WIDTH - ku(2.0)
@@ -93,9 +93,9 @@ KEYBLOCK_RADIUS	= 0.5
 
 MAIN_Y		= CASE_FRONT / 2 - CASE_REAR / 2
 
-FUN_X		= MAIN_WIDTH / 2 + BLOCK_GAP + FUN_WIDTH / 2
-FUN_Y1		= MAIN_Y + MAIN_DEPTH / 2 - BLOCK_GAP - FUN_DEPTH / 2
-FUN_Y2		= FUN_Y1 - BLOCK_GAP - FUN_DEPTH
+FUN_X		= MAIN_WIDTH / 2 + KEYBLOCK_GAP + FUN_WIDTH / 2
+FUN_Y1		= MAIN_Y + MAIN_DEPTH / 2 - KEYBLOCK_GAP - FUN_DEPTH / 2
+FUN_Y2		= FUN_Y1 - KEYBLOCK_GAP - FUN_DEPTH
 FUN_Y2a		= FUN_Y2 - ku(0.5) # lower arrows
 
 # accent positions
@@ -103,6 +103,19 @@ FUN_Y2a		= FUN_Y2 - ku(0.5) # lower arrows
 ACCENT_RADIUS	= ACCENT_CLEAR
 
 SIDE_DEPTH	= 1 # placeholder
+CHEEK_DEPTH	= 1 # placeholder
+SLOT_WIDTH	= 1 # placeholder
+BROW_WIDTH	= 1 # placeholder
+
+def set_accent_sizes(side_length):
+    global SIDE_DEPTH
+    global CHEEK_DEPTH
+    global SLOT_WIDTH
+    global BROW_WIDTH
+    SIDE_DEPTH	= side_length - WALL_THICK*2
+    CHEEK_DEPTH	= SIDE_DEPTH + NOTCH_DEPTH
+    BROW_WIDTH	= CHEEK_DEPTH*4 + ACCENT_CLEAR*2
+    SLOT_WIDTH	= BROW_WIDTH + ACCENT_CLEAR
 
 # this cutout rectangle sticks out by MX_PLATE_RIB/2
 SIDE_INSET_W	= CASE_SIDE # wider than needed
@@ -115,21 +128,18 @@ NOTCH_WIDTH	= PERSPEX_THICK + ACCENT_CLEAR
 NOTCH_X		= TOTAL_WIDTH/2 - SIDE_THICK/2
 
 # side accents
-CHEEK_DEPTH	= SIDE_DEPTH + NOTCH_DEPTH # placeholder
 CHEEK_WIDTH	= PERSPEX_THICK
 CHEEK_HEIGHT	= PERSPEX_THICK * 3 + PLATE_THICK * 3 - ACCENT_CLEAR
 
 # holder for penrest accent
-SLOT_WIDTH	= MAIN_WIDTH + ku(2)
 SLOT_DEPTH	= PERSPEX_THICK + ACCENT_CLEAR
 SLOT_RADIUS	= ACCENT_CLEAR/2
-SLOT_Y		= MAIN_Y + MAIN_DEPTH/2 + BLOCK_GAP + SLOT_DEPTH/2
+SLOT_Y		= MAIN_Y + MAIN_DEPTH/2 + KEYBLOCK_GAP + SLOT_DEPTH/2
 
 # penrest accent
 BROW_DEPTH	= PERSPEX_THICK
-BROW_WIDTH	= SLOT_WIDTH - ACCENT_CLEAR
 BROW_HEIGHT	= PERSPEX_THICK * 3 + PLATE_THICK
-LOBROW_WIDTH	= BROW_WIDTH + PERSPEX_THICK * 2
+LOBROW_WIDER	= PERSPEX_THICK * 2
 LOBROW_HEIGHT	= BROW_HEIGHT - PERSPEX_THICK * 2 - ACCENT_CLEAR
 
 # fasteners
@@ -320,10 +330,7 @@ def case_outline_2d():
     clip = Rectangle(TOTAL_WIDTH, CLIP_DEPTH)
     outline = oval & clip
 
-    global SIDE_DEPTH
-    global CHEEK_DEPTH
-    SIDE_DEPTH = side_length(outline) - WALL_THICK*2
-    CHEEK_DEPTH = SIDE_DEPTH + NOTCH_DEPTH
+    set_accent_sizes(side_length(outline))
 
     return outline
 
@@ -407,28 +414,31 @@ def daughterboard_holes():
     hole = Location((0, USBDB_Y)) * thick(Circle(HOLE_TINY/2))
     return [ loc * hole for loc in GridLocations(14, 14, 2, 2) ]
 
-def brow():
+def monobrow():
+    lobrow_width = BROW_WIDTH + LOBROW_WIDER
     flat = (
         Location((0, BROW_HEIGHT/2)) * Rectangle(BROW_WIDTH, BROW_HEIGHT) +
-        Location((0, LOBROW_HEIGHT/2)) * Rectangle(LOBROW_WIDTH, LOBROW_HEIGHT))
+        Location((0, LOBROW_HEIGHT/2)) * Rectangle(lobrow_width, LOBROW_HEIGHT))
     return roundoff(flat, ACCENT_RADIUS)
+
+def polybrow(spacing):
+    brow = RectangleRounded(CHEEK_DEPTH, CHEEK_HEIGHT, ACCENT_RADIUS)
+    brow_x = CHEEK_DEPTH/2 + spacing/2
+    brows = [ Location((+brow_x*3, CHEEK_HEIGHT/2)) * brow,
+              Location((+brow_x*1, CHEEK_HEIGHT/2)) * brow,
+              Location((-brow_x*1, CHEEK_HEIGHT/2)) * brow,
+              Location((-brow_x*3, CHEEK_HEIGHT/2)) * brow ]
+    return thick(Sketch() + brows)
 
 def cheek():
     return thick(RectangleRounded(CHEEK_DEPTH, CHEEK_HEIGHT, ACCENT_RADIUS))
 
-def cheek_accents(cheek):
-    cheek_x = SPREAD_CLEAR/2 + CHEEK_DEPTH/2
-    cheek_y = SPREAD_CLEAR + CHEEK_HEIGHT/2
-    return [ Location((+cheek_x*3, -cheek_y)) * cheek,
-             Location((+cheek_x*1, -cheek_y)) * cheek,
-             Location((-cheek_x*1, -cheek_y)) * cheek,
-             Location((-cheek_x*3, -cheek_y)) * cheek ]
-
 def cheek_perspex(cheek):
     rotated = cheek.rotate(Axis.Z, 90)
-    cheek_x = MAIN_WIDTH/2 - CHEEK_HEIGHT/2 - SPREAD_CLEAR*3
-    return [ Location((+cheek_x, MAIN_Y)) * rotated,
-             Location((-cheek_x, MAIN_Y)) * rotated ]
+    cheek_x = MAIN_WIDTH/2 - CHEEK_HEIGHT/2 - KEYBLOCK_GAP
+    cheek_y = FUN_Y1/2 + FUN_Y2/2
+    return [ Location((+cheek_x, cheek_y)) * rotated,
+             Location((-cheek_x, cheek_y)) * rotated ]
 
 def thicken_accent(accent):
     thickened = scale(accent, (1,1, PERSPEX_THICK / THICK))
@@ -510,7 +520,11 @@ FEET_RIVNUT = FEET - HOLES_RIVNUT + rear_wall(HOLES_SCREW)
 stamp("accents")
 
 CHEEK = cheek()
-BROW = brow()
+MONOBROW = monobrow()
+POLYBROW = polybrow(ACCENT_CLEAR/2)
+
+# for the stack view
+BROW = POLYBROW
 
 layers = [
     TOP_LAYER,
@@ -572,9 +586,10 @@ for i in range(len(layers)):
                      Location((0, -move)) * front_wall(layers[i]) ]
 
 perspex += cheek_perspex(CHEEK) + [
-    Location((0, TOTAL_DEPTH/2 + HOLE_SUPPORT*3 + SPREAD_CLEAR*4)) * BROW ]
+    Location((0, TOTAL_DEPTH/2 + HOLE_SUPPORT*3 + SPREAD_CLEAR*4)) * MONOBROW ]
 
-accents = [BROW] + cheek_accents(CHEEK)
+accents = [ Location((0, -BROW_HEIGHT/2)) * MONOBROW,
+            Location((0, CHEEK_HEIGHT/2)) * polybrow(SPREAD_CLEAR) ]
 
 def export(name, shape):
     stamp(f"flatten {name}")
