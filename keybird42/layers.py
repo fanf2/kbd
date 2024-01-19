@@ -11,10 +11,10 @@ log = build123d.logging.getLogger("build123d")
 
 log.info("hello!")
 
-EXPLODE = 1
+EXPLODE = 0
 
-# simplified plate cutouts? (0/1/2)
-SPEED = 1
+# simplified plate cutouts? (0/1/2/3)
+SPEED = 0
 
 # For most of the time we work with plates this thick, then re-adjust
 # to the desired thickness right at the end. This avoids problems when
@@ -46,7 +46,7 @@ def ku(n):
     return KEY_UNIT * n
 
 MX_PLATE_HOLE	= 14.0
-MX_TIGHT_RADIUS	= 0.3
+MX_TIGHT_RADIUS	= 0.3 # 0.012 in
 MX_HOLE_RADIUS	= 0.5**0.5
 MX_HOLE_RELIEF	= MX_HOLE_RADIUS * (2**0.5)
 MX_RELIEF_POS	= MX_PLATE_HOLE - MX_HOLE_RELIEF
@@ -164,12 +164,22 @@ HOLE_POSITIONS	= [] # placeholder
 
 FOOT_DEPTH	= 1 # placeholder
 
-# connector holes
+# printed circuit board
+
+COMPONENTS_THICK = 2.0
+PCB_THICK	= 1.6
+PCB_Z		= PLATE_THICK + PERSPEX_THICK - 5.0 + EXPLODE/2
+PCB_INSET	= ku( 1/8 )
+PCB_WING	= ku( 13/32 )
+PCB_STAB	= ku( 7 - 1 )/2
+
+# USB daughterboard
 
 USB_INSET	= 1.0
 USB_WIDTH	= 9.0 # spec says 8.34
 USBDB_WIDTH	= 18
 USBDB_DEPTH	= 18
+USBDB_THICK	= 4.2
 USBDB_CLEAR	= 0.5
 USBDB_R		= 1.0
 USBDB_Y		= TOTAL_DEPTH/2 - USBDB_DEPTH/2 - USBDB_CLEAR - USB_INSET
@@ -181,8 +191,8 @@ def multiocular_vertices(vertices):
     pupil = [ c * Circle(1) for c in cs ]
     return Sketch() + iris - pupil
 
-def thick(shape):
-    return extrude(shape, amount=THICK)
+def thick(shape, amount=THICK):
+    return extrude(shape, amount=amount)
 
 def side_length(shape):
     return shape.edges().sort_by(Axis.X)[0].length
@@ -250,6 +260,32 @@ def roundoff(shape2d, mouth_r, ear_r=None):
     if mouths: shape3d += thick(Sketch() + mouths)
     if ears: shape3d -= thick(Sketch() + ears)
     return shape3d
+
+def pcba():
+    rear = MAIN_Y + MAIN_DEPTH/2
+    front = MAIN_Y - MAIN_DEPTH/2 + PCB_INSET
+    right = MAIN_WIDTH/2 + PCB_INSET + FUN_WIDTH
+    half = Polyline(
+        (0, rear),
+        (MAIN_WIDTH/2, rear),
+        (MAIN_WIDTH/2 + KEYBLOCK_GAP, rear - KEYBLOCK_GAP),
+        (right, rear - KEYBLOCK_GAP),
+        (right + PCB_WING, rear - KEYBLOCK_GAP - PCB_WING),
+        (right + PCB_WING, front + KEYBLOCK_GAP*2 + PCB_WING),
+        (right, front + KEYBLOCK_GAP*2),
+        (MAIN_WIDTH/2 + PCB_INSET + KEYBLOCK_GAP, front + KEYBLOCK_GAP*2),
+        (MAIN_WIDTH/2 - PCB_INSET, front),
+        (PCB_STAB + PCB_INSET*2, front),
+        (PCB_STAB + PCB_INSET*1, front - PCB_INSET),
+        (0, front - PCB_INSET),
+    )
+    outline = make_face(half + mirror(half, Plane.YZ))
+    keepout = offset(outline, amount=-PCB_INSET)
+    screws = (Location((+PCB_STAB, front)) * Circle(PCB_INSET) +
+              Location((-PCB_STAB, front)) * Circle(PCB_INSET))
+    board = thick(outline, PCB_THICK)
+    components = Location((0,0,-PCB_THICK)) * thick(keepout, COMPONENTS_THICK)
+    return board + components
 
 def plate_cutouts():
     if SPEED > 1:
@@ -421,8 +457,12 @@ def socket_cutouts():
              Location((0, TOTAL_DEPTH/2)) * inset ]
 
 def daughterboard_holes():
-    hole = Location((0, USBDB_Y)) * thick(Circle(HOLE_TINY/2))
+    hole = Location((0, USBDB_Y)) * thick(Circle(HOLE_TINY/2), USBDB_THICK)
     return [ loc * hole for loc in GridLocations(14, 14, 2, 2) ]
+
+def daughterboard():
+    return Location((0, USBDB_Y)) * thick(RectangleRounded(
+        USBDB_WIDTH, USBDB_DEPTH, USBDB_R), USBDB_THICK) - daughterboard_holes()
 
 def monobrow():
     lobrow_width = BROW_WIDTH + LOBROW_WIDER
@@ -456,7 +496,7 @@ def thicken_accent(accent):
 
 def brow_vertical(brow, accent_z):
     rotated = thicken_accent(brow).rotate(Axis.X, 90)
-    brow_z = accent_z + PLATE_THICK + ACCENT_CLEAR/2 + EXPLODE
+    brow_z = accent_z + PLATE_THICK + ACCENT_CLEAR/2 + EXPLODE*3/2
     return [ Location((0, SLOT_Y, brow_z)) * rotated ]
 
 def cheek_vertical(cheek, accent_z):
@@ -562,59 +602,66 @@ for i in range(len(layers)):
     stamp(f"stack {i}")
     thickness = PLATE_THICK if i < 8 and i % 2 else PERSPEX_THICK
     z -= thickness + EXPLODE
-    if i == 3: accent_z = z
-    loc = Location((0,0,z))
-    stack += [ loc * scale(layers[i], (1, 1, thickness / THICK)) ]
+    layer = scale(layers[i], (1, 1, thickness / THICK))
+    stack += [ Location((0,0,z)) * layer ]
+    if i == 3:
+        accent_z = z
+    if i == 4:
+        stack += [ Location((0,0, z + PCB_Z)) * pcba() ]
+    if i == 6:
+        stack += [ Location((0,0, z + EXPLODE/2)) * daughterboard() ]
 
 stack += brow_vertical(BROW, accent_z)
 stack += cheek_vertical(CHEEK, accent_z)
 
+stamp("show")
+show_object(stack)
+
 # export layouts for cutting
 
-perspex = []
-plates = []
-for i in range(len(layers)):
-    stamp(f"spread {i}")
-    if i == 0:
-        perspex += [ layers[i] ]
-    elif i == 3:
-        plates += [ Location((0, +CLIP_DEPTH/2)) * layers[i] ]
-    elif i == 7:
-        plates += [ Location((0, -CLIP_DEPTH/2)) * layers[i] ]
-    elif i >= 8:
-        move_y = (8 - i) * (FOOT_DEPTH + SPREAD_CLEAR) - CASE_REAR - 1
-        move_x = HOLE_X1 - FOOT_DEPTH/2 - 1
-        perspex += [ Location((+move_x, move_y)) * left_foot(layers[i]),
-                     Location((-move_x, move_y)) * right_foot(layers[i]) ]
-    elif i % 2:
-        move = (i / 4 + 0.75) * (HOLE_SUPPORT + SPREAD_CLEAR) + CLIP_DEPTH/2
-        plates += [ Location((0, +move)) * rear_wall(layers[i]),
-                    Location((0, -move)) * front_wall(layers[i]) ]
-    else:
-        move = (i / 2) * (HOLE_SUPPORT + SPREAD_CLEAR)
-        perspex += [ Location((0, +move)) * rear_wall(layers[i]),
-                     Location((0, -move)) * front_wall(layers[i]) ]
+if SPEED < 3:
 
-perspex += cheek_perspex(CHEEK) + [
-    Location((0, TOTAL_DEPTH/2 + HOLE_SUPPORT*3 + SPREAD_CLEAR*4)) * MONOBROW ]
+    perspex = []
+    plates = []
+    for i in range(len(layers)):
+        stamp(f"spread {i}")
+        if i == 0:
+            perspex += [ layers[i] ]
+        elif i == 3:
+            plates += [ Location((0, +CLIP_DEPTH/2)) * layers[i] ]
+        elif i == 7:
+            plates += [ Location((0, -CLIP_DEPTH/2)) * layers[i] ]
+        elif i >= 8:
+            move_y = (8 - i) * (FOOT_DEPTH + SPREAD_CLEAR) - CASE_REAR - 1
+            move_x = HOLE_X1 - FOOT_DEPTH/2 - 1
+            perspex += [ Location((+move_x, move_y)) * left_foot(layers[i]),
+                         Location((-move_x, move_y)) * right_foot(layers[i]) ]
+        elif i % 2:
+            move = (i / 4 + 0.75) * (HOLE_SUPPORT + SPREAD_CLEAR) + CLIP_DEPTH/2
+            plates += [ Location((0, +move)) * rear_wall(layers[i]),
+                        Location((0, -move)) * front_wall(layers[i]) ]
+        else:
+            move = (i / 2) * (HOLE_SUPPORT + SPREAD_CLEAR)
+            perspex += [ Location((0, +move)) * rear_wall(layers[i]),
+                         Location((0, -move)) * front_wall(layers[i]) ]
 
-accents = [ Location((0, -BROW_HEIGHT/2)) * MONOBROW,
-            Location((0, CHEEK_HEIGHT/2)) * polybrow(SPREAD_CLEAR) ]
+    brow_y = TOTAL_DEPTH/2 + HOLE_SUPPORT*3 + SPREAD_CLEAR*4
+    perspex += [ Location((0, brow_y)) * MONOBROW ]
+    perspex += cheek_perspex(CHEEK)
 
-def export(name, shape):
-    stamp(f"flatten {name}")
-    exporter = ExportSVG(margin=SVG_MARGIN)
-    flat = section(Part() + shape, Plane.XY)
-    stamp(f"export {name}")
-    exporter.add_shape(flat)
-    exporter.write(name + ".svg")
+    accents = [ Location((0, -BROW_HEIGHT/2)) * MONOBROW,
+                Location((0, CHEEK_HEIGHT/2)) * polybrow(SPREAD_CLEAR) ]
 
-export("accents", accents)
-export("perspex", perspex)
-export("plates", plates)
+    def export(name, shape):
+        stamp(f"flatten {name}")
+        exporter = ExportSVG(margin=SVG_MARGIN)
+        flat = section(Part() + shape, Plane.XY)
+        stamp(f"export {name}")
+        exporter.add_shape(flat)
+        exporter.write(name + ".svg")
 
-stamp("show")
-
-show_object(stack)
+    export("accents", accents)
+    export("perspex", perspex)
+    export("plates", plates)
 
 stamp("done")
