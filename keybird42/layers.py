@@ -449,8 +449,8 @@ SWITCH_PLATE = roundoff(FLAT_OUTLINE - SIDE_INSET, SIDE_RADIUS) - PLATE_CUTOUTS
 
 stamp("base plate")
 
-HOLES_SCREW_RIVNUT = rear_wall(HOLES_SCREW) + front_wall(HOLES_RIVNUT)
-BASE_PLATE = CASE_OUTLINE - daughterboard_holes() - HOLES_SCREW_RIVNUT
+#HOLES_SCREW_RIVNUT = rear_wall(HOLES_SCREW) + front_wall(HOLES_RIVNUT)
+BASE_PLATE = CASE_OUTLINE - daughterboard_holes() - HOLES_RIVNUT
 
 stamp("walls")
 
@@ -458,14 +458,15 @@ FLAT_WALLS = FLAT_OUTLINE - FLAT_INTERIOR - SIDE_INSET + hole_support_2d()
 WALLS = roundoff(FLAT_WALLS, HOLE_MENISCUS, SIDE_RADIUS) - NOTCH_CUTOUTS
 
 WALLS_SCREW = WALLS - HOLES_SCREW
-WALLS_RIVNUT = WALLS - HOLES_SCREW_RIVNUT
+WALLS_RIVNUT = WALLS - HOLES_RIVNUT
 WALLS_SOCKET = WALLS_RIVNUT - SOCKET_CUTOUTS
 
 stamp("feet")
 
 FEET = feet(FLAT_OUTLINE)
-FEET_SCREW = FEET - HOLES_SCREW
-FEET_RIVNUT = FEET - HOLES_RIVNUT
+#FEET_SCREW = FEET - HOLES_SCREW
+# include some little donuts to use as shims
+FEET_RIVNUT = FEET - HOLES_RIVNUT + rear_wall(HOLES_SCREW)
 
 layers = [
     TOP_LAYER,
@@ -476,9 +477,9 @@ layers = [
     WALLS_SOCKET,
     WALLS_SOCKET,
     BASE_PLATE,
-    FEET_SCREW,
-    FEET_SCREW,
-    FEET_SCREW,
+    FEET_RIVNUT,
+    FEET_RIVNUT,
+    FEET_RIVNUT,
     FEET_RIVNUT,
     FEET_RIVNUT,
     FEET_RIVNUT,
@@ -539,7 +540,7 @@ for i in range(len(layers)):
 
 def export(name, shape):
     stamp(f"flatten {name}")
-    exporter = ExportSVG(margin=SPREAD_CLEAR)
+    exporter = ExportSVG(margin=SVG_MARGIN)
     flat = section(Part() + shape, Plane.XY)
     stamp(f"export {name}")
     exporter.add_shape(flat)
