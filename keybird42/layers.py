@@ -14,7 +14,7 @@ log.info("hello!")
 EXPLODE = 0
 
 # simplified plate cutouts? (0/1/2/3)
-SPEED = 0
+SPEED = 3
 
 # For most of the time we work with plates this thick, then re-adjust
 # to the desired thickness right at the end. This avoids problems when
@@ -30,8 +30,8 @@ PLATE_THICK = 1.5   # 0.06 in
 # accent pieces are inserted at right-angles
 # cast perspex tolerance is +/-10% plus 0.4mm
 # https://www.theplasticshop.co.uk/perspex-faqs.html#21
-ACCENT_CLEAR = PERSPEX_THICK * 0.1 + 0.4
-log.info(f"{ACCENT_CLEAR=}")
+THICK_CLEAR = PERSPEX_THICK * 0.1 + 0.4
+log.info(f"{THICK_CLEAR=}")
 
 # space between laser cut pieces
 SPREAD_CLEAR = 1
@@ -104,6 +104,7 @@ FUN_Y2a		= FUN_Y2 - ku(0.5) # lower arrows
 
 # accent positions
 
+ACCENT_CLEAR	= THICK_CLEAR
 ACCENT_RADIUS	= ACCENT_CLEAR
 
 SIDE_DEPTH	= 1 # placeholder
@@ -118,7 +119,7 @@ def set_accent_sizes(side_length):
     global BROW_WIDTH
     SIDE_DEPTH	= side_length - WALL_THICK*2
     CHEEK_DEPTH	= SIDE_DEPTH + NOTCH_DEPTH
-    BROW_WIDTH	= CHEEK_DEPTH*4 + ACCENT_CLEAR*2
+    BROW_WIDTH	= CHEEK_DEPTH*4 + BROW_SPACE*3
     SLOT_WIDTH	= BROW_WIDTH + ACCENT_CLEAR
 
 # this cutout rectangle sticks out by MX_PLATE_RIB/2
@@ -126,9 +127,9 @@ SIDE_INSET_W	= CASE_SIDE # wider than needed
 SIDE_INSET_X	= TOTAL_WIDTH/2 + MX_PLATE_RIB/2 - SIDE_INSET_W/2
 
 # holder for side accents
-NOTCH_RADIUS	= ACCENT_CLEAR
+NOTCH_RADIUS	= THICK_CLEAR
+NOTCH_WIDTH	= PERSPEX_THICK + THICK_CLEAR
 NOTCH_DEPTH	= PERSPEX_THICK - ACCENT_CLEAR
-NOTCH_WIDTH	= PERSPEX_THICK + ACCENT_CLEAR
 NOTCH_X		= TOTAL_WIDTH/2 - SIDE_THICK/2
 
 # side accents
@@ -136,11 +137,12 @@ CHEEK_WIDTH	= PERSPEX_THICK
 CHEEK_HEIGHT	= PERSPEX_THICK * 3 + PLATE_THICK * 3 - ACCENT_CLEAR
 
 # holder for penrest accent
-SLOT_DEPTH	= PERSPEX_THICK + ACCENT_CLEAR
-SLOT_RADIUS	= ACCENT_CLEAR/2
+SLOT_DEPTH	= PERSPEX_THICK + THICK_CLEAR
+SLOT_RADIUS	= THICK_CLEAR/2
 SLOT_Y		= MAIN_Y + MAIN_DEPTH/2 + KEYBLOCK_GAP + SLOT_DEPTH/2
 
 # penrest accent
+BROW_SPACE	= ACCENT_CLEAR/6
 BROW_DEPTH	= PERSPEX_THICK
 BROW_HEIGHT	= PERSPEX_THICK * 3 + PLATE_THICK
 LOBROW_WIDER	= PERSPEX_THICK * 2
@@ -572,7 +574,7 @@ stamp("accents")
 
 CHEEK = cheek()
 MONOBROW = monobrow()
-POLYBROW = polybrow(ACCENT_CLEAR/2)
+POLYBROW = polybrow(BROW_SPACE)
 
 # for the stack view
 BROW = POLYBROW
@@ -598,7 +600,7 @@ layers = [
 
 stack = []
 
-z = 0
+z = PLATE_THICK*4 + PERSPEX_THICK*4
 for i in range(len(layers)):
     stamp(f"stack {i}")
     thickness = PLATE_THICK if i < 8 and i % 2 else PERSPEX_THICK
