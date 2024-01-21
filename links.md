@@ -29,9 +29,6 @@ inspiration
   * displaced arrow cluster
       - https://geekhack.org/index.php?topic=121633.0
 
-  * upper case horizontal screws
-      - https://geekhack.org/index.php?topic=121696.0
-
   * drone vibration isolation mount
       - https://geekhack.org/index.php?topic=119899.0
 
@@ -52,6 +49,10 @@ inspiration
   * "chicong", curved case rounded front and rear
       - https://deskthority.net/wiki/Chicony_KB-5160
       - https://deskthority.net/wiki/Chicony_KB-5161
+
+  * XT with angled function row
+
+      - https://geekhack.org/index.php?topic=117595.0
 
 
 plastics
@@ -105,15 +106,19 @@ plastics
 
     https://www.plasticstockist.com/Opal-White-Perspex-Sheet/Opal-028-Cast-Perspex-Acrylic-Sheet-With-26-Percent-Light-Transmission.aspx
 
-  * white silk 35% xmit opal 050 - £59
+  * white silk 44% xmit opal 040 - £35
 
-    https://www.plasticstockist.com/Opal-White-Perspex-Sheet/Opal-028-Cast-Perspex-Acrylic-Sheet-With-26-Percent-Light-Transmission.aspx
+    https://www.plasticstockist.com/Silk-Acrylic-Sheet/Opal-040-Silk-Perspex-Acrylic-Sheet-With-One-Side-Anti-Reflective-51-Percent-Light-Transmission.aspx
 
 accent colours
 
   * red 433 - £35
 
     https://www.plasticstockist.com/Red-Perspex-Sheet/Red-433-Cast-Perspex-Acrylic-Sheet.aspx
+
+  * red 4TL2 5% xmit - £50
+
+    https://www.plasticstockist.com/LED-Optimised-Perspex-Sheet/Red-4TL2-Perspex-Spectrum-LED-Acrylic-Sheet.aspx
 
   * azure blue frost 32% xmit S2 7T1F - £42
 
