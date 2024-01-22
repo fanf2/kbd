@@ -14,13 +14,15 @@ log.info("hello!")
 EXPLODE = 0
 
 # simplified plate cutouts? (0/1/2/3)
-SPEED = 3
+SPEED = 1
 
 # For most of the time we work with plates this thick, then re-adjust
 # to the desired thickness right at the end. This avoids problems when
 # the cad system refuses to work in pure 2d (for reasons that are
 # unclear to me).
 THICK = 1
+def thick(shape, amount=THICK):
+    return extrude(shape, amount=amount)
 
 # plastic basics
 
@@ -46,16 +48,17 @@ def ku(n):
     return KEY_UNIT * n
 
 MX_PLATE_HOLE	= 14.0
-MX_TIGHT_RADIUS	= 0.3 # 0.012 in
-MX_HOLE_RADIUS	= 0.5**0.5
-MX_HOLE_RELIEF	= MX_HOLE_RADIUS * (2**0.5)
-MX_RELIEF_POS	= MX_PLATE_HOLE - MX_HOLE_RELIEF
-
 MX_PLATE_RIB	= KEY_UNIT - MX_PLATE_HOLE
+MX_HOLE_RADIUS	= 0.25 # max 0.012 in
 
 MX_STAB_WIDTH	= 7
 MX_STAB_DEPTH	= 16
 MX_STAB_RADIUS	= 2
+
+# over-complicated cutouts
+MX_RELIEF_RADIUS= 0.5**0.5
+MX_RELIEF_FILLET= MX_RELIEF_RADIUS * (2**0.5)
+MX_RELIEF_POS	= MX_PLATE_HOLE - MX_RELIEF_FILLET
 
 # key block layout
 
@@ -104,8 +107,11 @@ FUN_Y2a		= FUN_Y2 - ku(0.5) # lower arrows
 
 # accent positions
 
-ACCENT_CLEAR	= THICK_CLEAR
+ACCENT_CLEAR	= 0.5
 ACCENT_RADIUS	= ACCENT_CLEAR
+
+def side_length(shape):
+    return shape.edges().sort_by(Axis.X)[0].length
 
 SIDE_DEPTH	= 1 # placeholder
 CHEEK_DEPTH	= 1 # placeholder
@@ -115,10 +121,12 @@ BROW_WIDTH	= 1 # placeholder
 def set_accent_sizes(side_length):
     global SIDE_DEPTH
     global CHEEK_DEPTH
+    global NOTCHES_DEPTH
     global SLOT_WIDTH
     global BROW_WIDTH
     SIDE_DEPTH	= side_length - WALL_THICK*2
-    CHEEK_DEPTH	= SIDE_DEPTH + NOTCH_DEPTH
+    NOTCHES_DEPTH = SIDE_DEPTH + NOTCH_DEPTH*2
+    CHEEK_DEPTH	= NOTCHES_DEPTH - ACCENT_CLEAR
     BROW_WIDTH	= CHEEK_DEPTH*4 + BROW_SPACE*3
     SLOT_WIDTH	= BROW_WIDTH + ACCENT_CLEAR
 
@@ -127,14 +135,14 @@ SIDE_INSET_W	= CASE_SIDE # wider than needed
 SIDE_INSET_X	= TOTAL_WIDTH/2 + MX_PLATE_RIB/2 - SIDE_INSET_W/2
 
 # holder for side accents
-NOTCH_RADIUS	= THICK_CLEAR
+NOTCH_DEPTH	= 1.5
 NOTCH_WIDTH	= PERSPEX_THICK + THICK_CLEAR
-NOTCH_DEPTH	= PERSPEX_THICK - ACCENT_CLEAR
+NOTCH_RADIUS	= THICK_CLEAR
 NOTCH_X		= TOTAL_WIDTH/2 - SIDE_THICK/2
 
 # side accents
 CHEEK_WIDTH	= PERSPEX_THICK
-CHEEK_HEIGHT	= PERSPEX_THICK * 3 + PLATE_THICK * 3 - ACCENT_CLEAR
+CHEEK_HEIGHT	= PERSPEX_THICK * 3 + PLATE_THICK * 3 - THICK_CLEAR
 
 # holder for penrest accent
 SLOT_DEPTH	= PERSPEX_THICK + THICK_CLEAR
@@ -142,11 +150,11 @@ SLOT_RADIUS	= THICK_CLEAR/2
 SLOT_Y		= MAIN_Y + MAIN_DEPTH/2 + KEYBLOCK_GAP + SLOT_DEPTH/2
 
 # penrest accent
-BROW_SPACE	= ACCENT_CLEAR/6
+BROW_SPACE	= 0.1
 BROW_DEPTH	= PERSPEX_THICK
 BROW_HEIGHT	= PERSPEX_THICK * 3 + PLATE_THICK
 LOBROW_WIDER	= PERSPEX_THICK * 2
-LOBROW_HEIGHT	= BROW_HEIGHT - PERSPEX_THICK * 2 - ACCENT_CLEAR
+LOBROW_HEIGHT	= BROW_HEIGHT - PERSPEX_THICK * 2 - THICK_CLEAR
 
 # fasteners
 
@@ -193,15 +201,36 @@ def multiocular_vertices(vertices):
     pupil = [ c * Circle(1) for c in cs ]
     return Sketch() + iris - pupil
 
-def thick(shape, amount=THICK):
-    return extrude(shape, amount=amount)
+# from kicad
 
-def side_length(shape):
-    return shape.edges().sort_by(Axis.X)[0].length
+def pcba():
+    rear = MAIN_Y + MAIN_DEPTH/2
+    front = MAIN_Y - MAIN_DEPTH/2 + PCB_INSET
+    right = MAIN_WIDTH/2 + PCB_INSET + FUN_WIDTH
+    half = Polyline(
+        (0, rear),
+        (MAIN_WIDTH/2, rear),
+        (MAIN_WIDTH/2 + KEYBLOCK_GAP, rear - KEYBLOCK_GAP),
+        (right, rear - KEYBLOCK_GAP),
+        (right + PCB_WING, rear - KEYBLOCK_GAP - PCB_WING),
+        (right + PCB_WING, front + KEYBLOCK_GAP*2 + PCB_WING),
+        (right, front + KEYBLOCK_GAP*2),
+        (MAIN_WIDTH/2 + PCB_INSET + KEYBLOCK_GAP, front + KEYBLOCK_GAP*2),
+        (MAIN_WIDTH/2 - PCB_INSET, front),
+        (PCB_STAB + PCB_INSET*2, front),
+        (PCB_STAB + PCB_INSET*1, front - PCB_INSET),
+        (0, front - PCB_INSET),
+    )
+    outline = make_face(half + mirror(half, Plane.YZ))
+    keepout = offset(outline, amount=-PCB_INSET)
+    screws = (Location((+PCB_STAB, front)) * Circle(PCB_INSET) +
+              Location((-PCB_STAB, front)) * Circle(PCB_INSET))
+    components = Location((0,0,-PCB_THICK)) * (
+        thick(keepout, COMPONENTS_THICK) +
+        thick(screws, -COMPONENTS_THICK) )
+    return thick(outline, PCB_THICK) + components
 
-def top_faces(shape):
-    faces = Sketch() + shape.faces().group_by(Axis.Z)[-1]
-    return Location((0,0,-faces.center().Z)) * faces
+# the cad system kept refusing to fillet corners, so i'm doing it manually
 
 def classify_vertex(shape2d, vertex):
     circle = Location(vertex.center()) * Circle(0.1)
@@ -263,42 +292,15 @@ def roundoff(shape2d, mouth_r, ear_r=None):
     if ears: shape3d -= thick(Sketch() + ears)
     return shape3d
 
-def pcba():
-    rear = MAIN_Y + MAIN_DEPTH/2
-    front = MAIN_Y - MAIN_DEPTH/2 + PCB_INSET
-    right = MAIN_WIDTH/2 + PCB_INSET + FUN_WIDTH
-    half = Polyline(
-        (0, rear),
-        (MAIN_WIDTH/2, rear),
-        (MAIN_WIDTH/2 + KEYBLOCK_GAP, rear - KEYBLOCK_GAP),
-        (right, rear - KEYBLOCK_GAP),
-        (right + PCB_WING, rear - KEYBLOCK_GAP - PCB_WING),
-        (right + PCB_WING, front + KEYBLOCK_GAP*2 + PCB_WING),
-        (right, front + KEYBLOCK_GAP*2),
-        (MAIN_WIDTH/2 + PCB_INSET + KEYBLOCK_GAP, front + KEYBLOCK_GAP*2),
-        (MAIN_WIDTH/2 - PCB_INSET, front),
-        (PCB_STAB + PCB_INSET*2, front),
-        (PCB_STAB + PCB_INSET*1, front - PCB_INSET),
-        (0, front - PCB_INSET),
-    )
-    outline = make_face(half + mirror(half, Plane.YZ))
-    keepout = offset(outline, amount=-PCB_INSET)
-    screws = (Location((+PCB_STAB, front)) * Circle(PCB_INSET) +
-              Location((-PCB_STAB, front)) * Circle(PCB_INSET))
-    components = Location((0,0,-PCB_THICK)) * (
-        thick(keepout, COMPONENTS_THICK) +
-        thick(screws, -COMPONENTS_THICK) )
-    return thick(outline, PCB_THICK) + components
-
 def plate_cutouts():
     if SPEED > 1:
         switch = thick(Rectangle(MX_PLATE_HOLE, MX_PLATE_HOLE))
     elif SPEED > 0:
         switch = thick(RectangleRounded(
-            MX_PLATE_HOLE, MX_PLATE_HOLE, MX_TIGHT_RADIUS))
+            MX_PLATE_HOLE, MX_PLATE_HOLE, MX_HOLE_RADIUS))
     else:
         square = Rectangle(MX_PLATE_HOLE, MX_PLATE_HOLE)
-        relief = [ loc * Circle(MX_HOLE_RADIUS) for loc in
+        relief = [ loc * Circle(MX_WIDE_RADIUS) for loc in
                    GridLocations(MX_RELIEF_POS, MX_RELIEF_POS, 2, 2) ]
         switch = roundoff(square + relief, MX_HOLE_RELIEF)
 
@@ -448,8 +450,7 @@ def holes(diameter):
     return [ pos * hole for pos in HOLE_POSITIONS ]
 
 def notch_cutouts():
-    depth = CHEEK_DEPTH + ACCENT_CLEAR
-    notch = thick(RectangleRounded(NOTCH_WIDTH, depth, NOTCH_RADIUS))
+    notch = thick(RectangleRounded(NOTCH_WIDTH, NOTCHES_DEPTH, NOTCH_RADIUS))
     return [ Location((-NOTCH_X, 0)) * notch,
              Location((+NOTCH_X, 0)) * notch ]
 
@@ -499,7 +500,7 @@ def thicken_accent(accent):
 
 def brow_vertical(brow, accent_z):
     rotated = thicken_accent(brow).rotate(Axis.X, 90)
-    brow_z = accent_z + PLATE_THICK + ACCENT_CLEAR/2 + EXPLODE*3/2
+    brow_z = accent_z + PLATE_THICK + THICK_CLEAR/2 + EXPLODE*3/2
     return [ Location((0, SLOT_Y, brow_z)) * rotated ]
 
 def cheek_vertical(cheek, accent_z):
@@ -577,7 +578,7 @@ MONOBROW = monobrow()
 POLYBROW = polybrow(BROW_SPACE)
 
 # for the stack view
-BROW = POLYBROW
+BROW = MONOBROW
 
 layers = [
     TOP_LAYER,
