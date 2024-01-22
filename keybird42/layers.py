@@ -108,7 +108,7 @@ FUN_Y2a		= FUN_Y2 - ku(0.5) # lower arrows
 # accent positions
 
 ACCENT_CLEAR	= 0.5
-ACCENT_RADIUS	= ACCENT_CLEAR
+ACCENT_RADIUS	= SIDE_RADIUS
 
 def side_length(shape):
     return shape.edges().sort_by(Axis.X)[0].length
