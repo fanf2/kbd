@@ -3,6 +3,7 @@ Cargo.lock
 *.zip
 *.bak
 *-backups
+~*
 fp-info-cache
 /hhkbeeb/target
 /keybird69/target
