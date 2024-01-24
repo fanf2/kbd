@@ -14,6 +14,9 @@ FUN_DEPTH	= ku( 2.00 )
 
 KEYBLOCK_GAP	= ku( 0.25 )
 
+KEYS_WIDTH = MAIN_WIDTH + KEYBLOCK_GAP*2 + FUN_WIDTH*2
+KEYS_DEPTH = MAIN_DEPTH
+
 FUN_X   = MAIN_WIDTH / 2 + KEYBLOCK_GAP + FUN_WIDTH / 2
 FUN_Y1  = MAIN_DEPTH / 2 - KEYBLOCK_GAP - FUN_DEPTH / 2
 FUN_Y2  = FUN_Y1 - KEYBLOCK_GAP - FUN_DEPTH
@@ -77,6 +80,6 @@ def pcba():
     keepout = offset(outline, amount=-inset)
     screws = (Location((+stab, front)) * Circle(inset) +
               Location((-stab, front)) * Circle(inset))
-    components = ( extrude(keepout, amount=pcba_thick) +
+    components = ( extrude(keepout, amount=-pcba_thick) +
                    extrude(screws, amount=-pcba_thick) )
-    return extrude(outline, amount=pcb_thick) + components
+    return extrude(outline, amount=-pcb_thick) + components
