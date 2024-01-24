@@ -7,6 +7,8 @@ KEY_UNIT = 19.05
 def ku(n):
     return KEY_UNIT * n
 
+MX_PLATE_THICK	= 1.5
+
 MX_PLATE_HOLE	= 14.0
 MX_PLATE_RIB	= KEY_UNIT - MX_PLATE_HOLE
 MX_HOLE_RADIUS	= 0.25 # max 0.012 in
