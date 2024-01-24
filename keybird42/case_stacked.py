@@ -1,6 +1,8 @@
-import math
-import time
 from build123d import *
+from keybird42 import *
+import math
+from mx import *
+import time
 
 def typing_angle(foot_height, foot_depth):
     return math.atan2(foot_height, foot_depth) * 360 / math.tau
@@ -13,8 +15,7 @@ log.info("hello!")
 
 EXPLODE = 0
 
-# simplified plate cutouts? (0/1/2/3)
-SPEED = 1
+EXPORT = True
 
 # For most of the time we work with plates this thick, then re-adjust
 # to the desired thickness right at the end. This avoids problems when
@@ -40,39 +41,6 @@ SPREAD_CLEAR = 1
 
 SVG_MARGIN = 10
 
-# key switch basics
-
-KEY_UNIT = 19.05
-
-def ku(n):
-    return KEY_UNIT * n
-
-MX_PLATE_HOLE	= 14.0
-MX_PLATE_RIB	= KEY_UNIT - MX_PLATE_HOLE
-MX_HOLE_RADIUS	= 0.25 # max 0.012 in
-
-MX_STAB_WIDTH	= 7
-MX_STAB_DEPTH	= 16
-MX_STAB_RADIUS	= 2
-
-# over-complicated cutouts
-MX_RELIEF_RADIUS= 0.5**0.5
-MX_RELIEF_FILLET= MX_RELIEF_RADIUS * (2**0.5)
-MX_RELIEF_POS	= MX_PLATE_HOLE - MX_RELIEF_FILLET
-
-# key block layout
-
-KEYBLOCK_GAP	= ku( 0.25 )
-
-KEYS_WIDE	= 15
-KEYS_DEEP	= 5
-
-MAIN_WIDTH	= KEY_UNIT * KEYS_WIDE
-MAIN_DEPTH	= KEY_UNIT * KEYS_DEEP
-
-FUN_WIDTH	= ku( 3.00 )
-FUN_DEPTH	= ku( 2.00 )
-
 # enclosure outline
 
 CASE_SIDE	= ku( 1.00 ) - KEYBLOCK_GAP
@@ -96,14 +64,10 @@ CLIP_DEPTH	= TOTAL_DEPTH + 1
 SIDE_RADIUS	= 1.0
 KEYBLOCK_RADIUS	= 0.5
 
-# key block positions
+# key block position
 
 MAIN_Y		= CASE_FRONT / 2 - CASE_REAR / 2
-
-FUN_X		= MAIN_WIDTH / 2 + KEYBLOCK_GAP + FUN_WIDTH / 2
-FUN_Y1		= MAIN_Y + MAIN_DEPTH / 2 - KEYBLOCK_GAP - FUN_DEPTH / 2
-FUN_Y2		= FUN_Y1 - KEYBLOCK_GAP - FUN_DEPTH
-FUN_Y2a		= FUN_Y2 - ku(0.5) # lower arrows
+MAIN_LOC	= Location((0, MAIN_Y))
 
 # accent positions
 
@@ -174,15 +138,6 @@ HOLE_POSITIONS	= [] # placeholder
 
 FOOT_DEPTH	= 1 # placeholder
 
-# printed circuit board
-
-COMPONENTS_THICK = 2.0
-PCB_THICK	= 1.6
-PCB_Z		= PLATE_THICK + PERSPEX_THICK - 5.0 + EXPLODE/2
-PCB_INSET	= ku( 1/8 )
-PCB_WING	= ku( 13/32 )
-PCB_STAB	= ku( 7 - 1 )/2
-
 # USB daughterboard
 
 USB_INSET	= 1.0
@@ -200,35 +155,6 @@ def multiocular_vertices(vertices):
     iris = [ c * Circle(2) for c in cs ]
     pupil = [ c * Circle(1) for c in cs ]
     return Sketch() + iris - pupil
-
-# from kicad
-
-def pcba():
-    rear = MAIN_Y + MAIN_DEPTH/2
-    front = MAIN_Y - MAIN_DEPTH/2 + PCB_INSET
-    right = MAIN_WIDTH/2 + PCB_INSET + FUN_WIDTH
-    half = Polyline(
-        (0, rear),
-        (MAIN_WIDTH/2, rear),
-        (MAIN_WIDTH/2 + KEYBLOCK_GAP, rear - KEYBLOCK_GAP),
-        (right, rear - KEYBLOCK_GAP),
-        (right + PCB_WING, rear - KEYBLOCK_GAP - PCB_WING),
-        (right + PCB_WING, front + KEYBLOCK_GAP*2 + PCB_WING),
-        (right, front + KEYBLOCK_GAP*2),
-        (MAIN_WIDTH/2 + PCB_INSET + KEYBLOCK_GAP, front + KEYBLOCK_GAP*2),
-        (MAIN_WIDTH/2 - PCB_INSET, front),
-        (PCB_STAB + PCB_INSET*2, front),
-        (PCB_STAB + PCB_INSET*1, front - PCB_INSET),
-        (0, front - PCB_INSET),
-    )
-    outline = make_face(half + mirror(half, Plane.YZ))
-    keepout = offset(outline, amount=-PCB_INSET)
-    screws = (Location((+PCB_STAB, front)) * Circle(PCB_INSET) +
-              Location((-PCB_STAB, front)) * Circle(PCB_INSET))
-    components = Location((0,0,-PCB_THICK)) * (
-        thick(keepout, COMPONENTS_THICK) +
-        thick(screws, -COMPONENTS_THICK) )
-    return thick(outline, PCB_THICK) + components
 
 # the cad system kept refusing to fillet corners, so i'm doing it manually
 
@@ -291,83 +217,6 @@ def roundoff(shape2d, mouth_r, ear_r=None):
     if mouths: shape3d += thick(Sketch() + mouths)
     if ears: shape3d -= thick(Sketch() + ears)
     return shape3d
-
-def plate_cutouts():
-    if SPEED > 1:
-        switch = thick(Rectangle(MX_PLATE_HOLE, MX_PLATE_HOLE))
-    elif SPEED > 0:
-        switch = thick(RectangleRounded(
-            MX_PLATE_HOLE, MX_PLATE_HOLE, MX_HOLE_RADIUS))
-    else:
-        square = Rectangle(MX_PLATE_HOLE, MX_PLATE_HOLE)
-        relief = [ loc * Circle(MX_WIDE_RADIUS) for loc in
-                   GridLocations(MX_RELIEF_POS, MX_RELIEF_POS, 2, 2) ]
-        switch = roundoff(square + relief, MX_HOLE_RELIEF)
-
-    stab = thick(RectangleRounded(
-        MX_STAB_WIDTH, MX_STAB_DEPTH, MX_STAB_RADIUS))
-    def stabs(width):
-        return (Location((-ku(width - 1) / 2, 0)) * stab +
-                Location((+ku(width - 1) / 2, 0)) * stab)
-
-    hole = [None] * 1000
-    hole[100] = switch
-    hole[125] = switch
-    hole[150] = switch
-    hole[175] = switch
-    hole[200] = switch + stabs(2.25) # sic
-    hole[225] = switch + stabs(2.25)
-    hole[275] = switch + stabs(2.75)
-    hole[625] = switch + stabs(6.25)
-    hole[700] = switch + stabs(7.00)
-
-    def adjacent(y, keys, sign):
-        row = []
-        pos = -sign * MAIN_WIDTH / 2
-        for k in keys:
-            width = sign * ku(k/100)
-            row.append(Location((pos + width/2, y)) * hole[k])
-            pos += width
-        return (row,pos)
-
-    def key_grid(x, y, w, h):
-        key = Location((x, y)) * switch
-        return [] if w == 0 or h == 0 else [
-            loc * key for loc in GridLocations(ku(1), ku(1), w, h) ]
-
-    def key_row(y, left_keys, middle, right_keys):
-        (left_row, left_pos) = adjacent(y, left_keys, +1)
-        (right_row, right_pos) = adjacent(y, reversed(right_keys), -1)
-        middle_row = key_grid((left_pos + right_pos)/2, y, middle, 1)
-        return left_row + middle_row + right_row
-
-    microsoft = [ 125, 125, 125, 625, 125, 125, 125, 125 ]
-    tsangan = [ 150, 100, 150, 700, 150, 100, 150 ]
-    keybird = [ 125, 125, 150, 700, 150, 125, 125 ]
-
-    return (key_grid(-FUN_X, FUN_Y1, 3, 2) +
-            key_grid(-FUN_X, FUN_Y2, 3, 2) +
-            key_grid(+FUN_X, FUN_Y1, 3, 2) +
-            key_grid(+FUN_X, FUN_Y2, 3, 2) +
-            key_row(MAIN_Y + ku(+2), [], 15, []) +
-            key_row(MAIN_Y + ku(+1), [150], 12, [150]) +
-            key_row(MAIN_Y + ku(00), [175], 11, [225]) +
-            key_row(MAIN_Y + ku(-1), [225], 10, [175, 100]) +
-            key_row(MAIN_Y + ku(-2), [], 0, keybird))
-
-def top_cutouts():
-    main = (Location((0, MAIN_Y)) *
-            Rectangle(MAIN_WIDTH, MAIN_DEPTH))
-    fun = Rectangle(FUN_WIDTH, FUN_DEPTH)
-    fun1 = Location((-FUN_X, FUN_Y1)) * fun
-    fun2 = Location((-FUN_X, FUN_Y2)) * fun
-    fun3 = Location((+FUN_X, FUN_Y1)) * fun
-    fun4b = Location((FUN_X, FUN_Y2)) * Rectangle(ku(1), FUN_DEPTH)
-    fun4a = Location((FUN_X, FUN_Y2a)) * Rectangle(FUN_WIDTH, ku(1))
-    brow = (Location((0, SLOT_Y)) *
-            RectangleRounded(SLOT_WIDTH, SLOT_DEPTH, SLOT_RADIUS))
-    holes = Sketch() + [ main, fun1, fun2, fun3, fun4a, fun4b, brow ]
-    return [ roundoff(holes, KEYBLOCK_RADIUS) ]
 
 def case_outline_2d():
     middle = Rectangle(MIDDLE_WIDTH, TOTAL_DEPTH)
@@ -468,6 +317,10 @@ def daughterboard():
     return Location((0, USBDB_Y)) * thick(RectangleRounded(
         USBDB_WIDTH, USBDB_DEPTH, USBDB_R), USBDB_THICK) - daughterboard_holes()
 
+def brow_cutout():
+    return thick(Location((0, SLOT_Y)) *
+                 RectangleRounded(SLOT_WIDTH, SLOT_DEPTH, SLOT_RADIUS))
+
 def monobrow():
     lobrow_width = BROW_WIDTH + LOBROW_WIDER
     flat = (
@@ -490,9 +343,8 @@ def cheek():
 def cheek_perspex(cheek):
     rotated = cheek.rotate(Axis.Z, 90)
     cheek_x = MAIN_WIDTH/2 - CHEEK_HEIGHT/2 - KEYBLOCK_GAP
-    cheek_y = FUN_Y1/2 + FUN_Y2/2
-    return [ Location((+cheek_x, cheek_y)) * rotated,
-             Location((-cheek_x, cheek_y)) * rotated ]
+    return [ Location((+cheek_x, MAIN_Y)) * rotated,
+             Location((-cheek_x, MAIN_Y)) * rotated ]
 
 def thicken_accent(accent):
     thickened = scale(accent, (1,1, PERSPEX_THICK / THICK))
@@ -544,12 +396,14 @@ HOLES_RIVNUT = holes(HOLE_RIVNUT)
 
 stamp("top layer")
 
-TOP_CUTOUTS = top_cutouts() + HOLES_SCREW
+KEYCAP_CUTOUTS = MAIN_LOC * roundoff(keycap_cutouts(), KEYBLOCK_RADIUS)
+TOP_CUTOUTS = KEYCAP_CUTOUTS + brow_cutout() + HOLES_SCREW
 TOP_LAYER = CASE_OUTLINE - TOP_CUTOUTS
 
 stamp("switch plate")
 
-PLATE_CUTOUTS = NOTCH_CUTOUTS + HOLES_SCREW + plate_cutouts()
+KEYSWITCH_CUTOUTS = MAIN_LOC * thick(keyswitch_cutouts())
+PLATE_CUTOUTS = KEYSWITCH_CUTOUTS + NOTCH_CUTOUTS + HOLES_SCREW
 SWITCH_PLATE = roundoff(FLAT_OUTLINE - SIDE_INSET, SIDE_RADIUS) - PLATE_CUTOUTS
 
 stamp("base plate")
@@ -601,7 +455,7 @@ layers = [
 
 stack = []
 
-z = PLATE_THICK*4 + PERSPEX_THICK*4
+z = PLATE_THICK*4 + PERSPEX_THICK*4 + EXPLODE*8
 for i in range(len(layers)):
     stamp(f"stack {i}")
     thickness = PLATE_THICK if i < 8 and i % 2 else PERSPEX_THICK
@@ -611,7 +465,8 @@ for i in range(len(layers)):
     if i == 3:
         accent_z = z
     if i == 4:
-        stack += [ Location((0,0, z + PCB_Z)) * pcba() ]
+        pcb_z = PLATE_THICK + PERSPEX_THICK - 5.0 - EXPLODE/2
+        stack += [ Location((0, MAIN_Y, z + pcb_z)) * pcba() ]
     if i == 6:
         stack += [ Location((0,0, z + EXPLODE/2)) * daughterboard() ]
 
@@ -623,7 +478,7 @@ show_object(stack)
 
 # export layouts for cutting
 
-if SPEED < 3:
+if EXPORT:
 
     perspex = []
     plates = []
