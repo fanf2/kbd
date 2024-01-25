@@ -49,7 +49,7 @@ def keycap_cutouts():
 
 # from kicad
 
-def pcba():
+def kb42_pcba():
 
     pcb_thick = 1.6
     pcba_thick = pcb_thick + 2.0
@@ -82,4 +82,6 @@ def pcba():
               Location((-stab, front)) * Circle(inset))
     components = ( extrude(keepout, amount=-pcba_thick) +
                    extrude(screws, amount=-pcba_thick) )
-    return extrude(outline, amount=-pcb_thick) + components
+    hole = extrude(Circle(2), amount=-pcba_thick)
+    holes = key_positions([ hole ] * 1000)
+    return extrude(outline, amount=-pcb_thick) + components - holes

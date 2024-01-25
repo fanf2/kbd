@@ -466,7 +466,7 @@ for i in range(len(layers)):
         accent_z = z
     if i == 4:
         pcb_z = PLATE_THICK + PERSPEX_THICK - 5.0 - EXPLODE/2
-        stack += [ Location((0, MAIN_Y, z + pcb_z)) * pcba() ]
+        stack += [ Location((0, MAIN_Y, z + pcb_z)) * kb42_pcba() ]
     if i == 6:
         stack += [ Location((0,0, z + EXPLODE/2)) * daughterboard() ]
 

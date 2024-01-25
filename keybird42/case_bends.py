@@ -1,5 +1,6 @@
 from build123d import *
 from keybird42 import *
+import math
 from mx import *
 
 def print_object(message, object):
@@ -23,15 +24,24 @@ def ArcFrom(curve, pos, radius, angle):
     return JernArc(curve @ pos, tangent(curve, pos),
                    radius, interpolated(pos) * angle)
 
-TYPING_ANGLE = 7
-
-TOTAL_WIDTH = ku(24)
+TYPING_ANGLE_DIVISOR = 48
+TYPING_ANGLE_DEGREES = 360 / TYPING_ANGLE_DIVISOR
+TYPING_ANGLE_RADIANS = math.tau / TYPING_ANGLE_DIVISOR
 
 CHIN_DEPTH = ku(1)
 BROW_DEPTH = ku(1)
 FOREHEAD_DEPTH = ku(3)
 
+TOTAL_WIDTH = ku(24)
+
+# provisional
+TOTAL_DEPTH = CHIN_DEPTH + KEYS_DEPTH + BROW_DEPTH + FOREHEAD_DEPTH
+
 THICK = MX_PLATE_THICK
+
+# thicken downwards from top surface
+def thick(shape, amount=THICK):
+    return extrude(shape, amount=-amount)
 
 inner_radius = THICK # required by laserboost
 outer_radius = inner_radius + THICK
@@ -40,66 +50,54 @@ radius = (inner_radius + outer_radius) / 2
 # minimum metal needed eash side of a bend
 bend_grip = 7.1 - THICK - inner_radius
 
-plate_to_top = 7
-pcb_to_plate = 5
+washer_thick = 1.5
+
+magnet_thick = 4
 
 pcba_thick = 4 # MX pin length plus clearance
 
-washer_thick = 1
-side_inset = 1
+plate_to_top = magnet_thick + washer_thick + THICK
+pcb_to_plate = 5
 
-plate_width = TOTAL_WIDTH - 2 * (
-    inner_radius + THICK + washer_thick + THICK + side_inset)
+side_inset = THICK / 3 # for appearance
 
-# need to work out the proper details here...
-plate_depth = KEYS_DEPTH + (CHIN_DEPTH + BROW_DEPTH) / 2
+# this also determines the top cutout radius
+keycap_clearance = 0.5
 
-# plate, side-to-side
+plate_surround = ku(0.25)
 
-plate_side_height = plate_to_top - inner_radius - THICK
+assert plate_surround + MX_PLATE_RIB/2 > bend_grip
 
+# construct the sandwich and place it in space
 
-plate_x_axis = Line((-plate_width/2, 0),
-                    (+plate_width/2, 0))
+# all of these are centred on the middle of the key blocks
 
-right_arc = ArcFrom(plate_x_axis, 1, radius, 90)
-right_side = LineFrom(right_arc, 1, plate_side_height)
+plate_width = KEYS_WIDTH + plate_surround*2
+plate_depth = KEYS_DEPTH + plate_surround*2
 
-left_arc = ArcFrom(plate_x_axis, 0, radius, 90)
-left_side = LineFrom(left_arc, 1, plate_side_height)
+top_width = TOTAL_WIDTH
+top_depth = CHIN_DEPTH + KEYS_DEPTH + BROW_DEPTH
 
-plate_sides = (
-    Location((0, plate_depth/2, THICK/2)) * Rotation(X=90) *
-    extrude(trace(
-        left_side + left_arc + plate_x_axis + right_arc + right_side,
-        THICK), amount=plate_depth))
+plate_cutouts = thick(keyswitch_cutouts())
+plate = thick(Rectangle(plate_width, plate_depth)) - plate_cutouts
 
-# plate, front-to-rear
+top_sharpcut = thick(offset(
+    keycap_cutouts(), amount=keycap_clearance, kind=Kind.INTERSECTION))
+top_cutouts = fillet(top_sharpcut.edges() | Axis.Z, keycap_clearance)
+top = Location((0,0,plate_to_top)) * (
+    thick(Rectangle(top_width, top_depth)) - top_cutouts)
 
-plate_lip_height = pcba_thick + pcb_to_plate - inner_radius
+pcb = Location((0,0,-pcb_to_plate)) * kb42_pcba()
 
-plate_y_axis = Line((0, -plate_depth/2),
-                    (0, +plate_depth/2))
+# at the spacebar stabilizer screws where clearance is tightest
 
-rear_arc = ArcFrom(plate_y_axis, 1, radius, 90 - TYPING_ANGLE)
-rear_lip = LineFrom(rear_arc, 1, plate_lip_height)
+datum_y = KEYS_DEPTH / 2
+datum_z = pcba_thick + pcb_to_plate
 
-front_arc = ArcFrom(plate_y_axis, 0, radius, 90 - TYPING_ANGLE)
-front_lip = LineFrom(front_arc, 1, plate_lip_height)
+sandwich = [
+    Location((0, 0, datum_z)) *
+    Rotation(X=TYPING_ANGLE_DEGREES) *
+    Location((0, datum_y, 0)) *
+    layer for layer in [top, plate, pcb] ]
 
-plate_lips = (
-    Location((plate_width/2, 0, THICK/2)) * Rotation(Y=-90) *
-    extrude(trace(
-        rear_lip + rear_arc + plate_y_axis + front_arc + front_lip,
-        THICK), amount=plate_width))
-
-
-# combined plate
-
-plate_cutouts = extrude(keyswitch_cutouts(), amount=THICK)
-
-plate = plate_sides + plate_lips - plate_cutouts
-
-show_object(plate)
-
-show_object(Location((0,0, -pcb_to_plate)) * pcba())
+show_object(sandwich)
