@@ -23,6 +23,8 @@ def upper_face(shape): return sort_faces(shape, Axis.Z)[-1]
 def lower_face(shape): return sort_faces(shape, Axis.Z)[+0]
 def rear_face(shape):  return sort_faces(shape, Axis.Y)[-1]
 def front_face(shape): return sort_faces(shape, Axis.Y)[+0]
+def right_face(shape): return sort_faces(shape, Axis.X)[-1]
+def left_face(shape):  return sort_faces(shape, Axis.X)[+0]
 
 def LineBy(start, direction, length):
     return Line(start, start + (length / direction.length) * direction)
@@ -60,7 +62,6 @@ pcba_width = 420
 plate_to_top = magnet_thick + washer_thick + THICK
 pcb_to_plate = 5
 
-base_inset = THICK / 3 # for appearance
 base_clear = THICK / 3
 
 # this also determines the top cutout radius
@@ -108,8 +109,7 @@ top = datum_loc * Location((0,0,plate_to_top)) * (
 
 # add front and rear walls
 
-top_faces = top.faces().sort_by(Axis.Y)
-top_chin_arc = sweep_arc(top_faces[0], bend_radius,
+top_chin_arc = sweep_arc(front_face(top), bend_radius,
                          +90-TYPING_ANGLE_DEGREES, Plane.YZ)
 front_wall_top = top_chin_arc.faces().sort_by(Axis.Z)[0]
 front_wall_height = front_wall_top.center().Z + THICK
@@ -119,7 +119,7 @@ front_wall = sweep_line(front_wall_top, front_wall_height)
 print(f"{CHIN_DEPTH=}")
 print(f"{front_wall_height=}")
 
-top_brow_arc = sweep_arc(top_faces[-1], bend_radius,
+top_brow_arc = sweep_arc(rear_face(top), bend_radius,
                          -90-TYPING_ANGLE_DEGREES, Plane.YZ)
 rear_wall_top = top_brow_arc.faces().sort_by(Axis.Z)[0]
 rear_wall_height = rear_wall_top.center().Z + THICK
@@ -143,10 +143,24 @@ show_object(top)
 base_front = base_front.Y + THICK/2 + base_clear
 base_rear = base_rear.Y - THICK/2 - base_clear
 base_depth = base_rear - base_front
-base_width = TOP_WIDTH - base_inset*2 - outer_radius*2
+base_width = TOP_WIDTH - outer_radius*2
 base_y = base_rear/2 + base_front/2
 
 base = Location((0,base_y)) * thick(Rectangle(base_width, base_depth))
+
+left_elbow = sweep_arc(left_face(base), bend_radius, -90, Plane.XZ)
+right_elbow = sweep_arc(right_face(base), bend_radius, +90, Plane.XZ)
+
+# a simplified and slightly lower version of the top plate
+base_limit = thick(datum_loc
+              * Location((0,0,plate_to_top - THICK - base_clear))
+              * Rectangle(ku(32), ku(16)))
+
+left_side = extrude(upper_face(left_elbow), target=base_limit)
+right_side = extrude(upper_face(right_elbow), target=base_limit)
+
+base += [left_elbow, right_elbow, left_side, right_side]
+base = fillet(edges_x_z(base)[-4:], inner_radius)
 
 show_object(base)
 
@@ -155,7 +169,7 @@ show_object(base)
 pcb = datum_loc * Location((0,0,-pcb_to_plate)) * kb42_pcba()
 show_object(pcb)
 
-plate_width = KEYS_WIDTH + plate_surround*2
+plate_width = KEYS_WIDTH + plate_surround*2 + MX_PLATE_RIB
 plate_depth = KEYS_DEPTH + plate_surround*2
 
 plate_cutouts = thick(keyswitch_cutouts())
