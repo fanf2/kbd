@@ -48,6 +48,8 @@ bend_radius = (inner_radius + outer_radius) / 2
 bend_grip = 7.1
 
 washer_thick = 1.5
+washer_diameter = 8
+washer_radius = washer_diameter/2
 
 magnet_thick = 4
 
@@ -159,12 +161,10 @@ plate_depth = KEYS_DEPTH + plate_surround*2
 plate_cutouts = thick(keyswitch_cutouts())
 plate = datum_loc * (thick(Rectangle(plate_width, plate_depth)) - plate_cutouts)
 
-# plate supports
+# front plate support
 
 plate_chin = sweep_arc(front_face(plate), bend_radius,
                        +90-TYPING_ANGLE_DEGREES, Plane.YZ)
-plate_brow = sweep_arc(rear_face(plate), bend_radius, -90, Plane.YZ)
-
 front_legtop = lower_face(plate_chin)
 front_leglen = front_legtop.center().Z - outer_radius - washer_thick
 front_leg = sweep_line(front_legtop, front_leglen)
@@ -185,6 +185,39 @@ assert front_foot_len + outer_radius > bend_grip
 
 front_foot = sweep_line(front_face(front_heel), front_foot_len)
 
-plate += [ plate_brow, plate_chin, front_leg, front_heel, front_foot ]
+# the rear plate support is at an angle, on the vague principle that
+# it will be in closer alignment to the typing forces, so less likely
+# to loosen the fasteners over time. and it looks neat. because of
+# this we need some cunning to work out exactly how long its leg is.
+
+plate_brow = sweep_arc(rear_face(plate), bend_radius, -90, Plane.YZ)
+
+# create the heel with no leg - it's too high
+rear_legtop = lower_face(plate_brow)
+rear_heel = sweep_arc(rear_legtop, bend_radius,
+                      +90-TYPING_ANGLE_DEGREES, Plane.YZ)
+
+# move to correct Z position - it's too far forward
+rear_heel_z = lower_point(rear_heel).Z
+rear_heel = Location((0,0, washer_thick-rear_heel_z)) * rear_heel
+
+rear_heelplane = upper_face(rear_heel).center()
+
+# intersection of line (normal of rear_legtop)
+# and plane (xy plane passing through rear_heelplane)
+rear_leglen = (
+    (rear_heelplane - rear_legtop.center()).dot(Axis.Z.direction)
+    / rear_legtop.normal_at().dot(Axis.Z.direction))
+
+rear_leg = sweep_line(rear_legtop, rear_leglen)
+
+# move to correct Y position
+rear_legbot = lower_face(rear_leg).center()
+rear_heel = Location((0, rear_legbot.Y - rear_heelplane.Y, 0)) * rear_heel
+
+rear_foot = sweep_line(rear_face(rear_heel), washer_diameter)
+
+plate += [ plate_chin, front_leg, front_heel, front_foot,
+           plate_brow, rear_leg, rear_heel, rear_foot ]
 
 show_object(plate)
