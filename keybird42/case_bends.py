@@ -109,39 +109,37 @@ top = datum_loc * Location((0,0,plate_to_top)) * (
 
 # add front and rear walls
 
-top_chin_arc = sweep_arc(front_face(top), bend_radius,
+top_chin = sweep_arc(front_face(top), bend_radius,
                          +90-TYPING_ANGLE_DEGREES, Plane.YZ)
-front_wall_top = top_chin_arc.faces().sort_by(Axis.Z)[0]
+front_wall_top = lower_face(top_chin)
 front_wall_height = front_wall_top.center().Z + THICK
 front_wall = sweep_line(front_wall_top, front_wall_height)
+front_wall = fillet((front_wall.edges() | Plane.YZ) << Axis.Z, outer_radius)
 
 # the fudge factor should make these about the same
 print(f"{CHIN_DEPTH=}")
 print(f"{front_wall_height=}")
 
-top_brow_arc = sweep_arc(rear_face(top), bend_radius,
-                         -90-TYPING_ANGLE_DEGREES, Plane.YZ)
-rear_wall_top = top_brow_arc.faces().sort_by(Axis.Z)[0]
+top_brow = sweep_arc(rear_face(top), bend_radius, -90, Plane.YZ)
+rear_wall_top = lower_face(top_brow)
 rear_wall_height = rear_wall_top.center().Z + THICK
 rear_wall = sweep_line(rear_wall_top, rear_wall_height)
+rear_wall = fillet((rear_wall.edges() | Plane.YZ) << Axis.Z, outer_radius)
 
 # the fudge factor should make these about the same
 print(f"{BROW_DEPTH=}")
 print(f"{rear_wall_height=}")
 
-top += [ top_chin_arc, front_wall, top_brow_arc, rear_wall ]
-
-top = fillet(top.edges() << Axis.Z | Axis.Y, outer_radius)
+top += [ top_chin, front_wall, top_brow, rear_wall ]
 
 show_object(top)
 
-# base, without sides for now
+# base with sides
 
-[base_front, base_rear] = [
-    face.center() for face in top.faces() << Axis.Z > Axis.Y ]
-
-base_front = base_front.Y + THICK/2 + base_clear
-base_rear = base_rear.Y - THICK/2 - base_clear
+base_front = lower_face(top).center().Y + THICK/2 + base_clear
+# the multiple of base_clear here is a fudge to cope with
+# the angle between the rear wall and the base elbows
+base_rear = sort_faces(top, Axis.Z)[1].center().Y - THICK/2 - base_clear*1.8
 base_depth = base_rear - base_front
 base_width = TOP_WIDTH - outer_radius*2
 base_y = base_rear/2 + base_front/2
@@ -151,13 +149,21 @@ base = Location((0,base_y)) * thick(Rectangle(base_width, base_depth))
 left_elbow = sweep_arc(left_face(base), bend_radius, -90, Plane.XZ)
 right_elbow = sweep_arc(right_face(base), bend_radius, +90, Plane.XZ)
 
-# a simplified and slightly lower version of the top plate
-base_limit = thick(datum_loc
-              * Location((0,0,plate_to_top - THICK - base_clear))
-              * Rectangle(ku(32), ku(16)))
+# offset() doesn't work with the top case, so extrude the sides up to
+# a simplified top that is displaced by the clearance we want
 
-left_side = extrude(upper_face(left_elbow), target=base_limit)
-right_side = extrude(upper_face(right_elbow), target=base_limit)
+base_limit = (thick(datum_loc
+                   * Location((0,0,plate_to_top - base_clear))
+                   * Rectangle(ku(32), ku(16)))
+              + thick(Location(lower_point(rear_wall)) *
+                      Rotation(X=90+TYPING_ANGLE_DEGREES) *
+                      Location((0,0,base_clear)) * Rectangle(ku(32), ku(16))))
+
+def extrude_side(elbow):
+    return extrude(upper_face(elbow), target=base_limit, until=Until.NEXT)
+
+left_side = extrude_side(left_elbow)
+right_side = extrude_side(right_elbow)
 
 base += [left_elbow, right_elbow, left_side, right_side]
 base = fillet(edges_x_z(base)[-4:], inner_radius)
