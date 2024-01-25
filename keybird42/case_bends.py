@@ -36,6 +36,8 @@ def sweep_arc(face, radius, angle, plane):
 def sweep_line(face, length):
     return sweep(face, LineBy(face.center(), face.normal_at(), length))
 
+SIDELESS=True
+
 THICK = MX_PLATE_THICK
 
 # thicken downwards from top surface
@@ -150,24 +152,25 @@ base = Location((0,base_y)) * thick(Rectangle(base_width, base_depth))
 left_elbow = sweep_arc(left_face(base), bend_radius, -90, Plane.XZ)
 right_elbow = sweep_arc(right_face(base), bend_radius, +90, Plane.XZ)
 
-# offset() doesn't work with the top case, so extrude the sides up to
-# a simplified top that is displaced by the clearance we want
+if not SIDELESS:
+    # offset() doesn't work with the top case, so extrude the sides up to
+    # a simplified top that is displaced by the clearance we want
 
-base_limit = (thick(datum_loc
-                   * Location((0,0,plate_to_top - base_clear))
-                   * Rectangle(ku(32), ku(16)))
-              + thick(Location(lower_point(rear_wall)) *
-                      Rotation(X=90+TYPING_ANGLE_DEGREES) *
-                      Location((0,0,base_clear)) * Rectangle(ku(32), ku(16))))
+    base_limit = (thick(datum_loc
+                       * Location((0,0,plate_to_top - base_clear))
+                       * Rectangle(ku(32), ku(16)))
+                  + thick(Location(lower_point(rear_wall)) *
+                          Rotation(X=90+TYPING_ANGLE_DEGREES) *
+                          Location((0,0,base_clear)) * Rectangle(ku(32), ku(16))))
 
-def extrude_side(elbow):
-    return extrude(upper_face(elbow), target=base_limit, until=Until.NEXT)
+    def extrude_side(elbow):
+        return extrude(upper_face(elbow), target=base_limit, until=Until.NEXT)
 
-left_side = extrude_side(left_elbow)
-right_side = extrude_side(right_elbow)
+    left_side = extrude_side(left_elbow)
+    right_side = extrude_side(right_elbow)
 
-base += [left_elbow, right_elbow, left_side, right_side]
-base = fillet(edges_x_z(base)[-4:], inner_radius)
+    base += [left_elbow, right_elbow, left_side, right_side]
+    base = fillet(edges_x_z(base)[-4:], inner_radius)
 
 show_object(base)
 top.export_step("bends_base.step")
@@ -180,7 +183,7 @@ show_object(pcb)
 plate_width = KEYS_WIDTH + plate_surround*2 + MX_PLATE_RIB
 plate_depth = KEYS_DEPTH + plate_surround*2
 
-plate_cutouts = thick(keyswitch_cutouts())
+plate_cutouts = Part() if SIDELESS else thick(keyswitch_cutouts())
 plate = datum_loc * (thick(Rectangle(plate_width, plate_depth)) - plate_cutouts)
 
 # front plate support
