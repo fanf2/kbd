@@ -13,19 +13,6 @@ def print_object(message, object):
 def LineBy(start, direction, length):
     return Line(start, start + (length / direction.length) * direction)
 
-def interpolated(pos):
-    return pos * 2 - 1
-
-def tangent(curve, pos):
-    return (curve % pos) * interpolated(pos)
-
-def LineFrom(curve, pos, length):
-    return LineBy(curve @ pos, tangent(curve, pos), length)
-
-def ArcFrom(curve, pos, radius, angle):
-    return JernArc(curve @ pos, tangent(curve, pos),
-                   radius, interpolated(pos) * angle)
-
 TYPING_ANGLE_DIVISOR = 48
 TYPING_ANGLE_DEGREES = 360 / TYPING_ANGLE_DIVISOR
 TYPING_ANGLE_RADIANS = math.tau / TYPING_ANGLE_DIVISOR
@@ -104,5 +91,12 @@ show_object(pcb)
 
 plate_front = plate.faces().sort_by(Axis.Y)[0]
 
-show_object(JernArc(plate_front.center(), plate_front.normal_at(),
-                               BEND_RADIUS, 90, plane=Plane.YZ))
+arc = sweep(plate_front,
+            JernArc(plate_front.center(), plate_front.normal_at(),
+                    BEND_RADIUS, 90 - TYPING_ANGLE_DEGREES, plane=Plane.YZ))
+
+arc_bottom = arc.faces().sort_by(Axis.Z)[0]
+
+wall = sweep(arc_bottom, LineBy(arc_bottom.center(), arc_bottom.normal_at(), arc_bottom.center().Z))
+
+show_object(arc + wall)
