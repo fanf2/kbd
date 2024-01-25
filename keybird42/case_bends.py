@@ -3,6 +3,8 @@ from keybird42 import *
 import math
 from mx import *
 
+from monkeypatch_JernArc import *
+
 def print_object(message, object):
     print(message)
     try: print(object.show_topology())
@@ -45,7 +47,7 @@ def thick(shape, amount=THICK):
 
 inner_radius = THICK # required by laserboost
 outer_radius = inner_radius + THICK
-radius = (inner_radius + outer_radius) / 2
+BEND_RADIUS = (inner_radius + outer_radius) / 2
 
 # minimum metal needed eash side of a bend
 bend_grip = 7.1 - THICK - inner_radius
@@ -68,7 +70,14 @@ plate_surround = ku(0.25)
 
 assert plate_surround + MX_PLATE_RIB/2 > bend_grip
 
-# construct the sandwich and place it in space
+# at the spacebar stabilizer screws where clearance is tightest
+
+datum_y = KEYS_DEPTH / 2
+datum_z = pcba_thick + pcb_to_plate
+
+datum_loc = (Location((0, 0, datum_z)) *
+             Rotation(X=TYPING_ANGLE_DEGREES) *
+             Location((0, datum_y, 0)))
 
 # all of these are centred on the middle of the key blocks
 
@@ -79,25 +88,21 @@ top_width = TOTAL_WIDTH
 top_depth = CHIN_DEPTH + KEYS_DEPTH + BROW_DEPTH
 
 plate_cutouts = thick(keyswitch_cutouts())
-plate = thick(Rectangle(plate_width, plate_depth)) - plate_cutouts
+plate = datum_loc * (thick(Rectangle(plate_width, plate_depth)) - plate_cutouts)
 
 top_sharpcut = thick(offset(
     keycap_cutouts(), amount=keycap_clearance, kind=Kind.INTERSECTION))
 top_cutouts = fillet(top_sharpcut.edges() | Axis.Z, keycap_clearance)
-top = Location((0,0,plate_to_top)) * (
+top = datum_loc * Location((0,0,plate_to_top)) * (
     thick(Rectangle(top_width, top_depth)) - top_cutouts)
 
-pcb = Location((0,0,-pcb_to_plate)) * kb42_pcba()
+pcb = datum_loc * Location((0,0,-pcb_to_plate)) * kb42_pcba()
 
-# at the spacebar stabilizer screws where clearance is tightest
+show_object(plate)
+show_object(top)
+show_object(pcb)
 
-datum_y = KEYS_DEPTH / 2
-datum_z = pcba_thick + pcb_to_plate
+plate_front = plate.faces().sort_by(Axis.Y)[0]
 
-sandwich = [
-    Location((0, 0, datum_z)) *
-    Rotation(X=TYPING_ANGLE_DEGREES) *
-    Location((0, datum_y, 0)) *
-    layer for layer in [top, plate, pcb] ]
-
-show_object(sandwich)
+show_object(JernArc(plate_front.center(), plate_front.normal_at(),
+                               BEND_RADIUS, 90, plane=Plane.YZ))
