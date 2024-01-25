@@ -133,6 +133,7 @@ print(f"{rear_wall_height=}")
 top += [ top_chin, front_wall, top_brow, rear_wall ]
 
 show_object(top)
+top.export_step("bends_top.step")
 
 # base with sides
 
@@ -169,6 +170,7 @@ base += [left_elbow, right_elbow, left_side, right_side]
 base = fillet(edges_x_z(base)[-4:], inner_radius)
 
 show_object(base)
+top.export_step("bends_base.step")
 
 # pcb and plate are centred on the middle of the key blocks
 
@@ -241,3 +243,4 @@ plate += [ plate_chin, front_leg, front_heel, front_foot,
            plate_brow, rear_leg, rear_heel, rear_foot ]
 
 show_object(plate)
+top.export_step("bends_plate.step")
