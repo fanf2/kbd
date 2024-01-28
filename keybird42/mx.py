@@ -7,7 +7,11 @@ KEY_UNIT = 19.05
 def ku(n):
     return KEY_UNIT * n
 
+MX_KEYCAP_THICK	= 8.0
+MX_UPPER_THICK	= 6.5 # switch body above plate
 MX_PLATE_THICK	= 1.5
+MX_LOWER_THICK	= 5.0 # plate top to pcb top
+MX_PINS_THICK	= 3.5
 
 MX_PLATE_HOLE	= 14.0
 MX_PLATE_RIB	= KEY_UNIT - MX_PLATE_HOLE

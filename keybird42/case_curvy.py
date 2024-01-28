@@ -16,6 +16,9 @@ print("----------------------------------------------------------------")
 THICK = 1.5
 KEYCAP_CLEAR = 0.5
 
+TYPING_ANGLE = 7
+HALF_ANGLE = TYPING_ANGLE/2
+
 # factors of 24
 TOTAL_WIDTH = ku(24)
 TOTAL_DEPTH = ku(8)
@@ -23,7 +26,7 @@ TOTAL_HEIGHT = ku(2)
 
 # linear stretches
 MIDDLE_WIDTH = ku(12)
-MIDDLE_DEPTH = ku(4)
+MIDDLE_DEPTH = ku(2)
 
 ELLIPSOID_X_RADIUS = (TOTAL_WIDTH - MIDDLE_WIDTH) / 2
 ELLIPSOID_Y_RADIUS = (TOTAL_DEPTH - MIDDLE_DEPTH) / 2
@@ -46,14 +49,34 @@ corner_curve = revolve(semi_xz, Axis.Z, 90)
 quarter = Location((middle_x, middle_y)) * (
     rear_curve + corner_curve + right_curve)
 
-rear_curves = quarter + mirror(quarter, Plane.YZ)
-front_curves = mirror(rear_curves, Plane.ZX)
+right_curves = quarter + mirror(quarter, Plane.XZ)
+left_curves = mirror(right_curves, Plane.YZ)
 
-unit_case = rear_curves + front_curves + Box(middle_x*2, middle_y*2, 2)
-
+unit_case = left_curves + Box(middle_x*2, middle_y*2, 2) # + right_curves
 
 surface = scale(unit_case, ELLIPSOID_RADII)
 
-show_object(surface)
+print(f"{ELLIPSOID_RADII=}")
 
-print(f"{ELLIPSOID_RADII}")
+# z positions relative to top of plate
+
+pcba_clear = 1.0
+cavity_clear = ku(1/8)
+
+upper_height = MX_UPPER_THICK #+ MX_KEYCAP_THICK
+cavity_height = MX_LOWER_THICK - MX_PLATE_THICK + MX_PINS_THICK + pcba_clear
+
+print(f"{upper_height=}")
+print(f"{cavity_height=}")
+
+cavity_outline = offset(kb42_pcb(), cavity_clear)
+
+# xy position relative to front centre of space bar
+holes = Location((0,MAIN_DEPTH/2)) * (
+    extrude(keycap_cutouts(), upper_height) +
+    extrude(keyswitch_cutouts(), -MX_PLATE_THICK) +
+    Location((0,0,-MX_PLATE_THICK)) * extrude(cavity_outline, -cavity_height))
+
+holes = Location((0,-ku(3.5), 0)) * Rotation(X=TYPING_ANGLE) * holes
+
+show_object(surface - holes)

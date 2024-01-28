@@ -49,10 +49,7 @@ def keycap_cutouts():
 
 # from kicad
 
-def kb42_pcba():
-
-    pcb_thick = 1.6
-    pcba_thick = pcb_thick + 2.0
+def kb42_pcb():
 
     inset = ku( 1/8 )
     wing = ku( 13/32 )
@@ -76,7 +73,14 @@ def kb42_pcba():
         (stab + inset*1, front - inset),
         (0, front - inset),
     )
-    outline = make_face(half + mirror(half, Plane.YZ))
+    return make_face(half + mirror(half, Plane.YZ))
+
+def kb42_pcba():
+
+    pcb_thick = 1.6
+    pcba_thick = pcb_thick + 2.0
+
+    outline = kb42_pcb()
     keepout = offset(outline, amount=-inset)
     screws = (Location((+stab, front)) * Circle(inset) +
               Location((-stab, front)) * Circle(inset))
