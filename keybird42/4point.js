@@ -43,7 +43,11 @@ function draw() {
 
     function raw_arc(r, a, b) {
 	c.beginPath();
-	c.arc(0,0, r * scale, a, b);
+	if (r > 0) {
+	    c.arc(0,0, +r * scale, a, b);
+	} else {
+	    c.arc(0,0, -r * scale, b-π, a+π);
+	}
 	c.fill();
 	c.stroke();
     }
@@ -69,8 +73,8 @@ function draw() {
     }
 
     function eggend(x, y, r, g, b) {
-	line(-11*x,-10*y, +10*x,+11*y);
-	line(+11*x,-10*y, -10*x,+11*y);
+	line(-101*x,-100*y, +100*x,+101*y);
+	line(+101*x,-100*y, -100*x,+101*y);
 	let ee = x < 0 ? π : 0;
 	let ww = x < 0 ? 0 : π;
 	let ne = atan2(y,+x);
@@ -83,6 +87,7 @@ function draw() {
     }
 
     // axes
+    style(1, "#888", "#0000");
     line(-10,0,+10,0);
     line(0,-10,0,+10);
 
