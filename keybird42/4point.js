@@ -91,7 +91,7 @@ function draw() {
     line(-10,0,+10,0);
     line(0,-10,0,+10);
 
-    eggend(+SX, +SY, "#c00", "#0c0", "#00c");
+    eggend(+SX, +SY, "#c00", "#0c0", "#44c");
     eggend(-NX, -NY, "#0cc", "#c0c", "#cc0");
 
     c.restore();
