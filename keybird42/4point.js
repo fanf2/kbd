@@ -2,15 +2,25 @@
 // https://web.archive.org/web/20200618202007/...
 // ...https://www.dynamat.oriw.eu/upload_pdf/20121022_154322__0.pdf
 
-function main() {
-    const r2 = Math.sqrt(2);
-    const degrees = Math.PI / 180;
+const abs = Math.abs
+const r2 = Math.sqrt(2);
+const π = Math.PI;
+const cos = Math.cos;
+const atan2 = Math.atan2;
 
+// scale positions but not line thickness or font size
+const scale = 200;
+
+let NX = 1.5;
+let NY = 0.75;
+let SX = 0.5;
+let SY = 0.5;
+
+function draw() {
     let c = canvas.getContext("2d")
+    c.save();
+    c.clearRect(0,0, canvas.width, canvas.height);
     c.translate(canvas.width/2, canvas.height/2);
-
-    // scale positions but not line thickness or font size
-    const scale = 100;
 
     c.font = 'lighter 20px sans-serif';
 
@@ -31,9 +41,9 @@ function main() {
 	c.stroke();
     }
 
-    function raw_arc(x, y, r, a, b) {
+    function raw_arc(r, a, b) {
 	c.beginPath();
-	c.arc(x * scale, y * scale, r * scale, a * degrees, b * degrees);
+	c.arc(0,0, r * scale, a, b);
 	c.fill();
 	c.stroke();
     }
@@ -41,35 +51,80 @@ function main() {
     function arc(x, y, r, a, b, s) {
 	c.save();
 	c.translate(x * scale, y * scale);
-	c.rotate(a * degrees);
 
 	style(1, "#0000", s);
-	raw_arc(0, 0, 0.05, -180,+180);
-	print(r + 0.1, 0, `r=${r}`.slice(0,7));
+	raw_arc(0.05, -180,+180);
+
+	print(0.1, -0.1, `x=${x}`.slice(0,7));
+	print(0.1, 0000, `y=${y}`.slice(0,7));
+	print(0.1, +0.1, `r=${r}`.slice(0,7));
 
 	style(1, s, "#0000");
-	raw_arc(0,0, r, -180,+180);
+	raw_arc(r, -180,+180);
 
 	style(5, s, "#0000");
-	raw_arc(0,0, r, 0,b-a);
+	raw_arc(r, a,b);
 
 	c.restore();
     }
 
+    function eggend(x, y, r, g, b) {
+	line(-11*x,-10*y, +10*x,+11*y);
+	line(+11*x,-10*y, -10*x,+11*y);
+	let ee = x < 0 ? π : 0;
+	let ww = x < 0 ? 0 : π;
+	let ne = atan2(y,+x);
+	let nw = atan2(y,-x);
+	let s = abs(x) + 1
+	let n = s - x/cos(ne);
+	arc(-x,0, s, ee, ne, r);
+	arc(0,+y, n, ne, nw, g);
+	arc(+x,0, s, nw, ww, b);
+    }
+
     // axes
-    line(-100,0,+100,0);
-    line(0,-100,0,+100);
+    line(-10,0,+10,0);
+    line(0,-10,0,+10);
 
-    arc(0,0, 1, 0,0, "#000");
-    arc(0,0, 1+r2, -80,-80, "#000");
+    eggend(+SX, +SY, "#c00", "#0c0", "#00c");
+    eggend(-NX, -NY, "#0cc", "#c0c", "#cc0");
 
-    arc(0,1, 2, 45,135, "#f00");
+    c.restore();
+}
 
-    arc(+1,0, 2+r2, 135,180, "#0c0");
-    arc(-1,0, 2+r2, 0,45, "#080");
+function main() {
+    draw();
+}
 
-    arc(-1-r2,0, 2+2*r2, -45,0, "#008");
-    arc(+1+r2,0, 2+2*r2, -180,-135, "#00c");
+function movement(ev) {
+    if (ev.buttons == 0)
+	return;
 
-    arc(0,-1-r2, r2, -135,-45, "#880");
+    let x = (ev.x - canvas.width/2) / scale;
+    let y = (ev.y - canvas.height/2) / scale;
+
+    let doit = function(){};
+
+    if (y < 0) {
+	if (abs(x) < abs(y)) {
+	    NY = abs(y);
+	    doit = draw;
+	}
+	if (abs(x) > abs(y)) {
+	    NX = abs(x);
+	    doit = draw;
+	}
+    }
+    if (y > 0) {
+	if (abs(x) < abs(y)) {
+	    SY = abs(y);
+	    doit = draw;
+	}
+	if (abs(x) > abs(y)) {
+	    SX = abs(x);
+	    doit = draw;
+	}
+    }
+
+    doit();
 }
