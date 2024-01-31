@@ -22,6 +22,8 @@ FUN_Y1  = MAIN_DEPTH / 2 - KEYBLOCK_GAP - FUN_DEPTH / 2
 FUN_Y2  = FUN_Y1 - KEYBLOCK_GAP - FUN_DEPTH
 FUN_Y2a = FUN_Y2 - ku(0.5) # lower arrows
 
+STAB_OFFSET = ku( 7 - 1 )/2
+
 def key_positions(k):
     row5 = [ 125, 125, 150, 700, 150, 125, 125 ]
     return (mx_key_grid(k, -FUN_X, FUN_Y1, 3, 2) +
@@ -49,16 +51,13 @@ def keycap_cutouts():
 
 # from kicad
 
+PCB_INSET = ku( 1/8 )
+
 def kb42_pcb():
-
-    inset = ku( 1/8 )
     wing = ku( 13/32 )
-    stab = ku( 7 - 1 )/2
-
     rear = +MAIN_DEPTH/2
-    front = -MAIN_DEPTH/2 + inset
-    right = MAIN_WIDTH/2 + inset + FUN_WIDTH
-
+    front = -MAIN_DEPTH/2 + PCB_INSET
+    right = MAIN_WIDTH/2 + PCB_INSET + FUN_WIDTH
     half = Polyline(
         (0, rear),
         (MAIN_WIDTH/2, rear),
@@ -67,11 +66,11 @@ def kb42_pcb():
         (right + wing, rear - KEYBLOCK_GAP - wing),
         (right + wing, front + KEYBLOCK_GAP*2 + wing),
         (right, front + KEYBLOCK_GAP*2),
-        (MAIN_WIDTH/2 + inset + KEYBLOCK_GAP, front + KEYBLOCK_GAP*2),
-        (MAIN_WIDTH/2 - inset, front),
-        (stab + inset*2, front),
-        (stab + inset*1, front - inset),
-        (0, front - inset),
+        (MAIN_WIDTH/2 + PCB_INSET + KEYBLOCK_GAP, front + KEYBLOCK_GAP*2),
+        (MAIN_WIDTH/2 - PCB_INSET, front),
+        (STAB_OFFSET + PCB_INSET*2, front),
+        (STAB_OFFSET + PCB_INSET*1, front - PCB_INSET),
+        (0, front - PCB_INSET),
     )
     return make_face(half + mirror(half, Plane.YZ))
 
@@ -81,11 +80,11 @@ def kb42_pcba():
     pcba_thick = pcb_thick + 2.0
 
     outline = kb42_pcb()
-    keepout = offset(outline, amount=-inset)
-    screws = (Location((+stab, front)) * Circle(inset) +
-              Location((-stab, front)) * Circle(inset))
-    components = ( extrude(keepout, amount=-pcba_thick) +
-                   extrude(screws, amount=-pcba_thick) )
-    hole = extrude(Circle(2), amount=-pcba_thick)
-    holes = key_positions([ hole ] * 1000)
+    keepout = offset(outline, amount=-PCB_INSET)
+    screw = Location((0, -MAIN_DEPTH/2 + PCB_INSET)) * Circle(PCB_INSET)
+    screws = (Location((+STAB_OFFSET, 0)) * screw +
+              Location((-STAB_OFFSET, 0)) * screw)
+    components = extrude(keepout + screws, amount=-pcba_thick)
+    cutouts = extrude(mx_pcb_cutouts(), amount=-pcba_thick)
+    holes = key_positions([ cutouts ] * 1000)
     return extrude(outline, amount=-pcb_thick) + components - holes
