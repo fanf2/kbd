@@ -494,7 +494,7 @@ if EXPORT:
         elif i == 7:
             plates += [ Location((0, -CLIP_DEPTH/2)) * layers[i] ]
         elif i >= 8:
-            move_y = (8 - i) * (FOOT_DEPTH + SPREAD_CLEAR) - CASE_REAR - 1
+            move_y = (8 - i) * (FOOT_DEPTH + SPREAD_CLEAR) - CASE_REAR - 0.5
             move_x = HOLE_X1 - FOOT_DEPTH/2 - 1
             perspex += [ Location((+move_x, move_y)) * left_foot(layers[i]),
                          Location((-move_x, move_y)) * right_foot(layers[i]) ]
