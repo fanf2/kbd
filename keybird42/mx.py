@@ -32,16 +32,23 @@ def mx_plate_cutouts():
                 Location((+ku(width - 1) / 2, 0)) * stab)
 
     k = [None] * 1000
-    k[100] = switch
-    k[125] = switch
-    k[150] = switch
-    k[175] = switch
-    k[200] = switch + stabs(2.25) # sic
-    k[225] = switch + stabs(2.25)
-    k[275] = switch + stabs(2.75)
-    k[625] = switch + stabs(6.25)
-    k[700] = switch + stabs(7.00)
+    for width in [100, 125, 150, 175,
+                  200, 225, 275, 625, 700 ]:
+        k[width] = (switch if width < 200 else
+                    switch + stabs(2.25) if width < 300 else
+                    switch + stabs(width / 100))
     return k
+
+def mx_pcb_cutouts():
+    post = Circle(2)
+    fix = Circle(0.85)
+    pin = Circle(0.75) # solder
+    pin = Circle(1.5) # hotswap
+    return (post
+            + Location((-4*1.27,0)) * fix
+            + Location((+4*1.27,0)) * fix
+            + Location((-3*1.27,2*1.27)) * pin
+            + Location((+2*1.27,4*1.27)) * pin)
 
 def mx_key_grid(k, x, y, w, h):
     key = Location((x, y)) * k[100]
