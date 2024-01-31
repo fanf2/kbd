@@ -8,7 +8,7 @@ def ku(n):
     return KEY_UNIT * n
 
 MX_KEYCAP_THICK	= 8.0
-MX_UPPER_THICK	= 6.5 # switch body above plate
+MX_UPPER_THICK	= 6.6 # switch body above plate
 MX_PLATE_THICK	= 1.5
 MX_LOWER_THICK	= 5.0 # plate top to pcb top
 MX_PINS_THICK	= 3.5
@@ -21,6 +21,8 @@ MX_STAB_WIDTH	= 7
 MX_STAB_DEPTH	= 16
 MX_STAB_RADIUS	= 2
 
+MX_KEY_WIDTHS = [100, 125, 150, 175, 200, 225, 275, 625, 700 ]
+
 def mx_plate_cutouts():
     switch = RectangleRounded(
         MX_PLATE_HOLE, MX_PLATE_HOLE, MX_HOLE_RADIUS)
@@ -32,8 +34,7 @@ def mx_plate_cutouts():
                 Location((+ku(width - 1) / 2, 0)) * stab)
 
     k = [None] * 1000
-    for width in [100, 125, 150, 175,
-                  200, 225, 275, 625, 700 ]:
+    for width in MX_KEY_WIDTHS:
         k[width] = (switch if width < 200 else
                     switch + stabs(2.25) if width < 300 else
                     switch + stabs(width / 100))

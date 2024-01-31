@@ -2,6 +2,7 @@ from build123d import *
 from keybird42 import *
 import math
 from mx import *
+import opk
 import time
 
 def typing_angle(foot_height, foot_depth):
@@ -15,8 +16,9 @@ log.info("hello!")
 
 EXPLODE = 0
 
-EXPORT = True
-PCBA_HOLES = True
+EXPORT = False
+PLATE_HOLES = False
+PCBA_HOLES = False
 
 # For most of the time we work with plates this thick, then re-adjust
 # to the desired thickness right at the end. This avoids problems when
@@ -410,8 +412,8 @@ TOP_LAYER = CASE_OUTLINE - TOP_CUTOUTS
 
 stamp("switch plate")
 
-KEYSWITCH_CUTOUTS = MAIN_LOC * thick(keyswitch_cutouts())
-PLATE_CUTOUTS = KEYSWITCH_CUTOUTS + NOTCH_CUTOUTS + HOLES_SCREW
+PLATE_CUTOUTS = NOTCH_CUTOUTS + HOLES_SCREW
+if PLATE_HOLES: PLATE_CUTOUTS += MAIN_LOC * thick(keyswitch_cutouts())
 SWITCH_PLATE = roundoff(FLAT_OUTLINE - SIDE_INSET, SIDE_RADIUS) - PLATE_CUTOUTS
 
 stamp("base plate")
@@ -461,7 +463,9 @@ layers = [
 
 # 3d view of assembled or exploded board
 
-z = PLATE_THICK*4 + PERSPEX_THICK*4 + EXPLODE*8
+top_z = PLATE_THICK*4 + PERSPEX_THICK*4 + EXPLODE*8
+
+z = top_z
 for i in range(len(layers)):
     stamp(f"stack {i}")
     thickness = PLATE_THICK if i < 8 and i % 2 else PERSPEX_THICK
@@ -478,6 +482,12 @@ for i in range(len(layers)):
 
 show_object(brow_vertical(BROW, accent_z))
 show_object(cheek_vertical(CHEEK, accent_z))
+
+stamp("keycaps")
+
+keycap_z = (top_z - PLATE_THICK - PERSPEX_THICK*2 + EXPLODE + MX_UPPER_THICK)
+for keycap in key_positions(opk.keycaps(stamp)):
+    show_object(Location((0,MAIN_Y,keycap_z)) * keycap)
 
 # export layouts for cutting
 

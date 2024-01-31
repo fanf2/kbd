@@ -24,17 +24,23 @@ FUN_Y2a = FUN_Y2 - ku(0.5) # lower arrows
 
 STAB_OFFSET = ku( 7 - 1 )/2
 
-def key_positions(k):
+def key_positions(row):
+    if row[0]:
+        arrows = (mx_key_grid(row[2], +FUN_X, FUN_Y2+ku(0.5), 1, 1) +
+                  mx_key_grid(row[4], +FUN_X, FUN_Y2-ku(0.5), 3, 1))
+    else:
+        row = [row,row,row,row,row,row]
+        arrows = mx_key_grid(row[0], +FUN_X, FUN_Y2, 3, 2)
     row5 = [ 125, 125, 150, 700, 150, 125, 125 ]
-    return (mx_key_grid(k, -FUN_X, FUN_Y1, 3, 2) +
-            mx_key_grid(k, -FUN_X, FUN_Y2, 3, 2) +
-            mx_key_grid(k, +FUN_X, FUN_Y1, 3, 2) +
-            mx_key_grid(k, +FUN_X, FUN_Y2, 3, 2) +
-            mx_key_row(k, MAIN_WIDTH, ku(+2), [], 15, []) +
-            mx_key_row(k, MAIN_WIDTH, ku(+1), [150], 12, [150]) +
-            mx_key_row(k, MAIN_WIDTH, ku(00), [175], 11, [225]) +
-            mx_key_row(k, MAIN_WIDTH, ku(-1), [225], 10, [175, 100]) +
-            mx_key_row(k, MAIN_WIDTH, ku(-2), [], 0, row5))
+    return (mx_key_grid(row[0], -FUN_X, FUN_Y1, 3, 2) +
+            mx_key_grid(row[0], -FUN_X, FUN_Y2, 3, 2) +
+            mx_key_grid(row[0], +FUN_X, FUN_Y1, 3, 2) +
+            arrows +
+            mx_key_row(row[1], MAIN_WIDTH, ku(+2), [], 15, []) +
+            mx_key_row(row[2], MAIN_WIDTH, ku(+1), [150], 12, [150]) +
+            mx_key_row(row[3], MAIN_WIDTH, ku(00), [175], 11, [225]) +
+            mx_key_row(row[4], MAIN_WIDTH, ku(-1), [225], 10, [175, 100]) +
+            mx_key_row(row[5], MAIN_WIDTH, ku(-2), [], 0, row5))
 
 def keyswitch_cutouts():
     return Sketch() + key_positions(mx_plate_cutouts())
