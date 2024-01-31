@@ -16,6 +16,7 @@ log.info("hello!")
 EXPLODE = 0
 
 EXPORT = True
+PCBA_HOLES = True
 
 # For most of the time we work with plates this thick, then re-adjust
 # to the desired thickness right at the end. This avoids problems when
@@ -62,11 +63,13 @@ CLIP_DEPTH	= TOTAL_DEPTH + 1
 
 # round off sharp corners
 SIDE_RADIUS	= 1.0
-KEYBLOCK_RADIUS	= 0.5
+
+KEYCAP_CLEAR	= 0.5
+KEYCAP_RADIUS	= KEYCAP_CLEAR*2
 
 # key block position
 
-MAIN_Y		= CASE_FRONT / 2 - CASE_REAR / 2
+MAIN_Y		= CASE_FRONT / 2 - CASE_REAR / 2 + KEYCAP_CLEAR
 MAIN_LOC	= Location((0, MAIN_Y))
 
 # accent positions
@@ -245,6 +248,11 @@ def case_interior_2d(outline):
     HOLE_Y2 = side_length(interior & holeclip) / 2
     return interior
 
+def keyblock_cutouts():
+    sharpcut = MAIN_LOC * thick(offset(
+        keycap_cutouts(), amount=KEYCAP_CLEAR, kind=Kind.INTERSECTION))
+    return fillet(sharpcut.edges() | Axis.Z, KEYCAP_RADIUS)
+
 # A circle of diameter `HOLE_SUPPORT` does not touch the edge of the
 # case at HOLE_X2, so it leaves a slight indentation in the foot; a
 # circle of diameter `heel_width` sticks out slightly, so it doesn't
@@ -393,11 +401,11 @@ SOCKET_CUTOUTS = socket_cutouts()
 
 HOLES_SCREW = holes(HOLE_SCREW)
 HOLES_RIVNUT = holes(HOLE_RIVNUT)
+HOLES_SCREW_RIVNUT = rear_wall(HOLES_SCREW) + front_wall(HOLES_RIVNUT)
 
 stamp("top layer")
 
-KEYCAP_CUTOUTS = MAIN_LOC * roundoff(keycap_cutouts(), KEYBLOCK_RADIUS)
-TOP_CUTOUTS = KEYCAP_CUTOUTS + brow_cutout() + HOLES_SCREW
+TOP_CUTOUTS = keyblock_cutouts() + brow_cutout() + HOLES_SCREW
 TOP_LAYER = CASE_OUTLINE - TOP_CUTOUTS
 
 stamp("switch plate")
@@ -408,7 +416,7 @@ SWITCH_PLATE = roundoff(FLAT_OUTLINE - SIDE_INSET, SIDE_RADIUS) - PLATE_CUTOUTS
 
 stamp("base plate")
 
-BASE_PLATE = CASE_OUTLINE - daughterboard_holes() - HOLES_RIVNUT
+BASE_PLATE = CASE_OUTLINE - daughterboard_holes() - HOLES_SCREW_RIVNUT
 
 stamp("walls")
 
@@ -416,14 +424,14 @@ FLAT_WALLS = FLAT_OUTLINE - FLAT_INTERIOR - SIDE_INSET + hole_support_2d()
 WALLS = roundoff(FLAT_WALLS, HOLE_MENISCUS, SIDE_RADIUS) - NOTCH_CUTOUTS
 
 WALLS_SCREW = WALLS - HOLES_SCREW
-WALLS_RIVNUT = WALLS - HOLES_RIVNUT
+WALLS_RIVNUT = WALLS - HOLES_SCREW_RIVNUT
 WALLS_SOCKET = WALLS_RIVNUT - SOCKET_CUTOUTS
 
 stamp("feet")
 
 FEET = feet(FLAT_OUTLINE)
-# include some little donuts to use as shims
-FEET_RIVNUT = FEET - HOLES_RIVNUT + rear_wall(HOLES_SCREW)
+FEET_SCREW = FEET - HOLES_SCREW
+FEET_RIVNUT = FEET - HOLES_RIVNUT
 
 stamp("accents")
 
@@ -443,9 +451,9 @@ layers = [
     WALLS_SOCKET,
     WALLS_SOCKET,
     BASE_PLATE,
-    FEET_RIVNUT,
-    FEET_RIVNUT,
-    FEET_RIVNUT,
+    FEET_SCREW,
+    FEET_SCREW,
+    FEET_SCREW,
     FEET_RIVNUT,
     FEET_RIVNUT,
     FEET_RIVNUT,
@@ -453,28 +461,23 @@ layers = [
 
 # 3d view of assembled or exploded board
 
-stack = []
-
 z = PLATE_THICK*4 + PERSPEX_THICK*4 + EXPLODE*8
 for i in range(len(layers)):
     stamp(f"stack {i}")
     thickness = PLATE_THICK if i < 8 and i % 2 else PERSPEX_THICK
     z -= thickness + EXPLODE
     layer = scale(layers[i], (1, 1, thickness / THICK))
-    stack += [ Location((0,0,z)) * layer ]
+    show_object(Location((0,0,z)) * layer)
     if i == 3:
         accent_z = z
     if i == 4:
         pcb_z = PLATE_THICK + PERSPEX_THICK - 5.0 - EXPLODE/2
-        stack += [ Location((0, MAIN_Y, z + pcb_z)) * kb42_pcba() ]
+        show_object(Location((0, MAIN_Y, z + pcb_z)) * kb42_pcba(PCBA_HOLES))
     if i == 6:
-        stack += [ Location((0,0, z + EXPLODE/2)) * daughterboard() ]
+        show_object(Location((0,0, z + EXPLODE/2)) * daughterboard())
 
-stack += brow_vertical(BROW, accent_z)
-stack += cheek_vertical(CHEEK, accent_z)
-
-stamp("show")
-show_object(stack)
+show_object(brow_vertical(BROW, accent_z))
+show_object(cheek_vertical(CHEEK, accent_z))
 
 # export layouts for cutting
 
