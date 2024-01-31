@@ -74,7 +74,7 @@ def kb42_pcb():
     )
     return make_face(half + mirror(half, Plane.YZ))
 
-def kb42_pcba():
+def kb42_pcba(holes):
 
     pcb_thick = 1.6
     pcba_thick = pcb_thick + 2.0
@@ -86,5 +86,6 @@ def kb42_pcba():
               Location((-STAB_OFFSET, 0)) * screw)
     components = extrude(keepout + screws, amount=-pcba_thick)
     cutouts = extrude(mx_pcb_cutouts(), amount=-pcba_thick)
-    holes = key_positions([ cutouts ] * 1000)
-    return extrude(outline, amount=-pcb_thick) + components - holes
+    pcba = extrude(outline, amount=-pcb_thick) + components
+    if holes: pcba -= key_positions([ cutouts ] * 1000)
+    return pcba
