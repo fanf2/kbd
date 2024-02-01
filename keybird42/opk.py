@@ -12,26 +12,55 @@ to use build123d instead of CadQuery
 import build123d as bd
 from mx import *
 
-log = bd.logging.getLogger("build123d")
-
 KEY_UNIT = 19.05
 
-def keycaps(progress):
+def keycaps(progress, simple=False):
+    gen = simplified if simple else keycap
     row = [None] * 6
     for i in range(len(row)):
         row[i] = [None] * 1000
     for w in MX_KEY_WIDTHS:
         progress(w)
         if w < 300:
-            row[0][w] = keycap(unitX=w/100, height=11, angle=+0 )
-            row[1][w] = keycap(unitX=w/100, height=10, angle=+9 )
-            row[2][w] = keycap(unitX=w/100, height=8,  angle=+6 )
-            row[3][w] = keycap(unitX=w/100, height=8,  angle=-6 )
-            row[4][w] = keycap(unitX=w/100, height=9,  angle=-12 )
-            row[5][w] = keycap(unitX=w/100, height=9,  angle=+0 )
+            row[0][w] = gen(unitX=w/100, height=11, angle=+0 )
+            row[1][w] = gen(unitX=w/100, height=10, angle=+9 )
+            row[2][w] = gen(unitX=w/100, height=8,  angle=+6 )
+            row[3][w] = gen(unitX=w/100, height=8,  angle=-6 )
+            row[4][w] = gen(unitX=w/100, height=9,  angle=-12 )
+            row[5][w] = gen(unitX=w/100, height=9,  angle=+0 )
         else:
-            row[5][w] = keycap(unitX=w/100, height=9,  angle=+0, convex=True )
+            row[5][w] = gen(unitX=w/100, height=9,  angle=+0, convex=True )
     return row
+
+def simplified(
+    unitX: float = 1,
+    unitY: float = 1,
+    base: float = 18.2,
+    top: float = 13.2,
+    curv: float = 1.7,
+    bFillet: float = 0.5,
+    tFillet: float = 5,
+    height: float = 13,
+    angle: float = 7,
+    depth: float = 2.8,
+    thickness: float = 1.5,
+    convex: bool = False,
+    legend: str = "",
+    legendDepth: float = -1.0,
+    font: str = "sans-serif",
+    fontsize: float = 10,
+    pos: bool = False
+):
+    top_diff = base - top
+    bx = KEY_UNIT * unitX - (KEY_UNIT - base)
+    by = KEY_UNIT * unitY - (KEY_UNIT - base)
+    tx = bx - top_diff
+    ty = by - top_diff
+    base = bd.RectangleRounded(bx, by, bFillet)
+    top = (bd.Location((0, 0, height - depth), (1,0,0), angle)
+           * bd.RectangleRounded(tx, ty, tFillet))
+    return bd.loft([base, top]);
+
 
 def keycap(
     unitX: float = 1,           # keycap size in unit. Standard sizes: 1, 1.25, 1.5, ...
@@ -52,9 +81,6 @@ def keycap(
     fontsize: float = 10,       # the font size is in units
     pos: bool = False           # use POS style stabilizers
 ):
-
-    if unitX < 2 and unitY < 2:
-        pos = False
 
     # if spacebar make the top less round-y
     tension = .4 if convex else 1

@@ -2,6 +2,7 @@
 
 from build123d import *
 from mx import *
+import opk
 
 KEYS_WIDE	= 15
 KEYS_DEEP	= 5
@@ -23,6 +24,8 @@ FUN_Y2  = FUN_Y1 - KEYBLOCK_GAP - FUN_DEPTH
 FUN_Y2a = FUN_Y2 - ku(0.5) # lower arrows
 
 STAB_OFFSET = ku( 7 - 1 )/2
+
+FONT="/Users/fanf/Code/kbd/Gorton_Perfected_1.02/Light.otf"
 
 def key_positions(row):
     if row[0]:
@@ -54,6 +57,63 @@ def keycap_cutouts():
     fun4b = Location((FUN_X, FUN_Y2)) * Rectangle(ku(1), FUN_DEPTH)
     fun4a = Location((FUN_X, FUN_Y2a)) * Rectangle(FUN_WIDTH, ku(1))
     return Sketch() + [ main, fun1, fun2, fun3, fun4a, fun4b ]
+
+KEY_LEGENDS = [
+    ["F4", 4], ["F1", 4], ["F5", 4], ["F2", 4], ["F6", 4], ["F3", 4],
+    ["F10", 4], ["F7", 4], ["F11", 4], ["F8", 4], ["F12", 4], ["F9", 4],
+    ["F16", 4], ["F13", 4], ["F17", 4], ["F14", 4], ["F18", 4], ["F15", 4],
+    ["↑", 9], ["←", 9], ["↓", 9], ["→", 9],
+
+    ["ESC", 4],
+    ["1", 7], ["2", 7], ["3", 7], ["4", 7], ["5", 7],
+    ["6", 7], ["7", 7], ["8", 7], ["9", 7], ["Ø", 7],
+    ["−", 9], ["+", 9], ["¦", 7], ["~", 7],
+
+    ["TAB", 4],
+    ["Q", 7], ["W", 7], ["E", 7], ["R", 7], ["T", 7], ["Y", 7],
+    ["U", 7], ["I", 7], ["O", 7], ["P", 7], ["{", 7], ["}", 7],
+    ["DELETE", 4],
+
+    ["CTRL", 4],
+    ["A", 7], ["S", 7], ["D", 7], ["F", 7], ["G", 7], ["H", 7],
+    ["J", 7], ["K", 7], ["L", 7], [";", 9], ['"', 9],
+    ["RETURN", 4],
+
+    ["SHIFT", 4],
+    ["Z", 7], ["X", 7], ["C", 7], ["V", 7], ["B", 7],
+    ["N", 7], ["M", 7], ["<", 9], [">", 9], ["?", 7],
+    ["CTRL", 4],
+    ["SHIFT", 4],
+
+    ["HYPER", 4],
+    ["ALT", 4],
+    ["META", 4],
+    None,
+    ["META", 4],
+    ["ALT", 4],
+    ["HYPER", 4],
+]
+
+def layout_keycaps(stamp, style, legends):
+    keycaps = key_positions(opk.keycaps(stamp, style == "simple"))
+    if not legends:
+        return keycaps
+    itop = 9 if style == "simple" else 8
+    for i, keycap in enumerate(keycaps):
+        if KEY_LEGENDS[i] is None:
+            continue
+        print(KEY_LEGENDS[i][0], end=" ", flush=True)
+        keytop = keycap.faces()[itop]
+        normal = keytop.normal_at()
+        legend = (Location(keytop.center() + normal) *
+                  Text(*KEY_LEGENDS[i], font_path=FONT))
+        projected = []
+        for letter in legend.faces():
+            projected += letter.project_to_shape(keycap, -normal)
+        keycaps[i] += [ Solid.extrude(f, direction=0.1*normal)
+                        for p in projected for f in p.faces() ]
+    print("done")
+    return keycaps
 
 # from kicad
 

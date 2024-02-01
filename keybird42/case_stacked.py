@@ -2,7 +2,6 @@ from build123d import *
 from keybird42 import *
 import math
 from mx import *
-import opk
 import time
 
 # dunno why it can't find `logging` via the previous import
@@ -16,6 +15,8 @@ EXPLODE = 0
 EXPORT = False
 PLATE_HOLES = False
 PCBA_HOLES = False
+KEYCAP_STYLE = "simple"
+KEYCAP_LEGENDS = True
 
 # For most of the time we work with plates this thick, then re-adjust
 # to the desired thickness right at the end. This avoids problems when
@@ -460,74 +461,22 @@ layers = [
 
 # 3d view of assembled or exploded board
 
-top_z = PLATE_THICK*4 + PERSPEX_THICK*4 + EXPLODE*8
+stamp("construct keycaps")
 
-stamp("keycaps")
+keycaps = layout_keycaps(stamp, KEYCAP_STYLE, KEYCAP_LEGENDS)
 
-FONT="/Users/fanf/Code/kbd/Gorton_Perfected_1.02/Thin.otf"
+stamp("show keycaps")
 
-legends = [
-    ["F4", 5], ["F1", 5], ["F5", 5], ["F2", 5], ["F6", 5], ["F3", 5],
-    ["F10", 5], ["F7", 5], ["F11", 5], ["F8", 5], ["F12", 5], ["F9", 5],
-    ["F16", 5], ["F13", 5], ["F17", 5], ["F14", 5], ["F18", 5], ["F15", 5],
-    ["↑", 9], ["←", 9], ["↓", 9], ["→", 9],
-
-    ["ESC", 4],
-    ["1", 7], ["2", 7], ["3", 7], ["4", 7], ["5", 7],
-    ["6", 7], ["7", 7], ["8", 7], ["9", 7], ["Ø", 7],
-    ["−", 7], ["+", 7], ["¦", 7], ["~", 7],
-
-    ["TAB", 4],
-    ["Q", 7], ["W", 7], ["E", 7], ["R", 7], ["T", 7], ["Y", 7],
-    ["U", 7], ["I", 7], ["O", 7], ["P", 7], ["{", 7], ["}", 7],
-    ["DELETE", 4],
-
-    ["CTRL", 4],
-    ["A", 7], ["S", 7], ["D", 7], ["F", 7], ["G", 7], ["H", 7],
-    ["J", 7], ["K", 7], ["L", 7], [";", 7], ['"', 7],
-    ["RETURN", 4],
-
-    ["SHIFT", 4],
-    ["Z", 7], ["X", 7], ["C", 7], ["V", 7], ["B", 7],
-    ["N", 7], ["M", 7], ["<", 7], [">", 7], ["?", 7],
-    ["CTRL", 4],
-    ["SHIFT", 4],
-
-    ["HYPER", 4],
-    ["ALT", 4],
-    ["META", 4],
-    None,
-    ["META", 4],
-    ["ALT", 4],
-    ["HYPER", 4],
-]
-
-keycap_z = (top_z - PLATE_THICK - PERSPEX_THICK*2 + EXPLODE + MX_UPPER_THICK)
-keycap_loc = Location((0,MAIN_Y,keycap_z))
-for i, keycap in enumerate(key_positions(opk.keycaps(stamp))):
-    keycap = keycap_loc * keycap
-    if legends[i] is None:
-        show_object(keycap)
-        continue
-    stamp(legends[i])
-    keytop = keycap.faces()[8]
-    normal = keytop.normal_at()
-    legend = (Location(keytop.center() + normal) *
-              Text(*legends[i], font_path=FONT))
-    projected = []
-    for letter in legend.faces():
-        try: projected += letter.project_to_shape(keycap, -normal)
-        except: stamp("wat")
-    extruded = []
-    for p in projected:
-        for f in p.faces():
-            extruded += [Solid.extrude(f, direction=-0.1*normal)]
-    keycap -= extruded
-    show_object(keycap)
+keycap_z = PLATE_THICK*3 + PERSPEX_THICK*2 + EXPLODE*9 + MX_UPPER_THICK
+if KEYCAP_STYLE == "opk": # or KEYCAP_LEGENDS:
+    for keycap in keycaps:
+        show_object(Location((0,MAIN_Y,keycap_z)) * keycap)
+else:
+    show_object([ Location((0,MAIN_Y,keycap_z)) * keycap for keycap in keycaps ])
 
 # stack
 
-z = top_z
+z = PLATE_THICK*4 + PERSPEX_THICK*4 + EXPLODE*8
 for i in range(len(layers)):
     stamp(f"stack {i}")
     thickness = PLATE_THICK if i < 8 and i % 2 else PERSPEX_THICK
