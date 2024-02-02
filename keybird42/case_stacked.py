@@ -459,6 +459,19 @@ layers = [
     FEET_RIVNUT,
 ]
 
+def rgba(rgba):
+    color = ()
+    alpha = None
+    for c in rgba:
+        if len(color) < 3:
+            color += (int(c, 16) * 17,)
+        else:
+            alpha = int(c, 16) / 15.0
+    options = { "color": color }
+    if alpha != None:
+        options["alpha"] = alpha
+    return { "options": options }
+
 # 3d view of assembled or exploded board
 
 stamp("construct keycaps")
@@ -472,27 +485,39 @@ if KEYCAP_STYLE == "opk": # or KEYCAP_LEGENDS:
     for keycap in keycaps:
         show_object(Location((0,MAIN_Y,keycap_z)) * keycap)
 else:
-    show_object([ Location((0,MAIN_Y,keycap_z)) * keycap for keycap in keycaps ])
+    show_object([ Location((0,MAIN_Y,keycap_z))
+                  * keycap for keycap in keycaps ],
+                name="keycaps", **rgba("222"))
 
 # stack
 
 z = PLATE_THICK*4 + PERSPEX_THICK*4 + EXPLODE*8
 for i in range(len(layers)):
     stamp(f"stack {i}")
-    thickness = PLATE_THICK if i < 8 and i % 2 else PERSPEX_THICK
+    if i < 8 and i % 2:
+        name = f"plate {i}"
+        thickness = PLATE_THICK
+        color = rgba("1117")
+    else:
+        name = f"perspex {i}"
+        thickness = PERSPEX_THICK
+        color = rgba("111")
     z -= thickness + EXPLODE
     layer = scale(layers[i], (1, 1, thickness / THICK))
-    show_object(Location((0,0,z)) * layer)
+    show_object(Location((0,0,z)) * layer,
+                name=name, **color)
     if i == 3:
         accent_z = z
     if i == 4:
         pcb_z = PLATE_THICK + PERSPEX_THICK - 5.0 - EXPLODE/2
-        show_object(Location((0, MAIN_Y, z + pcb_z)) * kb42_pcba(PCBA_HOLES))
+        show_object(Location((0, MAIN_Y, z + pcb_z)) * kb42_pcba(PCBA_HOLES),
+            name="pcba", **rgba("303"))
     if i == 6:
-        show_object(Location((0,0, z + EXPLODE/2)) * daughterboard())
+        show_object(Location((0,0, z + EXPLODE/2)) * daughterboard(),
+            name="usbdb", **rgba("007"))
 
-show_object(brow_vertical(BROW, accent_z))
-show_object(cheek_vertical(CHEEK, accent_z))
+show_object(brow_vertical(BROW, accent_z), name="pen_rest", **rgba("c00"))
+show_object(cheek_vertical(CHEEK, accent_z), name="side_accent", **rgba("c00"))
 
 # export layouts for cutting
 
