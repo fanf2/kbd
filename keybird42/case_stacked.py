@@ -1,14 +1,15 @@
 from build123d import *
+import inspect
 from keybird42 import *
 import math
 from mx import *
+import OCP.Graphic3d
 import time
 
-# dunno why it can't find `logging` via the previous import
-import build123d
-log = build123d.logging.getLogger("build123d")
-
-log.info("hello!")
+for f in inspect.stack():
+    if f.function == "main":
+        f.frame.f_locals["win"].viewer._get_view().Camera().SetProjectionType(
+            OCP.Graphic3d.Graphic3d_Camera.Projection_Perspective)
 
 EXPLODE = 0
 
@@ -16,7 +17,7 @@ EXPORT = False
 PLATE_HOLES = False
 PCBA_HOLES = False
 KEYCAP_STYLE = "simple"
-KEYCAP_LEGENDS = True
+KEYCAP_LEGENDS = False
 
 # For most of the time we work with plates this thick, then re-adjust
 # to the desired thickness right at the end. This avoids problems when
@@ -35,7 +36,6 @@ PLATE_THICK = 1.5   # 0.06 in
 # cast perspex tolerance is +/-10% plus 0.4mm
 # https://www.theplasticshop.co.uk/perspex-faqs.html#21
 THICK_CLEAR = PERSPEX_THICK * 0.1 + 0.4
-log.info(f"{THICK_CLEAR=}")
 
 # space between laser cut pieces
 SPREAD_CLEAR = 1
@@ -180,10 +180,10 @@ def meniscus(shape2d, vertex, radius):
         else:
             edges += [e]
     if len(radii) != 2:
-        log.info("meniscus requires 2 radial edges")
+        log("meniscus requires 2 radial edges")
         return []
     if len(edges) == 0:
-        log.info("meniscus could not make a closed curve")
+        log("meniscus could not make a closed curve")
         return []
     (p0, t0) = radii[0]
     (p1, t1) = radii[1]
@@ -196,7 +196,7 @@ def meniscus(shape2d, vertex, radius):
     elif start == p0 and end == p1:
         curve += Bezier(p1, p1 + t1, p0 + t0, p0)
     else:
-        log.info("mismatched endpoints in meniscus")
+        log("mismatched endpoints in meniscus")
         return []
     curve = make_face(curve)
     if chomp.area / circle.area > 0.5:
@@ -215,7 +215,7 @@ def roundoff(shape2d, mouth_r, ear_r=None):
         elif kind < 0.4:
             ears += meniscus(shape2d, v, ear_r)
         else:
-            log.info(f"flat {mouth_r=} {ear_r=} {kind=}")
+            log(f"flat {mouth_r=} {ear_r=} {kind=}")
     shape3d = thick(shape2d)
     if mouths: shape3d += thick(Sketch() + mouths)
     if ears: shape3d -= thick(Sketch() + ears)
@@ -298,7 +298,7 @@ def hole_support_2d():
 def holes(diameter):
     global HOLE_POSITIONS
     if not HOLE_POSITIONS:
-        log.info(f"{HOLE_X1=} {HOLE_Y1=} {HOLE_X2=} {HOLE_Y2=}")
+        log(f"{HOLE_X1=} {HOLE_Y1=} {HOLE_X2=} {HOLE_Y2=}")
         HOLE_POSITIONS = [ Location(p)
                            for i in [-1,+1] for j in [-1,+1]
                            for p in [(i*HOLE_X1, j*HOLE_Y1, 0),
