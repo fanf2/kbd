@@ -6,9 +6,12 @@ from mx import *
 import time
 
 EXPORT = False
-PLATE_HOLES = False
-PCBA_HOLES = False
-KEYCAP_LEGENDS = False
+
+SLOW = True
+
+PLATE_HOLES = SLOW
+PCBA_HOLES = SLOW
+KEYCAP_LEGENDS = SLOW
 KEYCAP_STYLE = "opk" if KEYCAP_LEGENDS else "simple"
 
 set_view_preferences(line_width=0)
@@ -406,7 +409,7 @@ TOP_LAYER = CASE_OUTLINE - TOP_CUTOUTS
 stamp("switch plate")
 
 PLATE_CUTOUTS = NOTCH_CUTOUTS + HOLES_SCREW
-if PLATE_HOLES: PLATE_CUTOUTS += MAIN_LOC * thick(keyswitch_cutouts())
+if PLATE_HOLES: PLATE_CUTOUTS += [ MAIN_LOC * thick(keyswitch_cutouts()) ]
 SWITCH_PLATE = roundoff(FLAT_OUTLINE - SIDE_INSET, SIDE_RADIUS) - PLATE_CUTOUTS
 
 stamp("base plate")

@@ -152,5 +152,5 @@ def kb42_pcba(holes):
     components = extrude(keepout + screws, amount=-pcba_thick)
     cutouts = extrude(mx_pcb_cutouts(), amount=-pcba_thick)
     pcba = extrude(outline, amount=-pcb_thick) + components
-    if holes: pcba -= key_positions([ cutouts ] * 1000)
+    if holes: pcba -= key_positions([None] + [ cutouts ] * 999)
     return pcba
