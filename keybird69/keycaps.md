@@ -55,26 +55,19 @@ that make it more tempting :-(
 
 keycaps:
 
-Light warm gray: #5A5955
-https://ral-colours.co.uk/ral-classic-colours/grey-shades/ral-7022/
+Light warm gray: RAL classic 7022
 
-Dark warm gray: #47484A
-https://ral-colours.co.uk/ral-classic-colours/grey-shades/ral-7021/
+Dark warm gray: RAL classic 7021
 
-Red: #BE3B37
-https://ral-colours.co.uk/ral-classic-colours/red-shades/ral-3020/
+Red: RAL classic 3020
 
 legends:
 
-Cream / Wax yellow: #F8E1A8
-https://ral-colours.co.uk/ral-design-colours/000-095/ral-090-90-30/
+Cream / Wax yellow: RAL design 090-90-30
 
-Chlorophyll green: #9EB100
-https://ral-colours.co.uk/ral-design-colours/100-190/ral-110-70-70/
+Chlorophyll green: RAL design 110-70-70
 
-Clear blue: #009FC8
-https://ral-colours.co.uk/ral-design-colours/200-290/ral-240-60-40/
-
+Clear blue: RAL design 240-60-40
 
 
 Matt3o MT3 Susuwatari
