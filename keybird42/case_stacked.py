@@ -1,13 +1,9 @@
 from build123d import *
-import inspect
+from cq_hacks import *
 from keybird42 import *
 import math
 from mx import *
-import OCP.Aspect
-import OCP.Graphic3d
 import time
-
-EXPLODE = 0
 
 EXPORT = False
 PLATE_HOLES = False
@@ -15,55 +11,7 @@ PCBA_HOLES = False
 KEYCAP_LEGENDS = False
 KEYCAP_STYLE = "opk" if KEYCAP_LEGENDS else "simple"
 
-FACE_OUTLINE = 0
-
-# surely there's a better way?
-def find_main_window():
-    for f in inspect.stack():
-        if f.function == "main":
-            return f.frame.f_locals["win"]
-
-def set_view_preferences():
-    viewer = find_main_window().viewer
-    prefs = viewer.preferences
-    prefs['Projection Type'] = 'Perspective'
-    prefs['Use gradient'] = True
-    prefs['Background color'] = (102,153,255)
-    prefs['Background color (aux)'] = (153,204,255)
-    viewer.updatePreferences()
-    viewer.canvas.view.SetBgGradientStyle(
-        OCP.Aspect.Aspect_GradientFillMethod_Vertical)
-    drawer = viewer.canvas.context.DefaultDrawer()
-    if FACE_OUTLINE > 0:
-        drawer.SetFaceBoundaryDraw(True)
-        drawer.FaceBoundaryAspect().SetWidth(FACE_OUTLINE)
-    else:
-        drawer.SetFaceBoundaryDraw(False)
-
-set_view_preferences()
-
-def explode(spread):
-    # when we are called from the console, the imports above are
-    # not available - dunno why they lack proper lexical scoping
-    import build123d
-    main = find_main_window()
-    ctx = main.viewer.canvas.context
-    cq = main.components["object_tree"].CQ
-    for i in range(cq.childCount()):
-        obj = cq.child(i)
-        if spread == 0:
-            ctx.ResetLocation(obj.ais)
-        else:
-            min_z = math.inf
-            if type(obj.shape) == list:
-                for o in obj.shape:
-                    z = o.bounding_box().min.Z
-                    if min_z > z: min_z = z
-            else:
-                min_z = obj.shape.bounding_box().min.Z
-            loc = build123d.Location((0,0, min_z * spread)).wrapped
-            ctx.SetLocation(obj.ais, loc)
-        ctx.Redisplay(obj.ais, True)
+set_view_preferences(line_width=0)
 
 # For most of the time we work with plates this thick, then re-adjust
 # to the desired thickness right at the end. This avoids problems when
@@ -197,6 +145,7 @@ USBDB_THICK	= 4.2
 USBDB_CLEAR	= 0.5
 USBDB_R		= 1.0
 USBDB_Y		= TOTAL_DEPTH/2 - USBDB_DEPTH/2 - USBDB_CLEAR - USB_INSET
+USBDB_Z		= 0.1
 
 # for debugging
 def multiocular_vertices(vertices):
@@ -406,7 +355,7 @@ def thicken_accent(accent):
 
 def brow_vertical(brow, accent_z):
     rotated = thicken_accent(brow).rotate(Axis.X, 90)
-    brow_z = accent_z + PLATE_THICK + THICK_CLEAR/2 + EXPLODE*3/2
+    brow_z = accent_z + PLATE_THICK + THICK_CLEAR/2
     return [ Location((0, SLOT_Y, brow_z)) * rotated ]
 
 def cheek_vertical(cheek, accent_z):
@@ -527,7 +476,7 @@ def rgba(rgba):
 
 stamp("keycaps")
 
-keycap_z = PLATE_THICK*3 + PERSPEX_THICK*2 + EXPLODE*9 + MX_UPPER_THICK
+keycap_z = PLATE_THICK*3 + PERSPEX_THICK*2 + MX_UPPER_THICK
 keycaps = []
 duplicates = {}
 
@@ -575,7 +524,7 @@ if len(keycaps) > 0:
 
 # stack
 
-z = PLATE_THICK*4 + PERSPEX_THICK*4 + EXPLODE*8
+z = PLATE_THICK*4 + PERSPEX_THICK*4
 for i in range(len(layers)):
     stamp(f"stack {i}")
     if i < 8 and i % 2:
@@ -586,18 +535,18 @@ for i in range(len(layers)):
         name = f"perspex {i}"
         thickness = PERSPEX_THICK
         color = rgba("070707")
-    z -= thickness + EXPLODE
+    z -= thickness
     layer = scale(layers[i], (1, 1, thickness / THICK))
     show_object(Location((0,0,z)) * layer,
                 name=name, **color)
     if i == 3:
         accent_z = z
     if i == 4:
-        pcb_z = PLATE_THICK + PERSPEX_THICK - 5.0 - EXPLODE/2
+        pcb_z = PLATE_THICK + PERSPEX_THICK - 5.0
         show_object(Location((0, MAIN_Y, z + pcb_z)) * kb42_pcba(PCBA_HOLES),
             name="pcba", **rgba("303"))
     if i == 6:
-        show_object(Location((0,0, z + EXPLODE/2)) * daughterboard(),
+        show_object(Location((0,0,z + USBDB_Z)) * daughterboard(),
             name="usbdb", **rgba("003"))
 
 show_object(brow_vertical(BROW, accent_z), name="pen_rest", **rgba("b00"))
