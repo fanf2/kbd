@@ -3,21 +3,30 @@ import inspect
 from keybird42 import *
 import math
 from mx import *
+import OCP.Aspect
 import OCP.Graphic3d
 import time
 
 for f in inspect.stack():
     if f.function == "main":
-        f.frame.f_locals["win"].viewer._get_view().Camera().SetProjectionType(
-            OCP.Graphic3d.Graphic3d_Camera.Projection_Perspective)
+        viewer = f.frame.f_locals["win"].viewer
+        prefs = viewer.preferences
+        prefs['Projection Type'] = 'Perspective'
+        prefs['Use gradient'] = True
+        prefs['Background color'] = (102,153,255)
+        prefs['Background color (aux)'] = (153,204,255)
+        viewer.updatePreferences()
+        viewer.canvas.view.SetBgGradientStyle(
+            OCP.Aspect.Aspect_GradientFillMethod_Vertical)
+        viewer.canvas.context.DefaultDrawer().SetFaceBoundaryDraw(False)
 
 EXPLODE = 0
 
 EXPORT = False
 PLATE_HOLES = False
 PCBA_HOLES = False
-KEYCAP_STYLE = "simple"
-KEYCAP_LEGENDS = False
+KEYCAP_STYLE = "opk"
+KEYCAP_LEGENDS = True
 
 # For most of the time we work with plates this thick, then re-adjust
 # to the desired thickness right at the end. This avoids problems when
@@ -459,35 +468,73 @@ layers = [
     FEET_RIVNUT,
 ]
 
+# 3d view of assembled or exploded board
+
 def rgba(rgba):
     color = ()
+    if len(rgba) < 5:
+        for i in range(3):
+            color += (int(rgba[i:i+1], 16) * 17,)
+    else:
+        for i in range(3):
+            color += (int(rgba[i*2:i*2+2], 16),)
     alpha = None
-    for c in rgba:
-        if len(color) < 3:
-            color += (int(c, 16) * 17,)
-        else:
-            alpha = int(c, 16) / 15.0
+    if len(rgba) == 4:
+        alpha = int(rgba[-1:], 16) / 15.0
+    if len(rgba) == 8:
+        alpha = int(rgba[-2:], 16) / 255.0
     options = { "color": color }
     if alpha != None:
         options["alpha"] = alpha
     return { "options": options }
 
-# 3d view of assembled or exploded board
-
-stamp("construct keycaps")
-
-keycaps = layout_keycaps(stamp, KEYCAP_STYLE, KEYCAP_LEGENDS)
-
-stamp("show keycaps")
+stamp("keycaps")
 
 keycap_z = PLATE_THICK*3 + PERSPEX_THICK*2 + EXPLODE*9 + MX_UPPER_THICK
-if KEYCAP_STYLE == "opk": # or KEYCAP_LEGENDS:
-    for keycap in keycaps:
-        show_object(Location((0,MAIN_Y,keycap_z)) * keycap)
-else:
-    show_object([ Location((0,MAIN_Y,keycap_z))
-                  * keycap for keycap in keycaps ],
-                name="keycaps", **rgba("222"))
+keycaps = []
+duplicates = {}
+
+def show_keycap(keycap, legend, name):
+    if KEYCAP_STYLE == "opk": # or KEYCAP_LEGENDS:
+        capcol = rgba("0c0c0c")
+        legcol = rgba("ff8")
+        if name in ["ESC", "ENTER", "RETURN"]:
+            capcol = rgba("b00")
+        if name in [
+                "F5", "F6", "F7", "F8", "↑", "←", "↓", "→",
+                "F13", "F14", "F15", "F16", "F17", "F18",
+                "TAB", "DELETE", "BACKSPACE"]:
+            capcol = rgba("030303")
+        if name in [ "SHIFT", "CTRL", "CONTROL", "FUNCTION"]:
+            capcol = rgba("030303")
+            legcol = rgba("077707")
+        if name in ["ALT", "CMD", "OPT", "FN", "MENU",
+                    "META", "SUPER", "HYPER", "CODE", "HACK"]:
+            capcol = rgba("030303")
+            legcol = rgba("0707aa")
+
+        if name in duplicates:
+            duplicates[name] += 1
+            name = f"{name} {duplicates[name]}"
+        else:
+            duplicates[name] = 1
+        stamp(name)
+
+        show_object(Location((0,MAIN_Y,keycap_z)) * keycap,
+                    name=f"keycap {name}", **capcol)
+        if legend:
+            show_object(Location((0,MAIN_Y,keycap_z)) * legend,
+                        name=f"legend {name}", **legcol)
+    else:
+        global keycaps
+        if legend: keycap -= legend
+        keycaps += [ Location((0,MAIN_Y,keycap_z)) * keycap ]
+
+layout_keycaps(stamp, show_keycap, KEYCAP_STYLE, KEYCAP_LEGENDS)
+
+if len(keycaps) > 0:
+    stamp("show keycaps")
+    show_object(keycaps, name="keycaps", **rgba("111"))
 
 # stack
 
@@ -497,11 +544,11 @@ for i in range(len(layers)):
     if i < 8 and i % 2:
         name = f"plate {i}"
         thickness = PLATE_THICK
-        color = rgba("1117")
+        color = rgba("03030333")
     else:
         name = f"perspex {i}"
         thickness = PERSPEX_THICK
-        color = rgba("111")
+        color = rgba("070707")
     z -= thickness + EXPLODE
     layer = scale(layers[i], (1, 1, thickness / THICK))
     show_object(Location((0,0,z)) * layer,
@@ -514,10 +561,10 @@ for i in range(len(layers)):
             name="pcba", **rgba("303"))
     if i == 6:
         show_object(Location((0,0, z + EXPLODE/2)) * daughterboard(),
-            name="usbdb", **rgba("007"))
+            name="usbdb", **rgba("003"))
 
-show_object(brow_vertical(BROW, accent_z), name="pen_rest", **rgba("c00"))
-show_object(cheek_vertical(CHEEK, accent_z), name="side_accent", **rgba("c00"))
+show_object(brow_vertical(BROW, accent_z), name="pen_rest", **rgba("b00"))
+show_object(cheek_vertical(CHEEK, accent_z), name="side_accent", **rgba("b00"))
 
 # export layouts for cutting
 

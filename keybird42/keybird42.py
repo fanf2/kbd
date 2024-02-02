@@ -26,6 +26,7 @@ FUN_Y2a = FUN_Y2 - ku(0.5) # lower arrows
 STAB_OFFSET = ku( 7 - 1 )/2
 
 FONT="/Users/fanf/Code/kbd/Gorton_Perfected_1.02/Light.otf"
+FONT="/Users/fanf/Code/kbd/SOD/SOD_Regular.otf"
 
 def key_positions(row):
     if row[0]:
@@ -59,61 +60,59 @@ def keycap_cutouts():
     return Sketch() + [ main, fun1, fun2, fun3, fun4a, fun4b ]
 
 KEY_LEGENDS = [
-    ["F4", 4], ["F1", 4], ["F5", 4], ["F2", 4], ["F6", 4], ["F3", 4],
-    ["F10", 4], ["F7", 4], ["F11", 4], ["F8", 4], ["F12", 4], ["F9", 4],
-    ["F16", 4], ["F13", 4], ["F17", 4], ["F14", 4], ["F18", 4], ["F15", 4],
-    ["↑", 9], ["←", 9], ["↓", 9], ["→", 9],
+    ("F6", 5), ("F1", 5), ("F3", 5), ("F2", 5), ("F4", 5), ("F5", 5),
+    ("F10", 5), ("F7", 5), ("F11", 5), ("F9", 5), ("F12", 5), ("F8", 5),
+    ("F16", 5), ("F13", 5), ("F17", 5), ("F14", 5), ("F18", 5), ("F15", 5),
+    ("↑", 9), ("←", 9), ("↓", 9), ("→", 9),
 
-    ["ESC", 4],
-    ["1", 7], ["2", 7], ["3", 7], ["4", 7], ["5", 7],
-    ["6", 7], ["7", 7], ["8", 7], ["9", 7], ["Ø", 7],
-    ["−", 9], ["+", 9], ["¦", 7], ["~", 7],
+    ("ESC", 5),
+    ("1", 8), ("2", 8), ("3", 8), ("4", 8), ("5", 8),
+    ("6", 8), ("7", 8), ("8", 8), ("9", 8), ("0", 8),
+    ("-", 9), ("+", 9), ("|", 8), ("~", 8),
 
-    ["TAB", 4],
-    ["Q", 7], ["W", 7], ["E", 7], ["R", 7], ["T", 7], ["Y", 7],
-    ["U", 7], ["I", 7], ["O", 7], ["P", 7], ["{", 7], ["}", 7],
-    ["DELETE", 4],
+    ("TAB", 5),
+    ("Q", 8), ("W", 8), ("E", 8), ("R", 8), ("T", 8), ("Y", 8),
+    ("U", 8), ("I", 8), ("O", 8), ("P", 8), ("{", 8), ("}", 8),
+    ("DELETE", 5),
 
-    ["CTRL", 4],
-    ["A", 7], ["S", 7], ["D", 7], ["F", 7], ["G", 7], ["H", 7],
-    ["J", 7], ["K", 7], ["L", 7], [";", 9], ['"', 9],
-    ["RETURN", 4],
+    ("CTRL", 5),
+    ("A", 8), ("S", 8), ("D", 8), ("F", 8), ("G", 8), ("H", 8),
+    ("J", 8), ("K", 8), ("L", 8), (";", 9), ('"', 9),
+    ("RETURN", 5),
 
-    ["SHIFT", 4],
-    ["Z", 7], ["X", 7], ["C", 7], ["V", 7], ["B", 7],
-    ["N", 7], ["M", 7], ["<", 9], [">", 9], ["?", 7],
-    ["CTRL", 4],
-    ["SHIFT", 4],
+    ("SHIFT", 5),
+    ("Z", 8), ("X", 8), ("C", 8), ("V", 8), ("B", 8),
+    ("N", 8), ("M", 8), ("<", 9), (">", 9), ("?", 8),
+    ("CTRL", 5),
+    ("SHIFT", 5),
 
-    ["HYPER", 4],
-    ["ALT", 4],
-    ["META", 4],
-    None,
-    ["META", 4],
-    ["ALT", 4],
-    ["HYPER", 4],
+    ("HYPER", 5),
+    ("ALT", 5),
+    ("META", 5),
+    ("SPACE", 0),
+    ("META", 5),
+    ("ALT", 5),
+    ("HYPER", 5),
 ]
 
-def layout_keycaps(stamp, style, legends):
+def layout_keycaps(stamp, show_it, style, legends):
     keycaps = key_positions(opk.keycaps(stamp, style == "simple"))
-    if not legends:
-        return keycaps
     itop = 9 if style == "simple" else 8
     for i, keycap in enumerate(keycaps):
-        if KEY_LEGENDS[i] is None:
+        (name, font_size) = KEY_LEGENDS[i]
+        if not legends or font_size == 0:
+            show_it(keycap, None, name)
             continue
-        print(KEY_LEGENDS[i][0], end=" ", flush=True)
         keytop = keycap.faces()[itop]
         normal = keytop.normal_at()
-        legend = (Location(keytop.center() + normal) *
-                  Text(*KEY_LEGENDS[i], font_path=FONT))
+        rendered = (Location(keytop.center() + normal) *
+                    Text(name, font_size, font_path=FONT))
         projected = []
-        for letter in legend.faces():
-            projected += letter.project_to_shape(keycap, -normal)
-        keycaps[i] += [ Solid.extrude(f, direction=0.1*normal)
-                        for p in projected for f in p.faces() ]
-    print("done")
-    return keycaps
+        for f in rendered.faces():
+            projected += f.project_to_shape(keycap, -normal)
+        legend = Part() + [ Solid.extrude(f, direction=0.1*normal)
+                            for p in projected for f in p.faces() ]
+        show_it(keycap, legend, name)
 
 # from kicad
 
