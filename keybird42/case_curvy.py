@@ -1,4 +1,5 @@
 from build123d import *
+from cq_hacks import *
 from keybird42 import *
 import math
 from monkeypatch_JernArc import *
@@ -7,106 +8,119 @@ from mx import *
 def atan2(opposite, adjacent):
     return math.atan2(opposite, adjacent) * 360/math.tau
 
-def topo(obj):
-    try: return obj.show_topology()
-    except: return f"{obj}"
+stamp("----------------------------------------------------------------")
 
-print("----------------------------------------------------------------")
+set_view_preferences(line_width=1)
 
-THICK = 1.5
-KEYCAP_CLEAR = 0.5
+show_object(keycap_cutouts(), **rgba("3331"))
 
-TYPING_ANGLE = 7.5
-CASE_ANGLE = 10
+total_width = ku(24)
+middle_depth = ku(6)
+middle_width = ku(10)
+side_depth = ku(3)
 
-# factors of 24
-TOTAL_WIDTH = ku(24)
-TOTAL_DEPTH = ku(8)
-TOTAL_HEIGHT = ku(2)
+front_diameter = ku(1)
+rear_diameter = ku(2)
 
-# linear stretches
-MIDDLE_WIDTH = ku(12)
-MIDDLE_DEPTH = ku(4)
+front_radius = front_diameter/2
+rear_radius = rear_diameter/2
+side_radius = front_radius * 2
 
-PENREST_RADIUS = ku(0.25)
-PENREST_WIDTH = ku(12)
+side_stretch = side_radius / front_radius
+stamp(f"{front_radius=}")
+stamp(f"{side_radius=}")
+stamp(f"{side_stretch=}")
 
-ELLIPSOID_X_RADIUS = (TOTAL_WIDTH - MIDDLE_WIDTH) / 2
-ELLIPSOID_Y_RADIUS = (TOTAL_DEPTH - MIDDLE_DEPTH) / 2
-ELLIPSOID_Z_RADIUS = TOTAL_HEIGHT/2
-ELLIPSOID_RADII = (ELLIPSOID_X_RADIUS,
-                   ELLIPSOID_Y_RADIUS,
-                   ELLIPSOID_Z_RADIUS)
+front_y = -middle_depth/2
+rear_y = +middle_depth/2
+front_side_y = -side_depth/2
+rear_side_y = -side_depth/2
 
-semi = (Circle(1) & Location((0.5, 0)) * Rectangle(1, 2))
-semi_xz = Plane.XZ * semi
-semi_yz = Plane.YZ * semi
+rear_z = front_radius - rear_radius
 
-middle_x = (MIDDLE_WIDTH/2) * (1/ELLIPSOID_X_RADIUS)
-middle_y = (MIDDLE_DEPTH/2) * (1/ELLIPSOID_Y_RADIUS)
+side_x = total_width/2 - side_radius
+side_y = side_depth/2
 
-rear_curve = extrude(semi_yz, -middle_x)
-right_curve = extrude(semi_xz, +middle_y)
-corner_curve = revolve(semi_xz, Axis.Z, 90)
+ellipse_xr = (side_x - middle_width/2) / side_stretch
+ellipse_yr = (middle_depth - side_depth) / 2
 
-quarter = Location((middle_x, middle_y)) * (
-    rear_curve + corner_curve + right_curve)
+typing_angle = atan2(rear_diameter - front_diameter, middle_depth)
+stamp(f"{typing_angle=}")
 
-right_curves = quarter + mirror(quarter, Plane.XZ)
-left_curves = mirror(right_curves, Plane.YZ)
+front_section = make_face(ThreePointArc
+                          ((0,front_y,+front_radius),
+                           (0,front_y-front_radius,0),
+                           (0,front_y,-front_radius))
+                          + Line
+                          ((0,front_y,-front_radius),
+                           (0,front_y,+front_radius)))
 
-unit_case = left_curves + Box(middle_x*2, middle_y*2, 2) + right_curves
+rear_section = make_face(ThreePointArc
+                         ((0, rear_y, rear_z + rear_radius),
+                          (0, rear_y + rear_radius, rear_z),
+                          (0, rear_y, rear_z - rear_radius))
+                         + Line
+                         ((0, rear_y, rear_z - rear_radius),
+                          (0, rear_y, rear_z + rear_radius)))
 
-surface = scale(unit_case, ELLIPSOID_RADII)
+side_section = Plane.XZ * make_face(
+    EllipticalCenterArc(
+        (side_x, 0),
+        side_radius, front_radius,
+        -90, +90)
+    + Line(
+        (side_x, -front_radius),
+        (side_x, +front_radius)))
 
-print(f"{ELLIPSOID_RADII=}")
 
-# form a wedge
+front_curve = sweep(front_section,
+                    Line((-middle_width/2, front_y),
+                         (+middle_width/2, front_y)))
+rear_curve = sweep(rear_section,
+                    Line((-middle_width/2, rear_y, rear_z),
+                         (+middle_width/2, rear_y, rear_z)))
+side_curve = sweep(side_section,
+                    Line((side_x, -side_y),
+                         (side_x, +side_y)))
 
-clip_width = TOTAL_WIDTH + ku(1)
-clip_depth = TOTAL_DEPTH + ku(2)
-clip_height = ku(3/8)
+show_object(front_curve)
+show_object(rear_curve)
+show_object(side_curve)
 
-clip_top = (Location((0, -clip_depth/2, clip_height))
-            * Rotation(X=CASE_ANGLE/2)
-            * Location((0, +clip_depth/2, 0))
-            * Rectangle(clip_width, clip_depth))
+front_side_path = EllipticalCenterArc(
+    (0, -side_y),
+    ellipse_xr, ellipse_yr,
+    -90, 0)
 
-clip_base = mirror(clip_top, Plane.XY)
-clip = loft([clip_base, clip_top])
+front_side_curve = Location((middle_width/2,0)) * scale(sweep(
+    front_section, front_side_path), (side_stretch, 1, 1))
 
-print(f"{topo(clip_top.location)}")
+show_object(front_side_curve)
 
-# z positions relative to top of case
+# make a bad guess at the path then move its starting point to the right place
+x = (side_x - middle_width/2) / side_stretch
+y = rear_y - side_y
+rear_side_path = Rotation(X=-45) * CenterArc((0,0), y, 90,-90)
 
-main_y = -ku(3/8)
-main_z = ku(1)
+# the Z position ends up completely wrong if I stretch in one stage
+rear_side_path = scale(rear_side_path, (x / (rear_side_path @ 1).X, 1, 1))
+rear_side_path = scale(rear_side_path, (1, y / (rear_side_path @ 0).Y, 1))
+rear_side_path = scale(rear_side_path, (1, 1, rear_z / (rear_side_path @ 0).Z))
 
-pcba_clear = 1.0
-cavity_clear = ku(1/8)
-cavity_height = MX_LOWER_THICK - MX_PLATE_THICK + MX_PINS_THICK + pcba_clear
-cavity_outline = offset(kb42_pcb(), cavity_clear)
+# turn the path back into a simple edge
+rear_side_path = rear_side_path.edges()[0]
 
-upper_height = MX_UPPER_THICK + MX_KEYCAP_THICK # more than enough
+rear_side_start_section = (Location(rear_side_path @ 0)
+                           * Location((0,-rear_y,-rear_z))
+                           * rear_section)
 
-holes = (Location((0, main_y, main_z))
-         * Rotation(X=TYPING_ANGLE - CASE_ANGLE/2)
-         * (Location((0,main_y,0))
-            * extrude(keycap_cutouts(), -upper_height) +
-            Location((0,main_y,-upper_height))
-            * extrude(keyswitch_cutouts(), -MX_PLATE_THICK) +
-            Location((0,main_y,-upper_height-MX_PLATE_THICK))
-            * extrude(cavity_outline, -cavity_height)))
+rear_side_end_section = (Location(rear_side_path @ 1)
+                         * Rotation(Z=90)
+                         * Location((0,-front_y))
+                         * front_section)
 
-penrest_y = MIDDLE_DEPTH/2 + PENREST_RADIUS
-penrest_z = TOTAL_HEIGHT/2 + PENREST_RADIUS/2
-penrest = (
-    Location((0, penrest_y, penrest_z)) *
-    (Plane.YZ * Cylinder(PENREST_RADIUS, PENREST_WIDTH)))
+rear_side_curve = Location((middle_width/2,+side_y)) * scale(sweep([
+     rear_side_start_section, rear_side_end_section
+], rear_side_path, multisection=True), (side_stretch, 1, 1))
 
-penrest += (Location((+PENREST_WIDTH/2, penrest_y, penrest_z))
-            * Sphere(PENREST_RADIUS) +
-            Location((-PENREST_WIDTH/2, penrest_y, penrest_z))
-            * Sphere(PENREST_RADIUS, rotation=(0,0,180)))
-
-show_object((surface & clip) - (penrest + holes))
+show_object(rear_side_curve)
