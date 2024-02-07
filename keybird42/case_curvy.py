@@ -22,13 +22,16 @@ main_width = ku(15)
 keys_width = main_width + 2 * (ku(0.25) + ku(3))
 keys_depth = ku(5)
 
-middle_width = ku(8)
-
 keys_y0 = main_y - keys_depth/2
 
-front_x = middle_width/2
+front_x = ku(4)
 front_y = keys_y0 - ku(0.5)
 front_r = ku(0.5)
+
+rear_x = ku(6)
+rear_y = -front_y
+rear_r = ku(1.0)
+rear_z = front_r - rear_r
 
 side_w = ku(0.4)
 side_x = ku(11)
@@ -41,9 +44,14 @@ side_stretch = 2
 
 show_marker((corner_x, corner_y))
 show_marker((front_x, front_y))
+show_marker((rear_x, rear_y))
 show_marker((side_x, side_y))
 
-show_object(Location((0, main_y)) * keycap_cutouts(), **rgba("3331"))
+show_object(Location((0, main_y)) * keycap_cutouts(), **rgba("3333"))
+
+show_object(Location((0, 0, front_r))
+            * Rectangle(ku(24), ku(8)),
+            **rgba("cccc"))
 
 # find ellipse radii given displacement
 # from point on axis to point on diagonal
@@ -64,6 +72,16 @@ def front_ellipse():
         (centre_x, centre_y), radius_x, radius_y, -90, 0
     ) & RectangleAt(front_x, front_y, width, height)
 
+def rear_ellipse():
+    width = corner_x - rear_x
+    height = corner_y + rear_y
+    (radius_x, radius_y) = ellipse_radii_for_diagonal(width, height)
+    centre_x = rear_x
+    centre_y = rear_y - radius_y
+    return EllipticalCenterArc(
+        (centre_x, centre_y), radius_x, radius_y, 0, -90
+    ) & RectangleAt(rear_x, rear_y, width, -height)
+
 def side_ellipse():
     height = side_y - corner_y
     width = side_w
@@ -74,11 +92,12 @@ def side_ellipse():
         (centre_x, centre_y), radius_x, radius_y, -90, 0
     ) & RectangleAt(corner_x, corner_y, width, height)
 
-front_path = (Line((0, front_y), (front_x, front_y))
-              + front_ellipse()
-              + side_ellipse())
 
 def front_curve():
+    path = (Line((0, front_y), (front_x, front_y))
+            + front_ellipse()
+            + side_ellipse())
+
     section = make_face(ThreePointArc(
         (0, front_y, +front_r),
         (0, front_y - front_r, 0),
@@ -88,33 +107,42 @@ def front_curve():
         (0, front_y, +front_r)
     ))
 
-    path = scale(front_path, (1/side_stretch, 1, 1))
-    squashed = sweep(section, path.edges())
+    squashed_path = scale(path, (1/side_stretch, 1, 1))
+    squashed_curve = sweep(section, squashed_path.edges())
 
-    return scale(squashed, (side_stretch, 1, 1))
+    return scale(squashed_curve, (side_stretch, 1, 1))
 
 def rear_curve():
-    show_object(        EllipticalCenterArc(
-            (0,0), ku(1.0), ku(1.0), 0, 180)
-        + Line((-ku(1), 0), (+ku(1), 0)))
+    rear_semi = Plane.ZY * make_face(EllipticalCenterArc(
+        (0,0), ku(1.0), ku(1.0), 0, 180
+    ) + Line((-ku(1), 0), (+ku(1), 0)))
 
+    side_semi = Plane.XZ * make_face(EllipticalCenterArc(
+        (0,0), ku(1.0), ku(0.5), -90, +90
+    ) + Line((0,-ku(0.5)), (0,+ku(0.5))))
 
-    start_section = Location((0, -front_y, -front_r/2)) * (Plane.ZY * make_face(
-        EllipticalCenterArc(
-            (0,0), ku(1.0), ku(1.0), 0, 180)
-        + Line((-ku(1), 0), (+ku(1), 0))))
-    show_object(start_section, **rgba("00c"))
-    
-    end_section = Plane.XZ * Location((side_x, side_y)) * make_face(
-        EllipticalCenterArc(
-            (0,0), ku(1.0), ku(0.5), -90, +90)
-        + Line((0,-ku(0.5)), (0,+ku(0.5))))
-    show_object(end_section, **rgba("0c0"))
+    start_pos = (0, rear_y, rear_z)
+    start_section = Location(start_pos) * rear_semi
 
-    return sweep([start_section, end_section],
-                 mirror(front_path, Plane.ZX).edges(),
-                 multisection=True)
+    mid_pos = (rear_x, rear_y, rear_z)
+    mid_section = Location(mid_pos) * rear_semi
 
-show_object(front_curve())
+    rear_curve = sweep(start_section, Line(start_pos, mid_pos))
+    show_object(rear_curve, **rgba("4444"))
 
-show_object(rear_curve())
+    end_section = Location((corner_x, -corner_y)) * Rotation(Z=45) * side_semi
+    side_curve = sweep(end_section, mirror(side_ellipse(), Plane.ZX).edges())
+    show_object(side_curve, **rgba("4444"))
+
+    corner_path = rear_ellipse()
+    show_object(corner_path)
+
+    corner_curve = sweep([mid_section, end_section],
+                         corner_path, multisection=True)
+    show_object(corner_curve, **rgba("4444"))
+
+    return
+
+show_object(front_curve(), **rgba("4444"))
+
+rear_curve()
