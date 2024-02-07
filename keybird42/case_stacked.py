@@ -3,7 +3,6 @@ from cq_hacks import *
 from keybird42 import *
 import math
 from mx import *
-import time
 
 EXPORT = False
 
@@ -383,10 +382,6 @@ def left_foot(shape):
 def right_foot(shape):
     return Location((+CLIP_WIDTH/4, 0)) * HALF_FOOT & shape
 
-START = time.perf_counter()
-def stamp(msg):
-    print(f"{time.perf_counter() - START :6.3f} {msg}")
-
 FLAT_OUTLINE = case_outline_2d()
 FLAT_INTERIOR = case_interior_2d(FLAT_OUTLINE)
 CASE_OUTLINE = roundoff(FLAT_OUTLINE, SIDE_RADIUS)
@@ -458,24 +453,6 @@ layers = [
 ]
 
 # 3d view of assembled or exploded board
-
-def rgba(rgba):
-    color = ()
-    if len(rgba) < 5:
-        for i in range(3):
-            color += (int(rgba[i:i+1], 16) * 17,)
-    else:
-        for i in range(3):
-            color += (int(rgba[i*2:i*2+2], 16),)
-    alpha = None
-    if len(rgba) == 4:
-        alpha = int(rgba[-1:], 16) / 15.0
-    if len(rgba) == 8:
-        alpha = int(rgba[-2:], 16) / 255.0
-    options = { "color": color }
-    if alpha != None:
-        options["alpha"] = alpha
-    return { "options": options }
 
 stamp("keycaps")
 
