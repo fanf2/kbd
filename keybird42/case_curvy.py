@@ -14,10 +14,17 @@ def subdiv(n):
 
 stamp("----------------------------------------------------------------")
 
-set_view_preferences(line_width=1)
+set_view_preferences(line_width=0)
+
+curve_steps = 10
 
 total_width = ku(24)
 total_depth = ku(8)
+total_thick = ku(2)
+
+desk_width = total_width + ku(12)
+desk_depth = total_depth + ku(8)
+desk_radius = ku(1)
 
 main_y = ku(-0.25)
 
@@ -47,30 +54,25 @@ corner_y = keys_y0 + ku(1/3)
 
 side_stretch = side_r / front_r
 
-show_marker((corner_x, +corner_y))
-show_marker((corner_x, -corner_y))
-show_marker((front_x, front_y - front_r))
-show_marker((front_x, front_y))
-show_marker((rear_x, rear_y))
-show_marker((rear_x, rear_y+rear_r))
-show_marker((side_x, 0))
+assert total_thick > rear_r * 2
 
-show_object(Location((0, main_y)) * keycap_cutouts(), **rgba("3333"))
-
-show_object(Location((0, centre_y))
-            * Rectangle(total_width, total_depth),
-            **rgba("000c"))
+# show_marker((corner_x, +corner_y))
+# show_marker((corner_x, -corner_y))
+# show_marker((front_x, front_y - front_r))
+# show_marker((front_x, front_y))
+# show_marker((rear_x, rear_y))
+# show_marker((rear_x, rear_y+rear_r))
+# show_marker((side_x, 0))
 
 typing_angle = atan2(rear_r*2 - front_r*2,
                      rear_y - front_y)
 stamp(f"{typing_angle=}")
 
-show_object(
-    Location((0, front_y, -2*front_r)) *
-    Rotation(X=-typing_angle) *
-    Location((0, total_depth/2-front_r, 0)) *
-    Rectangle(total_width, total_depth),
-    **rgba("0001"))
+desk = (Location((0, front_y, -2*front_r)) *
+        Rotation(X=-typing_angle) *
+        Location((0, total_depth/2-front_r)) *
+        RectangleRounded(desk_width, desk_depth, desk_radius))
+
 
 # find ellipse radii given displacement
 # from point on axis to point on diagonal
@@ -111,6 +113,14 @@ def side_ellipse():
         (centre_x, centre_y), radius_x, radius_y, -90, +90
     ) & RectangleAt(corner_x, corner_y, width, height*2)
 
+def build_path():
+    path = front_ellipse() + side_ellipse() + rear_ellipse()
+    p0 = path @ 0
+    p1 = path @ 1
+    line0 = Line(p0, (0, p0.Y))
+    line1 = Line(p1, (0, p1.Y))
+    return line0 + path + line1
+
 def curve_section(path, t):
     pos = path @ t
     rot = -Vector(0,1,0).get_signed_angle(path % t)
@@ -122,7 +132,6 @@ def curve_section(path, t):
     xt = (pos.X - front_x) / (side_x - front_x)
     if pos.Y >= 0: xt = 1
     xtt = max(0,xt)**6
-    stamp((xt, xtt))
     r = min(front_r + xtt * (rear_r - front_r),
             pos.Y - min_y)
 
@@ -135,15 +144,12 @@ def curve_section(path, t):
     ) + Line((0,-z), (0,+z)))
     return Location(pos - (0,0,z)) * Rotation(Z=rot) * semi
 
-def side_curve(steps):
-    path = front_ellipse() + side_ellipse() + rear_ellipse()
-
+def build_curve(path, steps):
     sections = [ curve_section(path, i/steps)
                  for i in range(steps+1) ]
     #show_object(sections)
 
-    show_object(extrude(sections[0], (path @ 0).X), **rgba("444"))
-
+    curve = []
     for i in range(steps):
         t0 = ((i + 0) / steps)
         t1 = ((i + 1) / steps)
@@ -153,11 +159,25 @@ def side_curve(steps):
         n1 = (path % t1).rotate(Axis.Z, -90)
         clip = make_face(Polyline(p0-n0*ku(0.22), p0+n0*ku(2),
                                   p1+n1*ku(2), p1-n1*ku(0.22)))
-        show_object(sweep([sections[i], sections[i+1]],
-                          path & clip, multisection=True),
-                     **rgba("444"))
+        segment = sweep([sections[i], sections[i+1]],
+                        path & clip, multisection=True)
+        curve += [segment, mirror(segment, Plane.YZ)]
+    return curve
 
-    show_object(extrude(sections[-1], -(path @ 1).X), **rgba("444"))
-    return
+clip = extrude(desk, total_thick)
 
-side_curve(5)
+curve_path = build_path()
+
+top_face = make_face(curve_path + mirror(curve_path, Plane.ZY))
+infill = clip & extrude(top_face, -total_thick)
+
+infill -= extrude(Location((0, main_y)) * keycap_cutouts(), -7.5)
+
+# we need to clip the curve because it doesn't meet the desk at a
+# perfect tangent: there's a discrepancy due to the typing angle
+
+outer_curve = clip & build_curve(curve_path, curve_steps)
+
+show_object(infill, **rgba("222"))
+show_object(outer_curve, **rgba("222"))
+#show_object(desk, **rgba("000"))
