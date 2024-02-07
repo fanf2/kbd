@@ -115,40 +115,34 @@ def curve_section(path, t):
     r = min(front_r + xtt * (rear_r - front_r),
             pos.Y - min_y)
 
-    show_object(Location(pos) * Box(t+1,t+1,t+1))
-    show_object(Line(pos, pos + normal * r))
-    show_object(Line(pos, pos - (0, 0, 2*z)))
+    # show_object(Location(pos) * Box(t+1,t+1,t+1))
+    # show_object(Line(pos, pos + normal * r))
+    # show_object(Line(pos, pos - (0, 0, 2*z)))
 
     semi = Plane.XZ * make_face(EllipticalCenterArc(
         (0,0), r, z, -90, +90
     ) + Line((0,-z), (0,+z)))
     return Location(pos - (0,0,z)) * Rotation(Z=rot) * semi
 
-def rear_curve():
+def side_curve(steps):
     path = front_ellipse() + side_ellipse() + rear_ellipse()
 
-    # the cad kernel goes AWOL if this is cranked up too much
-    steps = 32
     sections = [ curve_section(path, i/steps)
                  for i in range(steps+1) ]
-    show_object(sections)
-    return
-    stamp("sections")
+    #show_object(sections)
 
-    start_pos = (0, rear_y, rear_z)
-    mid_pos = (rear_x, rear_y, rear_z)
-    rear_curve = sweep(sections[-1], Line(start_pos, mid_pos))
-    show_object(rear_curve, **rgba("4444"))
-    stamp("rear")
-
-    # side_curve = sweep(sections[0], side_path)
-    # show_object(side_curve, **rgba("4444"))
-    # stamp("side")
-
-    corner_curve = sweep(sections, corner_path, multisection=True)
-    show_object(corner_curve, **rgba("4444"))
-    stamp("corner")
+    for i in range(steps):
+        t0 = ((i + 0) / steps)
+        t1 = ((i + 1) / steps)
+        p0 = path @ t0
+        p1 = path @ t1
+        n0 = (path % t0).rotate(Axis.Z, -90)
+        n1 = (path % t1).rotate(Axis.Z, -90)
+        clip = make_face(Polyline(p0-n0*4, p0+n0*9, p1+n1*9, p1-n1*4))
+        show_object(sweep([sections[i], sections[i+1]],
+                          path & clip, multisection=True),
+                     **rgba("444"))
 
     return
 
-rear_curve()
+side_curve(20)
