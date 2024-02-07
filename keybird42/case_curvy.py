@@ -38,7 +38,7 @@ side_r = ku(1)
 side_x = total_width/2 - side_r
 side_w = ku(1/3)
 
-rear_r = ku(1.0)
+rear_r = ku(0.9)
 rear_x = ku(6)
 rear_y = front_y - front_r + ku(8) - rear_r
 
@@ -59,7 +59,11 @@ show_object(Location((0, main_y)) * keycap_cutouts(), **rgba("3333"))
 
 show_object(Location((0, centre_y))
             * Rectangle(total_width, total_depth),
-            **rgba("cccc"))
+            **rgba("000c"))
+
+typing_angle = atan2(rear_r*2 - front_r*2,
+                     rear_y - front_y)
+stamp(f"{typing_angle=}")
 
 # find ellipse radii given displacement
 # from point on axis to point on diagonal
@@ -131,6 +135,8 @@ def side_curve(steps):
                  for i in range(steps+1) ]
     #show_object(sections)
 
+    show_object(extrude(sections[0], (path @ 0).X), **rgba("444"))
+
     for i in range(steps):
         t0 = ((i + 0) / steps)
         t1 = ((i + 1) / steps)
@@ -138,11 +144,13 @@ def side_curve(steps):
         p1 = path @ t1
         n0 = (path % t0).rotate(Axis.Z, -90)
         n1 = (path % t1).rotate(Axis.Z, -90)
-        clip = make_face(Polyline(p0-n0*4, p0+n0*9, p1+n1*9, p1-n1*4))
+        clip = make_face(Polyline(p0-n0*ku(0.22), p0+n0*ku(2),
+                                  p1+n1*ku(2), p1-n1*ku(0.22)))
         show_object(sweep([sections[i], sections[i+1]],
                           path & clip, multisection=True),
                      **rgba("444"))
 
+    show_object(extrude(sections[-1], -(path @ 1).X), **rgba("444"))
     return
 
-side_curve(20)
+side_curve(5)
