@@ -1,4 +1,5 @@
 from build123d import *
+import cq_hacks
 from cq_hacks import *
 from keybird42 import *
 import math
@@ -8,11 +9,101 @@ from mx import *
 def atan2(opposite, adjacent):
     return math.atan2(opposite, adjacent) * 360/math.tau
 
+def subdiv(n):
+    return [ i / n for i in range(n+1) ]
+
 stamp("----------------------------------------------------------------")
 
 set_view_preferences(line_width=1)
 
-show_object(keycap_cutouts(), **rgba("3331"))
+main_x = 0
+main_y = ku(-0.25)
+
+main_width = ku(15)
+keys_width = main_width + 2 * (ku(0.25) + ku(3))
+keys_depth = ku(5)
+
+middle_width = ku(8)
+
+keys_y0 = main_y - keys_depth/2
+
+corner_x = keys_width/2
+corner_y = keys_y0 + ku(0.5)
+
+front_x = middle_width/2
+front_y = keys_y0 - ku(0.5)
+
+side_w = ku(0.25)
+side_x = corner_x + side_w
+side_y = 0
+
+assert side_x == ku(11)
+
+show_marker((corner_x, corner_y))
+show_marker((front_x, front_y))
+show_marker((side_x, side_y))
+
+show_object(Location((main_x, main_y)) * keycap_cutouts(), **rgba("3331"))
+
+# find ellipse radii given displacement
+# from point on axis to point on diagonal
+def ellipse_radii_for_diagonal(a, b):
+    v = b*b / (a - 2*b)
+    return (a*a + a*v) ** 0.5, (a*v + v*v) ** 0.5
+
+(e1_xr, e1_yr) = ellipse_radii_for_diagonal(
+    corner_x - front_x, corner_y - front_y)
+
+e1_xc = front_x
+e1_yc = front_y + e1_yr
+
+show_marker((e1_xc, e1_yc))
+
+e1 = (EllipticalCenterArc((e1_xc, e1_yc), e1_xr, e1_yr, -90, 0)
+      & Rectangle(corner_x * 2, ku(8)))
+
+show_object(e1)
+show_normal_tangent(e1, 1)
+
+(e2_yr, e2_xr) = ellipse_radii_for_diagonal(
+    side_y - corner_y, side_w)
+
+e2_xc = side_x - e2_xr
+e2_yc = side_y
+
+show_marker((e2_xc, e2_yc))
+
+e2 = (EllipticalCenterArc((e2_xc, e2_yc), e2_xr, e2_yr, -90, 90)
+      & Location((corner_x + ku(1), 0)) * Rectangle(ku(2), ku(8)))
+show_object(e2)
+show_normal_tangent(e2, 0)
+show_normal_tangent(e2, 1)
+
+leftline = Line((0,0), (0,front_y)) + Line((0,front_y), (front_x,front_y))
+outline = make_face(leftline + e1 + e2 + mirror(leftline + e1, Plane.XZ))
+show_object(outline, **rgba("0c08"))
+
+
+"""
+e2cx = ku(10.5)
+e2cy = ku(0)
+e2xr = ku(0.5)
+
+box((e2cx, e2cy))
+box((e2cx+e2xr, e2cy))
+
+e2 = EllipticalCenterArc(
+    (e2cx, e2cy), e2xr,
+    ellipse_x_radius(corner_y, corner_x, e2cy, e2cx, e2cx+e2xr),
+    -90, +90)
+
+e2 = e2 & (Location((ku(11.25),0)) * Rectangle(ku(1), ku(8)))
+
+show_object(e2)
+
+show_object(Line(e2 @ 0, e2 @ 0 + (e2 % 0).rotate(Axis.Z, 90) * 10))
+
+
 
 total_width = ku(24)
 middle_depth = ku(6)
@@ -97,30 +188,8 @@ front_side_curve = Location((middle_width/2,0)) * scale(sweep(
 
 show_object(front_side_curve)
 
-# make a bad guess at the path then move its starting point to the right place
-x = (side_x - middle_width/2) / side_stretch
-y = rear_y - side_y
-rear_side_path = Rotation(X=-45) * CenterArc((0,0), y, 90,-90)
-
-# the Z position ends up completely wrong if I stretch in one stage
-rear_side_path = scale(rear_side_path, (x / (rear_side_path @ 1).X, 1, 1))
-rear_side_path = scale(rear_side_path, (1, y / (rear_side_path @ 0).Y, 1))
-rear_side_path = scale(rear_side_path, (1, 1, rear_z / (rear_side_path @ 0).Z))
-
-# turn the path back into a simple edge
-rear_side_path = rear_side_path.edges()[0]
-
-rear_side_start_section = (Location(rear_side_path @ 0)
-                           * Location((0,-rear_y,-rear_z))
-                           * rear_section)
-
-rear_side_end_section = (Location(rear_side_path @ 1)
-                         * Rotation(Z=90)
-                         * Location((0,-front_y))
-                         * front_section)
-
-rear_side_curve = Location((middle_width/2,+side_y)) * scale(sweep([
-     rear_side_start_section, rear_side_end_section
-], rear_side_path, multisection=True), (side_stretch, 1, 1))
-
-show_object(rear_side_curve)
+for i in range(10):
+    p = front_side_path @ (i/10)
+    x = p.X * side_stretch + middle_width/2
+    show_object(Location((x, -p.Y, front_radius)) * Box(1,1,1))
+"""
