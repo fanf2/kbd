@@ -65,6 +65,13 @@ typing_angle = atan2(rear_r*2 - front_r*2,
                      rear_y - front_y)
 stamp(f"{typing_angle=}")
 
+show_object(
+    Location((0, front_y, -2*front_r)) *
+    Rotation(X=-typing_angle) *
+    Location((0, total_depth/2-front_r, 0)) *
+    Rectangle(total_width, total_depth),
+    **rgba("0001"))
+
 # find ellipse radii given displacement
 # from point on axis to point on diagonal
 def ellipse_radii_for_diagonal(a, b):
