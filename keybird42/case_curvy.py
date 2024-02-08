@@ -16,7 +16,7 @@ stamp("----------------------------------------------------------------")
 
 set_view_preferences(line_width=0)
 
-curve_steps = 10
+curve_steps = 20
 
 total_width = ku(24)
 total_depth = ku(8)
@@ -46,13 +46,14 @@ side_x = total_width/2 - side_r
 side_w = ku(1/3)
 
 rear_r = ku(0.9)
-rear_x = ku(6)
+rear_x = ku(7.5)
 rear_y = front_y - front_r + ku(8) - rear_r
 
 corner_x = side_x - side_w
 corner_y = keys_y0 + ku(1/3)
 
-side_stretch = side_r / front_r
+# this also determines the top cutout radius
+keycap_clear = 0.5
 
 assert total_thick > rear_r * 2
 
@@ -169,15 +170,27 @@ clip = extrude(desk, total_thick)
 curve_path = build_path()
 
 top_face = make_face(curve_path + mirror(curve_path, Plane.ZY))
-infill = clip & extrude(top_face, -total_thick)
 
-infill -= extrude(Location((0, main_y)) * keycap_cutouts(), -7.5)
+top_sharpcut = extrude(offset(
+    keycap_cutouts(), amount=keycap_clear, kind=Kind.INTERSECTION
+), -7.5)
+
+top_cutouts = (Location((0,main_y)) *
+               fillet(top_sharpcut.edges() | Axis.Z, keycap_clear))
+
+infill = extrude(top_face, -total_thick) - top_cutouts
 
 # we need to clip the curve because it doesn't meet the desk at a
 # perfect tangent: there's a discrepancy due to the typing angle
 
-outer_curve = clip & build_curve(curve_path, curve_steps)
+enclosure = clip & [infill] + build_curve(curve_path, curve_steps)
 
-show_object(infill, **rgba("222"))
-show_object(outer_curve, **rgba("222"))
-#show_object(desk, **rgba("000"))
+show_object(enclosure, **rgba("030303"))
+
+keycaps = []
+def show_keycap(keycap, legend, name):
+    global keycaps
+    keycaps += [ Location((0,main_y,-1)) * keycap ]
+
+layout_keycaps(stamp, show_keycap, "simple", False)
+show_object(keycaps, **rgba("111"))
