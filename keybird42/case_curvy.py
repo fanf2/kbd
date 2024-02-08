@@ -16,10 +16,10 @@ stamp("----------------------------------------------------------------")
 
 set_view_preferences(line_width=0)
 
-curve_steps = 20
+curve_steps = 13
 
-total_width = ku(24)
-total_depth = ku(8)
+total_width = ku(25)
+total_depth = ku(7.5)
 total_thick = ku(2)
 
 desk_width = total_width + ku(12)
@@ -43,14 +43,14 @@ centre_y = min_y + total_depth/2
 
 side_r = ku(1)
 side_x = total_width/2 - side_r
-side_w = ku(1/3)
+side_w = ku(2/3)
 
-rear_r = ku(0.9)
-rear_x = ku(7.5)
-rear_y = front_y - front_r + ku(8) - rear_r
+rear_r = 16.666
+rear_x = ku(6)
+rear_y = front_y - front_r + total_depth - rear_r
 
 corner_x = side_x - side_w
-corner_y = keys_y0 + ku(1/3)
+corner_y = keys_y0 + ku(1/2)
 
 # this also determines the top cutout radius
 keycap_clear = 0.5
