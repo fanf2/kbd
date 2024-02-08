@@ -30,9 +30,9 @@ main_width = ku(15)
 keys_width = main_width + 2 * (ku(0.25) + ku(3))
 keys_depth = ku(5)
 
-radius_x = ku(1.0)
-radius_y = ku(0.5)
-radius_z = ku(0.5)
+radius_x = ku(1.00)
+radius_y = ku(0.75)
+radius_z = ku(0.50)
 
 top_a = ku(11)
 top_b = ku(2.75)
@@ -49,6 +49,12 @@ side_e = 3
 
 # this also determines the top cutout radius
 keycap_clear = 0.5
+
+desk_a = ku(16)
+desk_b = ku(8)
+desk_e = 3
+
+typing_angle = 6.6666
 
 # positive quadrant only
 def superpoint(a, b, e, theta):
@@ -76,7 +82,6 @@ def superellipse(a, b, e):
 def side_section(path, t):
     pos = path @ t
     rot = -Vector(0,1).get_signed_angle(path % t)
-    stamp(f"{(t, pos, rot)=}")
 
     xt = (pos.X / top_a) ** radius_e
     r = radius_y + (radius_x - radius_y) * xt
@@ -117,6 +122,22 @@ top_sharpcut = extrude(offset(
 top_cutouts = (Location((0, main_y, radius_z)) *
                fillet(top_sharpcut.edges() | Axis.Z, keycap_clear))
 show_object(infill - top_cutouts, **rgba("111"))
+
+desk = (Location((0, 0, -ku(0.85))) *
+        Rotation(X=-typing_angle) *
+        superellipse(desk_a, desk_b, desk_e))
+
+foot = []
+for i in range(-2, 3):
+    a = top_a - i * ku(0.25)
+    b = top_b - i * ku(0.125)
+    z = ku(0.875) + i * ku(0.125)
+    foot += [extrude(superellipse(a, b, top_e), -z)]
+
+foot = extrude(desk, ku(2)) & foot
+show_object(foot, **rgba("111"))
+
+show_object(desk, **rgba("ccc"))
 
 show_object(build_sides(superquarter(top_a, top_b, top_e), 20), **rgba("111"))
 
