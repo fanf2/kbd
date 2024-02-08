@@ -14,19 +14,19 @@ def superpoints(a, b, e):
     return [ superpoint(a, b, e, i * tau/precision)
              for i in range(precision + 1) ]
 
-def superellipse_pouty(a, b, e):
-    return Spline(*superpoints(a, b, e))
+def spline_pouty(points):
+    return Spline(*points)
 
-def superellipse_janky(a, b, e):
-    return Spline(*superpoints(a, b, e),
-                  tangents=[(0,1), (0,1)])
+def spline_janky(points):
+    return Spline(*points, tangents=[(0,1), (0,1)])
 
-def superellipse_markers(a, b, e):
-    for p in superpoints(a, b, e):
-        show_object(Location(p) * Box(1,1,1))
+def markers(points):
+    return Part()+[ Location(p) * Box(1,1,1) for p in points ]
 
-show_object(Location((0,+200))
-            * superellipse_pouty(400, 160, 6))
+points = superpoints(400, 160, 6)
 
-show_object(Location((0,-200))
-            * superellipse_janky(400, 160, 6))
+show_object(Location((0,+200)) * spline_pouty(points))
+show_object(Location((0,-200)) * spline_janky(points))
+
+show_object(Location((0,+200)) * markers(points))
+show_object(Location((0,-200)) * markers(points))
