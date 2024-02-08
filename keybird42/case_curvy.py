@@ -6,149 +6,89 @@ import math
 from monkeypatch_JernArc import *
 from mx import *
 
+def sgn(a):
+    return (-1 if a < 0 else
+            +1 if a > 0 else 0)
+
 def atan2(opposite, adjacent):
     return math.atan2(opposite, adjacent) * 360/math.tau
 
 def subdiv(n):
     return [ i / n for i in range(n+1) ]
 
-stamp("----------------------------------------------------------------")
+def fractions(n):
+    return map(lambda i: i/n, range(n+1))
 
-set_view_preferences(line_width=0)
+stamp("------------------------------------------")
 
-curve_steps = 13
+set_view_preferences(line_width=1)
 
-total_width = ku(25)
-total_depth = ku(7.5)
-total_thick = ku(2)
+resolution = 60
 
-desk_width = total_width + ku(12)
-desk_depth = total_depth + ku(8)
-desk_radius = ku(1)
-
-main_y = ku(-0.25)
-
+main_y = ku(-0.125)
 main_width = ku(15)
 keys_width = main_width + 2 * (ku(0.25) + ku(3))
 keys_depth = ku(5)
 
-keys_y0 = main_y - keys_depth/2
+radius_x = ku(1.0)
+radius_y = ku(0.5)
+radius_z = ku(0.5)
 
-front_r = ku(0.5)
-front_x = ku(4)
-front_y = keys_y0 - ku(0.5)
+top_a = ku(11)
+top_b = ku(2.75)
 
-min_y = front_y - front_r
-centre_y = min_y + total_depth/2
+# empirically enough to fit around the key blocks
+top_e = 8
 
-side_r = ku(1)
-side_x = total_width/2 - side_r
-side_w = ku(2/3)
+# empirically enough to ensure the side radius
+# does not bulge downwards before curving upwards
+radius_e = 10
 
-rear_r = 16.666
-rear_x = ku(6)
-rear_y = front_y - front_r + total_depth - rear_r
-
-corner_x = side_x - side_w
-corner_y = keys_y0 + ku(1/2)
+# purely aesthetic
+side_e = 3
 
 # this also determines the top cutout radius
 keycap_clear = 0.5
 
-assert total_thick > rear_r * 2
+# positive quadrant only
+def superpoint(a, b, e, theta):
+    return ( a * cos(theta)**(2/e), b * sin(theta)**(2/e) )
 
-# show_marker((corner_x, +corner_y))
-# show_marker((corner_x, -corner_y))
-# show_marker((front_x, front_y - front_r))
-# show_marker((front_x, front_y))
-# show_marker((rear_x, rear_y))
-# show_marker((rear_x, rear_y+rear_r))
-# show_marker((side_x, 0))
+def superpoints(a, b, e, n):
+    points = [ superpoint(a, b, e, (i/n) * (math.tau/4))
+               for i in range(n) ]
+    # ensure that the curve meets the y axis, because iterating
+    # an extra step `range(n + 1)` is not exact enough
+    return points + [(0,b)]
 
-typing_angle = atan2(rear_r*2 - front_r*2,
-                     rear_y - front_y)
-stamp(f"{typing_angle=}")
+def superquarter(a, b, e):
+    points = superpoints(a, b, e, resolution)
+    return Spline(*points, tangents=[(0,1),(-1,0)])
 
-desk = (Location((0, front_y, -2*front_r)) *
-        Rotation(X=-typing_angle) *
-        Location((0, total_depth/2-front_r)) *
-        RectangleRounded(desk_width, desk_depth, desk_radius))
+def superellipse(a, b, e):
+    # splines get pouty or janky if we try to draw the whole
+    # superellipse in one go, so make a quarter and mirror it
+    quarter = superquarter(a, b, e)
+    half = quarter + mirror(quarter, Plane.YZ)
+    whole = half + mirror(half, Plane.XZ)
+    return make_face(whole).faces()[0]
 
-
-# find ellipse radii given displacement
-# from point on axis to point on diagonal
-def ellipse_radii_for_diagonal(a, b):
-    v = b*b / (a - 2*b)
-    return (a*a + a*v) ** 0.5, (a*v + v*v) ** 0.5
-
-def RectangleAt(x, y, w, h):
-    return Location((x + w/2, y + h/2)) * Rectangle(w, h)
-
-def front_ellipse():
-    width = corner_x - front_x
-    height = corner_y - front_y
-    (radius_x, radius_y) = ellipse_radii_for_diagonal(width, height)
-    centre_x = front_x
-    centre_y = front_y + radius_y
-    return EllipticalCenterArc(
-        (centre_x, centre_y), radius_x, radius_y, -90, 0
-    ) & RectangleAt(front_x, front_y, width, height)
-
-def rear_ellipse():
-    width = corner_x - rear_x
-    height = corner_y + rear_y
-    (radius_x, radius_y) = ellipse_radii_for_diagonal(width, height)
-    centre_x = rear_x
-    centre_y = rear_y - radius_y
-    return EllipticalCenterArc(
-        (centre_x, centre_y), radius_x, radius_y, 0, -90
-    ) & RectangleAt(rear_x, rear_y, width, -height)
-
-def side_ellipse():
-    height = -corner_y
-    width = side_w
-    (radius_y, radius_x) = ellipse_radii_for_diagonal(height, width)
-    centre_x = side_x - radius_x
-    centre_y = 0
-    return EllipticalCenterArc(
-        (centre_x, centre_y), radius_x, radius_y, -90, +90
-    ) & RectangleAt(corner_x, corner_y, width, height*2)
-
-def build_path():
-    path = front_ellipse() + side_ellipse() + rear_ellipse()
-    p0 = path @ 0
-    p1 = path @ 1
-    line0 = Line(p0, (0, p0.Y))
-    line1 = Line(p1, (0, p1.Y))
-    return line0 + path + line1
-
-def curve_section(path, t):
+def side_section(path, t):
     pos = path @ t
-    rot = -Vector(0,1,0).get_signed_angle(path % t)
-    normal = (path % t).rotate(Axis.Z, -90)
+    rot = -Vector(0,1).get_signed_angle(path % t)
+    stamp(f"{(t, pos, rot)=}")
 
-    yt = (pos.Y - front_y) / (rear_y - front_y)
-    z = front_r + yt * (rear_r - front_r)
+    xt = (pos.X / top_a) ** radius_e
+    r = radius_y + (radius_x - radius_y) * xt
 
-    xt = (pos.X - front_x) / (side_x - front_x)
-    if pos.Y >= 0: xt = 1
-    xtt = max(0,xt)**6
-    r = min(front_r + xtt * (rear_r - front_r),
-            pos.Y - min_y)
+    section = Plane.XZ * (superellipse(r, radius_z, side_e)
+                          & Location((r,0)) * Rectangle(r*2, radius_z*2))
 
-    # show_object(Location(pos) * Box(t+1,t+1,t+1))
-    # show_object(Line(pos, pos + normal * r))
-    # show_object(Line(pos, pos - (0, 0, 2*z)))
+    return Location(pos) * Rotation(Z=rot) * section
 
-    semi = Plane.XZ * make_face(EllipticalCenterArc(
-        (0,0), r, z, -90, +90
-    ) + Line((0,-z), (0,+z)))
-    return Location(pos - (0,0,z)) * Rotation(Z=rot) * semi
-
-def build_curve(path, steps):
-    sections = [ curve_section(path, i/steps)
+def build_sides(path, steps):
+    sections = [ side_section(path, i/steps)
                  for i in range(steps+1) ]
-    #show_object(sections)
 
     curve = []
     for i in range(steps):
@@ -162,35 +102,27 @@ def build_curve(path, steps):
                                   p1+n1*ku(2), p1-n1*ku(0.22)))
         segment = sweep([sections[i], sections[i+1]],
                         path & clip, multisection=True)
-        curve += [segment, mirror(segment, Plane.YZ)]
+        flipped = mirror(segment, Plane.ZX)
+        flopped = mirror(flipped, Plane.YZ)
+        flapped = mirror(flopped, Plane.ZX)
+        curve += [segment, flipped, flopped, flapped]
     return curve
 
-clip = extrude(desk, total_thick)
-
-curve_path = build_path()
-
-top_face = make_face(curve_path + mirror(curve_path, Plane.ZY))
+infill = extrude(superellipse(top_a, top_b, top_e), radius_z, both=True)
 
 top_sharpcut = extrude(offset(
     keycap_cutouts(), amount=keycap_clear, kind=Kind.INTERSECTION
 ), -7.5)
 
-top_cutouts = (Location((0,main_y)) *
+top_cutouts = (Location((0, main_y, radius_z)) *
                fillet(top_sharpcut.edges() | Axis.Z, keycap_clear))
+show_object(infill - top_cutouts, **rgba("111"))
 
-infill = extrude(top_face, -total_thick) - top_cutouts
-
-# we need to clip the curve because it doesn't meet the desk at a
-# perfect tangent: there's a discrepancy due to the typing angle
-
-enclosure = clip & [infill] + build_curve(curve_path, curve_steps)
-
-show_object(enclosure, **rgba("030303"))
+show_object(build_sides(superquarter(top_a, top_b, top_e), 20), **rgba("111"))
 
 keycaps = []
 def show_keycap(keycap, legend, name):
     global keycaps
-    keycaps += [ Location((0,main_y,-1)) * keycap ]
-
+    keycaps += [ Location((0,main_y,radius_z-1)) * keycap ]
 layout_keycaps(stamp, show_keycap, "simple", False)
-show_object(keycaps, **rgba("111"))
+show_object(keycaps, **rgba("222"))
