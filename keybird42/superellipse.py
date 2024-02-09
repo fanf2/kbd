@@ -10,6 +10,7 @@
 # SPDX-License-Identifier: 0BSD OR MIT-0
 
 from build123d import *
+from cq_hacks import stamp
 from functools import cache
 from itertools import pairwise
 from math import cos, sin, tau
@@ -31,6 +32,7 @@ def vertex_ray(e1, e0, length):
     normal = tangent.rotate(Axis.Z, -90)
     return Line(point, point + normal * length)
 
+@cache
 def superpoint(a, b, e, theta):
     ( x, y ) = ( cos(theta), sin(theta) )
     return ( a * sgn(x) * abs(x)**(2/e), b * sgn(y) * abs(y)**(2/e) )
@@ -52,13 +54,13 @@ def superhalf_on_line(line, b, e, resolution=RESOLUTION):
     return Location(line @ 0) * Rotation(Z=line.tangent_angle_at(0)) * half
 
 def superellipsoid(inner, outer, h, e, resolution=RESOLUTION):
-    infill = [ extrude(inner, amount=h, both=True) ]
     [outer] = outer.faces() # extract the one face for its size
     length = max(outer.length, outer.width)
     sectors = inner.edges()
     rays = [ vertex_ray(sectors[i-1], sectors[i-0], length)
              for i in range(len(sectors)) ]
     normals = Wire() + rays & outer
+    stamp(f"superellipse sections")
     # sections have to be faces; multisection does not work with paths
     sections = [ superhalf_on_line(normal, h, e, resolution)
                  for normal in normals ]
@@ -66,9 +68,11 @@ def superellipsoid(inner, outer, h, e, resolution=RESOLUTION):
     sections += [sections[0]]
     # When we pass many sections into a single `sweep()`, it can end up using
     # near-infinite CPU. So instead we `sweep()` a pair of sections at a time.
-    segments = [ sweep([sections[i+0], sections[i+1]], e, multisection=True)
-                 for i,e in enumerate(sectors) ]
-    return segments + infill
+    segments = [ extrude(inner, amount=h, both=True) ]
+    for i,e in enumerate(sectors):
+        if i % 50 == 0: stamp(f"superellipse sweep {i}")
+        segments += [ sweep([sections[i+0], sections[i+1]], e, multisection=True) ]
+    return segments
 
 def superegg_half(a, b, e, resolution=RESOLUTION):
     """Half a superellipse revolved halfway around the X axis"""

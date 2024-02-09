@@ -8,10 +8,12 @@ from superellipse import *
 
 stamp("------------------------------------------")
 
-set_view_preferences(line_width=0)
+set_view_preferences(line_width=1)
 
-RESOLUTION_XY = 64
-RESOLUTION_Z = 16
+RESOLUTION_XY = 100
+
+# this makes the faces on the curves roughly square
+RESOLUTION_Z = RESOLUTION_XY // 4
 
 # this also determines the top cutout radius
 keycap_clear = 0.5
@@ -64,34 +66,39 @@ desk = (Location((0, 0, -desk_z)) *
         superellipse(desk_a, desk_b, desk_e))
 show_object(extrude(desk, -1), **rgba("ccc"))
 
+stamp("making ungula")
 ungula = mirror(Location((0, 0, -ungula_z)) *
                 superegg_half(ungula_a, ungula_b, ungula_e),
                 Plane.XY) & extrude(desk, ku(2))
-stamp("ungula")
 
+stamp("making innner outer")
 inner = superellipse(inner_a, inner_b, inner_e, RESOLUTION_XY)
 outer = superellipse(outer_a, outer_b, outer_e, RESOLUTION_XY)
-stamp("body")
+stamp("making body")
 body = superellipsoid(inner, outer, radius_z, side_e, RESOLUTION_Z)
-stamp("body")
+#show_object(body, **rgb_case)
 
+stamp("making cutouts")
 top_sharpcut = extrude(offset(
     keycap_cutouts(), amount=keycap_clear, kind=Kind.INTERSECTION
 ), -7.5)
 top_cutouts = (Location((0, main_y, radius_z)) *
                fillet(top_sharpcut.edges() | Axis.Z, keycap_clear))
-stamp("cutouts")
 
-case = ungula + body - top_cutouts
-stamp("case")
+stamp("making case")
+# avoid making the cad system combine many objects
+inset = ungula + body[0] - top_cutouts
+surround = body[1:]
 
-show_object(case, **rgb_case)
-stamp("show")
+stamp("showing case")
+show_object(inset, **rgb_case)
+show_object(surround, **rgb_case)
 
+stamp("making keycaps")
 keycaps = []
 def show_keycap(keycap, legend, name):
     global keycaps
     keycaps += [ Location((0,main_y,radius_z-1)) * keycap ]
 layout_keycaps(stamp, show_keycap, "simple", False)
-stamp("keycaps")
+stamp("showing keycaps")
 show_object(keycaps, **rgb_keys)
