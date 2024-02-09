@@ -49,8 +49,7 @@ side_e = 5/2
 
 ungula_a = inner_a - ku(0.25)
 ungula_b = inner_b + ku(0.25)
-# any smaller and the spline fucks up
-ungula_e = 4
+ungula_e = 5/2
 ungula_z = ku(0.25)
 
 desk_a = ku(16)
