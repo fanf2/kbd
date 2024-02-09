@@ -6,19 +6,6 @@ import math
 from monkeypatch_JernArc import *
 from mx import *
 
-def sgn(a):
-    return (-1 if a < 0 else
-            +1 if a > 0 else 0)
-
-def atan2(opposite, adjacent):
-    return math.atan2(opposite, adjacent) * 360/math.tau
-
-def subdiv(n):
-    return [ i / n for i in range(n+1) ]
-
-def fractions(n):
-    return map(lambda i: i/n, range(n+1))
-
 stamp("------------------------------------------")
 
 set_view_preferences(line_width=1)
