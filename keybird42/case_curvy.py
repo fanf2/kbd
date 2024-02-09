@@ -1,106 +1,75 @@
 from build123d import *
-import cq_hacks
 from cq_hacks import *
 from keybird42 import *
 import math
 from monkeypatch_JernArc import *
 from mx import *
+from superellipse import *
 
 stamp("------------------------------------------")
 
 set_view_preferences(line_width=1)
 
-resolution = 60
+# this also determines the top cutout radius
+keycap_clear = 0.5
+
+typing_angle = 6.6666
 
 main_y = ku(-0.125)
 main_width = ku(15)
 keys_width = main_width + 2 * (ku(0.25) + ku(3))
 keys_depth = ku(5)
 
+total_width = ku(24)
+total_depth = ku(7.25)
+
 radius_x = ku(1.00)
 radius_y = ku(0.75)
 radius_z = ku(0.50)
 
-top_a = ku(11)
-top_b = ku(2.75)
+outer_a = total_width/2
+outer_b = total_depth/2
+inner_a = outer_a - radius_x
+inner_b = outer_b - radius_y
 
 # empirically enough to fit around the key blocks
-top_e = 8
+inner_e = 8
 
-# empirically enough to ensure the side radius
-# does not bulge downwards before curving upwards
-radius_e = 10
+# softer than the inner curve but not
+# getting squashed around the corner
+outer_e = 6
 
-# purely aesthetic
-side_e = 3
+# piet hein
+side_e = 5/2
 
-# this also determines the top cutout radius
-keycap_clear = 0.5
+ungula_a = inner_a - ku(0.25)
+ungula_b = inner_b + ku(0.25)
+# any smaller and the spline fucks up
+ungula_e = 4
+ungula_z = ku(0.25)
 
 desk_a = ku(16)
 desk_b = ku(8)
 desk_e = 3
+desk_z = ku(0.85)
 
-typing_angle = 6.6666
+rgb_case = rgba("113")
+rgb_keys = rgba("213")
 
-# positive quadrant only
-def superpoint(a, b, e, theta):
-    return ( a * cos(theta)**(2/e), b * sin(theta)**(2/e) )
+desk = (Location((0, 0, -desk_z)) *
+        Rotation(X=-typing_angle) *
+        superellipse(desk_a, desk_b, desk_e))
+show_object(extrude(desk, -1), **rgba("ccc"))
 
-def superpoints(a, b, e, n):
-    points = [ superpoint(a, b, e, (i/n) * (math.tau/4))
-               for i in range(n) ]
-    # ensure that the curve meets the y axis, because iterating
-    # an extra step `range(n + 1)` is not exact enough
-    return points + [(0,b)]
+ungula = mirror(Location((0, 0, -ungula_z)) *
+                superegg_half(ungula_a, ungula_b, ungula_e, 16),
+                Plane.XY) & extrude(desk, ku(2))
+show_object(ungula, **rgb_case)
 
-def superquarter(a, b, e):
-    points = superpoints(a, b, e, resolution)
-    return Spline(*points, tangents=[(0,1),(-1,0)])
+inner = superellipse(inner_a, inner_b, inner_e)
+outer = superellipse(outer_a, outer_b, outer_e)
 
-def superellipse(a, b, e):
-    # splines get pouty or janky if we try to draw the whole
-    # superellipse in one go, so make a quarter and mirror it
-    quarter = superquarter(a, b, e)
-    half = quarter + mirror(quarter, Plane.YZ)
-    whole = half + mirror(half, Plane.XZ)
-    return make_face(whole).faces()[0]
-
-def side_section(path, t):
-    pos = path @ t
-    rot = -Vector(0,1).get_signed_angle(path % t)
-
-    xt = (pos.X / top_a) ** radius_e
-    r = radius_y + (radius_x - radius_y) * xt
-
-    section = Plane.XZ * (superellipse(r, radius_z, side_e)
-                          & Location((r,0)) * Rectangle(r*2, radius_z*2))
-
-    return Location(pos) * Rotation(Z=rot) * section
-
-def build_sides(path, steps):
-    sections = [ side_section(path, i/steps)
-                 for i in range(steps+1) ]
-
-    curve = []
-    for i in range(steps):
-        t0 = ((i + 0) / steps)
-        t1 = ((i + 1) / steps)
-        p0 = path @ t0
-        p1 = path @ t1
-        n0 = (path % t0).rotate(Axis.Z, -90)
-        n1 = (path % t1).rotate(Axis.Z, -90)
-        clip = make_face(Polyline(p0-n0*ku(0.22), p0+n0*ku(2),
-                                  p1+n1*ku(2), p1-n1*ku(0.22)))
-        segment = sweep([sections[i], sections[i+1]],
-                        path & clip, multisection=True)
-        flipped = mirror(segment, Plane.ZX)
-        flopped = mirror(flipped, Plane.YZ)
-        flapped = mirror(flopped, Plane.ZX)
-        curve += [segment, flipped, flopped, flapped]
-    return curve
-
-infill = extrude(superellipse(top_a, top_b, top_e), radius_z, both=True)
+body = superellipsoid(inner, outer, radius_z, side_e)
 
 top_sharpcut = extrude(offset(
     keycap_cutouts(), amount=keycap_clear, kind=Kind.INTERSECTION
@@ -108,29 +77,17 @@ top_sharpcut = extrude(offset(
 
 top_cutouts = (Location((0, main_y, radius_z)) *
                fillet(top_sharpcut.edges() | Axis.Z, keycap_clear))
-show_object(infill - top_cutouts, **rgba("111"))
 
-desk = (Location((0, 0, -ku(0.85))) *
-        Rotation(X=-typing_angle) *
-        superellipse(desk_a, desk_b, desk_e))
+# avoid making the cad engine think
+outer_curve = body[:-1]
+infill = body[-1] - top_cutouts
 
-foot = []
-for i in range(-2, 3):
-    a = top_a - i * ku(0.25)
-    b = top_b - i * ku(0.125)
-    z = ku(0.875) + i * ku(0.125)
-    foot += [extrude(superellipse(a, b, top_e), -z)]
-
-foot = extrude(desk, ku(2)) & foot
-show_object(foot, **rgba("111"))
-
-show_object(desk, **rgba("ccc"))
-
-show_object(build_sides(superquarter(top_a, top_b, top_e), 20), **rgba("111"))
+show_object(infill, **rgb_case)
+show_object(outer_curve, **rgb_case)
 
 keycaps = []
 def show_keycap(keycap, legend, name):
     global keycaps
     keycaps += [ Location((0,main_y,radius_z-1)) * keycap ]
 layout_keycaps(stamp, show_keycap, "simple", False)
-show_object(keycaps, **rgba("222"))
+show_object(keycaps, **rgb_keys)
