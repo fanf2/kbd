@@ -38,18 +38,12 @@ A "superhalf" is half a superellipse.
 
 from build123d import *
 from math import cos, sin, tau
+from itertools import pairwise
 
 RESOLUTION = 32
 
 def distances(resolution=RESOLUTION):
     return [ i / resolution for i in range(resolution + 1) ]
-
-def pairs(items):
-    return zip(items, items[1:])
-
-def the_face(path):
-    [the_one] = make_face(path).faces()
-    return the_one
 
 def normal_ray(curve, distance, length):
     """A line extending from `curve @ distance`, perpendicular
@@ -63,8 +57,7 @@ def superpoint(a, b, e, theta):
     return ( a * cos(theta)**(2/e), b * sin(theta)**(2/e) )
 
 def superpoints(a, b, e, resolution=RESOLUTION):
-    """Points dividing the positive quadrant of a superellipse
-    into `n` segments"""
+    """Points dividing the positive quadrant of a superellipse into `n` arcs"""
     points = [ superpoint(a, b, e, d * (tau/4))
                for d in distances(resolution)[:-1] ]
     # ensure that the curve meets the y axis, because
@@ -80,7 +73,7 @@ def superhalf_path(a, b, e, resolution=RESOLUTION):
 def superhalf(a, b, e, resolution=RESOLUTION):
     """A face in the shape of half a superellipse above the X axis"""
     half = superhalf_path(a, b, e, resolution)
-    return the_face(half + Line((-a,0), (+a,0)))
+    return make_face(half + Line((-a,0), (+a,0)))
 
 def superhalf_on_line(line, b, e, resolution=RESOLUTION):
     """Half a superellipse with a semi-axis described by a line
@@ -88,27 +81,29 @@ def superhalf_on_line(line, b, e, resolution=RESOLUTION):
     half = Plane.ZX * superhalf(b, line.length, e, resolution)
     return Location(line @ 0) * Rotation(Z=line.tangent_angle_at(0)) * half
 
-def superegg_half(a, b, e, resolution=RESOLUTION):
-    """Half a superellipse revolved halfway around the X axis"""
-    return revolve(superhalf(a, b, e, resolution), Axis.X, 180)
-
 def superellipse(a, b, e, resolution=RESOLUTION):
     """A face in the shape of a superellipse"""
     half = superhalf_path(a, b, e, resolution)
-    return the_face(half + mirror(half, Plane.XZ))
+    return make_face(half + mirror(half, Plane.XZ))
 
 def superellipsoid(inner, outer, h, e, resolution=RESOLUTION):
+    ds = distances(resolution)
     # use inside knowledge about superellipse construction
     quadrant = inner.edges()[0]
-    ds = distances(resolution)
+    [outer] = outer.faces()
     ray_length = max(outer.length, outer.width)
     rays = [ normal_ray(quadrant, d, ray_length) for d in ds ]
     normals = (Wire() + rays) & outer
+    # sections have to be faces; multisection does not work with paths
     sections = [ superhalf_on_line(normal, h, e) for normal in normals ]
     # When we pass many sections into a single `sweep()`, it can end up using
     # near-infinite CPU. So instead we `sweep()` a pair of sections at a time.
     segments = [ sweep(sz, quadrant.trim(*dz), multisection=True)
-                 for (dz, sz) in zip(pairs(ds), pairs(sections)) ]
+                 for (dz, sz) in zip(pairwise(ds), pairwise(sections)) ]
     segments = segments + [ mirror(seg, Plane.YZ) for seg in segments ]
     segments = segments + [ mirror(seg, Plane.ZX) for seg in segments ]
     return segments + [ extrude(inner, amount=h, both=True) ]
+
+def superegg_half(a, b, e, resolution=RESOLUTION):
+    """Half a superellipse revolved halfway around the X axis"""
+    return revolve(superhalf(a, b, e, resolution), Axis.X, 180)
