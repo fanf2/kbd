@@ -44,6 +44,20 @@ RESOLUTION = 32
 def distances(resolution=RESOLUTION):
     return [ i / resolution for i in range(resolution + 1) ]
 
+def pairs(items):
+    return zip(items, items[1:])
+
+def the_face(path):
+    [the_one] = make_face(path).faces()
+    return the_one
+
+def normal_ray(curve, distance, length):
+    """A line extending from `curve @ distance`, perpendicular
+    to the tangent according to the right hand rule"""
+    point = curve @ distance
+    normal = (curve % distance).rotate(Axis.Z, -90)
+    return Line(point, point + normal * length)
+
 def superpoint(a, b, e, theta):
     """A point on the positive quadrant of a superellipse"""
     return ( a * cos(theta)**(2/e), b * sin(theta)**(2/e) )
@@ -57,25 +71,16 @@ def superpoints(a, b, e, resolution=RESOLUTION):
     # the last distance is not accurate enough
     return points + [(0,b)]
 
-def superquadrant_path(a, b, e, resolution=RESOLUTION):
-    """A spline approximating the positive quadrant of a superellipse"""
-    points = superpoints(a, b, e, resolution)
-    return Spline(*points, tangents=[(0,1),(-1,0)])
-
 def superhalf_path(a, b, e, resolution=RESOLUTION):
     """Half a superellipse above the X axis"""
-    quadrant = superquadrant_path(a, b, e, resolution)
-    return quadrant + mirror(quadrant, Plane.YZ)
-
-def superellipse(a, b, e, resolution=RESOLUTION):
-    """A face in the shape of a superellipse"""
-    half = superhalf_path(a, b, e, resolution)
-    return make_face(half + mirror(half, Plane.XZ))
+    points = superpoints(a, b, e, resolution)
+    quarter = Spline(*points, tangents=[(0,1),(-1,0)])
+    return quarter + mirror(quarter, Plane.YZ)
 
 def superhalf(a, b, e, resolution=RESOLUTION):
     """A face in the shape of half a superellipse above the X axis"""
     half = superhalf_path(a, b, e, resolution)
-    return make_face(half + Line((-a,0), (+a,0)))
+    return the_face(half + Line((-a,0), (+a,0)))
 
 def superhalf_on_line(line, b, e, resolution=RESOLUTION):
     """Half a superellipse with a semi-axis described by a line
@@ -87,37 +92,23 @@ def superegg_half(a, b, e, resolution=RESOLUTION):
     """Half a superellipse revolved halfway around the X axis"""
     return revolve(superhalf(a, b, e, resolution), Axis.X, 180)
 
-def normal_ray(curve, distance, length):
-    """A line extending from `curve @ distance`, perpendicular
-    to the tangent according to the right hand rule"""
-    point = curve @ distance
-    normal = (curve % distance).rotate(Axis.Z, -90)
-    return Line(point, point + normal * length)
+def superellipse(a, b, e, resolution=RESOLUTION):
+    """A face in the shape of a superellipse"""
+    half = superhalf_path(a, b, e, resolution)
+    return the_face(half + mirror(half, Plane.XZ))
 
-def normal_rays(curve, length, resolution=RESOLUTION):
-    return [ normal_ray(curve, d, length) for d in distances(resolution) ]
-
-# When we pass many sections into a single `sweep()`, it can end up
-# using near-infinite CPU. So instead we `sweep()` a pair of sections
-# at a time.
-
-def segments(curve, resolution=RESOLUTION):
+def superellipsoid(inner, outer, h, e, resolution=RESOLUTION):
+    # use inside knowledge about superellipse construction
+    quadrant = inner.edges()[0]
     ds = distances(resolution)
-    return [ curve.trim(*dz) for dz in zip(ds, ds[1:]) ]
-
-
-#show_object(superegg_half(15, 10, 2.5))
-
-inner = superellipse(40, 20, 2.5)
-outer = superellipse(50, 25, 3.0)
-
-inner_quadrant = inner.edges()[0]
-
-normals = (Wire() + normal_rays(inner_quadrant, 1000)) & outer
-
-show_object([ superhalf_on_line(normal, 5, 4)
-              for normal in normals ])
-
-show_object([ Arrow(arrow_size=seg.length/4, head_at_start=False,
-                    shaft_width=seg.length/16, shaft_path=seg)
-              for seg in segments(inner_quadrant) ])
+    ray_length = max(outer.length, outer.width)
+    rays = [ normal_ray(quadrant, d, ray_length) for d in ds ]
+    normals = (Wire() + rays) & outer
+    sections = [ superhalf_on_line(normal, h, e) for normal in normals ]
+    # When we pass many sections into a single `sweep()`, it can end up using
+    # near-infinite CPU. So instead we `sweep()` a pair of sections at a time.
+    segments = [ sweep(sz, quadrant.trim(*dz), multisection=True)
+                 for (dz, sz) in zip(pairs(ds), pairs(sections)) ]
+    segments = segments + [ mirror(seg, Plane.YZ) for seg in segments ]
+    segments = segments + [ mirror(seg, Plane.ZX) for seg in segments ]
+    return segments + [ extrude(inner, amount=h, both=True) ]
