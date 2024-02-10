@@ -207,11 +207,16 @@ function draw() {
 	info_line += 1;
     }
 
-    print_info("top width", `= ${top_width}`);
-    print_info("depth", `= ${mid_depth}`);
-    print_info("angle", `= ${angle}`);
-    print_info("height", `= ${height}`);
-    print_info("base width", `= ${base_width}`);
+    print_info("top width", `= ${top_width.toFixed(2)}`);
+    print_info("depth", `= ${mid_depth.toFixed(2)}`);
+    print_info("angle", `= ${angle.toFixed(2)}`);
+    print_info("height", `= ${height.toFixed(2)}`);
+    print_info("base width", `= ${base_width.toFixed(2)}`);
+
+    for (let i = 0; i < control.length; i++) {
+	print(-13, 12 - i, `x${i} = ${control[i].x.toFixed(2)}`)
+	print(-11, 12 - i, `y${i} = ${control[i].y.toFixed(2)}`)
+    }
 
     c.restore();
 }
@@ -268,8 +273,7 @@ function reposition(ev) {
     case(2):
     case(3):
 	let i = nearest;
-	if (y > 5 &&
-	    control[i-1].x < x-d && d+x < control[i+1].x)
+	if (control[i-1].x < x-d && d+x < control[i+1].x)
 	{
 	    control[i].x = x;
 	    control[i].y = y;
