@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="quarcap.js">
+    </script>
+    <style>
+      :root {
+	  color-scheme: light dark;
+      }
+      html {
+	  border: 0px;
+	  margin: 0px;
+	  padding: 0px;
+	  position: fixed;
+	  overscroll-behavior-y: none;
+      }
+      canvas {
+	  display: block;
+      }
+    </style>
+  <body onload="main()" onresize="main()">
+    <canvas id="canvas"
+	    onmousemove="moused(event)"
+	    onmousedown="moused(event)"
+	    ontouchmove="touched(event)"
+	    ontouchstart="touched(event)">
+    </canvas>
+  </body>
+</html>
