@@ -182,14 +182,58 @@ function main() {
 }
 
 function reposition(ev) {
-    let x = (ev.pageX - scale) / scale;
-    let y = (ev.pageY - scale) / scale;
+    let x = (ev.pageX - canvas.width/2) / scale;
+    let y = -(ev.pageY - canvas.height*2/3) / scale - 6;
 
-    function dist(a, b) {
-	return (x - a)**2 + (y - b)**2;
+    function dist(p) {
+	return (x - p.x)**2 + (y - p.y)**2;
     }
 
     let nearest = null;
+    let near = 1/0;
+    for (let i = 0; i < control.length; i++) {
+	let p = control[i];
+	let d = dist(p);
+	if (near > d && d < 1) {
+	    nearest = i;
+	    near = d;
+	}
+    }
+
+    switch (nearest) {
+    case(0):
+	if (x > -19/2 &&
+	    x < control[1].x &&
+	    x < -control[3].x)
+	{
+	    control[0].x = x;
+	    control[4].x = -x;
+	    draw();
+	}
+	return;
+    case(4):
+	if (x < +19/2 &&
+	    x > control[3].x &&
+	    x > -control[1].x)
+	{
+	    control[4].x = x;
+	    control[0].x = -x;
+	    draw();
+	}
+	return;
+    case(1):
+    case(2):
+    case(3):
+	let i = nearest;
+	if (y > 5 &&
+	    control[i-1].x < x && x < control[i+1].x)
+	{
+	    control[i].x = x;
+	    control[i].y = y;
+	    draw();
+	}
+	return;
+    }
 }
 
 function moused(ev) {
