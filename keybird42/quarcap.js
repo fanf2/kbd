@@ -133,8 +133,6 @@ function draw() {
     line(+15.5/2, 6);
     line(+19.0/2, 6);
 
-    paint();
-
     /* https://enwp.org/Divided_differences */
 
     let x0 = control[0].x;
@@ -178,9 +176,7 @@ function draw() {
 	    + y01234 * d0 * d1 * d2 * d3;
     }
 
-    style(1, "#0ff", "#0000");
-    move(x0, 6);
-    for (let x = x0; x <= x4; x += 0.01) {
+    for (let x = x4; x >= x0; x -= 0.01) {
 	line(x, newton(x) + 6);
     }
     paint();
