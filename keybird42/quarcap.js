@@ -6,11 +6,22 @@ const tan = Math.tan;
 const tau = Math.PI * 2;
 const deg = tau/360;
 
+const INCH = 25.4;
+const KU = INCH * 3/4;
+
+let control = [
+    {x: -9, y: 0},
+    {x: -7, y: 8},
+    {x: 00, y: 7},
+    {x: +7, y: 8},
+    {x: +9, y: 0}
+];
+
 function draw() {
     let c = canvas.getContext("2d")
     c.save();
     c.clearRect(0,0, canvas.width, canvas.height);
-    c.translate(canvas.width/2, canvas.height*3/4);
+    c.translate(canvas.width/2, canvas.height*2/3);
     // scale positions but not line thickness or font size
     const scale = canvas.width/33.33;
 
@@ -127,6 +138,10 @@ function draw() {
     line(+19.0/2, 6);
     paint();
 
+    style(1, "#888", "#7ff3");
+    for (let p of control) {
+	spot(p.x, p.y + 6, 10);
+    }
 
     c.restore();
 }
