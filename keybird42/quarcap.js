@@ -56,13 +56,6 @@ function draw() {
 			x3 * scale, y3 * -scale);
     }
 
-    function draw(x1, y1, x2, y2) {
-	c.beginPath();
-	c.moveTo(x1 * scale, y1 * -scale);
-	c.lineTo(x2 * scale, y2 * -scale);
-	c.stroke();
-    }
-
     function paint() {
 	c.stroke();
 	c.fill();
@@ -70,11 +63,9 @@ function draw() {
     }
 
     function spot(x, y, r) {
-	c.beginPath();
 	c.roundRect(x * scale - r, y * -scale - r,
 		    r * 2, r * 2, r);
-	c.fill();
-	c.stroke();
+	paint();
     }
 
     // plate
@@ -141,6 +132,57 @@ function draw() {
     line(+14.5/2, 9);
     line(+15.5/2, 6);
     line(+19.0/2, 6);
+
+    paint();
+
+    /* https://enwp.org/Divided_differences */
+
+    let x0 = control[0].x;
+    let x1 = control[1].x;
+    let x2 = control[2].x;
+    let x3 = control[3].x;
+    let x4 = control[4].x;
+
+    let y0 = control[0].y;
+    let y1 = control[1].y;
+    let y2 = control[2].y;
+    let y3 = control[3].y;
+    let y4 = control[4].y;
+
+    let y01 = (y1 - y0) / (x1 - x0);
+    let y12 = (y2 - y1) / (x2 - x1);
+    let y23 = (y3 - y2) / (x3 - x2);
+    let y34 = (y4 - y3) / (x4 - x3);
+
+    let y012 = (y12 - y01) / (x2 - x0);
+    let y123 = (y23 - y12) / (x3 - x1);
+    let y234 = (y34 - y23) / (x4 - x2);
+
+    let y0123 = (y123 - y012) / (x3 - x0);
+    let y1234 = (y234 - y123) / (x4 - x1);
+
+    let y01234 = (y1234 - y0123) / (x4 - x0);
+
+    /* https://enwp.org/Newton_polynomial */
+
+    function newton(x) {
+	let d0 = x - x0;
+	let d1 = x - x1;
+	let d2 = x - x2;
+	let d3 = x - x3;
+	let d4 = x - x4;
+	return y0
+	    + y01 * d0
+	    + y012 * d0 * d1
+	    + y0123 * d0 * d1 * d2
+	    + y01234 * d0 * d1 * d2 * d3;
+    }
+
+    style(1, "#0ff", "#0000");
+    move(x0, 6);
+    for (let x = x0; x <= x4; x += 0.01) {
+	line(x, newton(x) + 6);
+    }
     paint();
 
     style(1, "#888", "#7ff3");
@@ -157,6 +199,7 @@ function draw() {
     let top_depth = control[3].y - control[1].y;
     let angle = atan2(top_depth, top_width);
 
+    style(1, "#888", "#88f");
     let info_line = 0;
     function print_info(msg1, msg2) {
 	print(10, 12 - info_line, msg1);
@@ -164,7 +207,6 @@ function draw() {
 	info_line += 1;
     }
 
-    style(1, "#888", "#88f");
     print_info("top width", `= ${top_width}`);
     print_info("depth", `= ${mid_depth}`);
     print_info("angle", `= ${angle}`);
@@ -200,24 +242,25 @@ function reposition(ev) {
 	}
     }
 
+    const d = 0.1;
     switch (nearest) {
     case(0):
 	if (x > -19/2 &&
-	    x < control[1].x &&
-	    x < -control[3].x)
+	    x+d < +control[1].x &&
+	    x+d < -control[3].x)
 	{
-	    control[0].x = x;
+	    control[0].x = +x;
 	    control[4].x = -x;
 	    draw();
 	}
 	return;
     case(4):
 	if (x < +19/2 &&
-	    x > control[3].x &&
-	    x > -control[1].x)
+	    x-d > -control[1].x &&
+	    x-d > +control[3].x)
 	{
-	    control[4].x = x;
 	    control[0].x = -x;
+	    control[4].x = +x;
 	    draw();
 	}
 	return;
@@ -226,7 +269,7 @@ function reposition(ev) {
     case(3):
 	let i = nearest;
 	if (y > 5 &&
-	    control[i-1].x < x && x < control[i+1].x)
+	    control[i-1].x < x-d && d+x < control[i+1].x)
 	{
 	    control[i].x = x;
 	    control[i].y = y;
