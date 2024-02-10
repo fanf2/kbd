@@ -4,10 +4,17 @@
 
 const tan = Math.tan;
 const tau = Math.PI * 2;
-const deg = tau/360;
+const degrees = tau/360;
+
+function atan2(opp, adj) {
+    return Math.atan2(opp, adj) / degrees;
+}
 
 const INCH = 25.4;
 const KU = INCH * 3/4;
+
+// scale positions but not line thickness or font size
+let scale = 42;
 
 let control = [
     {x: -9, y: 0},
@@ -22,8 +29,6 @@ function draw() {
     c.save();
     c.clearRect(0,0, canvas.width, canvas.height);
     c.translate(canvas.width/2, canvas.height*2/3);
-    // scale positions but not line thickness or font size
-    const scale = canvas.width/33.33;
 
     c.font = 'lighter 20px sans-serif';
 
@@ -143,18 +148,48 @@ function draw() {
 	spot(p.x, p.y + 6, 10);
     }
 
+    let base_width = control[4].x - control[0].x;
+
+    let height = (control[3].y + control[1].y) / 2;
+    let mid_depth = height - control[2].y;
+
+    let top_width = control[3].x - control[1].x;
+    let top_depth = control[3].y - control[1].y;
+    let angle = atan2(top_depth, top_width);
+
+    let info_line = 0;
+    function print_info(msg1, msg2) {
+	print(10, 12 - info_line, msg1);
+	print(12, 12 - info_line, msg2);
+	info_line += 1;
+    }
+
+    style(1, "#888", "#88f");
+    print_info("top width", `= ${top_width}`);
+    print_info("depth", `= ${mid_depth}`);
+    print_info("angle", `= ${angle}`);
+    print_info("height", `= ${height}`);
+    print_info("base width", `= ${base_width}`);
+
     c.restore();
 }
 
 function main() {
     console.log(canvas.width = window.innerWidth);
     console.log(canvas.height = window.innerHeight);
+    scale = canvas.width/33.33;
     draw();
 }
 
 function reposition(ev) {
     let x = (ev.pageX - scale) / scale;
     let y = (ev.pageY - scale) / scale;
+
+    function dist(a, b) {
+	return (x - a)**2 + (y - b)**2;
+    }
+
+    let nearest = null;
 }
 
 function moused(ev) {
