@@ -2,7 +2,6 @@ from build123d import *
 from cq_hacks import *
 from keybird42 import *
 import math
-from monkeypatch_JernArc import *
 from mx import *
 from superellipse import *
 
@@ -10,7 +9,7 @@ stamp("------------------------------------------")
 
 set_view_preferences(line_width=1)
 
-RESOLUTION_XY = 100
+RESOLUTION_XY = 64
 
 # this makes the faces on the curves roughly square
 RESOLUTION_Z = RESOLUTION_XY // 4
