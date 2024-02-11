@@ -1,5 +1,5 @@
 from build123d import *
-from math import cos, sin, tau
+from math import cos, sin, tau, pow
 from itertools import pairwise
 
 def sgn(a):
@@ -15,12 +15,13 @@ def superpoint(a, b, e, theta):
              b * sgn(st) * abs(st) ** (2/e) )
 
 def dpow(u, e):
-    return 0 if u == 0 else e * abs(u) ** (e - 1)
+    return e * pow(abs(u), e-1)
 
 def dsuperpoint(a, b, e, theta):
     ( ct, st ) = ( cos(theta), sin(theta) )
     return (( 0, 1 ) if theta == 0 else
-            ( a * -st * dpow(ct, 2/e), b * +ct * dpow(st, 2/e) ))
+            ( a * -st * dpow(ct, 2/e),
+              b * +ct * dpow(st, 2/e) ))
 
 def superellipse_spline(a, b, e, n):
     points = [ superpoint(a, b, e, d * (tau/4))
@@ -67,9 +68,8 @@ show_object([ normal_ray(splined.wire(), d, ray)
 
 def super_arrow(a, b, e, theta):
     p = superpoint(a, b, e, theta)
-    show_object(Location(p) * Box(1,1,1))
     t = Vector(dsuperpoint(a, b, e, theta)).normalized().rotate(Axis.Z, -90)
-    show_object(arrow(Line(p, p+t*inset)))
+    return arrow(Line(p, p+t*ray))
 
-[ super_arrow(width, height, expo, d*tau)
-               for d in distances(128) ]
+show_object([ super_arrow(width, height, expo, d*tau)
+               for d in distances(32) ])
