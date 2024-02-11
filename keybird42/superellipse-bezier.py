@@ -49,14 +49,14 @@ def superellipse_bezier(a, b, e, n):
     return make_face(curves)
 
 detail = 16
-expo = 3
-width = 320
-height = 256
-thick = 8
+expo = 5/2
+width = 70
+height = 60
+thick = 1
 
 def show_thing(Q, fun, n):
     thing = fun(width, height, expo, n)
-    show_object(extrude(thing, thick * Q),
+    show_object(Location((0,0,thick*Q)) * extrude(thing, thick),
                 options={"color": (255 - 51*Q,)*3})
 
 show_thing(1, superellipse_spline, detail)
