@@ -1,38 +1,37 @@
 from build123d import *
-from math import cos, sin, tau, pow
+from math import cos, sin, tau
 from itertools import pairwise
+
+def distances(n):
+    return [ i / n for i in range(n) ]
 
 def sgn(a):
     return (-1 if a < 0 else
             +1 if a > 0 else 0)
 
-def distances(n):
-    return [ i / n for i in range(n) ]
+def power(u, e):
+    return max(2**-256, abs(u)) ** e
 
 def superpoint(a, b, e, theta):
     ( ct, st ) = ( cos(theta), sin(theta) )
-    return ( a * sgn(ct) * abs(ct) ** (2/e),
-             b * sgn(st) * abs(st) ** (2/e) )
-
-def dpow(u, e):
-    return e * pow(abs(u), e-1)
+    return ( a * sgn(ct) * power(ct, 2/e),
+             b * sgn(st) * power(st, 2/e) )
 
 def supertangent(a, b, e, theta):
     ( ct, st ) = ( cos(theta), sin(theta) )
-    return (Vector( 0, 1 ) if theta == 0 else
-            Vector( a * -st * dpow(ct, 2/e),
-                    b * +ct * dpow(st, 2/e) ).normalized())
+    return Vector( a * -st * power(ct, 2/e - 1),
+                   b * +ct * power(st, 2/e - 1) ).normalized()
 
 def superellipse_spline(a, b, e, n):
     points = [ superpoint(a, b, e, d * (tau/4))
-               for d in distances(n) ]
+               for d in distances(n//4) ]
     # ensure that the quarter meets the y axis, because
     # the last distance is not accurate enough
     quarter = Spline(*points, (0,b), tangents=[(0,1),(-1,0)])
     half = quarter + mirror(quarter, Plane.YZ)
     return make_face(half + mirror(half, Plane.XZ))
 
-def superellipse_lines(a, b, e, n):
+def superellipse_linear(a, b, e, n):
     return make_face(Polyline(*[
         superpoint(a, b, e, d * tau)
         for d in distances(n)
@@ -49,41 +48,18 @@ def superellipse_bezier(a, b, e, n):
                for ((p0,t0),(p1,t1)) in zip(pt, pt[1:] + pt[:1]) ]
     return make_face(curves)
 
-def arrow(shaft):
-    return Arrow(arrow_size = shaft.length/4, head_at_start = False,
-                 shaft_width = shaft.length/16, shaft_path = shaft)
-
-def normal_ray(curve, distance, length):
-    point = curve @ distance
-    normal = (curve % distance).rotate(Axis.Z, -90)
-    return Line(point, point + normal * length)
-
+detail = 16
+expo = 3
 width = 320
 height = 256
 thick = 8
-inset = 16
-ray = 64
-expo = 5/2
 
-def show_superellipse(fun, Q, n):
-    squircle = fun(width - inset * Q, height - inset * Q, expo, n)
-    show_object(extrude(squircle, thick * Q),
+def show_thing(Q, fun, n):
+    thing = fun(width, height, expo, n)
+    show_object(extrude(thing, thick * Q),
                 options={"color": (255 - 51*Q,)*3})
-    return squircle
 
-show_superellipse(superellipse_lines, 3, 32)
-
-show_superellipse(superellipse_bezier, 2, 32)
-
-splined = show_superellipse(superellipse_spline, 1, 32)
-show_object([ normal_ray(splined.wire(), d, ray)
-               for d in distances(128) ])
-
-def super_arrow(a, b, e, theta):
-    p = superpoint(a, b, e, theta)
-    t = supertangent(a, b, e, theta)
-    n = t.rotate(Axis.Z, -90)
-    return arrow(Line(p, p+n*ray))
-
-show_object([ super_arrow(width, height, expo, d*tau)
-               for d in distances(32) ])
+show_thing(1, superellipse_spline, detail)
+show_thing(2, superellipse_linear, 256)
+show_thing(3, superellipse_bezier, detail)
+show_thing(4, superellipse_linear, detail)
