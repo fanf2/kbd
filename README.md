@@ -45,7 +45,7 @@ I have assembled three versions of Keybird69:
 [Keybird42](./keybird42/)
 -----------
 
-My current work in progress is series of 77% boards:
+My late 2023 / early 2024 work in progress is series of 77% boards:
 
   - bigger than 75%
   - fewer keys than 80%
