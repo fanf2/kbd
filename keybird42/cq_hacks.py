@@ -27,15 +27,14 @@ def show_normal_tangent(edge, pos):
     for angle in [0, 90, 180]:
         show_object(Line(point, point + tangent.rotate(Axis.Z, angle)))
 
+def arrow(shaft):
+    return Arrow(arrow_size = shaft.length/4, head_at_start = False,
+                 shaft_width = shaft.length/16, shaft_path = shaft)
+
 def show_tangent(edge, pos):
-    length = 3
-    width = 0.1
-    head = length/3
     point = edge @ pos
     tangent = edge % pos
-    shaft = Line(point, point + tangent * length)
-    show_object(Arrow(shaft_path=shaft, shaft_width=width,
-                      arrow_size=head, head_at_start=False))
+    show_object(arrow(Line(point, point + tangent * 3)))
 
 def show_marker(p,r=1):
     r = max(r, 1)
