@@ -47,6 +47,11 @@ So keybird42 has the following features:
       - two clusters of 6 mirroring the nav and arrow clusters
       - vaguely PC AT reto feel, but more symmetry
 
+  * 77%
+      - bigger than 75%
+      - fewer keys than 80% (aka tenkeyless)
+      - more symmetrical
+
 The result is a board with 84 keys and some lovely symmetries,
 and better modifier + arrow key ergonomics than usual.
 
