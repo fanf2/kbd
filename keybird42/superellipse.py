@@ -65,7 +65,8 @@ def bezier_surface(points) :
             array.SetValue(i + 1, j + 1, Vector(p).to_pnt())
 
     bezier = Geom_BezierSurface(array)
-    return BRepBuilderAPI_MakeFace(bezier, Precision.Confusion_s()).Face()
+    wrapped = BRepBuilderAPI_MakeFace(bezier, Precision.Confusion_s())
+    return Face(wrapped.Face())
 
 # We want to make a quadratic Bézier curve from p0 to p1,
 # with tangents t0 at p0 and t1 at p1. Its control point
@@ -145,7 +146,16 @@ def superellipsoid(e, z):
 
 # for testing and experimentation
 if __name__ != 'superellipse':
+    saddle = bezier_surface([
+        [ (-1,-1,00), (-1,00,+1), (-1,+1,00) ],
+        [ (00,-1,+1), (00,00,-1), (00,+1,+1) ],
+        [ (+1,-1,00), (+1,00,+1), (+1,+1,00) ]
+    ])
+    stamp(f"{saddle=}")
+    print(saddle.show_topology())
+    show_object(saddle)
 
+if False:
     N = 15
     for e in range(N):
         E = 0.05 + e / 5
