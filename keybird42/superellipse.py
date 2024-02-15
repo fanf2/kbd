@@ -113,47 +113,42 @@ def supertangent(e, 𝜃):
 # to the axes; for larger exponents, when the superellipse gets
 # diamond shaped or pointier, the tangents are along the axis.
 #
-def superquadrant(e):
+def superquadrant2(e):
     pt0 = (Vector(1,0), Vector(0,+1)) if e < 2 else (Vector(1,0), Vector(1,0))
     pt1 = (Vector(0,1), Vector(-1,0)) if e < 2 else (Vector(0,1), Vector(0,1))
     return [ pt0 ] + [ (superpoint(e, 𝜃), supertangent(e, 𝜃))
                        for 𝜃 in quadrant_angles(e) ] + [ pt1 ]
 
-def superellipse(e):
-    pt = superquadrant(e)
-    quarter = Curve() + [ Bezier(p0, bezier_ctrl(p0, t0, p1, t1), p1)
-                           for ((p0,t0),(p1,t1)) in zip(pt[:-1], pt[1:]) ]
-    half = quarter + quarter.mirror(Plane.YZ)
-    return make_face(half + half.mirror(Plane.ZX))
+def superquadrant3(e):
+    pt = superquadrant2(e)
+    return [ [p0, bezier_ctrl(p0, t0, p1, t1), p1]
+             for ((p0,t0),(p1,t1)) in zip(pt[:-1], pt[1:]) ]
 
-def superellipsoid(e, z):
-    half = supersemiellipse(z)
-    # map X axis to ray and Y axis to Z axis
-    sections = [ half.transform_geometry(Matrix(
-        [ [ray.X, 0, 0, 0],
-          [ray.Y, 0, 0, 0],
-          [0, 1, 0, 0] ]
-    )) for ray in [ Vector(1,0) ] + [
-        superpoint(e, 𝜃) for 𝜃 in quadrant_angles()
-    ] + [ Vector(0,1) ]]
-    sectors = superquadrant(e)
-    show_object([sections[0], sections[1], sectors[0]])
-    show_object(sweep([sections[0], sections[1]], sectors[0], multisection=True))
-    # segments = [ sweep(
-    #                    sector, multisection=True)
-    #              for i, sector in list(enumerate(superquadrant(xye)))[:1] ]
-    # return segments
+def superellipse(e):
+    curves = [ Bezier(*pcp) for pcp in superquadrant3(e) ]
+    curves += [ curve.mirror(Plane.YZ) for curve in curves ]
+    curves += [ curve.mirror(Plane.ZX) for curve in curves ]
+    return make_face(curves)
+
+def superellipsoid(xye, ze):
+    xysectors = superquadrant3(xye)
+    zsectors = superquadrant3(ze)
+    patches = [ bezier_surface([
+        [ (xy.X * z.X, xy.Y * z.X, z.Y)
+          for xy in xypcp ] for z in zpcp
+    ]) for xypcp in xysectors for zpcp in zsectors ]
+    patches += [ patch.mirror(Plane.YZ) for patch in patches ]
+    patches += [ patch.mirror(Plane.ZX) for patch in patches ]
+    patches += [ patch.mirror(Plane.XY) for patch in patches ]
+    return Shell.make_shell(patches)
+
 
 # for testing and experimentation
 if __name__ != 'superellipse':
-    saddle = bezier_surface([
-        [ (-1,-1,00), (-1,00,+1), (-1,+1,00) ],
-        [ (00,-1,+1), (00,00,-1), (00,+1,+1) ],
-        [ (+1,-1,00), (+1,00,+1), (+1,+1,00) ]
-    ])
-    stamp(f"{saddle=}")
-    print(saddle.show_topology())
-    show_object(saddle)
+
+    it = superellipsoid(0.5, 2.5)
+    show_object(it)
+    print(it.show_topology)
 
 if False:
     N = 15
@@ -174,7 +169,7 @@ if False:
 
         # break out the construction
         show = []
-        pt = superquadrant(E)
+        pt = superquadrant2(E)
         for ((p0,t0),(p1,t1)) in zip(pt[:-1], pt[1:]):
             p0 = R * p0
             p1 = R * p1
