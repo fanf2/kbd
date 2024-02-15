@@ -62,7 +62,7 @@ def mul(a, b):
 # Note this list excludes both endpoints, which are handled as special
 # cases to ensure that superellipses are properly closed.
 @cache
-def quadrant_angles(n):
+def quadrant_angles(n=DETAIL):
     return [ (tau / 4) * (i / n)
              for i in [0.25] + list(range(1, n)) + [n-0.25] ]
 
@@ -88,28 +88,50 @@ def supertangent(e, 𝜃):
                   +c * power(s, e - 1))
 
 # points on X and Y axes are special cases
-def superquadrant(e, detail=DETAIL):
-    pt = [ (Vector(1,0), Vector(0,1)) ] + [
-        (superpoint(e, 𝜃), supertangent(e, 𝜃))
-        for 𝜃 in quadrant_angles(detail)
-    ] +  [ (Vector(0,1), Vector(-1,0)) ]
+def superquadrant(e):
+    pt0 = (Vector(1,0), Vector(0,+1)) if e < 2 else (Vector(1,0), Vector(1,0))
+    pt1 = (Vector(0,1), Vector(-1,0)) if e < 2 else (Vector(0,1), Vector(0,1))
+    pt = [ pt0 ] + [ (superpoint(e, 𝜃), supertangent(e, 𝜃))
+                     for 𝜃 in quadrant_angles() ] + [ pt1 ]
     return [ Bezier(p0, bezier_ctrl(p0, t0, p1, t1), p1)
              for ((p0,t0),(p1,t1)) in zip(pt[:-1], pt[1:]) ]
 
-def superellipse(e, detail=DETAIL):
-    quarter = superquadrant(e, detail)
-    half = mirror(quarter, Plane.YZ) + quarter
-    whole = mirror(half, Plane.ZX) + half
-    result = make_face(whole)
-    return result
+# The X axis is the starting point for sweeping a superellipsoid, so
+# make it the principal axis of the half-superellipse that is swept.
+def supersemiellipse(e):
+    quarter = Curve() + superquadrant(e)
+    return quarter + quarter.mirror(Plane.ZX)
+
+def superellipse(e):
+    half = supersemiellipse(e)
+    return make_face(half + half.mirror(Plane.YZ))
+
+def superellipsoid(e, z):
+    half = supersemiellipse(z)
+    # map X axis to ray and Y axis to Z axis
+    sections = [ half.transform_geometry(Matrix(
+        [ [ray.X, 0, 0, 0],
+          [ray.Y, 0, 0, 0],
+          [0, 1, 0, 0] ]
+    )) for ray in [ Vector(1,0) ] + [
+        superpoint(e, 𝜃) for 𝜃 in quadrant_angles()
+    ] + [ Vector(0,1) ]]
+    sectors = superquadrant(e)
+    show_object([sections[0], sections[1], sectors[0]])
+    show_object(sweep([sections[0], sections[1]], sectors[0], multisection=True))
+    # segments = [ sweep(
+    #                    sector, multisection=True)
+    #              for i, sector in list(enumerate(superquadrant(xye)))[:1] ]
+    # return segments
 
 # for testing and experimentation
 if __name__ != 'superellipse':
 
-    for e in range(10):
-        E = (e + 1) / 10
+    N = 30
+    for e in range(N):
+        E = 0.05 + e / 10
         stamp(f"{E=}")
-        R = 20 - e
+        R = 10 + N - e
 
         # piecewise linear version to compare accuracy of curves
         HIRES=256
@@ -122,7 +144,7 @@ if __name__ != 'superellipse':
                     **rgba("666"))
 
         # go round the whole way instead of just one quarter
-        quarter = [0] + quadrant_angles(DETAIL)
+        quarter = [0] + quadrant_angles()
         theta = [ a + q * tau/4 for q in range(4) for a in quarter ]
 
         # break out the construction
@@ -138,39 +160,3 @@ if __name__ != 'superellipse':
                       arrow(Line(p0, p0+t0.normalized())),
                       arrow(Line(p1, p1-t1.normalized())) ]
         show_object([ Pos((0,0,e*3+2)) * thing for thing in show ])
-
-"""
-
-@cache
-def superellipse_half(a, b, e, resolution=RESOLUTION):
-    clip = Location((0, b/2)) * Rectangle(a*2, b)
-    return superellipse(a, b, e, resolution) & clip
-
-def superhalf_on_line(line, b, e, resolution=RESOLUTION):
-    half = Plane.ZX * superellipse_half(b, line.length, e, resolution)
-    return Location(line @ 0) * Rotation(Z=line.tangent_angle_at(0)) * half
-
-def superellipsoid(inner, outer, h, e, resolution=RESOLUTION):
-    [outer] = outer.faces() # extract the one face for its size
-    length = max(outer.length, outer.width)
-    sectors = inner.edges()
-    rays = [ vertex_ray(sectors[i-1], sectors[i-0], length)
-             for i in range(len(sectors)) ]
-    normals = Wire() + rays & outer
-    stamp("superellipse sections")
-    # sections have to be faces; multisection does not work with paths
-    sections = [ superhalf_on_line(normal, h, e, resolution)
-                 for normal in normals ]
-    # append the section at the end of the last edge
-    sections += [sections[0]]
-    stamp("superellipse sweep")
-    # When we pass many sections into a single `sweep()`, it can end up using
-    # near-infinite CPU. So instead we `sweep()` a pair of sections at a time.
-    return [ extrude(inner, amount=h, both=True) ] + [
-        sweep([sections[i+0], sections[i+1]], e, multisection=True)
-        for i,e in enumerate(sectors) ]
-
-def superegg_half(a, b, e, resolution=RESOLUTION):
-    return revolve(superellipse_half(a, b, e, resolution), Axis.X, 180)
-
-"""
