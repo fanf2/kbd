@@ -1,5 +1,23 @@
 """superellipses and superellipsoids
 
+Superellipses are a more sophisticated alternative to rounded
+rectangles, with smoothly changing curvature. They are flexible
+shapes that can be adjusted by changing the "exponent" to get a
+result that varies between rectangular and elliptical, or from
+square, through squircle, to circle, and beyond...
+
+Superellipses can be found:
+
+  * in typefaces such as Melior, Eurostyle, and Computer Modern
+
+  * as the shape of airliner windows, tables, plates
+
+  * clipping the outline of iOS app icons
+
+They were named and popularized in the 1950s-1960s by the Danish
+mathematician and poet Piet Hein, who used them in the winning
+design for the Sergels Torg roundabout in Stockholm.
+
 There are two complementary definitions of a superellipse, depending
 on whether the author prefers [the implicit equation][enwp] or [the
 parametric equation][bourke] (scroll down past the sportsball
@@ -12,30 +30,39 @@ version, superellipses are rectangles at `e = 0`, ellipses at `e =
 [enwp]: https://en.wikipedia.org/wiki/Superellipse
 [bourke]: https://paulbourke.net/geometry/spherical/
 
-This code uses the parametric form to draw hyperellipses with
-exponents less than 1.
+This code uses the parametric form to draw superellipses. Its
+purpose is mostly for hyperellipses with exponents `0 <= e <= 1`,
+though it can draw hypoellipses too.
 
 In the same way that ellipses are scaled circles, superellipses are
 scaled squircles. Therefore this code only constructs squircles; the
 result must be scaled to get a superellipse. Similarly in three
 dimensions for superellipsoids.
 
-We approximate a superellipse by dividing it into sectors. The
-superellipse's parameter `theta` ranges from 0 to `tau`; each sector
-is an equal subdivision of this range. (But not an equal subdivision
-of the resulting superellipse owing to its exponent.)
+We approximate a superellipse by dividing it into sectors, each of
+which is drawn using a quadratic Bézier curve. Five sectors per
+quarter is enough to get a good approximation. A quadratic Bézier
+curve can be defined by the tangents at its end points; the
+intersection of the tangents determines its control point.
 
-We can calculate the tangents at the points between each sector of
-the superellipse. These determine a quadratic Bézier for each
-segment. We don't have to use too many segments to get a good enough
-approximation to the superellipse.
+A 3D superellipsoid is made from two orthogonal 2D superellipses,
+with independent exponents. Every horizontal section (line of
+latitude) through the superellipsoid has the same shape as the
+horizontal superellipse, scaled so that it intersects the vertical
+superellipse. Every vertical section through the vertical axis of
+the superellipsoid (line of longitude) has the same shape as the
+vertical superellipse, scaled so that it intersects the horizontal
+superellipse at the superellipsoid's equator.
+
+Piet Hein's superegg is a superellipsoid with horizontal exponent
+xye = 1 (circular) and vertical exponent ze = 4/5, stretched so its
+height is 6/5 of its width.
 
 """
 
 from build123d import *
 from collections import namedtuple
 from cq_hacks import *
-from functools import cache
 from math import cos, sin, tau
 
 from OCP.BRepBuilderAPI import BRepBuilderAPI_MakeFace
@@ -45,17 +72,6 @@ from OCP.TColgp import TColgp_Array2OfPnt
 
 # Default number of sectors per quadrant is DETAIL+2
 DETAIL=3
-
-# The clamp here is helpful for testing
-def power(u, e):
-    return max(2**-256, abs(u)) ** e
-
-def sgn(a):
-    return (-1 if a < 0 else
-            +1 if a > 0 else 0)
-
-def mul(a, b):
-    return a.X * b.Y - a.Y * b.X
 
 def bezier_surface(points) :
     array = TColgp_Array2OfPnt(1, len(points), 1, len(points[0]))
@@ -67,6 +83,9 @@ def bezier_surface(points) :
     bezier = Geom_BezierSurface(array)
     wrapped = BRepBuilderAPI_MakeFace(bezier, Precision.Confusion_s())
     return Face(wrapped.Face())
+
+def mul(a, b):
+    return a.X * b.Y - a.Y * b.X
 
 # We want to make a quadratic Bézier curve from p0 to p1,
 # with tangents t0 at p0 and t1 at p1. Its control point
@@ -91,34 +110,35 @@ def bezier_ctrl(p0, t0, p1, t1):
 # Note this list excludes both endpoints, which are handled as
 # special cases to ensure that superellipses are properly closed.
 #
-@cache
 def quadrant_angles(e, n=DETAIL):
     ni = list(range(1, n))
-    en = 0.25 if e < 1 else 0.5
-    if e < 2: ni = [en] + ni + [n - en]
+    if e < 1: ni = [0.25] + ni + [n - 0.25]
+    elif e < 2: ni = [0.5] + ni + [n - 0.5]
     return [ (tau / 4) * (i / n) for i in ni ]
 
+# Calculates a point on the positive quadrant of a superellipse
 def superpoint(e, 𝜃):
-    (c, s) = (cos(𝜃), sin(𝜃))
-    return Vector(sgn(c) * power(c, e),
-                  sgn(s) * power(s, e))
+    return Vector(cos(𝜃) ** e, sin(𝜃) ** e)
 
+# Calculus! The derivative of the superpoint equation.
 def supertangent(e, 𝜃):
-    (c, s) = (cos(𝜃), sin(𝜃))
-    return Vector(-s * power(c, e - 1),
-                  +c * power(s, e - 1))
+    (c, s, eʹ) = (cos(𝜃), sin(𝜃), e - 1)
+    return Vector(-s * c ** eʹ, +c * s ** eʹ)
 
 # Points on X and Y axes are special cases to ensure quadrants join
 # up correctly. For small exponents, the tangents are perpendicular
 # to the axes; for larger exponents, when the superellipse gets
-# diamond shaped or pointier, the tangents are along the axis.
+# diamond shaped or more pointy, the tangents are along the axis.
 #
+# Calculates (point, tangent) pairs for a quadrant of a superellipse.
 def superquadrant2(e):
     pt0 = (Vector(1,0), Vector(0,+1)) if e < 2 else (Vector(1,0), Vector(1,0))
     pt1 = (Vector(0,1), Vector(-1,0)) if e < 2 else (Vector(0,1), Vector(0,1))
     return [ pt0 ] + [ (superpoint(e, 𝜃), supertangent(e, 𝜃))
                        for 𝜃 in quadrant_angles(e) ] + [ pt1 ]
 
+# Calculates (start point, control point, end point) triples
+# describing the Bézier curve for each sector of a superellipse.
 def superquadrant3(e):
     pt = superquadrant2(e)
     return [ [p0, bezier_ctrl(p0, t0, p1, t1), p1]
@@ -131,17 +151,16 @@ def superellipse(e):
     return make_face(curves)
 
 def superellipsoid(xye, ze):
-    xysectors = superquadrant3(xye)
-    zsectors = superquadrant3(ze)
+    xycurves = superquadrant3(xye)
+    zcurves = superquadrant3(ze)
     patches = [ bezier_surface([
         [ (xy.X * z.X, xy.Y * z.X, z.Y)
           for xy in xypcp ] for z in zpcp
-    ]) for xypcp in xysectors for zpcp in zsectors ]
+    ]) for xypcp in xycurves for zpcp in zcurves ]
     patches += [ patch.mirror(Plane.YZ) for patch in patches ]
     patches += [ patch.mirror(Plane.ZX) for patch in patches ]
     patches += [ patch.mirror(Plane.XY) for patch in patches ]
     return Shell.make_shell(patches)
-
 
 # for testing and experimentation
 if __name__ != 'superellipse':
