@@ -137,7 +137,7 @@ def superquadrant2(e):
     return [ pt0 ] + [ (superpoint(e, 𝜃), supertangent(e, 𝜃))
                        for 𝜃 in quadrant_angles(e) ] + [ pt1 ]
 
-# Calculates (start point, control point, end point) triples
+# Calculates [start point, control point, end point] triples
 # describing the Bézier curve for each sector of a superellipse.
 def superquadrant3(e):
     pt = superquadrant2(e)
@@ -146,20 +146,20 @@ def superquadrant3(e):
 
 def superellipse(e):
     curves = [ Bezier(*pcp) for pcp in superquadrant3(e) ]
-    curves += [ curve.mirror(Plane.YZ) for curve in curves ]
     curves += [ curve.mirror(Plane.ZX) for curve in curves ]
+    curves += [ curve.mirror(Plane.YZ) for curve in curves ]
     return make_face(curves)
 
 def superellipsoid(xye, ze):
-    xycurves = superquadrant3(xye)
-    zcurves = superquadrant3(ze)
-    patches = [ bezier_surface([
-        [ (xy.X * z.X, xy.Y * z.X, z.Y)
-          for xy in xypcp ] for z in zpcp
-    ]) for xypcp in xycurves for zpcp in zcurves ]
-    patches += [ patch.mirror(Plane.YZ) for patch in patches ]
+    patches = [ bezier_surface([ [
+      (xy.X * z.X, xy.Y * z.X, z.Y)
+        for xy in xypcp ]
+          for z in zpcp ])
+            for xypcp in superquadrant3(xye)
+              for zpcp in superquadrant3(ze) ]
     patches += [ patch.mirror(Plane.ZX) for patch in patches ]
     patches += [ patch.mirror(Plane.XY) for patch in patches ]
+    patches += [ patch.mirror(Plane.YZ) for patch in patches ]
     return Shell.make_shell(patches)
 
 # for testing and experimentation
@@ -167,29 +167,32 @@ if __name__ != 'superellipse':
 
     set_view_preferences(line_width=0)
 
-    N = 15
+    N = 13
     blobs = []
     for xy in range(N):
         for z in range(N):
-            it = superellipsoid(0.1 + xy / 5,
-                                0.1 + z / 5)
-            blobs += [ Pos((xy*3, z*3)) * it ]
             stamp(f"{xy=} {z=}")
+            blobs += [ Pos((xy*3 - N*3/2 + 3/2,
+                            z*3 - N*3/2 + 3/2,
+                            N*3 + 5))
+                       * superellipsoid(0.1 + xy / 5,
+                                        0.1 + z / 5) ]
     show_object(blobs, **rgba("73c"))
 
-
-if False:
-    N = 15
     for e in range(N):
-        E = 0.05 + e / 5
+        E = 0.09 + e / 5
         R = 10 + N - e
         stamp(f"{E=} {R=}")
 
         # piecewise linear version to compare accuracy of curves
-        HIRES=256
-        show_object(Pos((0,0,e*3+1)) * extrude(make_face(Polyline(*[
-            R * superpoint(E, tau*i/HIRES) for i in range(HIRES)
-        ], close=True)), 1), **rgba("aaa"))
+        HIRES=64
+        points = [ R * superpoint(E, (tau/4)*(i/HIRES)) for i in range(HIRES) ]
+        points += [ Vector(-p.Y,p.X) for p in points ]
+        points += reversed([ Vector(p.X,-p.Y) for p in points ])
+
+        show_object(Pos((0,0,e*3+1)) *
+                    extrude(make_face(Polyline(*points)), 1),
+                    **rgba("aaa"))
 
         show_object(Pos((0,0,e*3))
                     * extrude(scale(superellipse(E), R), 1),
