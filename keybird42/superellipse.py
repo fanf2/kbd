@@ -172,8 +172,8 @@ if __name__ != 'superellipse':
     for xy in range(N):
         for z in range(N):
             stamp(f"{xy=} {z=}")
-            blobs += [ Pos((xy*3 - N*3/2 + 3/2,
-                            z*3 - N*3/2 + 3/2,
+            blobs += [ Pos((-z*3 + N*3/2 - 3/2,
+                            xy*3 - N*3/2 + 3/2,
                             N*3 + 5))
                        * superellipsoid(0.1 + xy / 5,
                                         0.1 + z / 5) ]
