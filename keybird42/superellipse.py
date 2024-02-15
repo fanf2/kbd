@@ -38,6 +38,11 @@ from cq_hacks import *
 from functools import cache
 from math import cos, sin, tau
 
+from OCP.BRepBuilderAPI import BRepBuilderAPI_MakeFace
+from OCP.Geom import Geom_BezierSurface
+from OCP.Precision import Precision
+from OCP.TColgp import TColgp_Array2OfPnt
+
 # Default number of sectors per quadrant is DETAIL+2
 DETAIL=3
 
@@ -52,19 +57,15 @@ def sgn(a):
 def mul(a, b):
     return a.X * b.Y - a.Y * b.X
 
+def bezier_surface(points) :
+    array = TColgp_Array2OfPnt(1, len(points), 1, len(points[0]))
 
-# The Bézier curves are too flat near the axes where there's a
-# relatively large gap between points. The approximation is a lot
-# closer to a superellipse if we add intermediate points in these
-# gaps; empirically, 0.25 either side of each axis produces a more
-# even spacing of points and good results as low as `DETAIL=3`
-#
-# Note this list excludes both endpoints, which are handled as special
-# cases to ensure that superellipses are properly closed.
-@cache
-def quadrant_angles(n=DETAIL):
-    return [ (tau / 4) * (i / n)
-             for i in [0.25] + list(range(1, n)) + [n-0.25] ]
+    for i, row in enumerate(points):
+        for j, p in enumerate(row):
+            array.SetValue(i + 1, j + 1, Vector(p).to_pnt())
+
+    bezier = Geom_BezierSurface(array)
+    return BRepBuilderAPI_MakeFace(bezier, Precision.Confusion_s()).Face()
 
 # We want to make a quadratic Bézier curve from p0 to p1,
 # with tangents t0 at p0 and t1 at p1. Its control point
@@ -77,6 +78,25 @@ def bezier_ctrl(p0, t0, p1, t1):
     return Vector(m1 * t0.X - m0 * t1.X,
                   m1 * t0.Y - m0 * t1.Y)
 
+# In a squarish superellipse, the Bézier curves are too flat near
+# the axes where there's a relatively large gap between points. For
+# roundish superellipses the Bézier curves are not flat enough. The
+# approximation is a lot closer to the superellipse if we add
+# intermediate points in these gaps; empirically, 0.25 (for
+# squarish) or 0.5 (for roundish) either side of each axis produces
+# a more even spacing of points and good results as low as
+# `DETAIL=3`
+#
+# Note this list excludes both endpoints, which are handled as
+# special cases to ensure that superellipses are properly closed.
+#
+@cache
+def quadrant_angles(e, n=DETAIL):
+    ni = list(range(1, n))
+    en = 0.25 if e < 1 else 0.5
+    if e < 2: ni = [en] + ni + [n - en]
+    return [ (tau / 4) * (i / n) for i in ni ]
+
 def superpoint(e, 𝜃):
     (c, s) = (cos(𝜃), sin(𝜃))
     return Vector(sgn(c) * power(c, e),
@@ -87,24 +107,23 @@ def supertangent(e, 𝜃):
     return Vector(-s * power(c, e - 1),
                   +c * power(s, e - 1))
 
-# points on X and Y axes are special cases
+# Points on X and Y axes are special cases to ensure quadrants join
+# up correctly. For small exponents, the tangents are perpendicular
+# to the axes; for larger exponents, when the superellipse gets
+# diamond shaped or pointier, the tangents are along the axis.
+#
 def superquadrant(e):
     pt0 = (Vector(1,0), Vector(0,+1)) if e < 2 else (Vector(1,0), Vector(1,0))
     pt1 = (Vector(0,1), Vector(-1,0)) if e < 2 else (Vector(0,1), Vector(0,1))
-    pt = [ pt0 ] + [ (superpoint(e, 𝜃), supertangent(e, 𝜃))
-                     for 𝜃 in quadrant_angles() ] + [ pt1 ]
-    return [ Bezier(p0, bezier_ctrl(p0, t0, p1, t1), p1)
-             for ((p0,t0),(p1,t1)) in zip(pt[:-1], pt[1:]) ]
-
-# The X axis is the starting point for sweeping a superellipsoid, so
-# make it the principal axis of the half-superellipse that is swept.
-def supersemiellipse(e):
-    quarter = Curve() + superquadrant(e)
-    return quarter + quarter.mirror(Plane.ZX)
+    return [ pt0 ] + [ (superpoint(e, 𝜃), supertangent(e, 𝜃))
+                       for 𝜃 in quadrant_angles(e) ] + [ pt1 ]
 
 def superellipse(e):
-    half = supersemiellipse(e)
-    return make_face(half + half.mirror(Plane.YZ))
+    pt = superquadrant(e)
+    quarter = Curve() + [ Bezier(p0, bezier_ctrl(p0, t0, p1, t1), p1)
+                           for ((p0,t0),(p1,t1)) in zip(pt[:-1], pt[1:]) ]
+    half = quarter + quarter.mirror(Plane.YZ)
+    return make_face(half + half.mirror(Plane.ZX))
 
 def superellipsoid(e, z):
     half = supersemiellipse(z)
@@ -127,11 +146,11 @@ def superellipsoid(e, z):
 # for testing and experimentation
 if __name__ != 'superellipse':
 
-    N = 30
+    N = 15
     for e in range(N):
-        E = 0.05 + e / 10
-        stamp(f"{E=}")
+        E = 0.05 + e / 5
         R = 10 + N - e
+        stamp(f"{E=} {R=}")
 
         # piecewise linear version to compare accuracy of curves
         HIRES=256
@@ -143,20 +162,18 @@ if __name__ != 'superellipse':
                     * extrude(scale(superellipse(E), R), 1),
                     **rgba("666"))
 
-        # go round the whole way instead of just one quarter
-        quarter = [0] + quadrant_angles()
-        theta = [ a + q * tau/4 for q in range(4) for a in quarter ]
-
         # break out the construction
         show = []
-        for a0, a1 in zip(theta, theta[1:] + theta[:1]):
-            p0 = R * superpoint(E, a0)
-            p1 = R * superpoint(E, a1)
-            t0 = supertangent(E, a0)
-            t1 = supertangent(E, a1)
+        pt = superquadrant(E)
+        for ((p0,t0),(p1,t1)) in zip(pt[:-1], pt[1:]):
+            p0 = R * p0
+            p1 = R * p1
             cp = bezier_ctrl(p0, t0, p1, t1)
-            show += [ Pos(cp) * Box(.1,.1,.1), Bezier(p0, cp, p1),
+            show += [ Pos(cp) * Box(.1,.1,.1),
+                      Bezier(p0, cp, p1),
                       Line(p0, cp), Line(cp, p1), Line(p1, p0),
-                      arrow(Line(p0, p0+t0.normalized())),
-                      arrow(Line(p1, p1-t1.normalized())) ]
+                      arrow(Line(p0, p0-t0.normalized())),
+                      arrow(Line(p1, p1+t1.normalized())) ]
+        show += [ thing.mirror(Plane.YZ) for thing in show ]
+        show += [ thing.mirror(Plane.ZX) for thing in show ]
         show_object([ Pos((0,0,e*3+2)) * thing for thing in show ])
