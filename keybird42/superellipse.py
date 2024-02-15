@@ -146,9 +146,18 @@ def superellipsoid(xye, ze):
 # for testing and experimentation
 if __name__ != 'superellipse':
 
-    it = superellipsoid(0.5, 2.5)
-    show_object(it)
-    print(it.show_topology)
+    set_view_preferences(line_width=0)
+
+    N = 15
+    blobs = []
+    for xy in range(N):
+        for z in range(N):
+            it = superellipsoid(0.1 + xy / 5,
+                                0.1 + z / 5)
+            blobs += [ Pos((xy*3, z*3)) * it ]
+            stamp(f"{xy=} {z=}")
+    show_object(blobs, **rgba("73c"))
+
 
 if False:
     N = 15
