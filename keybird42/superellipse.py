@@ -25,19 +25,23 @@ section). In the implicit version, superellipses are ellipses when
 `e = 2` and get more rectangular (hyperelliptical) for larger `e`,
 and more pointy (hypoelliptical) for smaller `e`. In the parametric
 version, superellipses are rectangles at `e = 0`, ellipses at `e =
-1`, and pointy for larger `e`.
+1`, and pointy for larger `e`. The implicit form seems to be more
+popular: it is the convention used in the study of [squigonometry][].
 
 [enwp]: https://en.wikipedia.org/wiki/Superellipse
 [bourke]: https://paulbourke.net/geometry/spherical/
+[squigonometry]: https://link.springer.com/book/10.1007/978-3-031-13783-9
 
-This code uses the parametric form to draw superellipses. Its
-purpose is mostly for hyperellipses with exponents `0 <= e <= 1`,
-though it can draw hypoellipses too.
+This code uses the less popular parametric form to draw
+superellipses. Its purpose is mostly for hyperellipses with
+exponents `0 <= e <= 1`, though it can draw hypoellipses too. In the
+parametric form the exponent straightforwardly means "roundness".
 
 In the same way that ellipses are scaled circles, superellipses are
 scaled squircles. Therefore this code only constructs squircles; the
 result must be scaled to get a superellipse. Similarly in three
-dimensions for superellipsoids.
+dimensions for superellipsoids. (This helpfully saves us from having
+to plumb size parameters through the calculations.)
 
 We approximate a superellipse by dividing it into sectors, each of
 which is drawn using a quadratic Bézier curve. Five sectors per
@@ -116,7 +120,7 @@ def quadrant_angles(e, n=DETAIL):
     elif e < 2: ni = [0.5] + ni + [n - 0.5]
     return [ (tau / 4) * (i / n) for i in ni ]
 
-# Calculates a point on the positive quadrant of a superellipse
+# Calculate a point on the positive quadrant of a superellipse
 def superpoint(e, 𝜃):
     return Vector(cos(𝜃) ** e, sin(𝜃) ** e)
 
@@ -130,14 +134,14 @@ def supertangent(e, 𝜃):
 # to the axes; for larger exponents, when the superellipse gets
 # diamond shaped or more pointy, the tangents are along the axis.
 #
-# Calculates (point, tangent) pairs for a quadrant of a superellipse.
+# Calculate (point, tangent) pairs for a quadrant of a superellipse.
 def superquadrant2(e):
-    pt0 = (Vector(1,0), Vector(0,+1)) if e < 2 else (Vector(1,0), Vector(1,0))
-    pt1 = (Vector(0,1), Vector(-1,0)) if e < 2 else (Vector(0,1), Vector(0,1))
+    pt0 = (Vector(1,0), Vector(0,+1)) if e < 2 else (Vector(1,0), Vector(-1,0))
+    pt1 = (Vector(0,1), Vector(-1,0)) if e < 2 else (Vector(0,1), Vector(0,+1))
     return [ pt0 ] + [ (superpoint(e, 𝜃), supertangent(e, 𝜃))
                        for 𝜃 in quadrant_angles(e) ] + [ pt1 ]
 
-# Calculates [start point, control point, end point] triples
+# Calculate [start point, control point, end point] triples
 # describing the Bézier curve for each sector of a superellipse.
 def superquadrant3(e):
     pt = superquadrant2(e)
@@ -150,6 +154,18 @@ def superellipse(e):
     curves += [ curve.mirror(Plane.YZ) for curve in curves ]
     return make_face(curves)
 
+# Horizontal slices through a superellipsoid have the same shape as
+# the xy superellipse, scaled according to the slice's radius. The z
+# superellipse is vertical; its Y coordinates are mapped to the Z
+# coordinates of each slice, and its X coordinates become the radius
+# of each slice.
+#
+# The edges of each patch are the same quadratic Bézier curves used
+# for 2D superellipses. In 3D, a biquadratic Bézier surface has a
+# 5th control point that determines how much the the centre of the
+# patch bulges. We set the central control point by scaling the
+# mid-edge control points just like the other points.
+#
 def superellipsoid(xye, ze):
     patches = [ bezier_surface([ [
       (xy.X * z.X, xy.Y * z.X, z.Y)
