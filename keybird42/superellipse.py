@@ -69,6 +69,7 @@ from collections import namedtuple
 from cq_hacks import *
 from math import cos, sin, tau
 
+# for bezier_surface()
 from OCP.BRepBuilderAPI import BRepBuilderAPI_MakeFace
 from OCP.Geom import Geom_BezierSurface
 from OCP.Precision import Precision
@@ -182,6 +183,14 @@ def superellipsoid(xye, ze):
 if __name__ != 'superellipse':
 
     set_view_preferences(line_width=0)
+
+    cap = bezier_surface([ [ (x, y,
+                              -0.5 if x == 0 and y == 0 else
+                              +0.5 if x == 0 or y == 0 else 0
+                              ) for x in range(-1,2)
+                            ] for y in range(-1, 2)
+                          ])
+    show_object(Pos((0,0,-10)) * scale(cap, 30))
 
     N = 13
     blobs = []
