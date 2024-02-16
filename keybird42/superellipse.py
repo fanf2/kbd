@@ -149,11 +149,14 @@ def superquadrant3(e):
     return [ [p0, bezier_ctrl(p0, t0, p1, t1), p1]
              for ((p0,t0),(p1,t1)) in zip(pt[:-1], pt[1:]) ]
 
-def superellipse(e):
+def squircle(e):
     curves = [ Bezier(*pcp) for pcp in superquadrant3(e) ]
     curves += [ curve.mirror(Plane.ZX) for curve in curves ]
     curves += [ curve.mirror(Plane.YZ) for curve in curves ]
     return make_face(curves)
+
+def superellipse(rx, ry, e):
+    return scale(squircle(e), (rx, ry, 1))
 
 # Horizontal slices through a superellipsoid have the same shape as
 # the xy superellipse, scaled according to the slice's radius. The z
@@ -167,7 +170,7 @@ def superellipse(e):
 # patch bulges. We set the central control point by scaling the
 # mid-edge control points just like the other points.
 #
-def superellipsoid(xye, ze):
+def supercube(xye, ze):
     patches = [ bezier_surface([ [
       (xy.X * z.X, xy.Y * z.X, z.Y)
         for xy in xypcp ]
@@ -177,7 +180,10 @@ def superellipsoid(xye, ze):
     patches += [ patch.mirror(Plane.ZX) for patch in patches ]
     patches += [ patch.mirror(Plane.XY) for patch in patches ]
     patches += [ patch.mirror(Plane.YZ) for patch in patches ]
-    return Shell.make_shell(patches)
+    return Solid.make_solid(Shell.make_shell(patches))
+
+def superellipsoid(rx, ry, rz, xye, ze):
+    return scale(supercube(xye, ze), (rx, ry, rz))
 
 # for testing and experimentation
 if __name__ != 'superellipse':
@@ -200,8 +206,8 @@ if __name__ != 'superellipse':
             blobs += [ Pos((-z*3 + N*3/2 - 3/2,
                             xy*3 - N*3/2 + 3/2,
                             N*3 + 5))
-                       * superellipsoid(0.1 + xy / 5,
-                                        0.1 + z / 5) ]
+                       * supercube(0.1 + xy / 5,
+                                   0.1 + z / 5) ]
     show_object(blobs, **rgba("73c"))
 
     for e in range(N):
@@ -220,7 +226,7 @@ if __name__ != 'superellipse':
                     **rgba("aaa"))
 
         show_object(Pos((0,0,e*3))
-                    * extrude(scale(superellipse(E), R), 1),
+                    * extrude(scale(squircle(E), R), 1),
                     **rgba("666"))
 
         # break out the construction

@@ -9,94 +9,73 @@ stamp("------------------------------------------")
 
 set_view_preferences(line_width=1)
 
-RESOLUTION_XY = 64
-
-# this makes the faces on the curves roughly square
-RESOLUTION_Z = RESOLUTION_XY // 4
+def inch(n):
+    return 25.4 * n
 
 # this also determines the top cutout radius
 keycap_clear = 0.5
 
 typing_angle = 6.6666
 
-main_y = ku(-0.125)
+total_width = ku(24)
+total_depth = total_width/3
+
+body_rx = total_width/2
+body_ry = total_depth/2
+body_rz = ku(0.50)
+body_xye = 1/2
+body_ze = 1/3
+
+ungula_rx = body_rx - ku(1.5)
+ungula_ry = body_ry - ku(0.75)
+ungula_e = 4/5
+
 main_width = ku(15)
 keys_width = main_width + 2 * (ku(0.25) + ku(3))
 keys_depth = ku(5)
+keys_y = ku(-0.25)
+keys_z = body_rz - inch(1/16)
 
-total_width = ku(24)
-total_depth = ku(7.25)
-
-radius_x = ku(1.00)
-radius_y = ku(0.75)
-radius_z = ku(0.50)
-
-outer_a = total_width/2
-outer_b = total_depth/2
-inner_a = outer_a - radius_x
-inner_b = outer_b - radius_y
-
-# empirically enough to fit around the key blocks
-inner_e = 8
-
-# softer than the inner curve but not
-# getting squashed around the corner
-outer_e = 6
-
-# piet hein
-side_e = 5/2
-
-ungula_a = inner_a - ku(0.25)
-ungula_b = inner_b + ku(0.25)
-ungula_e = 5/2
-ungula_z = ku(0.25)
-
-desk_a = ku(16)
-desk_b = ku(8)
-desk_e = 3
-desk_z = ku(0.85)
+desk_rx = ku(16)
+desk_ry = ku(8)
+desk_z = inch(-2/3)
+desk_e = 4/5
+desk_location = Pos((0, 0, desk_z)) * Rot(X=-typing_angle)
 
 rgb_case = rgba("113")
 rgb_keys = rgba("213")
 
-desk = (Location((0, 0, -desk_z)) *
-        Rotation(X=-typing_angle) *
-        superellipse(desk_a, desk_b, desk_e))
-show_object(extrude(desk, -1), **rgba("ccc"))
+def thicken(shape, movement):
+    return loft([movement * shape, shape])
+
+#desk = desk_location * superellipse(desk_rx, desk_ry, desk_e)
+desk = desk_location * thicken(superellipse(desk_rx, desk_ry, desk_e),
+                               Pos((0,0,-1)))
+show_object(desk, **rgba("ccc"))
 
 stamp("making ungula")
-ungula = mirror(Location((0, 0, -ungula_z)) *
-                superegg_half(ungula_a, ungula_b, ungula_e),
-                Plane.XY) & extrude(desk, ku(2))
+ungula = Rot(Y=90) * superellipsoid(
+    ungula_ry, ungula_ry, ungula_rx, 1, ungula_e
+) & thicken(Rectangle(total_width, total_depth), desk_location)
 
-stamp("making innner outer")
-inner = superellipse(inner_a, inner_b, inner_e, RESOLUTION_XY)
-outer = superellipse(outer_a, outer_b, outer_e, RESOLUTION_XY)
-stamp("making body")
-body = superellipsoid(inner, outer, radius_z, side_e, RESOLUTION_Z)
-#show_object(body, **rgb_case)
+show_object(ungula, **rgb_case)
+
+body = superellipsoid(body_rx, body_ry, body_rz, body_xye, body_ze)
 
 stamp("making cutouts")
 top_sharpcut = extrude(offset(
     keycap_cutouts(), amount=keycap_clear, kind=Kind.INTERSECTION
 ), -7.5)
-top_cutouts = (Location((0, main_y, radius_z)) *
+top_cutouts = (Location((0, keys_y, body_rz)) *
                fillet(top_sharpcut.edges() | Axis.Z, keycap_clear))
 
-stamp("making case")
-# avoid making the cad system combine many objects
-inset = ungula + body[0] - top_cutouts
-surround = body[1:]
-
-stamp("showing case")
-show_object(inset, **rgb_case)
-show_object(surround, **rgb_case)
+show_object(body - top_cutouts, **rgb_case)
 
 stamp("making keycaps")
 keycaps = []
 def show_keycap(keycap, legend, name):
     global keycaps
-    keycaps += [ Location((0,main_y,radius_z-1)) * keycap ]
+    keycaps += [ Location((0,keys_y,keys_z)) * keycap ]
 layout_keycaps(stamp, show_keycap, "simple", False)
 stamp("showing keycaps")
 show_object(keycaps, **rgb_keys)
