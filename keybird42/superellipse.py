@@ -72,13 +72,13 @@ from math import cos, sin, tau
 from OCP.BRepBuilderAPI import BRepBuilderAPI_MakeFace
 from OCP.Geom import Geom_BezierSurface
 from OCP.Precision import Precision
-from OCP.TColgp import TColgp_Array2OfPnt
+from OCP.TColgp import TColgp_HArray2OfPnt
 
 # Default number of sectors per quadrant is DETAIL+2
 DETAIL=3
 
 def bezier_surface(points) :
-    array = TColgp_Array2OfPnt(1, len(points), 1, len(points[0]))
+    array = TColgp_HArray2OfPnt(1, len(points), 1, len(points[0]))
 
     for i, row in enumerate(points):
         for j, p in enumerate(row):
