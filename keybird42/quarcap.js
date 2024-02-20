@@ -1,7 +1,3 @@
-// https://en.m.wikipedia.org/wiki/Moss%27s_egg
-// https://web.archive.org/web/20200618202007/...
-// ...https://www.dynamat.oriw.eu/upload_pdf/20121022_154322__0.pdf
-
 const tan = Math.tan;
 const tau = Math.PI * 2;
 const degrees = tau/360;
