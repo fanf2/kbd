@@ -56,7 +56,7 @@ rgb_plate = "222"
 def loft_by(shape, movement):
     return loft([movement * shape, shape])
 
-desk = desk_location * superellipse(desk_rx, desk_ry, desk_e, -1)
+desk = extrude(desk_location * superellipse(desk_rx, desk_ry, desk_e), -1)
 show_object(desk, **rgba("ccc"))
 
 stamp("ungula")
@@ -65,14 +65,14 @@ def make_ungula():
     clip_volume = loft([desk_location * clip_surface, clip_surface])
     superegg = superellipsoid(ungula_ry, ungula_ry, ungula_rx, 1, ungula_e)
     return (Rot(Y=90) * superegg) & clip_volume
-ungula = make_ungula()
+ungula = make_ungula().solid()
 
-stamp("body")
-body = supercube(body_xye, body_ze)
 stamp("outside")
-outside = scale(body, (body_rx, body_ry, body_rz))
+outside = superellipsoid(body_rx, body_ry, body_rz, body_xye, body_ze)
 stamp("inside")
-inside = scale(body, tuple([r - case_thick for r in [body_rx, body_ry, body_rz]]))
+inside = superellipsoid(body_rx - case_thick,
+                        body_ry - case_thick,
+                        body_rz - case_thick, body_xye, body_ze)
 
 stamp("cutouts")
 top_sharpcut = extrude(offset(
@@ -82,7 +82,7 @@ top_cutouts = (Location((0, keys_y, body_rz)) *
                fillet(top_sharpcut.edges() | Axis.Z, keycap_clear))
 
 stamp("plate")
-plate = superellipse(plate_rx, plate_ry, plate_e, -MX_PLATE_THICK)
+plate = extrude(superellipse(plate_rx, plate_ry, plate_e), -MX_PLATE_THICK)
 plate -= extrude(keyswitch_cutouts(), -MX_PLATE_THICK)
 
 # plate -= loft_by(keyswitch_cutouts(),
@@ -105,7 +105,7 @@ def show_sections(y, xs):
 stamp("show ungula")
 show(ungula - outside, rgb_case)
 stamp("show body")
-show(outside - inside - top_cutouts, rgb_case)
+show((outside - inside).solid() - top_cutouts, rgb_case)
 
 stamp("show plate")
 show(plate, rgb_plate)

@@ -122,13 +122,13 @@ def quadrant_angles(e, n=DETAIL):
     return [ (tau / 4) * (i / n) for i in ni ]
 
 # Calculate a point on the positive quadrant of a superellipse
-def superpoint(e, 𝜃):
-    return Vector(cos(𝜃) ** e, sin(𝜃) ** e)
+def superpoint(xr, yr, e, 𝜃):
+    return Vector(xr * cos(𝜃) ** e, yr * sin(𝜃) ** e)
 
 # Calculus! The derivative of the superpoint equation.
-def supertangent(e, 𝜃):
+def supertangent(xr, yr, e, 𝜃):
     (c, s, eʹ) = (cos(𝜃), sin(𝜃), e - 1)
-    return Vector(-s * c ** eʹ, +c * s ** eʹ)
+    return Vector(-xr * s * c ** eʹ, +yr * c * s ** eʹ)
 
 # Points on X and Y axes are special cases to ensure quadrants join
 # up correctly. For small exponents, the tangents are perpendicular
@@ -136,30 +136,27 @@ def supertangent(e, 𝜃):
 # diamond shaped or more pointy, the tangents are along the axis.
 #
 # Calculate (point, tangent) pairs for a quadrant of a superellipse.
-def superquadrant2(e):
-    pt0 = (Vector(1,0), Vector(0,+1)) if e < 2 else (Vector(1,0), Vector(-1,0))
-    pt1 = (Vector(0,1), Vector(-1,0)) if e < 2 else (Vector(0,1), Vector(0,+1))
-    return [ pt0 ] + [ (superpoint(e, 𝜃), supertangent(e, 𝜃))
-                       for 𝜃 in quadrant_angles(e) ] + [ pt1 ]
+def superquadrant2(xr, yr, e):
+    inner = [ (superpoint(xr, yr, e, 𝜃), supertangent(xr, yr, e, 𝜃))
+              for 𝜃 in quadrant_angles(e) ]
+    if e < 2:
+        ptx, pty = (Vector(xr,0), Vector(0,+yr)), (Vector(0,yr), Vector(-xr,0))
+    else:
+        ptx, pty = (Vector(xr,0), Vector(-xr,0)), (Vector(0,yr), Vector(0,+yr))
+    return [ ptx, *inner, pty ]
 
 # Calculate [start point, control point, end point] triples
 # describing the Bézier curve for each sector of a superellipse.
-def superquadrant3(e):
-    pt = superquadrant2(e)
+def superquadrant3(xr, yr, e):
+    pt = superquadrant2(xr, yr, e)
     return [ [p0, bezier_ctrl(p0, t0, p1, t1), p1]
              for ((p0,t0),(p1,t1)) in zip(pt[:-1], pt[1:]) ]
 
-def squircle(e):
-    curves = [ Bezier(*pcp) for pcp in superquadrant3(e) ]
+def superellipse(xr, yr, e):
+    curves = [ Bezier(*pcp) for pcp in superquadrant3(xr, yr, e) ]
     curves += [ curve.mirror(Plane.ZX) for curve in curves ]
     curves += [ curve.mirror(Plane.YZ) for curve in curves ]
     return make_face(curves)
-
-# For some reason, build123d thinks a scaled squircle is not planar,
-# so if we need to extrude we must do so before scaling.
-def superellipse(rx, ry, e, thick=None):
-    unscaled = extrude(squircle(e), thick) if thick else squircle(e)
-    return scale(unscaled, (rx, ry, 1))
 
 # Horizontal slices through a superellipsoid have the same shape as
 # the xy superellipse, scaled according to the slice's radius. The z
@@ -173,20 +170,17 @@ def superellipse(rx, ry, e, thick=None):
 # patch bulges. We set the central control point by scaling the
 # mid-edge control points just like the other points.
 #
-def supercube(xye, ze):
+def superellipsoid(xr, yr, zr, xye, ze):
     patches = [ bezier_surface([ [
       (xy.X * z.X, xy.Y * z.X, z.Y)
         for xy in xypcp ]
           for z in zpcp ])
-            for xypcp in superquadrant3(xye)
-              for zpcp in superquadrant3(ze) ]
+            for xypcp in superquadrant3(xr, yr, xye)
+              for zpcp in superquadrant3(1, zr, ze) ]
     patches += [ patch.mirror(Plane.ZX) for patch in patches ]
     patches += [ patch.mirror(Plane.XY) for patch in patches ]
     patches += [ patch.mirror(Plane.YZ) for patch in patches ]
     return Solid.make_solid(Shell.make_shell(patches))
-
-def superellipsoid(rx, ry, rz, xye, ze):
-    return scale(supercube(xye, ze), (rx, ry, rz))
 
 # for testing and experimentation
 if __name__ != 'superellipse':
@@ -209,8 +203,9 @@ if __name__ != 'superellipse':
             blobs += [ Pos((-z*3 + N*3/2 - 3/2,
                             xy*3 - N*3/2 + 3/2,
                             N*3 + 5))
-                       * supercube(0.1 + xy / 5,
-                                   0.1 + z / 5) ]
+                       * superellipsoid(1, 1, 1,
+                                        0.1 + xy / 5,
+                                        0.1 + z / 5) ]
     show_object(blobs, **rgba("73c"))
 
     for e in range(N):
@@ -220,7 +215,7 @@ if __name__ != 'superellipse':
 
         # piecewise linear version to compare accuracy of curves
         HIRES=64
-        points = [ R * superpoint(E, (tau/4)*(i/HIRES)) for i in range(HIRES) ]
+        points = [ superpoint(R, R, E, (tau/4)*(i/HIRES)) for i in range(HIRES) ]
         points += [ Vector(-p.Y,p.X) for p in points ]
         points += reversed([ Vector(p.X,-p.Y) for p in points ])
 
@@ -229,15 +224,13 @@ if __name__ != 'superellipse':
                     **rgba("aaa"))
 
         show_object(Pos((0,0,e*3))
-                    * extrude(scale(squircle(E), R), 1),
+                    * extrude(scale(superellipse(1, 1, E), R), 1),
                     **rgba("666"))
 
         # break out the construction
         show = []
-        pt = superquadrant2(E)
+        pt = superquadrant2(R, R, E)
         for ((p0,t0),(p1,t1)) in zip(pt[:-1], pt[1:]):
-            p0 = R * p0
-            p1 = R * p1
             cp = bezier_ctrl(p0, t0, p1, t1)
             show += [ Pos(cp) * Box(.1,.1,.1),
                       Bezier(p0, cp, p1),
