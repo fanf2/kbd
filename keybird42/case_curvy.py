@@ -26,15 +26,21 @@ body_rz = ku(0.50)
 body_xye = 1/2
 body_ze = 1/3
 
-ungula_rx = body_rx - ku(1.5)
-ungula_ry = body_ry - ku(0.75)
+case_thick = inch(1/8)
+
+ungula_rx = body_rx - ku(3/2)
+ungula_ry = body_ry - ku(2/3)
 ungula_e = 4/5
 
-main_width = ku(15)
-keys_width = main_width + 2 * (ku(0.25) + ku(3))
-keys_depth = ku(5)
-keys_y = ku(-0.25)
+keys_y = ku(-0.125)
 keys_z = body_rz - inch(1/16)
+
+plate_rx = body_rx - case_thick
+plate_ry = body_ry - case_thick
+plate_e = body_xye
+plate_z = keys_z - MX_UPPER_THICK
+
+pcba_z = plate_z - MX_LOWER_THICK
 
 desk_rx = ku(16)
 desk_ry = ku(8)
@@ -42,40 +48,78 @@ desk_z = inch(-2/3)
 desk_e = 4/5
 desk_location = Pos((0, 0, desk_z)) * Rot(X=-typing_angle)
 
-rgb_case = rgba("113")
-rgb_keys = rgba("213")
+rgb_case = "113"
+rgb_pcba = "070"
+rgb_keys = "213"
+rgb_plate = "222"
 
-def thicken(shape, movement):
+def loft_by(shape, movement):
     return loft([movement * shape, shape])
 
-#desk = desk_location * superellipse(desk_rx, desk_ry, desk_e)
-desk = desk_location * thicken(superellipse(desk_rx, desk_ry, desk_e),
-                               Pos((0,0,-1)))
+desk = desk_location * superellipse(desk_rx, desk_ry, desk_e, -1)
 show_object(desk, **rgba("ccc"))
 
-stamp("making ungula")
-ungula = Rot(Y=90) * superellipsoid(
-    ungula_ry, ungula_ry, ungula_rx, 1, ungula_e
-) & thicken(Rectangle(total_width, total_depth), desk_location)
+stamp("ungula")
+def make_ungula():
+    clip_surface = Rectangle(total_width, total_depth)
+    clip_volume = loft([desk_location * clip_surface, clip_surface])
+    superegg = superellipsoid(ungula_ry, ungula_ry, ungula_rx, 1, ungula_e)
+    return (Rot(Y=90) * superegg) & clip_volume
+ungula = make_ungula()
 
-show_object(ungula, **rgb_case)
+stamp("body")
+body = supercube(body_xye, body_ze)
+stamp("outside")
+outside = scale(body, (body_rx, body_ry, body_rz))
+stamp("inside")
+inside = scale(body, tuple([r - case_thick for r in [body_rx, body_ry, body_rz]]))
 
-body = superellipsoid(body_rx, body_ry, body_rz, body_xye, body_ze)
-
-stamp("making cutouts")
+stamp("cutouts")
 top_sharpcut = extrude(offset(
     keycap_cutouts(), amount=keycap_clear, kind=Kind.INTERSECTION
 ), -7.5)
 top_cutouts = (Location((0, keys_y, body_rz)) *
                fillet(top_sharpcut.edges() | Axis.Z, keycap_clear))
 
-show_object(body - top_cutouts, **rgb_case)
+stamp("plate")
+plate = superellipse(plate_rx, plate_ry, plate_e, -MX_PLATE_THICK)
+plate -= extrude(keyswitch_cutouts(), -MX_PLATE_THICK)
 
-stamp("making keycaps")
-keycaps = []
-def show_keycap(keycap, legend, name):
-    global keycaps
-    keycaps += [ Location((0,keys_y,keys_z)) * keycap ]
-layout_keycaps(stamp, show_keycap, "simple", False)
-stamp("showing keycaps")
-show_object(keycaps, **rgb_keys)
+# plate -= loft_by(keyswitch_cutouts(),
+#                 Pos((0, 0, -MX_PLATE_THICK)))
+
+shown = []
+def show(obj, colour):
+    global shown
+    shown += [ (obj, colour) ]
+    show_object(obj, **rgba(colour))
+
+def show_sections(y, xs):
+    pos = Pos((0,0,ku(y)))
+    for x in xs:
+        stamp(f"section {x}")
+        for (obj, colour) in shown:
+            sect = pos * section(obj, Plane.YZ.offset(ku(x)))
+            show_object(sect, **rgba(colour))
+
+stamp("show ungula")
+show(ungula - outside, rgb_case)
+stamp("show body")
+show(outside - inside - top_cutouts, rgb_case)
+
+stamp("show plate")
+show(plate, rgb_plate)
+
+stamp("show pcba")
+show(Pos((0,keys_y,pcba_z)) * kb42_pcba(False), rgb_pcba)
+
+show_sections(5, [1, 3, 5, 7.325, 7.625, 7.875, 9.25, 10.5, 11, 11.5])
+
+# stamp("making keycaps")
+# keycaps = []
+# def show_keycap(keycap, legend, name):
+#     global keycaps
+#     keycaps += [ Location((0,keys_y,keys_z)) * keycap ]
+# layout_keycaps(stamp, show_keycap, "simple", False)
+# stamp("showing keycaps")
+# show_object(keycaps, **rgb_keys)

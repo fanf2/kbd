@@ -155,8 +155,11 @@ def squircle(e):
     curves += [ curve.mirror(Plane.YZ) for curve in curves ]
     return make_face(curves)
 
-def superellipse(rx, ry, e):
-    return scale(squircle(e), (rx, ry, 1))
+# For some reason, build123d thinks a scaled squircle is not planar,
+# so if we need to extrude we must do so before scaling.
+def superellipse(rx, ry, e, thick=None):
+    unscaled = extrude(squircle(e), thick) if thick else squircle(e)
+    return scale(unscaled, (rx, ry, 1))
 
 # Horizontal slices through a superellipsoid have the same shape as
 # the xy superellipse, scaled according to the slice's radius. The z
