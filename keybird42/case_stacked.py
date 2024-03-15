@@ -334,13 +334,20 @@ def monobrow():
         Location((0, LOBROW_HEIGHT/2)) * Rectangle(lobrow_width, LOBROW_HEIGHT))
     return roundoff(flat, ACCENT_RADIUS)
 
-def polybrow(spacing):
+def polybrow(spacing, layout="normal"):
     brow = RectangleRounded(CHEEK_DEPTH, CHEEK_HEIGHT, ACCENT_RADIUS)
     brow_x = CHEEK_DEPTH/2 + spacing/2
-    brows = [ Location((+brow_x*3, CHEEK_HEIGHT/2)) * brow,
-              Location((+brow_x*1, CHEEK_HEIGHT/2)) * brow,
-              Location((-brow_x*1, CHEEK_HEIGHT/2)) * brow,
-              Location((-brow_x*3, CHEEK_HEIGHT/2)) * brow ]
+    if layout == "normal":
+        brows = [ Location((+brow_x*3, CHEEK_HEIGHT/2)) * brow,
+                  Location((+brow_x*1, CHEEK_HEIGHT/2)) * brow,
+                  Location((-brow_x*1, CHEEK_HEIGHT/2)) * brow,
+                  Location((-brow_x*3, CHEEK_HEIGHT/2)) * brow ]
+    else:
+        brow_y = CHEEK_HEIGHT + spacing
+        brows = [ Location((+brow_x*1, brow_y*1)) * brow,
+                  Location((+brow_x*1, brow_y*2)) * brow,
+                  Location((-brow_x*1, brow_y*1)) * brow,
+                  Location((-brow_x*1, brow_y*2)) * brow ]
     return thick(Sketch() + brows)
 
 def cheek():
@@ -566,8 +573,16 @@ if EXPORT:
     perspex += [ Location((0, brow_y)) * MONOBROW ]
     perspex += cheek_perspex(CHEEK)
 
-    accents = [ Location((0, -BROW_HEIGHT/2-SPREAD_CLEAR)) * MONOBROW,
-                Location((0, CHEEK_HEIGHT/2)) * polybrow(SPREAD_CLEAR) ]
+    foot_x = HOLE_X1 - HOLE_SUPPORT - SPREAD_CLEAR - BROW_WIDTH/4
+    foot_y = BROW_HEIGHT/2 - TOTAL_DEPTH/2
+    move_y = FOOT_DEPTH + SPREAD_CLEAR
+    accents = [ Location((-foot_x, foot_y + move_y*2)) * right_foot(layers[-4]),
+                Location((-foot_x, foot_y + move_y*1)) * right_foot(layers[-2]),
+                Location((+foot_x, foot_y + move_y*2)) * left_foot(layers[-4]),
+                Location((+foot_x, foot_y + move_y*1)) * left_foot(layers[-2]),
+                Location((0, 0)) * polybrow(SPREAD_CLEAR, "square"),
+                Location((0, -BROW_HEIGHT/2)) * MONOBROW,
+               ]
 
     def export(name, shape):
         stamp(f"flatten {name}")
@@ -581,7 +596,7 @@ if EXPORT:
     export("perspex", perspex)
     export("plates", plates)
 
-for feet in range(7):
+for feet in range(8):
     foot_thick = feet * PERSPEX_THICK
     base_depth = TOTAL_DEPTH - FOOT_DEPTH
     typing_angle = math.atan2(foot_thick, base_depth) * 360/math.tau
