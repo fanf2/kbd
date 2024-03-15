@@ -4,12 +4,13 @@ from keybird42 import *
 import math
 from mx import *
 
-EXPORT = False
+EXPORT = True
 
 SLOW = True
 
-PLATE_HOLES = SLOW
+PLATE_HOLES = True
 PCBA_HOLES = SLOW
+KEYCAPS = SLOW
 KEYCAP_LEGENDS = SLOW
 KEYCAP_STYLE = "opk" if KEYCAP_LEGENDS else "simple"
 
@@ -34,7 +35,7 @@ PLATE_THICK = 1.5   # 0.06 in
 THICK_CLEAR = PERSPEX_THICK * 0.1 + 0.4
 
 # space between laser cut pieces
-SPREAD_CLEAR = 1
+SPREAD_CLEAR = 3
 
 SVG_MARGIN = 10
 
@@ -54,8 +55,8 @@ MIDDLE_WIDTH	= MAIN_WIDTH - ku(2.0)
 ELLIPSE_AXIS	= ku(7.0)
 
 # a little clearance
-CLIP_WIDTH	= TOTAL_WIDTH + 1
-CLIP_DEPTH	= TOTAL_DEPTH + 1
+CLIP_WIDTH	= TOTAL_WIDTH + SPREAD_CLEAR
+CLIP_DEPTH	= TOTAL_DEPTH + SPREAD_CLEAR
 
 # round off sharp corners
 SIDE_RADIUS	= 1.0
@@ -347,7 +348,7 @@ def cheek():
 
 def cheek_perspex(cheek):
     rotated = cheek.rotate(Axis.Z, 90)
-    cheek_x = MAIN_WIDTH/2 - CHEEK_HEIGHT/2 - KEYBLOCK_GAP
+    cheek_x = MAIN_WIDTH/2 - CHEEK_HEIGHT/2 - SPREAD_CLEAR
     return [ Location((+cheek_x, MAIN_Y)) * rotated,
              Location((-cheek_x, MAIN_Y)) * rotated ]
 
@@ -446,7 +447,6 @@ layers = [
     BASE_PLATE,
     FEET_SCREW,
     FEET_SCREW,
-    FEET_SCREW,
     FEET_RIVNUT,
     FEET_RIVNUT,
     FEET_RIVNUT,
@@ -496,7 +496,8 @@ def show_keycap(keycap, legend, name):
         if legend: keycap -= legend
         keycaps += [ Location((0,MAIN_Y,keycap_z)) * keycap ]
 
-layout_keycaps(stamp, show_keycap, KEYCAP_STYLE, KEYCAP_LEGENDS)
+if KEYCAPS:
+    layout_keycaps(stamp, show_keycap, KEYCAP_STYLE, KEYCAP_LEGENDS)
 
 if len(keycaps) > 0:
     stamp("show keycaps")
@@ -547,8 +548,9 @@ if EXPORT:
         elif i == 7:
             plates += [ Location((0, -CLIP_DEPTH/2)) * layers[i] ]
         elif i >= 8:
-            move_y = (8 - i) * (FOOT_DEPTH + SPREAD_CLEAR) - CASE_REAR - 0.5
-            move_x = HOLE_X1 - FOOT_DEPTH/2 - 1
+            move_y = (8 - i) * (FOOT_DEPTH + SPREAD_CLEAR)
+            move_y -= CASE_REAR + SPREAD_CLEAR
+            move_x = HOLE_X1 - FOOT_DEPTH/2 - SPREAD_CLEAR/2
             perspex += [ Location((+move_x, move_y)) * left_foot(layers[i]),
                          Location((-move_x, move_y)) * right_foot(layers[i]) ]
         elif i % 2:
@@ -564,7 +566,7 @@ if EXPORT:
     perspex += [ Location((0, brow_y)) * MONOBROW ]
     perspex += cheek_perspex(CHEEK)
 
-    accents = [ Location((0, -BROW_HEIGHT/2)) * MONOBROW,
+    accents = [ Location((0, -BROW_HEIGHT/2-SPREAD_CLEAR)) * MONOBROW,
                 Location((0, CHEEK_HEIGHT/2)) * polybrow(SPREAD_CLEAR) ]
 
     def export(name, shape):
@@ -578,5 +580,11 @@ if EXPORT:
     export("accents", accents)
     export("perspex", perspex)
     export("plates", plates)
+
+for feet in range(7):
+    foot_thick = feet * PERSPEX_THICK
+    base_depth = TOTAL_DEPTH - FOOT_DEPTH
+    typing_angle = math.atan2(foot_thick, base_depth) * 360/math.tau
+    stamp(f"{feet=} {typing_angle=}")
 
 stamp("done")
