@@ -14,7 +14,7 @@ START = time.perf_counter()
 def stamp(msg):
     t = time.strftime('%F.%T')
     z = time.strftime('%z')
-    f = (time.time_ns() // 100000) % 10000
+    f = (time.time_ns() // 1000000) % 1000
     print(f"{t}.{f:03}{z} {time.perf_counter() - START :6.3f} {msg}")
 
 def topo(obj):
